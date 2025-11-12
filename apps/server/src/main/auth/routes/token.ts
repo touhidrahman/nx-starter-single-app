@@ -8,7 +8,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { DateUtil } from '../../../core/utils/date.util'
 import { findAdminById } from '../../admin/admin-user.service'
-import { Group, zSelectGroup } from '../../group/group.schema'
+import { SelectGroup, zSelectGroup } from '../../group/group.schema'
 import { SelectRole, zSelectRole } from '../../role/role.schema'
 import { zSelectUserWithoutPass } from '../../user/user.schema'
 import { TokenContext, zAdminPayload } from '../auth.schema'
@@ -29,7 +29,7 @@ import {
 const tags = ['Auth']
 
 export const getTokenRoute = createRoute({
-    path: '/v1/token',
+    path: '/v1/auth/token',
     method: 'post',
     tags,
     middleware: [checkToken] as const,
@@ -82,7 +82,7 @@ export const getTokenRouteHandler: AppRouteHandler<
     let userData:
         | ReturnType<typeof zSelectUserWithoutPass.parse>
         | ReturnType<typeof buildAdminPayload>
-    let group: Group | undefined
+    let group: SelectGroup | undefined
     let role: SelectRole | undefined
 
     if (level === 'admin') {

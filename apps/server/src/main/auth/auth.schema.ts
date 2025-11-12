@@ -16,12 +16,22 @@ export const zRegister = z.object({
         .string()
         .min(3, { message: 'Username must be at least 3 characters' }),
     email: z.string().optional(),
-    password: z.string(),
+    password: zPassword,
     firstName: z.string().min(1, { message: 'First name is required' }),
     lastName: z.string().min(1, { message: 'Last name is required' }),
     phone: z.string().optional(),
     referralCode: z.string().optional(),
     organization: z.string().optional(),
+})
+
+export const zAcceptInvite = z.object({
+    username: z
+        .string()
+        .min(3, { message: 'Username must be at least 3 characters' }),
+    password: zPassword,
+    firstName: z.string().min(1, { message: 'First name is required' }),
+    lastName: z.string().min(1, { message: 'Last name is required' }),
+    token: z.string(),
 })
 
 export const zChangePassword = z.object({

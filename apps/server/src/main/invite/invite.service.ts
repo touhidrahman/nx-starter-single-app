@@ -1,11 +1,20 @@
-import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
+import {
+    and,
+    count,
+    eq,
+    getTableColumns,
+    gte,
+    ilike,
+    SQL,
+    sql,
+} from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import {
     invitesTable,
+    membershipsTable,
     pricingPlanTable,
     rolesTable,
     subscriptionsTable,
-    usersGroupsTable,
 } from '../../core/db/schema'
 import { GroupLimitResult, InviteDto } from './invite.schema'
 
@@ -15,8 +24,6 @@ export async function createInvite(invite: InviteDto, invitedByUserId: string) {
         .values({ ...invite, invitedBy: invitedByUserId })
         .returning()
 }
-
-// Retrieve all invites, limiting results to 100.
 
 export const getAllInvites = async (params: {
     search: string
@@ -131,7 +138,7 @@ async function getActiveSubscription(groupId: string) {
         .where(
             and(
                 eq(subscriptionsTable.groupId, groupId),
-                eq(subscriptionsTable.status, 'active'),
+                gte(subscriptionsTable.endDate, new Date()),
             ),
         )
         .limit(1)
@@ -155,7 +162,7 @@ async function countGroupMembers(
     groupId: string,
     source: 'invites' | 'users' = 'users',
 ) {
-    const table = source === 'invites' ? invitesTable : usersGroupsTable
+    const table = source === 'invites' ? invitesTable : membershipsTable
     return db
         .select({ count: count() })
         .from(table)

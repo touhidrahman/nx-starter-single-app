@@ -1,4 +1,5 @@
 import { createRouter } from '../../core/create-app'
+import { acceptInviteHandler, acceptInviteRoute } from './routes/accept-invite'
 import {
     changePasswordHandler,
     changePasswordRoute,
@@ -42,3 +43,4 @@ export const authV1Routes = createRouter()
     .openapi(enablePinRoute, enablePinHandler)
     .openapi(verifyPinRoute, verifyPinHandler)
     .openapi(forgotPINCodeRoute, forgotPINCodeHandler)
+    .openapi(acceptInviteRoute, acceptInviteHandler)
