@@ -5,7 +5,6 @@ import {
     NOT_FOUND,
     OK,
 } from 'stoker/http-status-codes'
-import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
@@ -13,20 +12,14 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { buildForgotPinEmailTemplate } from '../../email/templates/forgot-pin'
 import { findUserById } from '../../user/user.service'
-import { findUserSettingsByUserId } from '../../user-settings/user-setting.service'
-import { sendVerificationCodeMsg } from '../auth.service'
+import { findUserSettings } from '../../user-settings/user-setting.service'
 
 export const forgotPINCodeRoute = createRoute({
     path: '/v1/auth/forgot-pin',
     method: 'post',
     tags: ['User Settings'],
     middleware: [checkToken] as const,
-    request: {
-        body: jsonContent(
-            z.object({ method: z.enum(['email', 'phone']) }),
-            'Send PIN via Email or Phone',
-        ),
-    },
+    request: {},
     responses: {
         [OK]: ApiResponse(
             z.object({ success: z.boolean() }),
@@ -43,7 +36,6 @@ export const forgotPINCodeHandler: AppRouteHandler<
 > = async (c) => {
     try {
         const { sub } = await c.get('jwtPayload')
-        const { method } = c.req.valid('json')
 
         const user = await findUserById(sub)
         if (!user) {
@@ -59,69 +51,48 @@ export const forgotPINCodeHandler: AppRouteHandler<
             )
         }
 
-        const userSetting = await findUserSettingsByUserId(user.id)
-        const result = userSetting.reduce(
-            (acc, { userId, key, value }) => {
-                acc.userId ??= userId
-                acc[key] =
-                    value === 'true' ? true : value === 'false' ? false : value
-                return acc
-            },
-            {} as Record<string, any>,
-        )
+        if (!user.email) {
+            return c.json(
+                {
+                    data: {},
+                    message: 'Email not available for this user',
+                    success: false,
+                    error: null,
+                    meta: null,
+                },
+                BAD_REQUEST,
+            )
+        }
 
-        if (method === 'email') {
-            if (!user.email) {
-                return c.json(
-                    {
-                        data: {},
-                        message: 'Email not available for this user',
-                        success: false,
-                        error: null,
-                        meta: null,
-                    },
-                    BAD_REQUEST,
-                )
-            }
-
+        const userSetting = await findUserSettings(user.id, 'pinCode')
+        if (userSetting?.value) {
             const emailData = buildForgotPinEmailTemplate({
                 firstName: user.firstName,
                 lastName: user.lastName,
-                pin: result.pinCode,
+                pin: userSetting.value,
             })
 
             await sendEmailUsingResend([user.email], 'Pin Code', emailData)
-        }
 
-        if (method === 'phone') {
-            if (!user.phone) {
-                return c.json(
-                    {
-                        data: {},
-                        message: 'Phone number not available for this user',
-                        success: false,
-                        error: null,
-                        meta: null,
-                    },
-                    BAD_REQUEST,
-                )
-            }
-
-            await sendVerificationCodeMsg(
-                `Your PIN is: ${result.pinCode}`,
-                user.phone,
+            return c.json(
+                {
+                    data: { success: true },
+                    message: 'Pin code sent successfully!',
+                    success: true,
+                    error: null,
+                    meta: null,
+                },
+                OK,
             )
         }
 
         return c.json(
             {
-                data: { success: true },
-                message: 'Pin code sent successfully!',
-                success: true,
-                error: null,
-                meta: null,
+                data: {},
+                message: 'User PIN not found',
+                success: false,
             },
-            OK,
+            BAD_REQUEST,
         )
     } catch (error) {
         return c.json(

@@ -6,7 +6,7 @@ import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectUser } from '../../user/user.schema'
-import { setDefaultGroupId } from '../auth.service'
+import { setDefaultGroupId } from '../../user/user.service'
 
 export const setDefaultGroupRoute = createRoute({
     path: '/v1/user/:id',
@@ -34,7 +34,7 @@ export const setDefaultGroupHandler: AppRouteHandler<
     const userId = c.req.param('id')
     const { groupId } = await c.req.valid('json')
 
-    const [user] = await setDefaultGroupId(userId, groupId)
+    const user = await setDefaultGroupId(userId, groupId)
 
     if (!user) {
         return c.json(

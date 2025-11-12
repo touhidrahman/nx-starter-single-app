@@ -1,13 +1,4 @@
-import {
-    and,
-    count,
-    eq,
-    getTableColumns,
-    ilike,
-    lt,
-    SQL,
-    sql,
-} from 'drizzle-orm'
+import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import {
     groupsTable,
@@ -251,7 +242,10 @@ export const getUsersByGroupId = async (groupId: string) => {
     return result
 }
 
-export async function setDefaultGroupId(userId: string, groupId: string) {
+export async function setDefaultGroupId(
+    userId: string,
+    groupId: string,
+): Promise<SelectUser> {
     const [updatedUser] = await db
         .update(usersTable)
         .set({ defaultGroupId: groupId })

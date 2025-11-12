@@ -16,7 +16,7 @@ import { zChangePassword } from '../auth.schema'
 const tags = ['Auth']
 
 export const changePasswordRoute = createRoute({
-    path: '/v1/change-password',
+    path: '/v1/auth/change-password',
     method: 'post',
     tags,
     request: {
@@ -39,7 +39,6 @@ export const changePasswordHandler: AppRouteHandler<
                 message: 'Unauthorized',
                 success: false,
                 data: {},
-                error: 'Unauthorized',
                 meta: null,
             },
             UNAUTHORIZED,
@@ -56,7 +55,17 @@ export const changePasswordHandler: AppRouteHandler<
                 message: 'User not found',
                 success: false,
                 data: {},
-                error: 'User not found',
+                meta: null,
+            },
+            UNAUTHORIZED,
+        )
+    }
+    if (!user.email) {
+        return c.json(
+            {
+                message: 'User does not have an email. Please contact support.',
+                success: false,
+                data: {},
                 meta: null,
             },
             UNAUTHORIZED,
@@ -74,7 +83,6 @@ export const changePasswordHandler: AppRouteHandler<
                 message: 'Current password does not match',
                 success: false,
                 data: {},
-                error: 'Current password does not match',
                 meta: null,
             },
             BAD_REQUEST,
@@ -88,16 +96,6 @@ export const changePasswordHandler: AppRouteHandler<
         .set({ password: hashedPassword })
         .where(eq(usersTable.id, userId))
 
-    // const passwordChangeTemplate = buildPasswordChangeSuccessfulEmailTemplate({
-    //     email: user.email,
-    // })
-
-    // const { data, error } = await sendEmailUsingResend(
-    //     [user.email],
-    //     'Password change',
-    //     passwordChangeTemplate,
-    // )
-
     try {
         const passwordChangeTemplate =
             buildPasswordChangeSuccessfulEmailTemplate({
@@ -110,12 +108,8 @@ export const changePasswordHandler: AppRouteHandler<
             passwordChangeTemplate,
         )
     } catch (emailError) {
-        c.var.logger.error(
-            emailError?.stack ?? emailError,
-            'Error sending password change email',
-        )
+        c.var.logger.error(emailError, 'Error sending password change email')
     }
-    // TODO: log sending email error
 
     return c.json(
         {

@@ -1,5 +1,4 @@
 import { createRoute } from '@hono/zod-openapi'
-import { random } from 'radash'
 import {
     BAD_REQUEST,
     NOT_FOUND,
@@ -14,23 +13,13 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import env from '../../../env'
 import { buildForgotPasswordEmailTemplate } from '../../email/templates/forgot-password'
-import { USER_VERIFICATION_TYPE_VALUES } from '../../user-verification/user-verification.schema'
-import {
-    findUserVerificationById,
-    upsertResetCode,
-} from '../../user-verification/user-verification.service'
-import {
-    findUser,
-    sendVerificationCodeMsg,
-    validateCountdown,
-    validateIdentifier,
-} from '../auth.service'
+import { findUser } from '../auth.service'
 import { createVerificationToken } from '../token.util'
 
 const tags = ['Auth']
 
 export const forgotPasswordRoute = createRoute({
-    path: '/v1/forgot-password',
+    path: '/v1/auth/forgot-password',
     method: 'post',
     tags,
     request: {
@@ -54,21 +43,7 @@ export const forgotPasswordHandler: AppRouteHandler<
     typeof forgotPasswordRoute
 > = async (c) => {
     const { identifier } = c.req.valid('json')
-    const identifierResult = validateIdentifier(identifier ?? '')
-    const isEmail = identifierResult.type === 'email'
-
     const trimIdentifier = identifier.trim()
-
-    if (identifierResult.isValid === false) {
-        return c.json(
-            {
-                success: false,
-                message: 'Invalid phone number or email',
-                data: {},
-            },
-            BAD_REQUEST,
-        )
-    }
 
     const user = await findUser(trimIdentifier)
 
@@ -79,9 +54,9 @@ export const forgotPasswordHandler: AppRouteHandler<
         )
     }
 
-    let token = ''
+    const token = ''
 
-    if (isEmail) {
+    if (user.email) {
         const token = await createVerificationToken(
             user.id.toString(),
             { unit: 'day', value: 2 },
@@ -95,61 +70,22 @@ export const forgotPasswordHandler: AppRouteHandler<
             resetPasswordUrl: `${env.FRONTEND_URL}/new-password/${token}`,
         })
         const { data, error } = await sendEmailUsingResend(
-            [user.email ?? ''],
+            [user.email],
             'Forgot Password?',
             forgotPasswordTemplate,
         )
         // TODO log email sending error
-    } else {
-        const userVerificationDetails = await findUserVerificationById(
-            user?.id ?? '',
-            trimIdentifier,
-            USER_VERIFICATION_TYPE_VALUES.resetPassword,
-        )
-        if (userVerificationDetails?.createdAt) {
-            const countdownCheck = validateCountdown(
-                userVerificationDetails.createdAt,
-            )
-            if (!countdownCheck.allowed) {
-                return c.json(
-                    {
-                        success: false,
-                        message: `${countdownCheck.message}`,
-                        data: {},
-                    },
-                    TOO_MANY_REQUESTS,
-                )
-            }
-        }
-        const expiresIn = 20 * 60
-        const passwordResetCode = random(100000, 999999)
-        const expiresNewDateTime = new Date(Date.now() + expiresIn * 1000)
-        await upsertResetCode(
-            user.id,
-            trimIdentifier,
-            passwordResetCode,
-            expiresNewDateTime,
-        )
 
-        const message = `Your MyApp password reset code is: ${passwordResetCode}.`
-        const { error } = await sendVerificationCodeMsg(message, trimIdentifier)
-
-        token = await createVerificationToken(
-            user.id.toString(),
-            { unit: 'day', value: 2 },
-            '',
-            identifier,
-        )
+        return c.json({
+            message: 'Password reset email sent',
+            data: {},
+            success: true,
+        })
     }
 
     return c.json({
-        message: isEmail
-            ? 'Password reset email sent'
-            : 'Verification code sent',
-        data: {
-            token: token,
-            isPhone: !isEmail,
-        },
-        success: true,
+        message: 'User does not have an email. Please contact support.',
+        data: {},
+        success: false,
     })
 }

@@ -12,21 +12,14 @@ import { sendEmailUsingResend } from '../../../core/email/email.service'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { buildPasswordResetSuccessfulEmailTemplate } from '../../email/templates/password-reset-successful'
-import { USER_VERIFICATION_TYPE_VALUES } from '../../user-verification/user-verification.schema'
-import { findUserVerificationById } from '../../user-verification/user-verification.service'
 import { zResetPassword } from '../auth.schema'
-import {
-    findUser,
-    sendVerificationCodeMsg,
-    updateUserPassword,
-    validateIdentifier,
-} from '../auth.service'
+import { findUserByEmail, updateUserPassword } from '../auth.service'
 import { decodeVerificationToken } from '../token.util'
 
 const tags = ['Auth']
 
 export const resetPasswordRoute = createRoute({
-    path: '/v1/reset-password/:token',
+    path: '/v1/auth/reset-password/:token',
     method: 'post',
     tags,
     request: {
@@ -46,27 +39,13 @@ export const resetPasswordRoute = createRoute({
 export const resetPasswordHandler: AppRouteHandler<
     typeof resetPasswordRoute
 > = async (c) => {
-    const { email, password, phone, code } = c.req.valid('json')
+    const { email, password } = c.req.valid('json')
     const token = c.req.param('token') ?? ''
-    const identifier = email || phone
-    const user = await findUser(identifier)
+    const identifier = email.trim().toLowerCase()
+    const user = await findUserByEmail(identifier)
     const decoded = await decodeVerificationToken(token)
 
     try {
-        const validation = validateIdentifier(identifier)
-        const isPhone = validation.type === 'phone'
-
-        if (!validation.isValid) {
-            return c.json(
-                {
-                    message: isPhone ? 'Invalid phone number' : 'Invalid email',
-                    data: {},
-                    success: false,
-                },
-                BAD_REQUEST,
-            )
-        }
-
         if (!decoded || !user || user.id !== decoded.userId) {
             return c.json(
                 { message: 'Invalid token', data: {}, success: false },
@@ -74,53 +53,22 @@ export const resetPasswordHandler: AppRouteHandler<
             )
         }
 
-        const mobileResetCode = code && code.length === 6 ? Number(code) : 0
-
         const hashedPassword = await argon2.hash(password)
 
-        if (!isPhone && mobileResetCode === 0) {
-            await updateUserPassword(user.id, hashedPassword)
+        await updateUserPassword(user.id, hashedPassword)
 
-            const passwordResetSuccessfulTemplate =
-                buildPasswordResetSuccessfulEmailTemplate({
-                    firstName: user.firstName ?? '',
-                    lastName: user.lastName ?? '',
-                })
-            const { data, error } = await sendEmailUsingResend(
-                [email],
-                'Your Password Has Been Successfully Reset',
-                passwordResetSuccessfulTemplate,
-            )
-        }
+        const passwordResetSuccessfulTemplate =
+            buildPasswordResetSuccessfulEmailTemplate({
+                firstName: user.firstName ?? '',
+                lastName: user.lastName ?? '',
+            })
 
-        if (isPhone && mobileResetCode !== 0) {
-            const userVerificationDetails = await findUserVerificationById(
-                user?.id ?? '',
-                user.phone ?? '',
-                USER_VERIFICATION_TYPE_VALUES.resetPassword,
-            )
-            const passwordResetCode = userVerificationDetails?.verificationCode
+        const { data, error } = await sendEmailUsingResend(
+            [email],
+            'Your Password Has Been Successfully Reset',
+            passwordResetSuccessfulTemplate,
+        )
 
-            if (
-                !userVerificationDetails ||
-                passwordResetCode !== mobileResetCode
-            ) {
-                return c.json(
-                    {
-                        message: 'Invalid reset code',
-                        data: {},
-                        success: false,
-                    },
-                    BAD_REQUEST,
-                )
-            }
-
-            await updateUserPassword(user.id, hashedPassword)
-            const { error } = await sendVerificationCodeMsg(
-                'Your password has been successfully reset',
-                user?.phone ?? '',
-            )
-        }
         return c.json(
             {
                 message: 'Password reset success',

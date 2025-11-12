@@ -26,7 +26,7 @@ import {
 const tags = ['Auth']
 
 export const loginRoute = createRoute({
-    path: '/v1/login',
+    path: '/v1/auth/login',
     method: 'post',
     tags,
     request: {

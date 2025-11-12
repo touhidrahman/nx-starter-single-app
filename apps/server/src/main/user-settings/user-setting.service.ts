@@ -1,10 +1,22 @@
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import z from 'zod'
 import { db } from '../../core/db/db'
 import { usersSettingsTable } from '../../core/db/schema'
 import { zSelectUserSettings } from './user-setting.schema'
 
 export type UserSetting = z.infer<typeof zSelectUserSettings>
+
+export const findUserSettings = async (
+    userId: string,
+    key: string,
+): Promise<UserSetting | null> => {
+    return db.query.usersSettingsTable.findFirst({
+        where: and(
+            eq(usersSettingsTable.userId, userId),
+            eq(usersSettingsTable.key, key),
+        ),
+    })
+}
 
 export const findUserSettingsByUserId = async (
     userId: string,

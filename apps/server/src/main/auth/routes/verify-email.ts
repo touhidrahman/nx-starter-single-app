@@ -29,7 +29,7 @@ export const verifyEmailHandler: AppRouteHandler<
 > = async (c) => {
     const { token } = c.req.valid('param')
     const decoded = await decodeVerificationToken(token)
-    if (!decoded) {
+    if (!decoded?.email) {
         return c.json(
             {
                 message: 'Invalid or expired token',
@@ -63,7 +63,7 @@ export const verifyEmailHandler: AppRouteHandler<
             )
         }
 
-        if (existingUser.verified) {
+        if (existingUser.verifiedAt) {
             return c.json(
                 {
                     success: true,
@@ -76,7 +76,7 @@ export const verifyEmailHandler: AppRouteHandler<
 
         const [user] = await db
             .update(usersTable)
-            .set({ verified: true })
+            .set({ verifiedAt: new Date() })
             .where(
                 and(
                     eq(usersTable.id, decoded.userId),

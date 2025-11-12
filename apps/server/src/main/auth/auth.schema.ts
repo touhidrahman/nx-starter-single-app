@@ -9,6 +9,8 @@ export const zLogin = z.object({
     password: z.string(),
 })
 
+export const zPassword = z.string().min(8).max(64)
+
 export const zRegister = z.object({
     username: z
         .string()
@@ -25,7 +27,7 @@ export const zRegister = z.object({
 export const zChangePassword = z.object({
     userId: z.string(),
     currentPassword: z.string(),
-    password: z.string().min(8).max(32), //TODO : password validation same as front-end
+    password: zPassword,
 })
 
 export const zForgotPassword = z.object({
@@ -34,9 +36,7 @@ export const zForgotPassword = z.object({
 
 export const zResetPassword = z.object({
     email: z.string(),
-    phone: z.string(),
-    code: z.string().optional(),
-    password: z.string().min(8).max(32), //TODO : password validation same as front-end
+    password: zPassword,
 })
 
 export const zInsertAuthUser = createInsertSchema(usersTable)
@@ -119,10 +119,8 @@ export const UserCreateResult = zInsertAuthUser
     .omit({ password: true })
 
 export const zInactiveUsers = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string(),
-    phone: z.string(),
+    inactiveForDays: z.number().min(1),
+    lastEmailElapsedDays: z.number().min(0),
 })
 
 export type InactiveUser = Omit<z.infer<typeof zInactiveUsers>, 'phone'>

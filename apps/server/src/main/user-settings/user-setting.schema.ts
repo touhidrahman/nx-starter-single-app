@@ -9,3 +9,4 @@ export const zUpdateUserSettings = z.record(z.string(), z.string())
 export const zUserSettings = z.object({
     settings: z.record(z.string(), z.string()),
 })
+export type UserSettings = z.infer<typeof zUserSettings>

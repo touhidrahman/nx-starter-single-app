@@ -352,7 +352,9 @@ export async function buildUserContext(userId: string, groupId: string) {
     const user = await findUserById(userId)
     const group = await findGroupById(groupId)
     const role =
-        user && group ? await getRoleByUserAndGroup(user.id, group.id) : null
+        user && group?.id
+            ? await getRoleByUserAndGroup(user.id, group.id)
+            : null
 
     return { user, group, role } as {
         user?: SelectUser

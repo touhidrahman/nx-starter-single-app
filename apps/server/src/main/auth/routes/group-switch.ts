@@ -14,11 +14,12 @@ import { findGroupById, findMembership } from '../../group/group.service'
 import { zSelectRole } from '../../role/role.schema'
 import { findRoleById } from '../../role/role.service'
 import { zSelectUserWithoutPass } from '../../user/user.schema'
-import { findUserById, setDefaultGroupId } from '../auth.service'
+import { setDefaultGroupId } from '../../user/user.service'
+import { findUserById } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 
 export const groupSwitchRoute = createRoute({
-    path: '/v1/group-switch/:groupId',
+    path: '/v1/auth/group-switch/:groupId',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken] as const,
@@ -50,7 +51,7 @@ export const groupSwitchHandler: AppRouteHandler<
     const user = await findUserById(sub)
     const group = await findGroupById(groupId)
 
-    if (!group) {
+    if (!group || !group.id) {
         return c.json(
             {
                 data: {},

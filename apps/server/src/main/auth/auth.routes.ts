@@ -3,14 +3,6 @@ import {
     changePasswordHandler,
     changePasswordRoute,
 } from './routes/change-password'
-import {
-    checkUserVerificationStatusHandler,
-    checkUserVerificationStatusRoute,
-} from './routes/check-user-verification-status'
-import {
-    createProfileHandler,
-    createProfileRoute,
-} from './routes/create-profile'
 import { enablePinHandler, enablePinRoute } from './routes/enable-pin'
 import {
     forgotPasswordHandler,
@@ -29,35 +21,24 @@ import {
     resetPasswordRoute,
 } from './routes/reset-password'
 import {
-    sendEmailToInactiveUsersHandler,
-    sendEmailToInactiveUsersRoute,
-} from './routes/send-email-to-inactive-users'
-
-import {
     setDefaultGroupHandler,
     setDefaultGroupRoute,
-} from './routes/set-default-group-to-authUser'
+} from './routes/set-default-group-to-user'
 import { getTokenRoute, getTokenRouteHandler } from './routes/token'
 import { verifyEmailHandler, verifyEmailRoute } from './routes/verify-email'
 import { verifyPinHandler, verifyPinRoute } from './routes/verify-pin'
 
 export const authV1Routes = createRouter()
-    .openapi(sendEmailToInactiveUsersRoute, sendEmailToInactiveUsersHandler)
     .openapi(loginRoute, loginHandler)
     .openapi(getTokenRoute, getTokenRouteHandler)
     .openapi(registerRoute, registerHandler)
     .openapi(groupSwitchRoute, groupSwitchHandler)
-    .openapi(createProfileRoute, createProfileHandler)
     .openapi(setDefaultGroupRoute, setDefaultGroupHandler)
     .openapi(changePasswordRoute, changePasswordHandler)
     .openapi(forgotPasswordRoute, forgotPasswordHandler)
     .openapi(resetPasswordRoute, resetPasswordHandler)
     .openapi(verifyEmailRoute, verifyEmailHandler)
     .openapi(resendVerificationRoute, resendVerificationHandler)
-    .openapi(
-        checkUserVerificationStatusRoute,
-        checkUserVerificationStatusHandler,
-    )
     .openapi(enablePinRoute, enablePinHandler)
     .openapi(verifyPinRoute, verifyPinHandler)
     .openapi(forgotPINCodeRoute, forgotPINCodeHandler)

@@ -29,7 +29,7 @@ import {
 const tags = ['Auth']
 
 export const registerRoute = createRoute({
-    path: '/v1/register',
+    path: '/v1/auth/register',
     method: 'post',
     tags,
     request: {
