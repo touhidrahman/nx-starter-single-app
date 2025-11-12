@@ -1,34 +1,33 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
 import { generateId } from '../id.util'
-import { groupStatusEnum, groupTypeEnum } from './_common.table'
+import { timestampColumns } from './_common.table'
 import { invitesTable } from './invites.table'
 import { rolesTable } from './roles.table'
 import { subscriptionsTable } from './subscriptions.table'
+import { transactionsTable } from './transactions.table'
 import { usersTable } from './users.table'
 
 export const groupsTable = pgTable('groups', {
     id: text().primaryKey().$defaultFn(generateId),
-    type: groupTypeEnum().notNull(),
-    status: groupStatusEnum().notNull().default('pending'),
     name: text().notNull(),
     email: text(),
     phone: text(),
-    address: text(),
+    address1: text(),
+    address2: text(),
     city: text(),
     state: text(),
     country: text(),
-    postCode: text(),
-    ownerId: text().references(() => usersTable.id),
+    zip: text(),
+    creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
     verifiedOn: timestamp({ withTimezone: true }),
     subscriptionId: text(),
     ...timestampColumns,
 })
 
 export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
-    owner: one(usersTable, {
-        fields: [groupsTable.ownerId],
+    creator: one(usersTable, {
+        fields: [groupsTable.creatorId],
         references: [usersTable.id],
     }),
     invites: many(invitesTable),
@@ -37,4 +36,5 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
         fields: [groupsTable.subscriptionId],
         references: [subscriptionsTable.id],
     }),
+    transactions: many(transactionsTable),
 }))

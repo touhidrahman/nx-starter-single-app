@@ -1,13 +1,5 @@
 import { pgEnum, timestamp } from 'drizzle-orm/pg-core'
 
-export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
-
-export const groupStatusEnum = pgEnum('groupStatus', [
-    'active',
-    'inactive',
-    'pending',
-])
-
 export const actionStatusEnum = pgEnum('audit_log_action', [
     'create',
     'update',

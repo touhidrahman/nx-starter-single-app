@@ -1,8 +1,7 @@
-import { relations, sql } from 'drizzle-orm'
-import { boolean, pgTable, text } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
+import { relations } from 'drizzle-orm'
+import { pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
-import { groupTypeEnum } from './_common.table'
+import { timestampColumns } from './_common.table'
 import { groupsTable } from './groups.table'
 
 export const rolesTable = pgTable('roles', {
@@ -10,9 +9,7 @@ export const rolesTable = pgTable('roles', {
     name: text().notNull(),
     description: text(),
     groupId: text().references(() => groupsTable.id, { onDelete: 'cascade' }),
-    claims: text().array().$type<string[]>().default(sql`'{}'::text[]`),
-    groupType: groupTypeEnum(),
-    isSystemRole: boolean().default(false).notNull(),
+    permissions: text(),
     ...timestampColumns,
 })
 

@@ -8,12 +8,12 @@ export const membershipsTable = pgTable(
     {
         userId: text()
             .notNull()
-            .references(() => usersTable.id),
+            .references(() => usersTable.id, { onDelete: 'cascade' }),
         groupId: text()
             .notNull()
-            .references(() => groupsTable.id),
+            .references(() => groupsTable.id, { onDelete: 'cascade' }),
         roleId: text().references(() => rolesTable.id, {
-            onDelete: 'set null',
+            onDelete: 'restrict',
         }),
     },
     (table) => [

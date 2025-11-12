@@ -7,8 +7,8 @@ import {
     pgTable,
     text,
 } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
 import { generateId } from '../id.util'
+import { timestampColumns } from './_common.table'
 import { subscriptionsTable } from './subscriptions.table'
 
 export const pricingPlanTable = pgTable('pricing_plan', {
@@ -20,9 +20,8 @@ export const pricingPlanTable = pgTable('pricing_plan', {
     discountPrice: integer(),
     discountPeriodStart: date(),
     discountPeriodEnd: date(),
-    currency: text().default('USD'),
-    isActive: boolean().default(true),
-    isStarterPlan: boolean().default(false),
+    currency: text().notNull().default('USD'),
+    isActive: boolean().notNull().default(false),
     storageLimit: bigint({ mode: 'number' }).notNull(),
     maxUsers: integer().notNull(),
     activeFeatures: text().array(),
