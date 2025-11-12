@@ -3,7 +3,6 @@ import { EmailTemplateBuilder } from './common-template'
 export interface AdminNotificationTemplateProps {
     groupId: string
     groupName: string
-    groupType: string
     creatorName: string
     creatorEmail: string
     url: string

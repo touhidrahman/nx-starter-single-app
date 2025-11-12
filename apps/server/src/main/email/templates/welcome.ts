@@ -5,7 +5,6 @@ export interface WelcomeEmailTemplateProps {
     lastName: string
     email: string
     verificationUrl: string
-    groupType: string
     groupName: string
 }
 

@@ -1,10 +1,9 @@
 import * as argon2 from 'argon2'
 import { and, count, eq, or, sql } from 'drizzle-orm'
 import { random } from 'radash'
-import z from 'zod'
 import { db } from '../../core/db/db'
 import { lower } from '../../core/db/orm.util'
-import { rolesTable, usersGroupsTable, usersTable } from '../../core/db/schema'
+import { membershipsTable, rolesTable, usersTable } from '../../core/db/schema'
 import { sendEmailUsingResend } from '../../core/email/email.service'
 import { DateUtil } from '../../core/utils/date.util'
 import env from '../../env'
@@ -12,22 +11,14 @@ import { SelectAdmin } from '../admin/admin.schema'
 import { buildAdminNotificationTemplate } from '../email/templates/group-status-update-notification'
 import { buildSuccessEmailTemplate } from '../email/templates/success-template'
 import { buildWelcomeEmailTemplate } from '../email/templates/welcome'
-import { Group } from '../group/group.schema'
-import {
-    createGroup,
-    findGroupById,
-    updateSubscriptionId,
-} from '../group/group.service'
-import { getStarterPlan } from '../plan/plan.service'
+import { SelectGroup } from '../group/group.schema'
+import { createGroup, findGroupById } from '../group/group.service'
 import { SelectRole } from '../role/role.schema'
-import { InsertSubscription } from '../subscription/subscription.schema'
-import { createSubscription } from '../subscription/subscriptions.service'
-import { User } from '../user/user.schema'
 import {
     CountdownValidationResult,
     CreateUserSchema,
-    SMSResponse,
-    UserCreateResult,
+    InsertUser,
+    SelectUser,
 } from './auth.schema'
 import { createVerificationToken } from './token.util'
 
@@ -74,6 +65,7 @@ export async function findUserByEmail(email: string) {
 
     return results?.[0] ?? null
 }
+
 export async function findUserByPhone(phone: string) {
     const results = await db
         .select()
@@ -84,56 +76,19 @@ export async function findUserByPhone(phone: string) {
     return results?.[0] ?? null
 }
 
-export async function findUnverifiedUserByPhoneEmail(
-    identifier: string,
-    isEmail: boolean,
-) {
-    const condition = isEmail
-        ? and(eq(usersTable.email, identifier), eq(usersTable.verified, false))
-        : and(eq(usersTable.phone, identifier), eq(usersTable.verified, false))
-
-    const [user] = await db.select().from(usersTable).where(condition).limit(1)
-
-    return user ?? null
-}
-
-export async function findVerifiedUserByPhoneEmail(
-    identifier: string,
-    isEmail: boolean,
-) {
-    const condition = isEmail
-        ? and(eq(usersTable.email, identifier), eq(usersTable.verified, true))
-        : and(eq(usersTable.phone, identifier), eq(usersTable.verified, true))
-
-    const [user] = await db.select().from(usersTable).where(condition).limit(1)
-
-    return user ?? null
-}
-
-export async function setDefaultGroupId(
-    userId: string,
-    groupId: string | null,
-) {
-    return db
-        .update(usersTable)
-        .set({ defaultGroupId: groupId, lastLogin: DateUtil.date() })
-        .where(eq(usersTable.id, userId))
-        .returning()
-}
-
 export async function getRoleByUserAndGroup(
     userId: string,
     groupId: string,
 ): Promise<SelectRole | null> {
     const [userGroupRelation] = await db
         .select({
-            roleId: usersGroupsTable.roleId,
+            roleId: membershipsTable.roleId,
         })
-        .from(usersGroupsTable)
+        .from(membershipsTable)
         .where(
             and(
-                eq(usersGroupsTable.groupId, groupId),
-                eq(usersGroupsTable.userId, userId),
+                eq(membershipsTable.groupId, groupId),
+                eq(membershipsTable.userId, userId),
             ),
         )
         .execute()
@@ -151,7 +106,6 @@ export async function getRoleByUserAndGroup(
     return role ?? null
 }
 
-// Find user by ID
 export async function findUserById(userId: string) {
     const [user] = await db
         .select()
@@ -161,34 +115,25 @@ export async function findUserById(userId: string) {
     return user
 }
 
-// Add user to a group with a role
 export async function addUserToGroup(
     userId: string,
     groupId: string,
     roleId: string,
 ) {
     const [userGroup] = await db
-        .insert(usersGroupsTable)
+        .insert(membershipsTable)
         .values({ groupId, userId, roleId })
         .returning()
 
     return userGroup
 }
 
-// Update user's default group
-export async function updateUserDefaultGroup(userId: string, groupId: string) {
-    const [user] = await db
-        .update(usersTable)
-        .set({ defaultGroupId: groupId })
-        .where(eq(usersTable.id, userId))
-        .returning()
-    return user
-}
-
-export async function sendProfileCreatedEmail(user: User, group: Group) {
+export async function sendProfileCreatedEmail(
+    user: SelectUser,
+    group: SelectGroup,
+) {
     const createProfileSuccessTpl = buildSuccessEmailTemplate({
         recipientName: `${user.firstName} ${user.lastName}`,
-        profileType: group.type,
         dashboardUrl: `${env.FRONTEND_URL}/`,
         loginUrl: `${env.FRONTEND_URL}/login`,
         organizationName: group.name,
@@ -201,59 +146,17 @@ export async function sendProfileCreatedEmail(user: User, group: Group) {
     )
 }
 
-export async function subscribeToFreePlan(groupId: string) {
-    // find free plan and create subscription
-    const data = await getStarterPlan()
-
-    if (!data) {
-        return { success: false, message: 'Free plan not found' }
-    }
-
-    const startDate = new Date()
-    let endDate: Date
-
-    endDate = new Date(startDate)
-    endDate.setMonth(startDate.getMonth() + 1)
-
-    const newSubscription: InsertSubscription = {
-        status: 'active',
-        subscriptionType: 'monthly',
-        planId: data.id,
-        groupId: groupId,
-        startDate,
-        endDate,
-        usedStorage: 0,
-    }
-
-    const [subscription] = await createSubscription(newSubscription)
-
-    await updateSubscriptionId(groupId, subscription.id)
-
-    if (subscription) {
-        return {
-            success: true,
-            message: 'Group subscribed to free plan successfully',
-        }
-    }
-    return {
-        success: false,
-        message: 'Failed to subscribe group to free plan',
-    }
-}
-
 export async function sendUpdateStatusEmailToAdmin(
-    user: User,
-    group: Group,
+    user: SelectUser,
+    group: SelectGroup,
     adminEmails: string[],
 ) {
     const adminNotificationTpl = buildAdminNotificationTemplate({
-        groupId: group.id,
-        groupName: group.name,
-        groupType: group.type,
+        groupId: group.id ?? '',
+        groupName: group.name ?? '',
         creatorName: `${user.firstName} ${user.lastName}`,
         creatorEmail: user.email ?? user.phone ?? '',
-        url:
-            env.FRONTEND_URL + '/admin',
+        url: `${env.FRONTEND_URL}/admin`,
         status: 'active',
     })
 
@@ -270,13 +173,13 @@ export async function sendUpdateStatusEmailToAdmin(
     return { data, error }
 }
 
-export const verifyUser = async (phone: string) => {
+export const verifyUser = async (userId: string) => {
     const [user] = await db
         .update(usersTable)
         .set({
-            verified: true,
+            verifiedAt: new Date(),
         })
-        .where(and(eq(usersTable.phone, phone), eq(usersTable.verified, false)))
+        .where(and(eq(usersTable.id, userId)))
         .returning()
     return user
 }
@@ -301,7 +204,6 @@ export async function sendVerificationEmail(
     firstName: string,
     lastName: string,
     userId: string,
-    groupType: string,
     groupName: string,
 ) {
     const token = await createVerificationToken(
@@ -314,7 +216,6 @@ export async function sendVerificationEmail(
     )
 
     if (env.NODE_ENV !== 'production') {
-        console.info(`Verification token for ${email}: ${token}`)
     }
 
     const addressToSendEmail =
@@ -325,7 +226,6 @@ export async function sendVerificationEmail(
         lastName,
         email: addressToSendEmail ?? '',
         verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
-        groupType,
         groupName,
     })
 
@@ -352,25 +252,16 @@ export async function resendVerificationEmail(
     )
 
     if (env.NODE_ENV !== 'production') {
-        console.info(`Verification token for ${email}: ${token}`)
     }
 
     const addressToSendEmail =
         env.NODE_ENV !== 'production' ? env.EMAIL_TEST_EMAIL : email
-
-    // const resendVerificationEmail = buildResendVerificationEmailTemplate({
-    //     firstName,
-    //     lastName,
-    //     email: addressToSendEmail ?? '',
-    //     verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
-    // })
 
     const resendVerificationEmail = buildWelcomeEmailTemplate({
         firstName,
         lastName,
         email: addressToSendEmail ?? '',
         verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
-        groupType: '',
         groupName: '',
     })
 
@@ -379,20 +270,6 @@ export async function resendVerificationEmail(
         'Please verify your email',
         resendVerificationEmail,
     )
-}
-
-export const validateIdentifier = (identifier: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/
-
-    if (emailRegex.test(identifier))
-        return { isValid: true, type: 'email' as const }
-    if (phoneRegex.test(identifier))
-        return { isValid: true, type: 'phone' as const }
-    return {
-        isValid: false,
-        error: 'Invalid format. Use email (user@example.com) or Bangladeshi phone (01XXXXXXXXX)',
-    }
 }
 
 export async function usernameExists(username: string) {
@@ -443,6 +320,7 @@ export const validateCountdown = (
 
     return { allowed: true }
 }
+
 export function isExpiringInDays(exp: number, days: number): boolean {
     const now = DateUtil.date()
     return exp > DateUtil.addDays(now, days).getTime()
@@ -456,7 +334,6 @@ export function buildAdminPayload(admin: SelectAdmin) {
         email: admin.email,
         phone: null,
         username: admin.email,
-        status: admin.status,
     }
 }
 
@@ -467,15 +344,13 @@ export async function buildUserContext(userId: string, groupId: string) {
         user && group ? await getRoleByUserAndGroup(user.id, group.id) : null
 
     return { user, group, role } as {
-        user?: User
-        group?: Group
+        user?: SelectUser
+        group?: SelectGroup
         role?: SelectRole
     }
 }
 
-export async function createUser(
-    userData: z.infer<typeof CreateUserSchema>,
-): Promise<z.infer<typeof UserCreateResult>> {
+export async function createUser(userData: InsertUser): Promise<SelectUser> {
     const validatedData = CreateUserSchema.parse(userData)
     const hashedPassword = await argon2.hash(validatedData.password)
 
@@ -483,39 +358,31 @@ export async function createUser(
         .insert(usersTable)
         .values({
             ...validatedData,
-            verified: true, //! TODO : remove it when sms service is fixed
             password: hashedPassword,
             email: validatedData.email ?? null,
             phone: validatedData.phone ?? null,
         })
         .returning() // returns array of inserted rows
 
-    const user = Array.isArray(result) ? result[0] : result.rows?.[0]
+    const user = Array.isArray(result) ? result[0] : result
 
     if (!user?.id) throw new Error('Failed to create user: missing id')
 
-    return UserCreateResult.parse(user) // single object
+    return { ...user, password: 'REDACTED' }
 }
 
-type Organization = {
-    groupType: 'client' | 'vendor'
-    name?: string
-}
 export async function createUserOrganization(
-    user: z.infer<typeof UserCreateResult>,
-    organization: Organization,
+    user: InsertUser,
+    organization: string,
 ) {
     const organizationSuffix = random(10000, 99999).toString()
-    const organizationName = organization.name
-        ? `${organization.name}`
+    const organizationName = organization
+        ? `${organization}`
         : `${user.firstName} ${user.lastName}'s Organization-${organizationSuffix}`
 
     const [group] = await createGroup({
         name: organizationName,
-        ownerId: user.id,
-        type: organization.groupType,
-        verified: true,
-        status: 'active',
+        creatorId: user.id,
     })
 
     return { group, organizationName }

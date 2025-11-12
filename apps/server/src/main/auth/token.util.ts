@@ -3,7 +3,7 @@ import { sign, verify } from 'hono/jwt'
 import { SystemUserLevel } from '../../core/core.type'
 import { addDuration, DateUnit, DateUtil } from '../../core/utils/date.util'
 import env from '../../env'
-import { GroupDto } from '../group/group.schema'
+import { InsertGroup } from '../group/group.schema'
 import { TokenCreateUserData } from './auth.schema'
 
 const dateUtil = DateUtil
@@ -47,7 +47,7 @@ export type InvitationTokenPayload = {
 export async function createAccessToken(
     user: TokenCreateUserData,
     roleId?: string,
-    group?: GroupDto,
+    group?: InsertGroup,
 ) {
     const tokenPayload: AccessTokenPayload = {
         firstName: user?.firstName ?? '',

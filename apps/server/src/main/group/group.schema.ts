@@ -2,14 +2,13 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { groupsTable } from '../../core/db/schema'
 
-export type GroupDto = typeof groupsTable.$inferInsert
-export type Group = typeof groupsTable.$inferSelect
+export type InsertGroup = z.infer<typeof zInsertGroup>
+export type SelectGroup = z.infer<typeof zSelectGroup>
 
 export const zInsertGroup = createInsertSchema(groupsTable, {
-    // email: (schema) => schema.email(),
     email: z.string().email().optional(),
     verifiedOn: z.coerce.date().optional(),
-    ownerId: z.string().optional(),
+    creatorId: z.string().optional(),
 })
 export const zSelectGroup = createSelectSchema(groupsTable).partial()
 export const zUpdateGroup = zInsertGroup.omit({

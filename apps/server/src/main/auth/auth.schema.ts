@@ -1,7 +1,7 @@
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { usersTable } from '../../core/db/schema'
-import { Group } from '../group/group.schema'
+import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
 
 export const zLogin = z.object({
@@ -10,25 +10,16 @@ export const zLogin = z.object({
 })
 
 export const zRegister = z.object({
+    username: z
+        .string()
+        .min(3, { message: 'Username must be at least 3 characters' }),
     email: z.string().optional(),
     password: z.string(),
     firstName: z.string().min(1, { message: 'First name is required' }),
     lastName: z.string().min(1, { message: 'Last name is required' }),
-    defaultGroupId: z
-        .string()
-        .optional()
-        .transform((val) => (val === '' ? undefined : val)),
-    role: z
-        .string()
-        .optional()
-        .transform((val) => (val === '' ? undefined : val)),
     phone: z.string().optional(),
-    acceptTerms: z.boolean().optional(),
     referralCode: z.string().optional(),
-    organization: z.object({
-        name: z.string().optional(),
-        groupType: z.enum(['client', 'vendor']),
-    }),
+    organization: z.string().optional(),
 })
 
 export const zChangePassword = z.object({
@@ -48,9 +39,12 @@ export const zResetPassword = z.object({
     password: z.string().min(8).max(32), //TODO : password validation same as front-end
 })
 
-export const zInsertAuthUser = createInsertSchema(usersTable, {
-    email: (schema) => schema.email(),
-})
+export const zInsertAuthUser = createInsertSchema(usersTable)
+export const zSelectAuthUser = createSelectSchema(usersTable)
+
+export type SelectUser = z.infer<typeof zSelectAuthUser>
+
+export type InsertUser = z.infer<typeof zInsertAuthUser>
 
 export const zUpdateAuthUser = zInsertAuthUser.omit({
     email: true,
@@ -66,7 +60,7 @@ export interface SMSResponse {
 }
 
 export interface TokenContext {
-    group?: Group
+    group?: SelectGroup
     role?: SelectRole
 }
 export const zUserVerificationStatus = z.object({
@@ -120,11 +114,12 @@ export const CreateUserSchema = z.object({
     verified: z.boolean().default(false),
 })
 
-export const UserCreateResult = CreateUserSchema.extend({
-    id: z.string(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-}).omit({ password: true })
+export const UserCreateResult = zInsertAuthUser
+    .extend({
+        id: z.string(),
+        email: z.string().nullable(),
+    })
+    .omit({ password: true })
 
 export const zInactiveUsers = z.object({
     firstName: z.string(),

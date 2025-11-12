@@ -3,23 +3,18 @@ import { EmailTemplateBuilder } from './common-template'
 
 export interface SuccessEmailTemplateProps {
     recipientName: string
-    profileType: 'vendor' | 'client'
     dashboardUrl: string
     loginUrl: string
     organizationName?: string
 }
 
-const SuccessEmailContent = (props: SuccessEmailTemplateProps) => {
-    const isVendor = props.profileType === 'vendor'
-
+const SuccessEmailContent = (_props: SuccessEmailTemplateProps) => {
     return `
       <tr>
         <td style="padding: 30px 40px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px; color: #333333;">Congratulations, {{recipientName}}!</h1>
           <p style="font-size: 16px; color: #555555; margin-top: 20px;">
-            ${isVendor
-            ? 'Your vendor organization {{organizationName}} has been successfully created on MyApp.'
-            : 'Your organization {{organizationName}} has been successfully created on MyApp.'
+            Your organization {{organizationName}} has been successfully created on MyApp.
         }
           </p>
 
