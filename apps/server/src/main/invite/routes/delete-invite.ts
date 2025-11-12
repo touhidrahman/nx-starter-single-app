@@ -63,11 +63,6 @@ export const deleteInvitationHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        console.error(
-            'Error deleting invitation:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
         return c.json(
             {
                 data: {},

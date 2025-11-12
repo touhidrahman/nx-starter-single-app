@@ -114,11 +114,6 @@ export const createFeedbackHandler: AppRouteHandler<
             CREATED,
         )
     } catch (error) {
-        console.error(
-            'Error creating Feedback:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
         return c.json(
             {
                 data: {},

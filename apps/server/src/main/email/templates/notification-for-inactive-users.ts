@@ -1,4 +1,4 @@
-import { EmailWrapper, Footer, Header } from './common-template'
+import { EmailTemplateBuilder } from './common-template'
 
 export interface InactiveUsersEmailTemplateProps {
     firstName: string
@@ -9,7 +9,6 @@ export interface InactiveUsersEmailTemplateProps {
 }
 
 const InactiveUsersEmailContent = (_props: InactiveUsersEmailTemplateProps) => `
-  ${Header}
   <tr>
   <td style="padding: 40px; background-color: #f3f4f6; text-align: center; font-family: 'Segoe UI', Arial, sans-serif;">
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); overflow: hidden;">
@@ -69,18 +68,12 @@ const InactiveUsersEmailContent = (_props: InactiveUsersEmailTemplateProps) => `
     </table>
   </td>
 </tr>
-
-  ${Footer}
 `
 
 export function buildEmailTemplateForInactiveUsers(
     props: InactiveUsersEmailTemplateProps,
 ) {
-    let html = EmailWrapper(InactiveUsersEmailContent(props))
-    for (const [key, value] of Object.entries(props)) {
-        if (value) {
-            html = html.replaceAll(`{{${key}}}`, value)
-        }
-    }
-    return html
+    return new EmailTemplateBuilder<InactiveUsersEmailTemplateProps>()
+        .setBodyTemplate(InactiveUsersEmailContent(props))
+        .build(props)
 }

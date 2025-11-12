@@ -9,7 +9,6 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
-import { checkLevel } from '../../../core/middlewares/user-level.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
@@ -87,7 +86,7 @@ export const updateNewsTickerHandler: AppRouteHandler<
         return c.json(
             {
                 data: {},
-                error: error?.stack ?? error,
+                error: error,
                 message: 'Internal Server Error',
                 success: false,
             },

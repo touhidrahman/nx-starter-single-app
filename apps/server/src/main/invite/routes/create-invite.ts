@@ -44,25 +44,22 @@ export const createInviteHandler: AppRouteHandler<
     try {
         const group = await findGroupById(body.groupId)
 
-        if (group?.type === 'vendor') {
-            const limitCheck = await checkGroupLimit(body.groupId, {
-                countSource: 'both',
-            })
+        const limitCheck = await checkGroupLimit(body.groupId, {
+            countSource: 'both',
+        })
 
-            if (!limitCheck.canAdd) {
-                return c.json(
-                    {
-                        data: {
-                            currentUsers: limitCheck.currentUsers,
-                            maxUsers: limitCheck.maxUsers,
-                        },
-                        message:
-                            limitCheck.message || 'Group user limit reached',
-                        success: false,
+        if (!limitCheck.canAdd) {
+            return c.json(
+                {
+                    data: {
+                        currentUsers: limitCheck.currentUsers,
+                        maxUsers: limitCheck.maxUsers,
                     },
-                    FORBIDDEN,
-                )
-            }
+                    message: limitCheck.message || 'Group user limit reached',
+                    success: false,
+                },
+                FORBIDDEN,
+            )
         }
 
         const [invite] = await createInvite(body, payload.sub)

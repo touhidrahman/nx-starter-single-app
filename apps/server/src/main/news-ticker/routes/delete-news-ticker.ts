@@ -62,7 +62,7 @@ export const deleteNewsTickerHandler: AppRouteHandler<
             {
                 data: {},
                 message: 'Failed to delete plan',
-                error: error?.stack ?? error,
+                error,
                 success: false,
             },
             INTERNAL_SERVER_ERROR,

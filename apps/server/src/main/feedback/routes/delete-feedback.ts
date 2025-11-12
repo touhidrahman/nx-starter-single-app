@@ -58,11 +58,6 @@ export const deleteFeedBackHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        console.error(
-            'Error deleting FeedBack:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
         return c.json(
             {
                 data: {},

@@ -74,24 +74,13 @@ export const updateFeedbackHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Bad request',
-                    success: false,
-                    error: error.errors,
-                },
-                BAD_REQUEST,
-            )
-        }
-        console.error(
-            'Error updating Feedback:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
         return c.json(
-            { data: {}, message: 'Internal Server Error', success: false },
+            {
+                data: {},
+                message: 'Internal Server Error',
+                success: false,
+                error,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }
