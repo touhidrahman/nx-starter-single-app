@@ -9,7 +9,6 @@ export function findAllClaims(): SelectClaim[] {
             description: claim.description,
             section: claim.section,
             forRoles: claim.forRoles,
-            groupType: claim.groupType,
         }
     }).sort((a, b) => {
         if (a.id < b.id) return -1
@@ -18,24 +17,14 @@ export function findAllClaims(): SelectClaim[] {
     })
 }
 
-export function findAllClaimsByGroupType(
-    groupType?: 'vendor' | 'client',
-): SelectClaim[] {
-    return findAllClaims().filter((claim) => claim.groupType === groupType)
-}
-
 export function findAllClaimsList(): string[] {
     return findAllClaims().map((claim) => claim.id.trim().toLowerCase())
 }
 
-export function getDefaultClaims(
-    role: string,
-    groupType: 'vendor' | 'client',
-): string[] {
+export function getDefaultClaims(role: string): string[] {
     return uniq(
-        CLAIMS_LIST.filter(
-            (claim) =>
-                claim.forRoles.includes(role) && claim.groupType === groupType,
-        ).map((claim) => claim.id),
+        CLAIMS_LIST.filter((claim) => claim.forRoles.includes(role)).map(
+            (claim) => claim.id,
+        ),
     ).sort()
 }

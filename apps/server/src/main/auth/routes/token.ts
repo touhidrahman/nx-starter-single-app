@@ -155,7 +155,7 @@ export const getTokenRouteHandler: AppRouteHandler<
                     now,
                     ACCESS_TOKEN_LIFE,
                 ).toISOString(),
-                user: userData,
+                user: userData as any, // TODO: fix any
                 group,
                 role,
             },
