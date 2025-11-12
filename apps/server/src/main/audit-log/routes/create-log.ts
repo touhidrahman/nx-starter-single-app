@@ -1,9 +1,5 @@
-import { createRoute, z } from '@hono/zod-openapi'
-import {
-    BAD_REQUEST,
-    CREATED,
-    INTERNAL_SERVER_ERROR,
-} from 'stoker/http-status-codes'
+import { createRoute } from '@hono/zod-openapi'
+import { BAD_REQUEST, CREATED } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
@@ -23,7 +19,6 @@ export const createLogRoute = createRoute({
     responses: {
         [CREATED]: ApiResponse(zSelectLog, 'Log created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid log data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -38,37 +33,14 @@ export const createLogHandler: AppRouteHandler<typeof createLogRoute> = async (
         creatorId: sub,
     }
 
-    try {
-        const [log] = await createLog(logData)
+    const [log] = await createLog(logData)
 
-        return c.json(
-            {
-                data: log,
-                message: 'Case created successfully',
-                success: true,
-            },
-            CREATED,
-        )
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    error: error.errors,
-                    message: 'Invalid log data',
-                    success: false,
-                },
-                BAD_REQUEST,
-            )
-        }
-        console.error(
-            'Error creating case:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
-        return c.json(
-            { data: {}, message: 'Failed to create log!', success: false },
-            INTERNAL_SERVER_ERROR,
-        )
-    }
+    return c.json(
+        {
+            data: log,
+            message: 'Log created successfully',
+            success: true,
+        },
+        CREATED,
+    )
 }

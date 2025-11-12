@@ -1,5 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { HTTPException } from 'hono/http-exception'
+import { BAD_REQUEST, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -17,7 +18,6 @@ export const deleteLogByEntityIdRoute = createRoute({
     responses: {
         [OK]: ApiResponse(zEmpty, 'Logs deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Logs not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -26,21 +26,15 @@ export const deleteLogByEntityIdHandler: AppRouteHandler<
 > = async (c) => {
     const entityId = c.req.param('entityId')
 
-    try {
-        await deleteLogByEntityId(entityId)
-        return c.json(
-            { data: {}, message: 'Logs deleted successfully', success: true },
-            OK,
-        )
-    } catch (error) {
-        console.error(
-            'Error deleting log:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        c.var.logger.error(error?.stack ?? error)
-        return c.json(
-            { data: {}, message: 'Failed to delete log', success: false },
-            INTERNAL_SERVER_ERROR,
-        )
+    const res = await deleteLogByEntityId(entityId)
+    if (!res) {
+        throw new HTTPException(BAD_REQUEST, {
+            message: 'Entity ID is invalid or no logs found',
+        })
     }
+
+    return c.json(
+        { data: {}, message: 'Logs deleted successfully', success: true },
+        OK,
+    )
 }

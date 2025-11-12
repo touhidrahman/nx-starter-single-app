@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { decimal, pgTable, text } from 'drizzle-orm/pg-core'
+import { decimal, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
@@ -32,6 +32,11 @@ export const balanceTransferSchedulesTable = pgTable(
         groupId: text()
             .notNull()
             .references(() => groupsTable.id, { onDelete: 'cascade' }),
+        cronExpression: text().notNull(),
+        nextOccurrenceAt: timestamp({ withTimezone: true }).notNull(),
+        stopOccurrenceAt: timestamp({ withTimezone: true }),
+        occurrencesTotal: integer(),
+        occurrencesDone: integer().notNull().default(0),
         ...timestampColumns,
     },
 )

@@ -27,10 +27,10 @@ export const getLogHandler: AppRouteHandler<typeof getLogRoute> = async (c) => {
 
     if (!log) {
         return c.json(
-            { data: {}, message: 'Case not found', success: false },
+            { data: {}, message: 'Log not found', success: false },
             NOT_FOUND,
         )
     }
 
-    return c.json({ data: log, message: 'Case found', success: true }, OK)
+    return c.json({ data: log, message: 'Log found', success: true }, OK)
 }

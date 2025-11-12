@@ -9,9 +9,6 @@ export const SEED_DATA_PLANS: InsertPlan[] = [
         yearlyPrice: 0,
         storageLimit: 500,
         maxUsers: 1,
-        maxCases: 25,
-        monthlySmsLimit: 100,
-        monthlyAiCredits: 50,
         activeFeatures: [
             'Keep track of 25 cases',
             '500 MB storage',
@@ -38,9 +35,6 @@ export const SEED_DATA_PLANS: InsertPlan[] = [
         yearlyPrice: 1100,
         storageLimit: 2 * 1024,
         maxUsers: 3,
-        maxCases: 50,
-        monthlySmsLimit: 500,
-        monthlyAiCredits: 200,
         activeFeatures: [
             'Keep track of 50 cases',
             '2 GB storage',
@@ -67,9 +61,6 @@ export const SEED_DATA_PLANS: InsertPlan[] = [
         yearlyPrice: 3200,
         storageLimit: 10 * 1024,
         maxUsers: 5,
-        maxCases: 200,
-        monthlySmsLimit: 2000,
-        monthlyAiCredits: 500,
         activeFeatures: [
             'Keep track of 200 cases',
             '10 GB storage',
@@ -93,9 +84,6 @@ export const SEED_DATA_PLANS: InsertPlan[] = [
         yearlyPrice: 6000,
         storageLimit: 25 * 1024,
         maxUsers: 20,
-        maxCases: 999999,
-        monthlySmsLimit: 999999,
-        monthlyAiCredits: 2000,
         activeFeatures: [
             'Keep track of unlimited cases',
             '25 GB storage',
