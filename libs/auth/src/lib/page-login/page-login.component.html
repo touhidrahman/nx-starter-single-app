@@ -1,0 +1,107 @@
+<div
+    class="animated-green-bg flex min-h-dvh items-center justify-center overflow-y-auto px-4">
+    <p-card
+        class="mx-4 w-full max-w-xl rounded-xl bg-white py-6 md:mx-auto xl:min-w-xl">
+        <div class="mb-3 text-center">
+            <div
+                class="mb-2 bg-gradient-to-r from-green-500 via-emerald-500 to-green-800 bg-clip-text text-4xl font-extrabold text-transparent">
+                Welcome Back
+            </div>
+
+            <span class="text-600 line-height-3 font-medium"
+                >Don't have an account?</span
+            >
+            <a
+                [routerLink]="['/signup']"
+                class="ml-2 cursor-pointer font-medium text-green-500 no-underline"
+                >Sign Up!</a
+            >
+        </div>
+
+        <div class="mb-4 min-h-8">
+            @if (errors()) {
+                <div class="rounded border-red-800 bg-red-100 p-4 text-red-800">
+                    <p class="text-sm">{{ errors() }}</p>
+                </div>
+            }
+        </div>
+
+        <form (ngSubmit)="submit()" [formGroup]="loginFormService.form">
+            <label for="email1" class="text-900 mb-2 block font-medium">
+                Email/Phone
+            </label>
+            <p-iconfield>
+                <input
+                    id="email1"
+                    type="text"
+                    placeholder="Email / Phone"
+                    pInputText
+                    formControlName="identifier"
+                    required
+                    class="mb-3 w-full"
+                    (input)="onFieldInput()"
+                    (blur)="onFieldBlur()" />
+                @if (userVerificationStatusCheckService.isChecking()) {
+                    <p-inputicon class="pi pi-spinner pi-spin text-green-600" />
+                }
+            </p-iconfield>
+            <app-user-verification-button
+                [shouldShowVerifyButton]="shouldShowVerifyButton()"
+                [isLoading]="
+                    userVerificationStatusCheckService.isSendingVerification()
+                "
+                [isEmail]="userVerificationStatusCheckService.isEmail()"
+                (userVerify)="userVerify()" />
+            @if (
+                loginFormService.emailControl?.invalid &&
+                loginFormService.emailControl?.touched
+            ) {
+                <p class="text-xs text-red-700">Valid email is required</p>
+            }
+
+            <label for="password1" class="text-900 mb-2 block font-medium"
+                >Password</label
+            >
+            <p-password
+                formControlName="password"
+                class="mb-3 w-full"
+                inputStyleClass="w-full"
+                placeholder="Password"
+                [feedback]="false"
+                [toggleMask]="true">
+            </p-password>
+            @if (
+                loginFormService.passwordControl?.invalid &&
+                loginFormService.passwordControl?.touched
+            ) {
+                <p class="text-xs text-red-700">Password is required</p>
+            }
+
+            <div class="align-items-center justify-content-between mb-6 flex">
+                <a
+                    [routerLink]="['/forgot-password']"
+                    class="cursor-pointer text-right font-medium text-emerald-700 no-underline"
+                    >Forgot password?</a
+                >
+            </div>
+
+            <button
+                pButton
+                pRipple
+                type="submit"
+                (click)="submit()"
+                [disabled]="loginFormService.form.invalid || isLoading()"
+                icon="pi pi-user"
+                class="bg-green w-full">
+                @if (isLoading()) {
+                    Signing in...
+                } @else {
+                    Sign In
+                }
+            </button>
+        </form>
+        <div class="mx-auto mt-5 flex max-w-[150px] justify-center">
+            <app-support-whatsapp />
+        </div>
+    </p-card>
+</div>

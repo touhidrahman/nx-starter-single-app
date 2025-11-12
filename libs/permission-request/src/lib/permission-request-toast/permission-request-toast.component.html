@@ -1,0 +1,36 @@
+<div class="card flex justify-center">
+    <p-toast
+        position="bottom-center"
+        key="permissionToast"
+        (onClose)="onReject()"
+        [baseZIndex]="5000">
+        <ng-template let-message #message>
+            <div class="items-star flex flex-auto flex-col">
+                <div class="mb-4 font-medium">
+                    <span class="secondary-text text-base font-bold text-black">
+                        {{ message.summary }}</span
+                    >
+                    <p class="secondary-text mt-2 text-sm text-black">
+                        Do you want to request this permission from your
+                        organization's admin for your role?
+                    </p>
+                </div>
+                <div class="flex w-full gap-4">
+                    <p-button
+                        styleClass="px-4 py-1 dark-mode-no"
+                        severity="warn"
+                        size="small"
+                        label="No"
+                        (click)="onReject()" />
+
+                    <p-button
+                        styleClass="px-4 py-1 dark-mode-yes"
+                        severity="success"
+                        size="small"
+                        label="Yes"
+                        (click)="onConfirm(message.data)" />
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+</div>

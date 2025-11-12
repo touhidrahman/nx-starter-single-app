@@ -1,0 +1,43 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="py-16 text-center">
+            <h3 class="text-5xl font-bold">
+                Our
+                <span class="text-primary-500 text-5xl font-bold"
+                    >Features</span
+                >
+            </h3>
+            <p class="mx-auto mt-6 max-w-xl text-lg">
+                Unlock the full potential of advanced legal solutions. Upgrade
+                or downgrade anytime.
+            </p>
+        </div>
+        <div class="mt-8 grid grid-cols-12 xl:gap-4">
+            @for (item of features; track item.id) {
+                <div class="sm:colspan-6 col-span-12 lg:col-span-3">
+                    <div
+                        class="border-t-primary-500 min-h-[250px] rounded-md border px-5 py-4">
+                        <div class="text-center font-semibold">
+                            <div class="flex items-center justify-center">
+                                <div
+                                    class="bg-primary-40 flex h-14 w-14 items-center justify-center rounded-lg border">
+                                    <!-- <hlm-icon
+                                    size="lg"
+                                    name="lucideShieldCheck"
+                                    color="primary-500"
+                                    class="text-primary-500" /> -->
+                                    <!-- TODO: change icon -->
+                                    <div
+                                        class="pi pi-shield text-2xl font-semibold"></div>
+                                </div>
+                            </div>
+
+                            <h4 class="py-4 text-2xl">{{ item.title }}</h4>
+                            <p class="text-base">{{ item.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

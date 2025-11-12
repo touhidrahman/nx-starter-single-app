@@ -1,0 +1,22 @@
+{
+    "angular.enable-strict-mode-prompt": false,
+    "angular-schematics.schematicsDefaultOptions": {
+        "angular-*": {
+            "style": "scss",
+            "externalTemplate": true
+        }
+    },
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.biome": "explicit"
+        },
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "nxConsole.nxWorkspacePath": "",
+    "cSpell.words": ["requestedsuccessfully"],
+    "nxConsole.generateAiAgentRules": true,
+    "postman.settings.dotenv-detection-notification-visibility": false
+}

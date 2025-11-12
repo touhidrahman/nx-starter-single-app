@@ -1,0 +1,72 @@
+<div class="flex justify-between">
+    <h1 class="text-2xl font-bold">Cases</h1>
+    <p-button label="Create Case" icon="pi pi-plus" iconPos="left"> </p-button>
+</div>
+<div class="my-5 flex items-center justify-between">
+    <div class="flex items-center justify-start gap-3">
+        <div>
+            <p-button
+                label="Filters"
+                icon="pi pi-filter"
+                iconPos="left"></p-button>
+        </div>
+        <div
+            class="flex items-center justify-start gap-2 rounded-md bg-gray-100 px-1 py-1 shadow-sm">
+            <p-select
+                size="small"
+                styleClass="{'border-radius': '24px'}"
+                placeholder="Select a Status"
+                class="w-full md:w-56" />
+            <p-select
+                size="small"
+                placeholder="Sorting"
+                class="w-full md:w-56" />
+        </div>
+    </div>
+    <div class="flex items-center justify-end gap-3">
+        <div class="flex items-center justify-start gap-2">
+            <input type="text" pInputText size="small" />
+            <p-button icon="pi pi-search" size="large" />
+        </div>
+    </div>
+</div>
+<div class="mt-6 border">
+    @let allCases = caseListStateService.select('cases') | async;
+
+    @if (allCases && allCases.length <= 0) {
+        <div>No Data</div>
+    } @else {
+        <p-table
+            [value]="allCases ?? []"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template #header>
+                <tr>
+                    <th>Case Number</th>
+                    <th>Case Title</th>
+                    <th>Client Name</th>
+                    <th>Court Name</th>
+                    <th>Next Hearing Date</th>
+                    <th>Status</th>
+                    <th>Case Type</th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-case>
+                <tr>
+                    <td>{{ case.caseTitle }}</td>
+                    <td>{{ case.monthlyPrice }}</td>
+                    <td>{{ case.yearlyPrice }}</td>
+                    <td>{{ case.discountPrice }}</td>
+                    <td>{{ case.trialPeriodDays }}</td>
+                    <td>{{ case.trialPeriodDays }}</td>
+                    <td>{{ case.trialPeriodDays }}</td>
+                    <td class="flex space-x-4">
+                        <p-button icon="pi pi-pencil"> </p-button>
+                        <p-button severity="danger" icon="pi pi-trash">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>

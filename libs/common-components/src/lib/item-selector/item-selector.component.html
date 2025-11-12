@@ -1,0 +1,22 @@
+<p-select
+    [ngModel]="filterName()"
+    (ngModelChange)="filterName.set($event)"
+    [options]="filterOption()"
+    optionLabel="label"
+    optionValue="value"
+    [filter]="true"
+    [filterBy]="filteredOn()"
+    [showClear]="true"
+    [placeholder]="placeholder()"
+    class="w-full">
+    <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2">
+            <div>{{ selectedOption[filteredOn()] }}</div>
+        </div>
+    </ng-template>
+    <ng-template let-option #item>
+        <div class="flex items-center gap-2">
+            <div>{{ option[filteredOn()] }}</div>
+        </div>
+    </ng-template>
+</p-select>

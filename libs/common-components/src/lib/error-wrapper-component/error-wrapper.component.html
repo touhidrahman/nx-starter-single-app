@@ -1,0 +1,21 @@
+@if (isLoading()) {
+    <lib-app-loader [loadingMessage]="loadingMessage()" />
+} @else if (isError()) {
+    <div class="flex min-h-32 items-center justify-center">
+        <div
+            class="mb-4 flex w-full max-w-[200px] items-center rounded-lg border bg-white px-3 py-2 text-gray-500 shadow-sm"
+            role="alert">
+            <div
+                class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-red-100 p-3 text-red-500">
+                <i class="pi pi-times" style="font-size: 1rem"></i>
+            </div>
+            <div class="ms-3 text-sm font-normal">{{ errorMessage() }}</div>
+        </div>
+    </div>
+} @else if (hasData()) {
+    <ng-content></ng-content>
+} @else {
+    <lib-no-data [noDataMessage]="noDataMessage()" />
+}
+<!-- TODO: Already added it main html -->
+<!-- <p-confirmDialog key="confirmDialog" /> -->

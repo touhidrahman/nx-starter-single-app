@@ -1,0 +1,225 @@
+@import "./calander-dark-mode.css";
+@import "./text-dark-mode.css";
+@import "./primeng-component-dark-mode.css";
+
+@layer components {
+    .dark app-permissions-content th {
+        background-color: var(--color-gray-white-800);
+        color: var(--color-gray-white-150) !important;
+    }
+
+    /* classes */
+
+    .dark .referral-field {
+        background-color: var(--color-gray-white-600);
+    }
+
+    .dark .bg-primary {
+        background-color: var(--color-primary);
+    }
+
+    .dark .support {
+        background-color: var(--color-gray-white-900);
+        border-color: var(--color-gray-white-900);
+        color: var(--color-gray-white-200);
+    }
+
+    .dark .org-name-header {
+        color: var(--color-gray-white-200);
+    }
+
+    .dark .count-icon {
+        background-color: var(--color-gray-white-900);
+        @apply text-gray-500 border-gray-500;
+    }
+
+    .dark .active {
+        background-color: var(--color-gray-white-400);
+    }
+
+    /* subscription start */
+
+    .dark .subscription-card {
+        background-color: var(--color-gray-white-800);
+        border: var(--color-gray-white-800);
+    }
+
+    .dark .plan-type {
+        background-color: var(--color-gray-white-900);
+        border: var(--color-gray-white-800);
+        color: var(--color-gray-white-150);
+    }
+
+    .dark .subscription-button {
+        background: linear-gradient(to right, #065f46, #14532d);
+    }
+
+    .dark .payment-system {
+        background-color: var(--color-gray-white-800);
+    }
+
+    /* subscription end */
+
+    /* case start */
+
+    .dark .dark-back-button {
+        background-color: var(--color-gray-white-500);
+        padding: 0.25rem 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .dark app-link-view-dialog textarea {
+        background-color: var(--color-gray-white-600);
+        color: var(--color-gray-white-200);
+    }
+
+    .dark app-link-view-dialog > div:nth-child(2) {
+        background-color: var(--color-gray-white-600);
+    }
+
+    .dark app-create-case-history-dialog textarea {
+        background-color: var(--color-gray-white-600);
+    }
+
+    .dark app-case-notes td {
+        padding: 4px 10px !important;
+    }
+
+    .dark .border-gray {
+        border-color: var(--color-gray-white-400);
+    }
+
+    .dark .bg-gray-white-200 {
+        background-color: var(--color-gray-white-400);
+    }
+
+    /* case end */
+
+    .dark .btn-outline {
+        background-color: var(--color-gray-white-600);
+        border: var(--color-gray-white-600);
+        color: white;
+    }
+
+    .dark .mobile-card {
+        background-color: var(--color-gray-white-900);
+        border: var(--color-gray-white-900);
+    }
+
+    .dark app-law-table .mobile-card {
+        background-color: var(--color-gray-white-550);
+    }
+
+    .dark app-referral-code .mobile-card {
+        background-color: var(--color-gray-white-550);
+    }
+
+    /* .dark app-pinned-cases .pinned-case {
+        border: none !important;
+    } */
+
+    .dark .items-container {
+        @apply rounded-2xl bg-white p-4;
+        background-color: var(--color-gray-white-900);
+    }
+
+    .dark .badge-green {
+        background-color: var(--color-gray-white-900);
+        box-shadow: var(--color-gray-white-900);
+    }
+
+    .dark app-page-law .items-container {
+        background-color: var(--color-gray-white-550);
+    }
+
+    .dark app-header-default .org-button:hover {
+        background-color: var(--color-gray-white-900);
+    }
+
+    .dark .bg-color-main {
+        background-color: var(--color-gray-white-800) !important;
+    }
+
+    .dark .bg-color-sidebar {
+        background-color: var(--color-gray-white-800);
+    }
+
+    .dark .bg-color-header {
+        background-color: var(--color-gray-white-800);
+    }
+
+    .dark .bg-color-container {
+        background-color: var(--color-gray-white-900);
+    }
+
+    .dark .bg-color-alert {
+        background-color: var(--color-gray-white-800);
+    }
+
+    .dark .bg-gray-white-400 {
+        background-color: var(--color-gray-white-400);
+    }
+
+    .dark .bg-gray-white-610 {
+        background-color: var(--color-gray-white-600);
+    }
+
+    .dark .bg-gray-white-550 {
+        background-color: var(--color-gray-white-550);
+    }
+
+    .dark .bg-gray-white-700 {
+        background-color: var(--color-gray-white-700);
+    }
+
+    .dark .bg-color-primary {
+        background-color: var(--color-primary);
+    }
+
+    .dark .gm-control-active {
+        background-color: var(--color-gray-white-700) !important;
+        color: var(--color-gray-white-200) !important;
+    }
+
+    .dark .gm-style-mtc button {
+        background-color: var(--color-gray-white-700) !important;
+        color: var(--color-gray-white-200) !important;
+    }
+
+    .dark app-page-profile .p-tabpanels {
+        background-color: transparent;
+    }
+
+    .dark app-change-password input {
+        background-color: var(--color-gray-white-800);
+        border: none !important;
+        color: var(--color-gray-white-200);
+    }
+
+    .dark app-user-profile-form button,
+    .dark app-user-profile-form button {
+        background-color: var(--color-gray-white-800);
+        border: none !important;
+        color: var(--color-gray-white-200);
+    }
+
+    .dark body {
+        background-color: var(--color-gray-white-800);
+    }
+
+    @media (min-width: 1024px) {
+        .dark .table-container {
+            background-color: var(--color-gray-white-900);
+            border-radius: 1rem;
+            margin-top: 0.8rem;
+        }
+    }
+
+    @media (max-width: 1023px) {
+        .dark .items-container {
+            background-color: var(--color-gray-white-900);
+            /* border-color: var(--color-gray-white-400); */
+            border: none;
+        }
+    }
+}

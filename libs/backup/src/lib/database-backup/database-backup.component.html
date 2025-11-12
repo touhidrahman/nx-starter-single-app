@@ -1,0 +1,52 @@
+<div class="items-container mt-4 hidden lg:block">
+    @if (isLoading()) {
+        <div class="flex items-center justify-center py-8">
+            <i
+                class="pi pi-spin pi-spinner"
+                style="font-size: 2rem; color: green"></i>
+        </div>
+    } @else if (databaseBackups().length) {
+        <p-table
+            [value]="databaseBackups()"
+            [paginator]="false"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [globalFilterFields]="['name', 'defendant', 'courtId', 'status']"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            [lazy]="true">
+            <ng-template #header>
+                <tr>
+                    <th style="width: 30%">Name</th>
+                    <th style="width: 25%">Size</th>
+                    <th style="width: 25%">Date</th>
+                    <th style="width: 15%" class="text-center">Actions</th>
+                </tr>
+            </ng-template>
+
+            <ng-template #body let-backup>
+                <tr class="align-middle hover:bg-[#eaffeaa0]">
+                    <td class="align-middle">
+                        {{ backup.filename }}
+                    </td>
+                    <td class="align-middle break-words whitespace-normal">
+                        {{ backup.size | fileSize: 'mb' }}
+                    </td>
+                    <td class="align-middle break-words whitespace-normal">
+                        {{ backup.lastModified | date: 'medium' }}
+                    </td>
+                    <td class="text-center align-middle">
+                        <p-button
+                            [loading]="isDownloading()"
+                            [disabled]="isDownloading()"
+                            (click)="downloadBackup(backup.filename)"
+                            icon="pi pi-download"
+                            size="small"
+                            [rounded]="true"
+                            [text]="true" />
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    } @else {
+        <lib-no-data [noDataMessage]="'No Backups fund'" />
+    }
+</div>

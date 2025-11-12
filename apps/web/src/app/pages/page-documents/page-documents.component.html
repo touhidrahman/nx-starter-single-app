@@ -1,0 +1,101 @@
+<h1 class="primary-text text-4xl font-bold">Documents</h1>
+
+<div class="mt-4 flex items-center justify-between gap-3 sm:flex-row">
+    <div class="flex items-center justify-start gap-2">
+        <div class="relative w-full">
+            <i
+                class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 transform text-gray-400"></i>
+            <input
+                type="text"
+                pInputText
+                size="small"
+                placeholder="Search by case name"
+                class="search-field w-full pl-10"
+                (input)="onSearch($event)" />
+        </div>
+    </div>
+    <div (click)="toggleFilter()">
+        <lib-document-filter></lib-document-filter>
+    </div>
+</div>
+
+<div>
+    <!-- Documents List -->
+    @let documents = documentStateService.select('documents') | async;
+    @let loading = documentStateService.select('loading') | async;
+
+    @if (loading) {
+        <div class="py-4 text-center">
+            <i
+                class="pi pi-spin pi-spinner"
+                style="font-size: 2rem; color: green"></i>
+            <p>Loading documents...</p>
+        </div>
+    } @else if (documents && documents.length > 0) {
+        <div class="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4">
+            @for (doc of documents; track $index) {
+                <div
+                    pTooltip="{{ doc?.filename }}"
+                    tooltipPosition="top"
+                    class="bg-color-container flex items-center gap-3 rounded-md border border-transparent px-3 transition hover:border-gray-200 hover:shadow-md md:gap-0">
+                    <!-- Preview Section -->
+                    <div
+                        (click)="openDocumentModal(doc.key)"
+                        class="overflow-hidden p-2">
+                        @if (doc.filename | isImage) {
+                            <div class="p-0 text-center md:p-4">
+                                <img
+                                    src="assets/icons/img-icon.png"
+                                    alt="Document preview"
+                                    class="h-32 w-28 cursor-pointer object-contain md:mt-4 md:h-32 md:w-32"
+                                    onerror="this.src='/assets/images/default-preview.png'" />
+                            </div>
+                        } @else {
+                            <div class="p-0 text-center md:p-4">
+                                <img
+                                    [src]="getFileIcon(doc.filename)"
+                                    alt="File type icon"
+                                    class="h-32 w-28 cursor-pointer object-contain md:w-32" />
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Filename and Actions -->
+                    <div class="self-center">
+                        <div class="mt-auto mb-3 md:mb-0">
+                            <a
+                                class="primary-text line-clamp-1 cursor-pointer text-sm font-semibold text-gray-700/80 hover:text-emerald-500 md:text-base"
+                                (click)="openDocumentModal(doc.key)">
+                                {{ doc.filename | textSlice: 25 }}
+                            </a>
+                        </div>
+                        <div class="mt-1 truncate">
+                            <p
+                                class="secondary-text block text-xs text-gray-500 md:text-sm">
+                                Case
+                            </p>
+
+                            <p
+                                class="-mt-0.50 secondary-text-2 text-sm font-semibold text-gray-700/80 md:text-base">
+                                {{ doc.caseTitle | textSlice: 25 }}
+                            </p>
+                        </div>
+                        <div class="mt-1 truncate">
+                            <p
+                                class="secondary-text block text-xs text-gray-500 md:text-sm">
+                                Case no
+                            </p>
+
+                            <p
+                                class="-mt-0.50 secondary-text-2 text-sm font-semibold text-gray-700/80 md:text-base">
+                                {{ doc.caseNumber | textSlice: 25 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    } @else {
+        <lib-no-data class="mt-10" [noDataMessage]="'No documents found'" />
+    }
+</div>

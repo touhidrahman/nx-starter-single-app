@@ -1,0 +1,39 @@
+<div class="flex h-full flex-col">
+    <!-- Form content that can grow and scroll if needed -->
+    <div class="flex-grow">
+        <form
+            [formGroup]="feedbackFormService.form"
+            class="flex h-full flex-col">
+            <div class="mb-4">
+                <label class="mb-2 block">Status</label>
+                <p-select
+                    appendTo="body"
+                    [overlayOptions]="{ autoZIndex: true }"
+                    formControlName="status"
+                    [options]="statusOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Select Status"
+                    class="w-full">
+                </p-select>
+            </div>
+            <div class="flex-grow"></div>
+            <div class="flex justify-end gap-2 pt-4">
+                <p-button
+                    label="Cancel"
+                    size="small"
+                    [rounded]="true"
+                    severity="secondary"
+                    styleClass="rounded-sm"
+                    (click)="close()" />
+                <p-button
+                    label="Save"
+                    styleClass="rounded-sm"
+                    size="small"
+                    [rounded]="true"
+                    severity="success"
+                    (click)="updateFeedbackStatus()" />
+            </div>
+        </form>
+    </div>
+</div>

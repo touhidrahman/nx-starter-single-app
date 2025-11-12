@@ -1,0 +1,119 @@
+@layer components {
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        @apply h-2.5 w-2.5;
+    }
+
+    /* * {
+        scrollbar-width: thin;
+        scrollbar-color: #9fe59c #f0efef;
+    } */
+
+    /* Button Styles */
+    .btn-fill {
+        @apply border-primary-500 bg-primary-500 hover:bg-primary-600 rounded border px-4 py-1.5 text-base text-white transition-all duration-300;
+    }
+
+    /* Responsive Container */
+    .container {
+        @apply mx-auto w-full px-4;
+
+        /* @screen md {
+            @apply px-16;
+        } */
+    }
+
+    ::ng-deep .p-datatable {
+        border-radius: 0.475rem; /* equivalent to rounded-md */
+        overflow: hidden;
+    }
+
+    /*Customize Button*/
+    .btn-outline {
+        @apply bg-lightGreen border border-gray-300 text-gray-700 hover:bg-green-100;
+    }
+
+    /* Active State Styles */
+    .active {
+        @apply bg-secondary text-white hover:bg-green-700 dark:hover:bg-[#4b4b4b];
+    }
+
+    .active .icon-wrapper {
+        background-color: rgb(208, 255, 204);
+        border-radius: 10%;
+        color: black !important;
+    }
+
+    .active svg path {
+        @apply fill-white;
+    }
+
+    /* Form Input */
+    .input {
+        @apply focus:border-primary-500 focus:ring-primary-200 h-10 w-full rounded-lg border border-gray-200 transition-colors focus:ring-2;
+    }
+
+    .mobile-card {
+        @apply bg-white rounded-xl p-4 w-full;
+    }
+
+    .mobile-card:hover {
+        @apply shadow-sm;
+    }
+
+    .items-container {
+        @apply rounded-2xl bg-white p-4;
+    }
+
+    /* Card Styles */
+    .card {
+        @apply rounded-md bg-white shadow-md;
+    }
+
+    .table-card {
+        @apply lg:rounded-md lg:bg-white lg:shadow-md;
+    }
+
+    .card-border {
+        @apply border border-[var(--color-secondary)];
+    }
+
+    .card-header-text {
+        color: #006616;
+    }
+
+    .card-value {
+        color: #334155;
+    }
+
+    .text-gray-800 {
+        color: #242424;
+    }
+    .text-gray-500 {
+        color: #838383;
+    }
+
+    .badge {
+        @apply text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm;
+    }
+
+    .badge-green {
+        @apply inline-flex items-center rounded-3xl bg-green-400/10 px-2 py-1 text-xs font-medium text-green-800 inset-ring inset-ring-green-500/20;
+    }
+
+    .required {
+        @apply after:content-['*'] after:text-red-500 after:ml-1;
+    }
+
+    .header-class {
+        padding-top: var(--status-bar-height);
+        height: calc(62px + var(--status-bar-height));
+    }
+
+    .p-tooltip .p-tooltip-text {
+        background-color: #ffff;
+        color: #334155;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+}

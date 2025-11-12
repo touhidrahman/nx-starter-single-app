@@ -1,0 +1,84 @@
+<div
+    class="animated-green-bg flex items-center justify-center overflow-y-auto py-6 md:px-4">
+    <div
+        class="mx-4 rounded-2xl bg-white p-6 shadow-md md:mx-auto md:min-w-2xl">
+        <app-auth-page-header
+            class="mb-1"
+            [title]="'Register'"
+            [subtitle]="'Have an account'"
+            [routerLink]="'/login'"
+            [routerLinkText]="'Login here'" />
+
+        <div [formGroup]="signUpForm" class="flex justify-center">
+            <p-stepper [(value)]="activeStep" class="w-full">
+                <p-step-list>
+                    <p-step [value]="1">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback"
+                            let-value="value">
+                            <app-stepper-label-icon
+                                [activeStep]="activeStep"
+                                [value]="1"
+                                label="Basic Info"
+                                icon="pi pi-user" />
+                        </ng-template>
+                    </p-step>
+                    <p-step [value]="2">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback"
+                            let-value="value">
+                            <app-stepper-label-icon
+                                [activeStep]="activeStep"
+                                [value]="2"
+                                label="Details"
+                                icon="pi pi-id-card" />
+                        </ng-template>
+                    </p-step>
+                </p-step-list>
+
+                @if (errors().length) {
+                    <div
+                        class="mb-4 min-h-8 rounded-lg border border-red-300 bg-red-50 p-4 text-red-800">
+                        @for (error of errors(); track $index) {
+                            <small class="text-sm font-medium">{{
+                                error
+                            }}</small>
+                        }
+                    </div>
+                }
+
+                <p-step-panels class="w-full">
+                    <p-step-panel [value]="1">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback">
+                            <app-signup-step-type
+                                [signUpForm]="signUpForm"
+                                [groupTypes]="groupTypes"
+                                (next)="activateCallback(2)" />
+                        </ng-template>
+                    </p-step-panel>
+
+                    <p-step-panel [value]="2">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback">
+                            <app-sign-up-step-details
+                                [isLoading]="isLoading()"
+                                (register)="register()"
+                                [isBackButtonVisible]="isBackButtonVisible()"
+                                [registrationBy]="registrationBy"
+                                (back)="activateCallback(1)" />
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-panels>
+            </p-stepper>
+        </div>
+
+        <div class="mx-auto mt-6 flex max-w-[150px] justify-center">
+            <app-support-whatsapp />
+        </div>
+    </div>
+</div>

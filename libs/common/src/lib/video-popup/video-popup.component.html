@@ -1,0 +1,31 @@
+<div
+    (click)="showVideoPopup = true"
+    class="mt-4 flex w-fit cursor-pointer items-center gap-1 rounded-md border border-gray-300 bg-gray-200 px-2 py-1 text-gray-600 shadow-sm">
+    <i style="font-size: 2rem" class="pi pi-youtube text-red-700"></i>
+    <div>
+        <h1 class="text-xs">{{ buttonSubText }}</h1>
+        <h1 class="-mt-2">{{ buttonText }}</h1>
+    </div>
+</div>
+
+@if (showVideoPopup) {
+    <div
+        class="bg-opacity-80 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs">
+        <div
+            class="relative w-full max-w-4xl rounded-sm bg-white p-1 shadow-lg">
+            <button
+                (click)="showVideoPopup = false"
+                class="absolute -top-10 -right-5 cursor-pointer text-5xl text-gray-700 hover:text-gray-600">
+                &times;
+            </button>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe
+                    class="h-[250px] w-full md:h-[500px]"
+                    [src]="sanitizedVideoUrl"
+                    frameborder="0"
+                    allowfullscreen
+                    playsinline></iframe>
+            </div>
+        </div>
+    </div>
+}

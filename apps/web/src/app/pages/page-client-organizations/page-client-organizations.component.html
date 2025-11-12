@@ -1,0 +1,165 @@
+<h2 class="primary-text-2 mb-6 text-3xl font-extrabold text-gray-800">
+    My Lawyers
+</h2>
+
+@if (isLoading()) {
+    <lib-app-loader [loadingMessage]="'Loading...'" />
+} @else if (groupCases().length > 0) {
+    <div class="grid gap-4 md:gap-6">
+        @for (group of groupCases(); track group.organizationName) {
+            <div class="items-container overflow-hidden">
+                <!-- Organization Summary -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="bg-color-main flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
+                            <span
+                                class="secondary-text text-lg font-semibold text-gray-600">
+                                {{
+                                    group.organizationName
+                                        .charAt(0)
+                                        .toUpperCase()
+                                }}
+                            </span>
+                        </div>
+                        <div>
+                            <h3
+                                class="secondary-text-2 text-lg font-semibold text-gray-700/80 capitalize md:text-xl lg:min-w-96">
+                                {{ group.organizationName }}
+                            </h3>
+                            <div
+                                class="mt-1 flex items-center gap-4 text-xs text-gray-600 lg:hidden">
+                                @if (group.email) {
+                                    <span
+                                        class="secondary-text-2 flex items-center gap-1">
+                                        <i
+                                            class="pi pi-envelope secondary-text-2 text-xs"></i>
+                                        {{ group.email }}
+                                    </span>
+                                }
+                                @if (group.address) {
+                                    <span
+                                        class="secondary-text-2 flex items-center gap-1">
+                                        <i
+                                            class="pi pi-map-marker secondary-text-2 text-xs"></i>
+                                        {{ group.address }}
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="hidden items-center justify-start gap-6 text-gray-600 lg:flex">
+                        @if (group.email) {
+                            <span
+                                class="secondary-text-2 flex items-center gap-1">
+                                <i class="pi pi-envelope secondary-text-2"></i>
+                                {{ group.email }}
+                            </span>
+                        }
+                        @if (group.address) {
+                            <span
+                                class="secondary-text-2 flex items-center gap-1">
+                                <i
+                                    class="pi pi-map-marker secondary-text-2"></i>
+                                {{ group.address }}
+                            </span>
+                        }
+                    </div>
+
+                    <div class="flex items-center gap-4 md:gap-6">
+                        <div class="text-right">
+                            <div
+                                class="primary-text-4 text-2xl font-bold text-green-600">
+                                {{ group.cases.length }}
+                            </div>
+                            <div class="secondary-text text-xs text-gray-500">
+                                Cases
+                            </div>
+                        </div>
+                        <p-button
+                            [rounded]="true"
+                            severity="secondary"
+                            size="small"
+                            variant="outlined"
+                            class="bg-color-main flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-colors hover:bg-green-100 hover:text-green-600 md:h-full md:w-full"
+                            (click)="onToggleGroup(group.organizationName)">
+                            <span class="secondary-text hidden md:block"
+                                >See Cases</span
+                            >
+                            <i
+                                class="pi secondary-text text-sm"
+                                [class.pi-chevron-down]="
+                                    expandedGroupName() !==
+                                    group.organizationName
+                                "
+                                [class.pi-chevron-up]="
+                                    expandedGroupName() ===
+                                    group.organizationName
+                                ">
+                            </i>
+                        </p-button>
+                    </div>
+                </div>
+
+                <!-- Cases List -->
+                @if (expandedGroupName() === group.organizationName) {
+                    <div
+                        class="border-gray bg-gray-white-550 mt-2 rounded-lg border-t border-gray-100 bg-gray-50 p-2 md:p-4">
+                        <div class="mb-3 flex items-center justify-between">
+                            <h4
+                                class="secondary-text font-medium text-gray-600">
+                                Followed Cases
+                            </h4>
+                            <span class="secondary-text text-sm text-gray-500"
+                                >{{ group.cases.length }} cases</span
+                            >
+                        </div>
+                        <div class="grid gap-2">
+                            @for (case of group.cases; track case.id) {
+                                <div
+                                    class="group border-gray bg-color-container flex cursor-pointer items-start justify-between rounded-lg border border-gray-100 bg-white p-2 transition-colors hover:border-green-300 md:items-center"
+                                    (click)="goToFollowedCase(case.id)">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-2 w-2 rounded-full bg-green-500"></div>
+                                        <div>
+                                            <div
+                                                class="text-normal secondary-text font-semibold text-gray-800/70 transition-colors group-hover:text-green-700 md:text-lg">
+                                                {{
+                                                    case.caseTitle ||
+                                                        'Untitled Case'
+                                                }}
+                                            </div>
+                                            <div
+                                                class="secondary-text text-sm text-gray-600">
+                                                <b>Case No :</b>
+                                                {{ case.number }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (case.caseType) {
+                                        <div
+                                            class="rounded-full px-2 py-1 text-xs font-semibold capitalize"
+                                            [ngClass]="{
+                                                'bg-green-700 text-green-50':
+                                                    case.caseType === 'civil',
+                                                'bg-red-800 text-red-50':
+                                                    case.caseType ===
+                                                    'criminal',
+                                            }">
+                                            {{ case.caseType }}
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+} @else {
+    <lib-no-data [noDataMessage]="'No followed organizations found'" />
+}

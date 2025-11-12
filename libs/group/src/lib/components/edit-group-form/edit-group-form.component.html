@@ -1,0 +1,115 @@
+<div styleClass="border-none rounded-none shadow-none">
+    <form [formGroup]="groupFormService.form">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Group Name</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="name" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Group Type</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="type"
+                    value="client"
+                    readonly />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Email</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="email"
+                    formControlName="email" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Address</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="address" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Phone</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="phone" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Post Code</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="postCode" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >City</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="city" />
+            </div>
+
+            <div>
+                <label for="" class="mb-2 block font-semibold text-gray-700"
+                    >Country</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="country" />
+            </div>
+
+            <div>
+                <label class="mb-2 block font-semibold text-gray-700"
+                    >State</label
+                >
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    formControlName="state" />
+            </div>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <p-button
+                [loading]="isLoading()"
+                [disabled]="isLoading() || groupFormService.form.invalid"
+                [label]="'Update'"
+                (onClick)="onSubmit($event)">
+            </p-button>
+        </div>
+    </form>
+</div>

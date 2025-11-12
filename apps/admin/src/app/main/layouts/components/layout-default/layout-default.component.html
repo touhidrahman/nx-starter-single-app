@@ -1,0 +1,29 @@
+<div class="flex">
+    <!-- Sidebar -->
+    <div
+        [ngClass]="{
+            'w-20': isSidebarCollapsed,
+            'w-64': !isSidebarCollapsed,
+        }"
+        class="fixed top-0 left-0 z-50 h-screen overflow-y-auto bg-white text-gray-100 shadow-md transition-all duration-300">
+        <app-sidebar-default
+            [isCollapsed]="isSidebarCollapsed"></app-sidebar-default>
+    </div>
+
+    <!-- Main Content Area -->
+    <div
+        [ngClass]="{
+            'ml-20': isSidebarCollapsed,
+            'ml-64': !isSidebarCollapsed,
+        }"
+        class="flex-1">
+        <app-header-default
+            (sidebarToggle)="toggleSidebar()"
+            class="sticky top-0 z-50"></app-header-default>
+
+        <main
+            class="min-h-screen bg-gradient-to-r from-emerald-50 to-gray-100 p-4">
+            <ng-content></ng-content>
+        </main>
+    </div>
+</div>

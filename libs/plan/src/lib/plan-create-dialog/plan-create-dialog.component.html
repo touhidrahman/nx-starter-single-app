@@ -1,0 +1,151 @@
+<form [formGroup]="planFromService.form">
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Name</label>
+                <input pInputText formControlName="name" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label>Description</label>
+                <input pInputText formControlName="description" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Monthly price</label>
+                <p-inputNumber formControlName="monthlyPrice" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Yearly price</label>
+                <p-inputNumber formControlName="yearlyPrice" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label>Discount price</label>
+                <p-inputNumber formControlName="discountPrice" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label>Currency</label>
+                <input pInputText formControlName="currency" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex w-full flex-col gap-2">
+                <label>Discount Period Start</label>
+                <p-datePicker
+                    appendTo="body"
+                    class=""
+                    formControlName="discountPeriodStart" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-8">
+            <div class="flex flex-col gap-2">
+                <label>Discount Period End</label>
+                <p-datePicker
+                    appendTo="body"
+                    formControlName="discountPeriodEnd" />
+            </div>
+        </div>
+
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label>Active features</label>
+                <textarea
+                    pInputTextarea
+                    formControlName="activeFeatures"
+                    autoResize="true"
+                    rows="3"
+                    class="p-inputtext-sm"></textarea>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label>Inactive features</label>
+                <textarea
+                    pInputTextarea
+                    formControlName="inactiveFeatures"
+                    autoResize="true"
+                    rows="3"
+                    class="p-inputtext-sm"></textarea>
+            </div>
+        </div>
+        <div class="col-span-12">
+            <div class="flex flex-col gap-2">
+                <label class="required">
+                    Maximum causelist enrollment number
+                </label>
+                <p-inputnumber formControlName="maxCauselistEnrollment" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Storage Limit </label>
+                <p-inputnumber formControlName="storageLimit" suffix="MB" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Users Limit</label>
+                <p-inputNumber formControlName="maxUsers" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Case Limit</label>
+                <p-inputNumber formControlName="maxCases" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Monthly SMS Limit</label>
+                <p-inputNumber formControlName="monthlySmsLimit" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label class="required">Monthly AI Credits</label>
+                <p-inputNumber formControlName="monthlyAiCredits" />
+            </div>
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label>Trial period (Days)</label>
+                <p-inputNumber formControlName="trialPeriodDays" />
+            </div>
+        </div>
+
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex items-center gap-3">
+                <div class="field-checkbox">
+                    <p-radiobutton
+                        inputId="active"
+                        [value]="true"
+                        formControlName="isActive" />
+                    <label class="ml-2">Active Plan</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-radiobutton
+                        inputId="inactive"
+                        [value]="false"
+                        formControlName="isActive" />
+                    <label class="ml-2">Inactive Plan</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <p-button
+            [loading]="isLoading()"
+            [disabled]="isLoading() || planFromService.form.invalid"
+            label="{{ this.config.data?.plan ? 'Update' : 'Save' }}"
+            (onClick)="onSubmit($event)" />
+    </div>
+</form>

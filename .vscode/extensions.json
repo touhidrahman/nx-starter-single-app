@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "nrwl.angular-console",
+        "imgildev.vscode-auto-barrel",
+        "dbaeumer.vscode-eslint",
+        "biomejs.biome",
+        "esbenp.prettier-vscode",
+        "kvart714.nx-filter"
+    ]
+}

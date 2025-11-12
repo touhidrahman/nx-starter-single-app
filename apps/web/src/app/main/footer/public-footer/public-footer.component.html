@@ -1,0 +1,118 @@
+<footer
+    class="bg-slate-950 text-gray-200"
+    role="contentinfo"
+    aria-label="Footer Section">
+    <div class="mx-4 md:mx-16">
+        <div class="p-4 py-6 lg:py-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a
+                        href="/"
+                        class="flex items-center"
+                        aria-label="Go to MyApp homepage">
+                        <img
+                            src="../../../../assets/logo/logo1.png"
+                            class="me-3 h-8"
+                            alt="MyApp logo"
+                            loading="lazy" />
+                    </a>
+                    <!-- <div class="mt-4 md:mt-12">
+                        <h1>Download Our Mobile App</h1>
+                        <div class="mt-2 flex items-center gap-2">
+                            <img
+                                src="../../../../assets/images/hero/playStore.png"
+                                class="me-3 h-8"
+                                alt="seresta" />
+
+                            <img
+                                src="../../../../assets/images/hero/appStore.png"
+                                class="me-3 h-8"
+                                alt="seresta" />
+                        </div>
+                    </div> -->
+                </div>
+                <nav
+                    class="grid grid-cols-3 gap-8 md:flex md:grid-cols-6 md:justify-between">
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">
+                            Features
+                        </h2>
+                        <ul class="text-sm">
+                            <li class="mb-4">
+                                <a
+                                    href="/signup"
+                                    aria-label="Try MyApp"
+                                    class="text-greenc4 hover:underline"
+                                    >Try MyApp</a
+                                >
+                            </li>
+                            <!--                            <li class="mb-4">-->
+                            <!--                                <a href="/blogs" class="hover:underline"-->
+                            <!--                                    >Blogs</a-->
+                            <!--                                >-->
+                            <!--                            </li>-->
+                            <li>
+                                <a
+                                    routerLink="/privacy-policy"
+                                    aria-label="Read MyApp Privacy Policy"
+                                    class="hover:underline"
+                                    >Privacy Policy</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">
+                            Contact Us
+                        </h2>
+                        <ul class="text-sm">
+                            <li class="mb-4 flex items-center">
+                                <i class="pi pi-phone mr-2" aria-hidden="true">
+                                </i>
+                                <h1>000-000-0000</h1>
+                            </li>
+                            <li class="mb-4 flex items-center">
+                                <i
+                                    class="pi pi-envelope mr-2"
+                                    aria-hidden="true">
+                                </i>
+                                <h1>info&#64;touhidrahman.me</h1>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <hr class="my-6 border-white sm:mx-auto lg:my-8" />
+            <div class="justify-between sm:items-center md:flex">
+                <span class="text-sm sm:text-center"
+                    >©{{ year }}
+                    <a
+                        href="/"
+                        class="hover:underline"
+                        aria-label="Go to MyApp homepage"
+                        >MyApp</a
+                    >. All Rights Reserved.
+                </span>
+                <span class="text-sm">Version: {{ version() }}</span>
+                <div
+                    class="mt-4 flex sm:mt-0 sm:justify-center"
+                    aria-label="Social Media Links">
+                    <a
+                        href="https://www.facebook.com/"
+                        class="hover:scale-150 hover:transition-all hover:duration-300"
+                        aria-label="MyApp Facebook page">
+                        <i class="pi pi-facebook text-xl"></i>
+                    </a>
+
+                    <a
+                        href="https://www.linkedin.com/company/"
+                        class="ms-5 hover:scale-150 hover:transition-all hover:duration-300"
+                        aria-label="MyApp LinkedIn page">
+                        <i class="pi pi-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

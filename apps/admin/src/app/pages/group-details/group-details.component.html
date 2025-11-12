@@ -1,0 +1,42 @@
+@let group = selectedGroup();
+
+@if (group) {
+    <div class="mb-4 flex items-center justify-between gap-5">
+        <div class="flex items-center gap-4">
+            <h5 class="text-secondary text-4xl font-semibold">
+                {{ group.name }}
+            </h5>
+            <p-tag severity="success" [value]="group.status" />
+            <p-button
+                [icon]="
+                    !editMode() ? 'pi pi-pen-to-square' : 'pi pi-angle-left'
+                "
+                severity="secondary"
+                rounded="true"
+                (onClick)="editMode.set(!editMode())">
+            </p-button>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <p-button
+                (onClick)="openGroupDeleteModal(group)"
+                severity="danger"
+                size="small"
+                [loading]="loading()"
+                label="Delete"
+                icon="pi pi-trash">
+            </p-button>
+        </div>
+    </div>
+
+    @if (!editMode()) {
+        <app-group-details-card [group]="group"></app-group-details-card>
+        <app-group-subscription [group]="group"></app-group-subscription>
+    } @else {
+        <app-edit-group-form
+            [id]="group.id"
+            [editMode]="editMode()"
+            (editModeChange)="editMode.set($event)">
+        </app-edit-group-form>
+    }
+}

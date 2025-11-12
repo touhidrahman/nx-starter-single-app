@@ -1,0 +1,57 @@
+<div class="mb-4 flex items-center justify-between">
+    <h2 class="text-2xl font-semibold">Cases for this Group</h2>
+</div>
+
+@if (loading()) {
+    <p>Loading cases...</p>
+} @else {
+    @if (cases().length > 0) {
+        <p-table
+            [value]="cases()"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            [responsiveLayout]="'scroll'"
+            class="w-full">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="number">
+                        Case Number <p-sortIcon field="number"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="caseTitle">
+                        Title <p-sortIcon field="caseTitle"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="caseStatus">
+                        Status <p-sortIcon field="caseStatus"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="createdAt">
+                        Created At <p-sortIcon field="createdAt"></p-sortIcon>
+                    </th>
+                    <th>Court</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-caseItem>
+                <tr>
+                    <td>{{ caseItem.number }}</td>
+                    <td class="max-w-80">{{ caseItem.caseTitle }}</td>
+                    <td>{{ caseItem.caseStatus }}</td>
+                    <td>{{ caseItem.createdAt | utcDate: 'mediumDate' }}</td>
+                    <td class="bangla">
+                        {{ caseItem.court?.nameBn || 'N/A' }}
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-center text-gray-500">
+                        No cases found for this group.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    } @else {
+        <p class="text-gray-500">No cases found for this group.</p>
+    }
+}

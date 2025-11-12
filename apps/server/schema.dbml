@@ -1,0 +1,506 @@
+enum status {
+  Active
+  Disabled
+}
+
+enum show_me_as {
+  Busy
+  Available
+}
+
+enum groupStatus {
+  active
+  inactive
+  pending
+}
+
+enum groupType {
+  client
+  vendor
+}
+
+enum invoiceStatus {
+  unpaid
+  partially_paid
+  fully_paid
+  canceled
+}
+
+enum planRenewal {
+  auto
+  manually
+}
+
+enum fileType {
+  image
+  document
+  video
+  audio
+}
+
+enum subscriptionStatus {
+  active
+  inactive
+}
+
+enum subscriptionType {
+  monthly
+  yearly
+}
+
+enum taskStatus {
+  pending
+  in_progress
+  completed
+  overdue
+}
+
+enum userStatus {
+  active
+  inactive
+  banned
+}
+
+table admins {
+  id text [pk, not null]
+  name text
+  email text [not null]
+  password text [not null]
+  status userStatus [not null, default: 'active']
+  is_verified boolean [not null, default: false]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+
+  indexes {
+    email [name: 'adminEmailUniqueIndex', unique]
+  }
+}
+
+table appointments {
+  id text [pk, not null]
+  date "timestamp with time zone" [not null]
+  vendor_user_id text [not null]
+  client_user_id text [not null]
+  start_timestamp "timestamp with time zone" [not null]
+  end_timestamp "timestamp with time zone" [not null]
+  description text
+  notes_for_vendor text
+  notes_for_client text
+  group_id text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table billing {
+  id text [pk, not null]
+  address text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table cases {
+  id text [pk, not null]
+  number text [not null]
+  name text [not null]
+  defendant text [not null]
+  plaintiff_name text [not null]
+  plaintiff_group_id text [not null]
+  group_id text [not null]
+  court text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table chats {
+  id text [pk, not null]
+  subject text [not null]
+  case_id text
+  creator_id text [not null]
+  creator_group_id text [not null]
+  created_at timestamp [default: `now()`]
+}
+
+table chat_participants {
+  chat_id text [not null]
+  user_id text [not null]
+  added_by_user_id text [not null]
+  added_at timestamp [default: `now()`]
+
+  indexes {
+    (chat_id, user_id) [name: 'chats_users', unique]
+  }
+}
+
+table chat_reads {
+  user_id text [not null]
+  chat_id text [not null]
+  custom_chat_name text
+  last_read_at timestamp
+  last_read_message_id text
+  unread_count integer [default: 1]
+  marked_as_unread boolean [default: false]
+  marked_as_unread_at timestamp
+
+  indexes {
+    (user_id, chat_id) [name: 'chats_readers', unique]
+  }
+}
+
+table claims {
+  id text [pk, not null]
+  description text
+}
+
+table courts {
+  id text [pk, not null]
+  name text [not null]
+  address_1 text [not null]
+  address_2 text
+  post_code text [not null]
+  city text [not null]
+  country text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table document_sharing {
+  id text [pk, not null]
+  sender_group_id text [not null]
+  receiver_group_id text [not null]
+  document_id text [not null]
+  sender_user_id text [not null]
+  receiver_user_id text
+  expiry_date "timestamp with time zone" [not null]
+}
+
+table documents {
+  id text [pk, not null]
+  filename text [not null]
+  url text [not null]
+  extension text [not null]
+  mimetype text [not null]
+  type fileType [not null]
+  size integer [not null]
+  folder text
+  description text
+  group_id text [not null]
+  user_id text
+  entity_id text
+  entity_name text
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table events {
+  id text [pk, not null]
+  date "timestamp with time zone" [not null]
+  user_id text [not null]
+  start_timestamp "timestamp with time zone" [not null]
+  end_timestamp "timestamp with time zone" [not null]
+  description text
+  show_me_as show_me_as [not null]
+  whole_day boolean [not null]
+  group_id text [not null]
+  status status [not null]
+  case_id text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table groups {
+  id text [pk, not null]
+  type groupType [not null, default: 'client']
+  status groupStatus [not null, default: 'pending']
+  name text [not null]
+  email text
+  phone text
+  address text
+  city text
+  state text
+  country text
+  post_code text
+  owner_id text [not null]
+  is_verified boolean [not null, default: false]
+  verified_on "timestamp with time zone"
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table invites {
+  id text [pk, not null]
+  email text [not null]
+  group_id text [not null]
+  role_id text [not null]
+  invited_by text [not null]
+  invited_on "timestamp with time zone" [not null, default: `now()`]
+  accepted_on "timestamp with time zone"
+  status text [not null, default: 'pending']
+}
+
+table invoice_items {
+  id text [pk, not null]
+  invoice_id text [not null]
+  service_code text [not null]
+  service_rendered text [not null]
+  unit_price numeric [not null]
+  qty integer [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table invoices {
+  id text [pk, not null]
+  invoice_code text [not null, unique]
+  created_at "timestamp with time zone" [default: `now()`]
+  due_date "timestamp with time zone" [not null]
+  status invoiceStatus [not null, default: 'unpaid']
+  total_due_amount numeric [not null]
+  remaining_due_amount numeric [not null]
+  updated_at "timestamp with time zone"
+}
+
+table lawyers {
+  id text [pk, not null]
+  name text [not null]
+  institute_name text [not null]
+  practice_start_year integer
+  lawyer_type text [not null]
+  phone_number text
+  email text
+  profile_image_url text
+  cover_image_url text
+  description text
+  rating "double precision" [default: 0]
+  address text
+  city text
+  district text
+  post_code text
+  website text
+  business_hours text
+  sponsored boolean [default: false]
+  sponsored_until text
+  interested_area text
+  institution_id text
+  latitude text
+  longitude text
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table messages {
+  id text [pk, not null]
+  chat_id text [not null]
+  body text [not null]
+  title text
+  creator_id text [not null]
+  created_at timestamp [default: `now()`]
+}
+
+table message_reads {
+  user_id text [not null]
+  message_id text [not null]
+  read_at timestamp [default: `now()`]
+
+  indexes {
+    (user_id, message_id) [name: 'messages_reads_user', unique]
+  }
+}
+
+table notes {
+  id text [pk, not null]
+  title text [not null]
+  content text [not null]
+  case_id text [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table payments {
+  id text [pk, not null]
+  invoice_id text [not null]
+  amount_paid integer [not null]
+  date "timestamp with time zone" [not null]
+  is_fully_paid boolean [not null, default: false]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table permissions {
+  role_id text [not null]
+  claim_id text [not null]
+  access boolean [not null, default: false]
+
+  indexes {
+    (role_id, claim_id) [pk]
+  }
+}
+
+table plan {
+  id text [pk, not null]
+  name text [not null]
+  description text
+  monthly_price integer [not null]
+  yearly_price integer
+  discount_price integer
+  currency text [default: 'BDT']
+  is_active boolean [default: true]
+  active_features text[]
+  inactive_features text[]
+  tier text
+  trial_period_days integer
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+table roles {
+  id text [pk, not null]
+  name text [not null]
+  description text [not null]
+  group_id text [not null]
+}
+
+table storage {
+  id text [pk, not null]
+  filename text
+  url text
+  type fileType [default: 'document']
+  extension text
+  size integer [default: 0]
+  uploaded_by text
+  entity_id text
+  entity_name text
+  expiry_date timestamp
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table subscriptions {
+  id text [pk, not null]
+  group_id text [not null]
+  plan_id text [not null]
+  start_date "timestamp with time zone"
+  end_date "timestamp with time zone"
+  is_trial boolean [not null, default: false]
+  auto_renewal boolean [not null, default: false]
+  payment_method text
+  transaction_id text
+  status subscriptionStatus [not null, default: 'active']
+  status_change_date "timestamp with time zone"
+  subscription_type subscriptionType [not null]
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table tasks {
+  id text [pk, not null]
+  group_id text [not null]
+  todo text [not null]
+  assigned_user_id text
+  due_date "timestamp with time zone" [not null]
+  status taskStatus [not null, default: 'pending']
+  note text
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+}
+
+table users_groups {
+  user_id text [not null]
+  group_id text [not null]
+  role_id text
+
+  indexes {
+    (user_id, group_id) [pk]
+  }
+}
+
+table users {
+  id text [pk, not null]
+  first_name text [not null]
+  last_name text [not null]
+  cover_photo text
+  profile_photo text
+  email text [not null]
+  password text [not null]
+  phone text
+  address text
+  city text
+  state text
+  country text
+  post_code text
+  url text
+  bio text
+  last_login "timestamp with time zone"
+  status userStatus [not null, default: 'active']
+  is_verified boolean [not null, default: false]
+  default_group_id text
+  created_at "timestamp with time zone" [default: `now()`]
+  updated_at "timestamp with time zone"
+
+  indexes {
+    email [name: 'userEmailUniqueIndex', unique]
+  }
+}
+
+ref: appointments.client_user_id - users.id
+
+ref: appointments.group_id > groups.id
+
+ref: cases.group_id > groups.id
+
+ref: chats.creator_id > users.id
+
+ref: chat_participants.chat_id > chats.id
+
+ref: chat_participants.added_by_user_id > users.id
+
+ref: chat_reads.user_id > users.id
+
+ref: chat_reads.chat_id - chats.id
+
+ref: chat_reads.last_read_message_id - messages.id
+
+ref: document_sharing.receiver_group_id > groups.id
+
+ref: document_sharing.document_id - documents.id
+
+ref: document_sharing.receiver_user_id - users.id
+
+ref: documents.group_id > groups.id
+
+ref: documents.user_id > users.id
+
+ref: events.user_id - users.id
+
+ref: events.group_id > groups.id
+
+ref: events.case_id > cases.id
+
+ref: groups.owner_id - users.id
+
+ref: invites.group_id > groups.id
+
+ref: invites.invited_by > users.id
+
+ref: invoice_items.invoice_id > invoices.id
+
+ref: messages.chat_id > chats.id
+
+ref: messages.creator_id > users.id
+
+ref: message_reads.user_id > users.id
+
+ref: message_reads.message_id - messages.id
+
+ref: notes.case_id > cases.id
+
+ref: payments.invoice_id > invoices.id
+
+ref: roles.group_id > groups.id
+
+ref: subscriptions.group_id > groups.id
+
+ref: subscriptions.plan_id - plan.id
+
+ref: tasks.group_id > groups.id
+
+ref: tasks.assigned_user_id - users.id

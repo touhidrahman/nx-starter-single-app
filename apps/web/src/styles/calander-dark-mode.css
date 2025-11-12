@@ -1,0 +1,97 @@
+@layer components {
+    .dark .fc .fc-scrollgrid-liquid {
+        background-color: var(--color-gray-white-450) !important;
+    }
+
+    .dark .fc .fc-button-primary {
+        background-color: var(--color-gray-white-900) !important;
+        border: none !important;
+        color: var(--color-gray-white-200) !important;
+    }
+
+    .dark .fc .fc-button-primary:hover {
+        background-color: var(--color-gray-white-1000) !important;
+        border: none !important;
+        color: var(--color-gray-white-200) !important;
+    }
+
+    .dark .fc .fc-today-button {
+        color: var(--color-gray-white-150) !important;
+    }
+
+    .dark .fc .fc-toolbar-title {
+        color: var(--color-gray-white-150) !important;
+    }
+
+    .dark .fc th {
+        background-color: var(--color-gray-white-400);
+        border-top-left-radius: 11px;
+        border-top-right-radius: 11px;
+    }
+
+    .dark .fc-col-header-cell-cushion {
+        color: var(--color-gray-white-150) !important;
+    }
+
+    .dark .fc-theme-standard td,
+    .fc-theme-standard th {
+        border: 1px solid var(--color-gray-white-250) !important;
+    }
+
+    .dark .fc .fc-daygrid-more-link {
+        color: var(--color-gray-white-150) !important;
+    }
+
+    .dark .fc-theme-standard .fc-popover {
+        background-color: var(--color-gray-white-200) !important;
+        border-radius: 10px !important;
+    }
+
+    .dark .fc-theme-standard .fc-popover-header {
+        background-color: var(--color-gray-white-250) !important;
+        color: var(--color-gray-white-150) !important;
+        border-top-left-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+    }
+
+    .dark .fc .fc-more-popover .fc-popover-body {
+        background-color: var(--color-gray-white-900);
+        border-bottom-left-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
+    }
+
+    .dark .fc-day-today {
+        background: var(--color-gray-white-800) !important;
+    }
+
+    .dark .fc-daygrid-day-number {
+        color: var(--color-gray-white-150);
+    }
+
+    .dark .fc-list-day-cushion {
+        background-color: var(--color-gray-white-400) !important;
+    }
+
+    .dark .fc-theme-standard .fc-list {
+        background-color: var(--color-gray-white-400) !important;
+        border: none !important;
+    }
+
+    .dark .fc-list-event {
+        background-color: var(--color-gray-white-400) !important;
+    }
+
+    .dark tbody tr.fc-list-event:hover {
+        color: var(--color-gray-white-400) !important;
+    }
+
+    /* .dark .fc-daygrid-block-event {
+        background-color: var(--color-gray-white-400) !important;
+        border: none !important;
+        color: var(--color-gray-white-150) !important;
+    } */
+
+    /* .dark .fc-event-title {
+        color: var(--color-gray-white-200) !important;
+    } */
+}

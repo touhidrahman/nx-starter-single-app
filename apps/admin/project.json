@@ -1,0 +1,147 @@
+{
+    "name": "admin",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "app",
+    "sourceRoot": "apps/admin/src",
+    "schematics": {
+        "@schematics/angular:application": {
+            "strict": true
+        },
+        "@schematics/angular:component": {
+            "style": "scss",
+            "skipTests": true,
+            "displayBlock": true,
+            "standalone": true
+        },
+        "@schematics/angular:class": {
+            "skipTests": true
+        },
+        "@schematics/angular:directive": {
+            "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+            "skipTests": true
+        },
+        "@schematics/angular:service": {
+            "skipTests": true
+        }
+    },
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:application",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/apps/admin",
+                "index": "apps/admin/src/index.html",
+                "browser": "apps/admin/src/main.ts",
+                "polyfills": [],
+                "tsConfig": "apps/admin/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                    "apps/admin/src/favicon.ico",
+                    "apps/admin/src/assets",
+                    "apps/admin/src/manifest.webmanifest"
+                ],
+                "styles": [
+                    "apps/admin/src/styles.css"
+                ],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/admin/src/environment/environment.ts",
+                            "with": "apps/admin/src/environment/environment.prod.ts"
+                        }
+                    ],
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "2mb",
+                            "maximumError": "4mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "20kb",
+                            "maximumError": "40kb"
+                        }
+                    ],
+                    "outputHashing": "all",
+                    "serviceWorker": "apps/admin/ngsw-config.json"
+                },
+                "staging": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/admin/src/environment/environment.ts",
+                            "with": "apps/admin/src/environment/environment.staging.ts"
+                        }
+                    ],
+                    "optimization": false,
+                    "sourceMap": true
+                },
+                "development": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "buildTarget": "admin:build:production"
+                },
+                "development": {
+                    "buildTarget": "admin:build:development"
+                }
+            },
+            "defaultConfiguration": "development",
+            "continuous": true
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "admin:build"
+            }
+        },
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "options": {
+                "buildTarget": "admin:build",
+                "port": 4200,
+                "staticFilePath": "dist/apps/admin/browser",
+                "spa": true
+            }
+        }
+    },
+    "generators": {
+        "@schematics/angular:application": {
+            "strict": true
+        },
+        "@schematics/angular:component": {
+            "style": "scss",
+            "skipTests": true,
+            "displayBlock": true,
+            "standalone": true
+        },
+        "@schematics/angular:class": {
+            "skipTests": true
+        },
+        "@schematics/angular:directive": {
+            "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+            "skipTests": true
+        },
+        "@schematics/angular:service": {
+            "skipTests": true
+        }
+    }
+}

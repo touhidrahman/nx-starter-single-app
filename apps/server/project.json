@@ -1,0 +1,71 @@
+{
+    "name": "server",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/server/src",
+    "projectType": "application",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nx/esbuild:esbuild",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "platform": "node",
+                "outputPath": "dist/apps/server",
+                "external": ["*"],
+                "target": "esnext",
+                "format": ["esm", "cjs"],
+                "bundle": false,
+                "main": "apps/server/src/index.ts",
+                "tsConfig": "apps/server/tsconfig.app.json",
+                "assets": [
+                    "apps/server/src/assets",
+                    "apps/server/drizzle.config.ts"
+                ],
+                "generatePackageJson": true,
+                "sourcemap": "linked",
+                "metafile": true,
+                "skipTypeCheck": true,
+                "esbuildOptions": {
+                    "sourcemap": true,
+                    "outExtension": {
+                        ".js": ".js"
+                    }
+                }
+            },
+            "configurations": {
+                "development": {},
+                "production": {
+                    "esbuildOptions": {
+                        "sourcemap": false,
+                        "outExtension": {
+                            ".js": ".js"
+                        }
+                    }
+                }
+            }
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "nodemon",
+                "cwd": "apps/server"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "server:build:development"
+                },
+                "production": {
+                    "buildTarget": "server:build:production"
+                }
+            }
+        },
+        "db-generate": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "pnpm dlx drizzle-kit generate",
+                "cwd": "apps/server"
+            }
+        }
+    }
+}

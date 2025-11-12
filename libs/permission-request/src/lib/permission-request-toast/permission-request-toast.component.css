@@ -1,0 +1,13 @@
+:host {
+    display: block;
+}
+
+:host ::ng-deep .p-button.dark-mode-no {
+    background-color: #f27f46d0;
+    color: #ffffffc8;
+}
+
+:host ::ng-deep .p-button.dark-mode-yes {
+    background-color: #4da475;
+    color: #ffffffc8;
+}

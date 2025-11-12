@@ -1,0 +1,9 @@
+.active-link {
+    color: #059e00;
+    font-weight: bold;
+
+    &::after {
+        width: 85%;
+        background-color: #16a34a;
+    }
+}

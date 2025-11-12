@@ -1,0 +1,46 @@
+<div class="relative inline-block text-left">
+    <p-button
+        label="Filters"
+        styleClass="btn-filter"
+        variant="outlined"
+        icon="pi pi-filter"
+        iconPos="left"
+        (click)="showFilter.set(!showFilter())">
+    </p-button>
+    <!-- //TODO :fix it later -->
+    @if (showFilter()) {
+        <div
+            class="absolute right-0 z-10 mt-3 flex w-max items-center gap-2 rounded-md border border-gray-300 bg-white shadow-lg sm:w-[35rem]">
+            <div class="w-full">
+                <div class="flex items-center justify-between px-4 py-1.5">
+                    <p class="text-gray-600">Filter Audit Logs</p>
+
+                    <p-button
+                        icon="pi pi-times "
+                        [rounded]="true"
+                        [text]="true"
+                        (click)="closeFilter()" />
+                </div>
+
+                <div
+                    class="flex gap-5 border-t-[1px] border-b-[1.5px] px-4 py-4 sm:px-10">
+                    <p-select
+                        [options]="actions()"
+                        [(ngModel)]="selectedAction"
+                        optionLabel="name"
+                        placeholder="Action"
+                        class="w-1/2 sm:w-56" />
+                </div>
+                <div class="flex items-center gap-4 px-4 py-1">
+                    <p-button
+                        label="Clear "
+                        variant="text"
+                        severity="secondary"
+                        (click)="resetFilter()">
+                    </p-button>
+                    <p-button size="small" label="Apply" (click)="onFilter()" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

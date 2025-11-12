@@ -1,0 +1,116 @@
+<nav class="w-full bg-white text-gray-700 shadow-sm">
+    <div class="mx-auto flex flex-wrap items-center justify-between px-4 py-4">
+        <div class="cursor-pointer">
+            <i class="pi pi-bars text-3xl"></i>
+        </div>
+
+        <div class="flex items-center">
+            <button id="profileButton">
+                <img
+                    src="avatar/avater.img"
+                    alt="User image"
+                    (error)="showFallback($event)"
+                    class="h-10 w-10 rounded-full object-cover" />
+                @if (!uiState.imageLoaded) {
+                    <div
+                        class="bg-destructive inline-block h-10 w-10 rounded-full text-xl font-semibold text-white">
+                        <span class="leading-10">RG</span>
+                    </div>
+                }
+            </button>
+        </div>
+
+        @if (uiState.showProfileDropDown) {
+            <div
+                class="absolute top-20 right-4 flex w-56 flex-col gap-3 rounded-md border border-gray-300 bg-white py-4 shadow-md"
+                id="profileDropDown">
+                <button class="flex justify-start px-3 leading-relaxed">
+                    <span>John Doe</span>
+                </button>
+
+                <hr class="opacity-70" />
+
+                <button
+                    class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200"
+                    routerLink="/profile">
+                    <span class="pi pi-user font-medium text-black"></span>
+                    <span>Profile</span>
+                </button>
+
+                <button
+                    class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                    <span class="pi pi-cog font-medium text-black"></span>
+                    <span>Settings</span>
+                </button>
+
+                <button
+                    class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                    <!-- Keyborad icon is missing in primeng -->
+                    <span class="pi pi-users font-medium text-black"></span>
+                    <!-- <lucide-icon name="keyboard" hlmMenuIcon /> -->
+                    <span>Keyboard Shortcuts</span>
+                </button>
+
+                <button
+                    class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                    <span class="pi pi-users font-medium text-black"></span>
+                    <span>Team</span>
+                </button>
+
+                <div class="m-0 w-56 p-0">
+                    <button
+                        class="flex w-full items-center justify-between px-3 leading-relaxed transition-all hover:bg-slate-200"
+                        (click)="
+                            headerUtilService.toggleMoreOptions(
+                                moreOptions,
+                                chevron
+                            )
+                        ">
+                        <span class="flex items-center justify-start gap-2">
+                            <span>
+                                <!-- <lucide-icon
+                                    name="headset"
+                                    hlmMenuIcon
+                                    class="m-0" /> -->
+                                <span
+                                    class="pi pi-headphones font-medium text-black"></span>
+                            </span>
+                            <span>Support</span>
+                        </span>
+                        <span
+                            class="pi pi-chevron-right !text-xs font-medium text-black transition-all duration-400"
+                            #chevron></span>
+                    </button>
+
+                    <div
+                        class="mt-3 h-0 overflow-hidden transition-all duration-400"
+                        #moreOptions>
+                        <button
+                            class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
+                            <span
+                                class="pi pi-envelope font-medium text-black"></span>
+                            <span>Email</span>
+                        </button>
+
+                        <button
+                            class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
+                            <span
+                                class="pi pi-comment font-medium text-black"></span>
+                            <span>Message</span>
+                        </button>
+                        <button
+                            class="flex w-full items-center justify-center px-3 leading-loose transition-all hover:bg-slate-200">
+                            <span>More</span>
+                        </button>
+                    </div>
+                </div>
+                <hr class="opacity-50" />
+                <button
+                    class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                    <span class="pi pi-sign-out font-medium text-black"></span>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        }
+    </div>
+</nav>

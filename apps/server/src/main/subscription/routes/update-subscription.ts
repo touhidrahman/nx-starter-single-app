@@ -1,0 +1,119 @@
+import { createRoute, z } from '@hono/zod-openapi'
+import {
+    BAD_REQUEST,
+    INTERNAL_SERVER_ERROR,
+    NOT_FOUND,
+    OK,
+} from 'stoker/http-status-codes'
+import { jsonContent } from 'stoker/openapi/helpers'
+import { AppRouteHandler } from '../../../core/core.type'
+import { checkToken } from '../../../core/middlewares/check-token.middleware'
+import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
+import { zEmpty } from '../../../core/models/common.schema'
+import { ApiResponse } from '../../../core/utils/api-response.util'
+import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
+import { findGroupById, updateSubscriptionId } from '../../group/group.service'
+import { zUpdateSubscription } from '../subscription.schema'
+import { findById, updateById } from '../subscriptions.service'
+
+export const updateSubscriptionRoute = createRoute({
+    path: '/v1/subscriptions/:id',
+    method: 'patch',
+    tags: ['Subscriptions'],
+    middleware: [checkToken, isAdmin] as const,
+    request: {
+        params: z.object({ id: z.string() }),
+        body: jsonContent(zUpdateSubscription, 'Subscription details'),
+    },
+    responses: {
+        [OK]: ApiResponse(
+            zUpdateSubscription,
+
+            'Subscription updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
+    },
+})
+
+export const updateSubscriptionHandler: AppRouteHandler<
+    typeof updateSubscriptionRoute
+> = async (c) => {
+    const id = c.req.param('id')
+    const body = c.req.valid('json')
+    const groupId = body.groupId ?? ''
+    const { sub } = c.get('jwtPayload')
+
+    try {
+        const subscription = await findById(id)
+        if (!subscription) {
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
+        }
+        const [updatedMessage] = await updateById(id, groupId, body)
+        await saveLog(
+            'subscriptions',
+            id,
+            sub,
+            'update',
+            toJsonSafe(subscription),
+            toJsonSafe(updatedMessage),
+        )
+
+        const findGroup = await findGroupById(groupId)
+        if (!findGroup) {
+            return c.json(
+                {
+                    data: {},
+                    message: 'Not found!',
+                    success: false,
+                },
+                NOT_FOUND,
+            )
+        }
+        const [updatedGroup] = await updateSubscriptionId(
+            groupId,
+            updatedMessage.id,
+        )
+        await saveLog(
+            'subscriptions',
+            id,
+            sub,
+            'update',
+            toJsonSafe(findGroup),
+            toJsonSafe(updatedGroup),
+        )
+        return c.json(
+            {
+                data: updatedMessage,
+                message: 'Subscription updated successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error,
+                },
+                BAD_REQUEST,
+            )
+        }
+        console.error(
+            'Error updating subscription:',
+            error instanceof Error ? error.message : 'Unknown error',
+        )
+        c.var.logger.error(error?.stack ?? error)
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
+    }
+}

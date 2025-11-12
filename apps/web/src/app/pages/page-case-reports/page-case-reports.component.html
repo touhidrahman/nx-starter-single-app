@@ -1,0 +1,45 @@
+<div>
+    <h1 class="text-4xl font-bold">Case Reports</h1>
+</div>
+@let cases = caseListStateService.select('cases') | async;
+
+<div
+    class="my-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+    <div>
+        <p-button
+            styleClass="bg-green3"
+            label="Create Report"
+            icon="pi pi-plus"
+            (onClick)="openCaseReportForm()" />
+    </div>
+    <div class="flex items-center justify-between gap-3 sm:justify-end">
+        <div class="flex items-center justify-start gap-2">
+            <form [formGroup]="caseForm">
+                <p-autocomplete
+                    delay="500"
+                    formControlName="selectedCase"
+                    [showClear]="true"
+                    [suggestions]="cases || []"
+                    (completeMethod)="filterCase($event)"
+                    (onSelect)="onSelect($event)"
+                    (onClear)="onClear()"
+                    field="caseTitle"
+                    styleClass="search-field" />
+            </form>
+            <p-button
+                variant="outlined"
+                styleClass="btn-search"
+                size="large"
+                icon="pi pi-search" />
+        </div>
+        <p-button icon="pi pi-filter" label="Filters" styleClass="btn-filter" />
+    </div>
+</div>
+
+<div class="mt-6">
+    @let caseReports = caseReportListStateService.select('caseReports') | async;
+    <!-- Use the same service -->
+    <p-card>
+        <app-case-report-table [caseReports]="caseReports ?? []" />
+    </p-card>
+</div>

@@ -1,0 +1,10 @@
+{
+    "name": "web",
+    "dependencies": {
+        "@capacitor/ios": "../../node_modules/@capacitor/ios",
+        "@capacitor/android": "../../node_modules/@capacitor/android"
+    },
+    "devDependencies": {
+        "@capacitor/cli": "^7.4.0"
+    }
+}

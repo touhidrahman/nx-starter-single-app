@@ -1,0 +1,73 @@
+<!-- ! TODO: Remove min height and add searchable role list -->
+<div>
+    <form [formGroup]="invitationFormService.form">
+        <div>
+            <label for="email" class="w-24 font-semibold">Email</label>
+            <input
+                type="email"
+                class="placeholder:text-md mt-1 w-full rounded-md border-[1.5px]"
+                id="email"
+                formControlName="email"
+                pInputText
+                placeholder="Email" />
+        </div>
+        <!-- //! TODO: add here Select 2 for role -->
+        <div class="my-4">
+            <label for="role" class="w-24 font-semibold">Role</label>
+            <p-select
+                formControlName="roleId"
+                [options]="roleList"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+                placeholder="Select role"
+                [filter]="true"
+                filterBy="label"
+                appendTo="body"
+                filterPlaceholder="Search role..."
+                class="w-full">
+                <ng-template let-role #item>
+                    <div class="flex items-center gap-2">
+                        <div class="min-w-0 flex-1">
+                            <span class="block truncate whitespace-normal">
+                                {{ role.label }}
+                                @if (role.isDefaultRole) {
+                                    <i
+                                        class="pi pi-star-fill text-xs text-[#f97316]"></i>
+                                }
+                            </span>
+                            @if (role.isDefaultRole) {
+                                <span
+                                    class="block truncate text-xs whitespace-normal text-gray-500">
+                                    Default role, cannot be modified
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-role pTemplate="selectedItem">
+                    <div class="flex items-center gap-2">
+                        <span>{{ role.label }}</span>
+                        @if (role.isDefaultRole) {
+                            <i
+                                class="pi pi-star-fill text-xs text-[#f97316]"></i>
+                        }
+                    </div>
+                </ng-template>
+            </p-select>
+        </div>
+        <div class="my-3 flex justify-start gap-2">
+            <p-button
+                label="Cancel"
+                severity="secondary"
+                (onClick)="onCancel()">
+            </p-button>
+            <p-button
+                label="Submit"
+                styleClass="bg-green3 dark:bg-[var(--color-primary)]"
+                [loading]="isLoading()"
+                (onClick)="onSubmit($event)">
+            </p-button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "@angular/cdk/overlay-prebuilt.css";
+@import "primeicons/primeicons.css";
+@import "tailwindcss";
+@plugin "tailwindcss-primeui";
+@plugin "tailwind-scrollbar";
+
+/* 2. THEN: @layer directives */
+@layer properties;
+
+/* 3. THEN: Custom variants */
+@custom-variant dark (&:where(.app-dark, .app-dark *));
+
+/* 4. THEN: Theme definitions */
+@theme {
+    --font-poppins: "Poppins", "sans-serif";
+    --color-lightGreen: #eaffea;
+    --color-primary: #005f15;
+    --color-secondary: #4f8851;
+}
+
+/* 5. THEN: All other CSS rules */
+*,
+html,
+body {
+    font-family: "Archivo Narrow", sans-serif;
+    font-optical-sizing: auto;
+}
+
+@layer components {
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        @apply h-2.5 w-2.5;
+    }
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: #9fe59c #f0efef;
+    }
+
+    /* Button Styles */
+    .btn-fill {
+        @apply border-primary-500 bg-primary-500 hover:bg-primary-600 rounded border px-4 py-1.5 text-base text-white transition-all duration-300;
+        /* @apply dark:border-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700; */
+    }
+
+    /* Responsive Container */
+    .container {
+        @apply mx-auto w-full px-4;
+
+        /* @screen md {
+            @apply px-16;
+        } */
+    }
+
+    ::ng-deep .p-datatable {
+        border-radius: 0.475rem; /* equivalent to rounded-md */
+        overflow: hidden;
+    }
+
+    /*Customize Button*/
+    .btn-outline {
+        @apply bg-lightGreen border border-gray-300 text-gray-700 hover:bg-green-100;
+    }
+
+    /* Active State Styles */
+    .active {
+        @apply bg-secondary text-white hover:bg-green-700;
+    }
+
+    .active .icon-wrapper {
+        background-color: rgb(208, 255, 204);
+        border-radius: 10%;
+        color: black !important;
+    }
+
+    .active svg path {
+        @apply fill-white;
+    }
+
+    /* Form Input */
+    .input {
+        @apply focus:border-primary-500 focus:ring-primary-200 h-10 w-full rounded-lg border border-gray-200 transition-colors focus:ring-2;
+        @apply dark:focus:border-primary-400 dark:focus:ring-primary-800 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+    }
+
+    .mobile-card {
+        @apply bg-white rounded-[10px] p-4 w-full shadow-[0_5px_10px_rgba(116,116,116,0.1)] transition-all duration-300;
+    }
+
+    .mobile-card:hover {
+        @apply shadow-lg;
+    }
+
+    /* Card Styles */
+    .card {
+        @apply rounded-md bg-white shadow-md;
+        @apply dark:bg-gray-800;
+    }
+
+    .table-card {
+        @apply lg:rounded-md lg:bg-white lg:shadow-md;
+        @apply dark:bg-gray-800;
+    }
+
+    .card-border {
+        @apply border border-[var(--color-secondary)];
+    }
+
+    .card-header-text {
+        color: #006616;
+    }
+
+    .card-value {
+        color: #334155;
+    }
+
+    .text-gray-800 {
+        color: #242424;
+    }
+    .text-gray-500 {
+        color: #838383;
+    }
+
+    .badge {
+        @apply text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm;
+    }
+
+    .required {
+        @apply after:content-['*'] after:text-red-500 after:ml-1;
+    }
+}
+
+.btn-fill {
+    @apply border-primary-500 bg-primary-500 hover:bg-primary-600 rounded-[4px] border px-4 py-1.5 text-base text-white transition-all duration-300;
+}
+
+.card {
+    @apply rounded-md bg-white shadow-md;
+    @apply dark:bg-gray-800;
+}
+
+.btn-outline {
+    @apply bg-lightGreen border border-gray-300 text-green-800;
+}
+
+.section-padding {
+    @apply py-16;
+}
+
+.bg-gradient {
+    background-image: linear-gradient(
+        90deg,
+        rgba(0, 150, 136, 0.03) 5%,
+        rgba(0, 150, 136, 0.04) 40%,
+        rgba(0, 150, 136, 0.02) 100%
+    );
+}
+
+.text-primary-gray {
+    @apply text-[#3a3a3a];
+}
+
+.btn-shadow {
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.table-shadow {
+    backdrop-filter: blur(35.599998474121094px);
+    box-shadow: 0px 1px 10px 0px #00000040;
+    border: 1px solid #f1f1f1;
+}
+
+.active {
+    background-color: rgb(22 101 52);
+    color: white;
+}
+
+.active:hover {
+    background-color: rgb(21 128 61);
+}
+
+.active svg path {
+    fill: white;
+}
+
+.label {
+    @apply inline-block py-1.5 text-base font-medium text-gray-700;
+}
+
+.input {
+    @apply h-10 w-full rounded-lg border border-gray-200;
+}
+
+.required::after {
+    content: "*";
+    margin-left: 2px !important;
+    @apply text-red-500;
+}

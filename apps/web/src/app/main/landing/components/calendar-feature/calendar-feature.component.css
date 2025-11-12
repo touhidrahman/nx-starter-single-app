@@ -1,0 +1,27 @@
+:host {
+    display: block;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        rgb(0, 138, 0),
+        rgb(179, 255, 0),
+        rgb(0, 133, 0)
+    );
+    background-size: 200% auto;
+    color: transparent;
+    font-weight: bold;
+    background-clip: text;
+    -webkit-background-clip: text; /* for Safari */
+    animation: gradientMove 4s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}

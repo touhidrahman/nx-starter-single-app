@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-4 p-4 pb-4">
+    @if (displayImageUrl()) {
+        <div class="flex flex-col items-center gap-4">
+            <p-avatar
+                [image]="displayImageUrl()"
+                [size]="'large'"
+                [shape]="'square'"
+                [styleClass]="
+                    avatarDimensions() + ' border-2 border-primary'
+                " />
+
+            @if (showUploadButton()) {
+                <p-button
+                    [label]="buttonLabel()"
+                    icon="pi pi-upload"
+                    [loading]="isLoading()"
+                    (onClick)="onUploadClick()" />
+            }
+
+            <div class="card flex justify-center">
+                <div class="small-upload">
+                    <p-fileupload
+                        mode="basic"
+                        chooseIcon="pi pi-refresh"
+                        [accept]="accept()"
+                        (onSelect)="onFileSelect($event)"
+                        [auto]="true"
+                        [chooseLabel]="selectAnotherLabel()" />
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="border-round surface-border border-1 p-4 text-center">
+            <i class="pi pi-image mb-2 text-2xl"></i>
+            <p class="m-0">{{ noImageText() }}</p>
+        </div>
+    }
+
+    @if (!previewImageUrl()) {
+        <p-fileUpload
+            [accept]="accept()"
+            chooseIcon="pi pi-upload"
+            [chooseLabel]="uploadLabel()"
+            mode="basic"
+            (onSelect)="onFileSelect($event)"
+            [showUploadButton]="false"
+            [showCancelButton]="false" />
+    }
+</div>

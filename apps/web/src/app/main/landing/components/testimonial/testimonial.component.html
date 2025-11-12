@@ -1,0 +1,58 @@
+<section class="relative py-12">
+    <app-section-title>
+        <span class="text-gray3e title text-xl sm:text-2xl"
+            >What people say</span
+        >
+        <svg
+            class="title-icon"
+            width="22"
+            height="21"
+            viewBox="0 0 22 21"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M15.75 3.36C17.77 5.56 17.77 8.61 15.75 10.63L14.07 8.94C14.91 7.76 14.91 6.23 14.07 5.05L15.75 3.36ZM19.06 0C23 4.05 22.96 10.11 19.06 14L17.43 12.37C20.2 9.19 20.2 4.65 17.43 1.63L19.06 0ZM12.36 12.76C14.31 13.42 16 14.5 16 16V21H0V16C0 14.5 1.69 13.42 3.65 12.76L4.27 14L4.5 14.5C3 14.96 1.9 15.62 1.9 16V19.1H6.12L7 14.03L6.06 12.15C6.68 12.08 7.33 12.03 8 12.03C8.67 12.03 9.32 12.08 9.94 12.15L9 14.03L9.88 19.1H14.1V16C14.1 15.62 13 14.96 11.5 14.5L11.73 14L12.36 12.76ZM8 5C6.9 5 6 5.9 6 7C6 8.1 6.9 9 8 9C9.1 9 10 8.1 10 7C10 5.9 9.1 5 8 5ZM8 11C5.79 11 4 9.21 4 7C4 4.79 5.79 3 8 3C10.21 3 12 4.79 12 7C12 9.21 10.21 11 8 11Z"
+                fill="#3E3D3D" />
+        </svg>
+
+        <h2
+            class="subtitle mx-4 my-4 text-center text-lg text-gray-500 sm:text-xl md:my-10 md:text-2xl">
+            Discover what our satisfied customers have to say
+            <br class="hidden sm:block" />
+            about their experience with our services
+        </h2>
+    </app-section-title>
+
+    <div class="card">
+        <p-carousel
+            [value]="testimonials"
+            [numVisible]="1"
+            [numScroll]="1"
+            [circular]="true"
+            [responsiveOptions]="responsiveOptions"
+            [autoplayInterval]="5000">
+            <ng-template let-testimonial pTemplate="item">
+                <div
+                    class="border-surface-200 bg-greenSecondary m-2 flex flex-col items-center justify-center rounded-xl border p-6">
+                    <div class="mb-4 text-lg italic">
+                        “{{ testimonial.speech }}”
+                    </div>
+                    <div class="mt-6 flex items-center">
+                        <img
+                            [src]="testimonial.image"
+                            [alt]="testimonial.name"
+                            class="mr-4 h-14 w-14 rounded-full border border-gray-300" />
+                        <div>
+                            <div class="text-base font-semibold">
+                                {{ testimonial.name }}
+                            </div>
+                            <div class="text-sm">
+                                {{ testimonial.designation }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</section>

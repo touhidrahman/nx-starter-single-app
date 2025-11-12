@@ -1,0 +1,19 @@
+<div class="mt-20 flex flex-col items-center justify-center">
+    <img class="h-56 w-56" src="/assets/images/success.png" alt="" />
+    <h2 class="text-green text-3xl font-semibold">Registration Successful</h2>
+    <p class="mb-2 text-2xl text-gray-700">Thank you for registering!</p>
+
+    <p-button
+        [routerLink]="['/login']"
+        label="Login Now"
+        class="mt-2"
+        size="small" />
+
+    <div
+        class="mt-8 flex items-center gap-2 rounded-3xl border-2 border-gray-300 bg-gray-200 px-4 py-2">
+        <i class="pi pi-exclamation-circle" style="color: chocolate"></i>
+        <p class="text-lg font-bold text-red-700">
+            Please check email to verify your account
+        </p>
+    </div>
+</div>

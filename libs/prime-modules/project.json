@@ -1,0 +1,9 @@
+{
+    "name": "prime-modules",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/prime-modules/src",
+    "prefix": "lib",
+    "projectType": "library",
+    "tags": [],
+    "targets": {}
+}

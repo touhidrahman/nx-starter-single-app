@@ -1,0 +1,4 @@
+:host ::ng-deep .p-datatable {
+    border-radius: 0.475rem; /* equivalent to rounded-md */
+    overflow: hidden;
+}

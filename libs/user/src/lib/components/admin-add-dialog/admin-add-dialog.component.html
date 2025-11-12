@@ -1,0 +1,123 @@
+<h1 class="text-secondary text-center text-3xl font-semibold">
+    Create new admin
+</h1>
+<div class="surface-card shadow-2 border-round mx-auto max-w-xl p-4">
+    @if (errors().length) {
+        <div class="mb-4 min-h-8">
+            <div class="rounded border-2 border-red-700 bg-red-200 p-4">
+                @for (error of errors(); track $index) {
+                    <div class="text-sm text-red-700">{{ error }}</div>
+                }
+            </div>
+        </div>
+    }
+
+    <div [formGroup]="signUpForm">
+        <label for="Name" class="text-900 required mb-2 block font-medium"
+            >Name</label
+        >
+        <input
+            id="name"
+            type="text"
+            placeholder="Last Name"
+            pInputText
+            formControlName="name"
+            required
+            class="mb-3 w-full" />
+        @if (
+            signUpForm.get('name')?.hasError('required') &&
+            signUpForm.get('name')?.touched &&
+            signUpForm.get('name')?.dirty
+        ) {
+            <p class="text-xs text-red-700">Last name is required</p>
+        }
+
+        <label for="email1" class="text-900 required mb-2 block font-medium"
+            >Email</label
+        >
+        <input
+            id="email1"
+            type="text"
+            placeholder="Email address"
+            pInputText
+            formControlName="email"
+            required
+            class="mb-3 w-full" />
+        @if (
+            (signUpForm.get('email')?.hasError('required') ||
+                signUpForm.get('email')?.hasError('email')) &&
+            signUpForm.get('email')?.touched &&
+            signUpForm.get('email')?.dirty
+        ) {
+            <p class="text-xs text-red-700">Valid email is required</p>
+        }
+
+        <div class="flex items-center justify-between gap-4">
+            <div class="w-full">
+                <label
+                    for="password1"
+                    class="text-900 required mb-2 block font-medium"
+                    >Password</label
+                >
+                <input
+                    id="password1"
+                    type="password"
+                    placeholder="Password"
+                    formControlName="password"
+                    pInputText
+                    required
+                    class="mb-3 w-full" />
+                @if (
+                    (signUpForm.get('password')?.hasError('required') ||
+                        signUpForm.get('password')?.hasError('minLength') ||
+                        signUpForm.get('password')?.hasError('maxLength')) &&
+                    signUpForm.get('password')?.touched &&
+                    signUpForm.get('password')?.dirty
+                ) {
+                    <p class="text-xs text-red-700">
+                        Password is required. Must be 8 - 32 characters long.
+                    </p>
+                }
+            </div>
+            <div class="w-full">
+                <label
+                    for="confirmPassword"
+                    class="text-900 required mb-2 block font-medium"
+                    >Confirm Password</label
+                >
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password"
+                    formControlName="confirmPassword"
+                    pInputText
+                    required
+                    class="mb-3 w-full" />
+                <div>
+                    @if (
+                        signUpForm
+                            .get('confirmPassword')
+                            ?.hasError('passwordNotMatched') &&
+                        signUpForm.get('confirmPassword')?.touched &&
+                        signUpForm.get('confirmPassword')?.dirty
+                    ) {
+                        <p class="text-xs text-red-700">Password don't match</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <button
+            pButton
+            pRipple
+            (click)="register()"
+            [disabled]="signUpForm.invalid || isLoading()"
+            icon="pi pi-user"
+            class="bg-secondary mt-2 w-full">
+            @if (isLoading()) {
+                loading...
+            } @else {
+                Create admin
+            }
+        </button>
+    </div>
+</div>

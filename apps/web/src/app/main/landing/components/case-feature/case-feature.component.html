@@ -1,0 +1,102 @@
+<section
+    class="relative isolate overflow-hidden bg-white px-4 py-4 sm:px-8 sm:py-10 lg:overflow-visible lg:px-16 lg:py-16"
+    role="region"
+    aria-label="Case Management Features">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+        <svg
+            aria-hidden="true"
+            class="absolute top-0 left-[max(50%,25rem)] h-256 w-512 -translate-x-1/2 mask-[radial-gradient(64rem_64rem_at_top,white,transparent)] stroke-gray-200">
+            <defs>
+                <pattern
+                    id="e813992c-7d03-4cc4-a2bd-151760b470a0"
+                    width="200"
+                    height="200"
+                    x="50%"
+                    y="-1"
+                    patternUnits="userSpaceOnUse">
+                    <path d="M100 200V.5M.5 .5H200" fill="none" />
+                </pattern>
+            </defs>
+            <svg x="50%" y="-1" class="overflow-visible fill-gray-50">
+                <path
+                    d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
+                    stroke-width="0" />
+            </svg>
+            <rect
+                width="100%"
+                height="100%"
+                fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)"
+                stroke-width="0" />
+        </svg>
+    </div>
+
+    <div class="relative">
+        <div class="flex items-center justify-center">
+            <div class="text-center">
+                <h1
+                    class="bg-gradient-to-r from-green-900 via-green-600 to-cyan-700 bg-clip-text text-3xl leading-tight font-bold text-transparent lg:text-5xl">
+                    Case Management
+                </h1>
+
+                <h3
+                    class="mx-4 my-4 text-center text-lg text-gray-600 md:text-xl">
+                    Enhance efficiency with a streamlined case management
+                    <br class="hidden md:block" />
+                    system designed to simplify workflows and improve outcomes.
+                </h3>
+            </div>
+        </div>
+
+        <div class="relative flex flex-col-reverse lg:grid lg:grid-cols-12">
+            <div
+                class="mt-22 mr-4 flex flex-col md:mt-56 md:grid md:grid-cols-2 md:gap-4 lg:col-span-5 lg:mt-32 lg:flex lg:flex-col">
+                @for (sec of sectionsData; track sec.id) {
+                    <div
+                        #sectionRef
+                        class="flex flex-col items-center justify-center text-center lg:h-screen lg:items-start lg:justify-start lg:text-left"
+                        [attr.data-swap]="sec.imageClass">
+                        <!-- Icon -->
+                        <img
+                            [ngSrc]="sec.icon"
+                            [alt]="sec.title"
+                            width="96"
+                            height="96"
+                            class="mt-10 h-24 w-24" />
+
+                        <h2
+                            class="text-secondary text-2xl font-semibold underline-offset-4 lg:text-5xl">
+                            {{ sec.title }}
+                        </h2>
+                        <h3 class="text-xl text-gray-500 lg:text-3xl">
+                            {{ sec.subtitle }}
+                        </h3>
+                        <h3
+                            class="custom-thin mt-2 space-y-2 text-lg text-gray-600 md:mt-4 lg:mt-8 lg:mb-8 lg:text-4xl">
+                            {{ sec.description }}
+                        </h3>
+                    </div>
+                }
+            </div>
+
+            <!-- Right image side -->
+            <div class="relative mt-22 md:mt-72 lg:col-span-7 lg:mt-0">
+                <div
+                    class="locker__container flex items-center justify-center lg:sticky lg:top-0 lg:h-screen">
+                    @for (sec of sectionsData; track sec.id) {
+                        <img
+                            [ngSrc]="sec.imageUrl"
+                            width="1024"
+                            height="768"
+                            class="absolute transition-opacity duration-700 shadow-lg rounded-md ease-in-out opacity-0 max-h-[90vh] {{
+                                sec.imageClass
+                            }}"
+                            loading="lazy" />
+                    }
+                </div>
+            </div>
+
+            <!-- Debug threshold -->
+            <div class="absolute top-1/2 left-0 z-50 h-[1px] w-full"></div>
+        </div>
+    </div>
+</section>

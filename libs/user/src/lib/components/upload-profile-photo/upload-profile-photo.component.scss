@@ -1,0 +1,17 @@
+:host {
+    display: block;
+}
+
+::ng-deep .small-upload .p-fileupload-choose-button {
+    padding: 2px 8px !important;
+    font-size: 12px !important;
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+}
+
+::ng-deep .small-upload .p-fileupload-choose-button .pi.pi-upload {
+    font-size: 10px !important; /* Or any smaller size you prefer */
+    margin-right: 2px; /* Optional: adjust spacing from the text */
+}

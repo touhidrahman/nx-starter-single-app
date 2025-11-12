@@ -1,0 +1,182 @@
+@let state = groupListStateService.selectAll() | async;
+@let loading = groupListStateService.select('loading') | async;
+
+<div class="mt-2 flex justify-between">
+    <h1 class="text-2xl font-bold">Groups</h1>
+    <p-button
+        label="Delete Group with All Related"
+        severity="danger"
+        size="small"
+        (onClick)="openGroupDeleteDialog()" />
+</div>
+
+<div class="mt-4 flex items-center justify-between">
+    <app-search-input
+        [placeholder]="'Search groups...'"
+        (searchSubmit)="onSearch($event)"
+        (searchCleared)="onClearSearch()">
+    </app-search-input>
+    <span
+        class="rounded-sm bg-purple-100 px-2.5 py-0.5 text-base font-medium text-purple-800">
+        Total Groups: {{ state?.total ?? 0 }}</span
+    >
+    <app-group-filter></app-group-filter>
+</div>
+
+<div class="card mt-4">
+    <p-table
+        [columns]="selectedColumns()"
+        [value]="state?.groups ?? []"
+        [paginator]="true"
+        [rows]="state?.size ?? 10"
+        [first]="((state?.page ?? 1) - 1) * (state?.size ?? 10)"
+        [totalRecords]="state?.total ?? 0"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [loading]="loading"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        (onSort)="onSortByOrder($event)"
+        [sortOrder]="sortOrderNumber"
+        [alwaysShowPaginator]="true"
+        stripedRows="true">
+        <ng-template #caption>
+            <p-multiselect
+                display="chip"
+                [options]="groupTableHeaders()"
+                [ngModel]="selectedColumns()"
+                (onChange)="selectedColumns.set($event.value)"
+                optionLabel="label"
+                selectedItemsLabel="{0} columns selected"
+                [style]="{ 'min-width': '200px' }"
+                placeholder="Choose Columns" />
+        </ng-template>
+
+        <ng-template #header let-columns>
+            <tr class="bg-gray-100 text-left">
+                @for (col of columns; track col.label) {
+                    <th class="px-4 py-2 text-sm md:text-base">
+                        {{ col.label }}
+                        @if (col.value === 'createdAt') {
+                            <span [pSortableColumn]="col.value">
+                                <p-sortIcon [field]="col.value"></p-sortIcon>
+                            </span>
+                        }
+                    </th>
+                }
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-group let-columns="columns">
+            <tr
+                class="cursor-pointer hover:bg-green-50"
+                (click)="viewGroupDetails(group)">
+                @for (col of columns; track col.value) {
+                    <td class="px-4 py-2 text-sm md:text-base">
+                        @switch (col.value) {
+                            @case ('id') {
+                                {{ group.id | titlecase }}
+                            }
+                            @case ('ownerName') {
+                                {{ group.ownerName | titlecase }}
+                            }
+                            @case ('ownerUsername') {
+                                {{ group.ownerUsername | titlecase }}
+                            }
+
+                            @case ('name') {
+                                {{ group.name | titlecase }}
+                            }
+                            @case ('email') {
+                                {{ group.email }}
+                            }
+                            @case ('phone') {
+                                {{ group.phone }}
+                            }
+                            @case ('address') {
+                                {{ group.address | titlecase }}
+                            }
+                            @case ('type') {
+                                {{ group.type | titlecase }}
+                            }
+                            @case ('status') {
+                                <p-button
+                                    styleClass="rounded-sm px-2 py-0.5 text-xs"
+                                    label="{{ group.status | uppercase }}"
+                                    size="small"
+                                    rounded="true"
+                                    [severity]="
+                                        statusSeverityMap[group.status] ||
+                                        'secondary'
+                                    "
+                                    (onClick)="
+                                        updateStatusDialog(
+                                            group.id,
+                                            group.status
+                                        );
+                                        $event.stopPropagation()
+                                    " />
+                            }
+                            @case ('verified') {
+                                <span
+                                    class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap uppercase"
+                                    [ngClass]="{
+                                        'bg-red-100 text-red-800':
+                                            !group.verified,
+                                        'bg-purple-100 text-purple-800':
+                                            group.verified,
+                                    }">
+                                    {{
+                                        group.verified
+                                            ? 'Verified'
+                                            : 'Unverified'
+                                    }}
+                                </span>
+                            }
+                            @case ('verifiedOn') {
+                                {{ group.verifiedOn | date: 'short' }}
+                            }
+                            @case ('createdAt') {
+                                {{ group.createdAt | date: 'short' }}
+                            }
+                            @case ('actions') {
+                                <p-button
+                                    size="small"
+                                    rounded="true"
+                                    text="true"
+                                    severity="success"
+                                    icon="pi pi-eye"
+                                    (click)="viewGroupDetails(group)" />
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog
+    header="Change Group Status"
+    [(visible)]="visible"
+    [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '50vw', 'max-height': '90vh' }"
+    [draggable]="false"
+    [resizable]="true"
+    [baseZIndex]="10000">
+    <p-select
+        [options]="groupStatus"
+        [(ngModel)]="selectedValue"
+        placeholder="Select group status"
+        appendTo="body"
+        class="w-full uppercase">
+    </p-select>
+    <div class="mt-4 flex justify-end">
+        <p-button
+            size="small"
+            label="Save"
+            styleClass="bg-green flex justify-end"
+            (onClick)="updateStatus()" />
+    </div>
+</p-dialog>

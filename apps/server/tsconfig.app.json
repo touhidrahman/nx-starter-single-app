@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../dist/out-tsc",
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "types": ["node"],
+        "lib": ["ESNext", "DOM"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "hono/jsx"
+    },
+    "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"],
+    "include": ["src/**/*.ts"]
+}

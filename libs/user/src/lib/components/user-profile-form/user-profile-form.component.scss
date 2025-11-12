@@ -1,0 +1,17 @@
+:host {
+    display: block;
+}
+
+@reference "tailwindcss";
+
+.user-form-label {
+    @apply mb-1 block text-sm font-semibold;
+}
+
+.user-form-input {
+    @apply h-8 w-full rounded-md border-[1.5px] p-2 placeholder:text-sm;
+}
+
+.profile {
+    @apply ml-2 flex h-[100px] w-[100px] items-center justify-center rounded-full border border-white shadow;
+}

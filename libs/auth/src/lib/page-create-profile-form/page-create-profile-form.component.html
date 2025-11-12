@@ -1,0 +1,135 @@
+<div class="mb-4 flex items-center justify-center">
+    <!-- <app-video-popup
+        videoId="FXyAc65a3yY"
+        [startSeconds]="58"
+        buttonText="How to create an organization?">
+    </app-video-popup> -->
+</div>
+
+<div class="mx-auto max-w-lg pb-10">
+    <p-card>
+        <!-- <div class="flex">
+            <button
+                (click)="showContent('client')"
+                [ngClass]="{
+                    'bg-green-700 text-white': selected === 'client',
+                    'bg-gray-200 text-black opacity-70': selected !== 'client',
+                }"
+                class="w-1/2 cursor-pointer rounded-tl-lg px-4 py-2 text-lg font-semibold">
+                Client
+            </button>
+            <button
+                (click)="showContent('vendor')"
+                [ngClass]="{
+                    'bg-green-700 text-white': selected === 'vendor',
+                    'bg-gray-200 text-black opacity-70': selected !== 'vendor',
+                }"
+                class="w-1/2 cursor-pointer rounded-tr-lg px-4 py-2 text-lg font-semibold">
+                Lawyer
+            </button>
+        </div> -->
+
+        <div class="px-6 py-4">
+            <h2 class="secondary-text mb-6 text-2xl font-bold text-gray-800">
+                Create your organization as
+                {{ selectedGroupType() }}
+            </h2>
+
+            @if (error.length) {
+                <div
+                    class="mb-2 rounded border-2 border-red-700 bg-red-200 p-4">
+                    <div class="text-sm text-red-700">{{ error }}</div>
+                </div>
+            }
+
+            <form [formGroup]="groupFormService.form">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Organization Name</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="name"
+                            required />
+                    </div>
+                    <div class="col-span-12">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Organization Email</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="email"
+                            required />
+                    </div>
+                    <div class="col-span-12">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Address</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="address" />
+                    </div>
+                    <div class="col-span-12 md:col-span-6">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Phone</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="phone" />
+                    </div>
+                    <div class="col-span-12 md:col-span-6">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >City</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="city" />
+                    </div>
+                    <div class="col-span-12 md:col-span-6">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Country</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="country" />
+                    </div>
+                    <div class="col-span-12 md:col-span-6">
+                        <label
+                            class="mb-2 block text-sm font-medium text-gray-700"
+                            >Post code</label
+                        >
+                        <input
+                            type="text"
+                            class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
+                            formControlName="postCode" />
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    (click)="submit()"
+                    [disabled]="isLoading || groupFormService.form.invalid"
+                    class="focus:ring-green3 mt-6 w-full cursor-pointer rounded-lg bg-green-700 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring disabled:opacity-50">
+                    @if (isLoading) {
+                        <span
+                            class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                    } @else {
+                        Create My Organization
+                    }
+                </button>
+            </form>
+        </div>
+    </p-card>
+</div>

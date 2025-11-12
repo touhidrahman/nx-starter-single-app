@@ -1,0 +1,64 @@
+<div class="mt-20 flex flex-col items-center justify-center">
+    @if (isLoading) {
+        <div class="text-center">
+            <p class="text-gray-600">Verifying your account, please wait...</p>
+        </div>
+    } @else {
+        <div class="mb-4 flex justify-center">
+            @if (isVerified) {
+                <img
+                    class="h-56 w-56"
+                    src="/assets/images/successfull.png"
+                    alt="Success" />
+            } @else if (alreadyVerified) {
+                <img
+                    class="h-56 w-60"
+                    src="/assets/images/warning.webp"
+                    alt="Unsuccess" />
+            } @else {
+                <img
+                    class="h-56 w-56"
+                    src="/assets/images/unnsuccess.png"
+                    alt="Unsuccess" />
+            }
+        </div>
+
+        <h2 class="mb-2 text-2xl font-bold">
+            {{ isVerified ? 'Successful' : 'Unsuccessful' }}!
+        </h2>
+
+        <p class="mb-6 text-gray-700">
+            @if (isVerified) {
+                Congratulations! Your account has been successfully verified.
+            } @else if (alreadyVerified) {
+                Your account is already verified.
+            } @else {
+                Sorry! Couldn't verify account. Your token is expired or already
+                verified!.
+            }
+        </p>
+
+        @if (isVerified) {
+            <p-button
+                [routerLink]="['/login']"
+                label="Login Now"
+                class="mt-2"
+                severity="success"
+                size="small" />
+        } @else if (alreadyVerified) {
+            <p-button
+                [routerLink]="['/login']"
+                label="Login Now"
+                class="mt-2"
+                severity="success"
+                size="small" />
+        } @else {
+            <p-button
+                [routerLink]="['/signup']"
+                label="Try Again"
+                class="mt-2"
+                severity="warn"
+                size="small" />
+        }
+    }
+</div>

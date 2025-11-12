@@ -1,0 +1,15 @@
+<p class="rounded-sm bg-yellow-50 p-2 text-base text-yellow-800">
+    Are you sure you want to permanently delete group
+    <strong>{{ config.data.firstName }} {{ config.data.lastName }}</strong
+    >? This action will also remove all group-related information and any
+    content they have created.
+</p>
+<div class="my-8">
+    <app-math-verification (verified)="onMathVerified($event)" />
+</div>
+
+<p-button
+    label="Delete"
+    severity="danger"
+    [disabled]="!isValid()"
+    (onClick)="confirmDelete($event)" />

@@ -1,0 +1,54 @@
+<ngx-sonner-toaster richColors />
+<!-- desktop tost -->
+<p-toast key="desktop-toast" position="top-right" />
+<!-- mobile tost -->
+<p-toast
+    key="mobile-toast"
+    [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+    position="bottom-right"
+    class="mx-auto w-full max-w-[350px]" />
+<p-confirmdialog key="confirmDialog" />
+<p-confirmpopup />
+<lib-permission-request-toast />
+<lib-display-blur />
+
+@switch (layoutService.layout$ | async) {
+    @case (PageLayout.Default) {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+    @case (PageLayout.Public) {
+        <app-layout-public>
+            <router-outlet></router-outlet>
+        </app-layout-public>
+    }
+    @case (PageLayout.Center) {
+        <app-layout-centered>
+            <router-outlet></router-outlet>
+        </app-layout-centered>
+    }
+    @case (PageLayout.Cta) {
+        <app-layout-cta>
+            <router-outlet></router-outlet>
+        </app-layout-cta>
+    }
+    @case (PageLayout.Blank) {
+        <router-outlet></router-outlet>
+    }
+    @case (PageLayout.PublicSecondary) {
+        <app-layout-public-secondary>
+            <router-outlet></router-outlet>
+        </app-layout-public-secondary>
+    }
+    @case (PageLayout.lawyerDefault) {
+        <app-layout-lawyer-default>
+            <router-outlet></router-outlet>
+        </app-layout-lawyer-default>
+    }
+    @default {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+}

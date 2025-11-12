@@ -1,0 +1,187 @@
+<h1 class="primary-text mt-8 mb-4 text-3xl font-bold">Refer a friend</h1>
+<div class="items-container">
+    <p class="primary-text mb-5 text-xl text-gray-700/80 italic md:text-3xl">
+        Unlock rewards by sharing your referral code! Every friend who signs up
+        and subscribes earns you bonus points—redeem them to extend or upgrade
+        your subscription.
+    </p>
+    @if (code()) {
+        <div class="mb-5 flex flex-col space-y-3">
+            <div class="w-full max-w-[280px]">
+                <div class="mb-2 flex items-center justify-between">
+                    <label
+                        for="website-url"
+                        class="primary-text text-sm font-medium text-gray-900"
+                        >Referral Code</label
+                    >
+                </div>
+                <div class="flex items-center">
+                    <span
+                        class="referral-field secondary-text z-10 inline-flex shrink-0 items-center rounded-s-md border border-gray-300 bg-gray-100 px-2 py-2 text-center text-sm font-medium text-gray-900 dark:border-t-gray-800 dark:border-r-gray-600 dark:border-b-gray-800 dark:border-l-gray-800"
+                        >CODE</span
+                    >
+                    <div class="relative w-full">
+                        <input
+                            id="website-url"
+                            type="text"
+                            aria-describedby="helper-text-explanation"
+                            class="referral-field secondary-text-2 block w-full border border-s-0 border-e-0 border-gray-300 bg-gray-50 p-2.5 text-xs text-gray-500 dark:border-gray-800"
+                            value="{{ code() }}"
+                            readonly
+                            disabled />
+                    </div>
+                    <button
+                        (click)="onCopyCode(code())"
+                        class="referral-field z-10 inline-flex shrink-0 items-center rounded-e-md border border-green-700 bg-green-700 px-4 py-2.5 text-center text-sm font-medium text-white dark:border-t-gray-800 dark:border-r-gray-800 dark:border-b-gray-800 dark:border-l-gray-600"
+                        type="button">
+                        <i class="pi pi-copy secondary-text"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="w-full max-w-md">
+                <div class="mb-2 flex items-center justify-between">
+                    <label
+                        for="website-url"
+                        class="primary-text text-sm font-medium text-gray-900"
+                        >Referral Link</label
+                    >
+                </div>
+                <div class="flex items-center">
+                    <span
+                        class="referral-field secondary-text z-10 inline-flex shrink-0 items-center rounded-s-md border border-gray-300 bg-gray-100 px-2 py-2 text-center text-sm font-medium text-gray-900 dark:border-t-gray-800 dark:border-r-gray-600 dark:border-b-gray-800 dark:border-l-gray-800"
+                        >URL</span
+                    >
+                    <div class="relative w-full">
+                        <input
+                            id="website-url"
+                            type="text"
+                            aria-describedby="helper-text-explanation"
+                            class="referral-field secondary-text-2 block w-full border border-s-0 border-e-0 border-gray-300 bg-gray-50 p-2.5 text-xs text-gray-500 dark:border-gray-800"
+                            value="{{ referralLink() }}"
+                            readonly
+                            disabled />
+                    </div>
+                    <button
+                        (click)="onCopyCode(referralLink())"
+                        class="referral-field z-10 inline-flex shrink-0 items-center rounded-e-md border border-green-700 bg-green-700 px-4 py-2.5 text-center text-sm font-medium text-white dark:border-t-gray-800 dark:border-r-gray-800 dark:border-b-gray-800 dark:border-l-gray-600"
+                        type="button">
+                        <i class="pi pi-copy secondary-text"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        @if (loading) {
+            <div class="flex items-center justify-center py-8 md:w-[50%]">
+                <i
+                    class="pi pi-spin pi-spinner"
+                    style="font-size: 2rem; color: green"></i>
+            </div>
+        }
+    } @else {
+        <p-button
+            label="Generate Referral Code"
+            severity="primary"
+            styleClass="bg-green3 dark:bg-[var(--color-primary)]"
+            [disabled]="!!code()"
+            (onClick)="generate()" />
+    }
+    <p class="mt-2 text-sm text-gray-500">
+        Get 200 Points for each invited user who subscribes to a paid plan. For
+        activated your points, you have to get a paid plan.
+    </p>
+    <div class="mt-2 mb-4 grid max-w-xl grid-cols-1 gap-4 lg:grid-cols-3">
+        <div class="col-span-3 lg:col-span-1">
+            <div
+                class="mobile-card flex items-center gap-2 rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-500">
+                <i class="pi pi-user secondary-text" style="color: green"></i>
+                <h6 class="secondary-text text-sm font-normal">My Points</h6>
+                <p class="secondary-text text-sm font-bold text-green-700">
+                    {{ points().myPoints }}
+                    @if (points().planName === 'Free') {
+                        <span class="badge-green secondary-text text-xs"
+                            >Pending</span
+                        >
+                    }
+                </p>
+            </div>
+        </div>
+
+        <div class="col-span-3 lg:col-span-1">
+            <div
+                class="mobile-card flex items-center gap-2 rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-500">
+                <i class="pi pi-user secondary-text" style="color: blue"></i>
+                <h6 class="secondary-text text-sm font-normal">
+                    Referral Points
+                </h6>
+                <p class="secondary-text text-sm font-bold text-blue-600">
+                    {{ points().referredPoints }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    @if (!loading) {
+        <div class="max-w-xl">
+            <div class="grid grid-cols-3 gap-4">
+                @if (referredUsers.length > 0) {
+                    <div class="col-span-3 lg:col-span-1">
+                        <div
+                            class="bg-gray-white-550 secondary-text flex items-center gap-2 rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-500 dark:border-none">
+                            <i class="pi pi-users"></i>
+
+                            <h6 class="text-sm font-normal">Total Referrals</h6>
+                            <p class="text-sm">
+                                {{ referredUsers.length }}
+                            </p>
+                        </div>
+                    </div>
+                }
+
+                @if (referredUsers.length > 0) {
+                    <div class="col-span-3 lg:col-span-1">
+                        <div class="flex items-center">
+                            <p-button
+                                (click)="toggleTable()"
+                                class="w-full underline"
+                                styleClass="p-button-text underline secondary-text"
+                                label="View referred users"
+                                link />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @if (showReferredUsersTable) {
+            <div class="mt-3 mb-4 w-full md:w-[43%]">
+                <p-table
+                    class="w-full rounded-sm"
+                    [value]="referredUsers"
+                    [paginator]="true"
+                    [rows]="5">
+                    <ng-template #header>
+                        <tr class="border-0 text-center text-sm">
+                            <th class="border-0">Name</th>
+                            <th class="border-0">Email</th>
+                            <th class="border-0">Plan</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template #body let-user>
+                        <tr
+                            class="my-1 border-0 bg-gray-50 text-center text-sm">
+                            <td class="border-0 py-1.5">
+                                {{ user.firstName }} {{ user.lastName }}
+                            </td>
+                            <td class="border-0 py-1.5">
+                                {{ user.email }}
+                            </td>
+                            <td class="border-0 py-1.5">
+                                {{ user.planName }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        }
+    }
+</div>

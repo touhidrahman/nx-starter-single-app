@@ -1,0 +1,155 @@
+@let plans = planStateService.select('plans') | async;
+<form [formGroup]="form" class="space-y-4">
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Plan ID -->
+        <div class="space-y-2">
+            <label
+                for="planId"
+                class="block text-base font-medium text-gray-700"
+                >Plan ID</label
+            >
+            <p-select
+                id="planId"
+                class="capitalize"
+                formControlName="planId"
+                [options]="plans ?? []"
+                optionLabel="name"
+                optionValue="id"
+                class="w-full"></p-select>
+            @if (form.get('planId')?.invalid && form.get('planId')?.touched) {
+                <small class="text-red-600"> Plan ID is required. </small>
+            }
+        </div>
+
+        <!-- Subscription Type -->
+        <div class="space-y-2">
+            <label
+                for="subscriptionType"
+                class="block text-base font-medium text-gray-700"
+                >Subscription Type</label
+            >
+            <p-select
+                id="subscriptionType"
+                class="capitalize"
+                formControlName="subscriptionType"
+                [options]="subscriptionTypes"
+                placeholder="Select Subscription Type"
+                class="w-full"></p-select>
+            @if (
+                form.get('subscriptionType')?.invalid &&
+                form.get('subscriptionType')?.touched
+            ) {
+                <small class="text-red-600">
+                    Subscription Type is required.
+                </small>
+            }
+        </div>
+        <!-- Status -->
+        <div class="space-y-2">
+            <label
+                for="status"
+                class="block text-base font-medium text-gray-700"
+                >Status</label
+            >
+            <p-select
+                id="status"
+                class="capitalize"
+                formControlName="status"
+                [options]="subscriptionStatus"
+                placeholder="Select Status"
+                class="w-full"></p-select>
+            @if (form.get('status')?.invalid && form.get('status')?.touched) {
+                <small class="text-red-600"> Status is required. </small>
+            }
+        </div>
+        <!-- Transaction ID -->
+        <div class="space-y-2">
+            <label
+                for="transactionId"
+                class="block text-base font-medium text-gray-700"
+                >Transaction ID</label
+            >
+            <input
+                pInputText
+                id="transactionId"
+                formControlName="transactionId"
+                class="w-full" />
+        </div>
+
+        <!-- Payment Method -->
+        <div class="space-y-2">
+            <label
+                for="paymentMethod"
+                class="block text-base font-medium text-gray-700"
+                >Payment Method</label
+            >
+            <p-select
+                id="paymentMethod"
+                class="capitalize"
+                formControlName="paymentMethod"
+                [options]="paymentMethods"
+                class="w-full"></p-select>
+        </div>
+
+        <!-- Status Change Date -->
+        <div class="w-full space-y-2">
+            <label
+                for="statusChangeDate"
+                class="mb-2 block text-base font-medium text-gray-700"
+                >Status Change Date</label
+            >
+            <p-datePicker
+                id="statusChangeDate"
+                formControlName="statusChangeDate"
+                placeholder="Select Status Change Date"
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                class="w-full"
+                class="w-full"></p-datePicker>
+        </div>
+
+        <div class="space-y-2">
+            <label
+                for="transactionId"
+                class="block text-base font-medium text-gray-700"
+                >Payment Number</label
+            >
+            <input
+                pInputText
+                id="paymentNumber"
+                formControlName="paymentNumber"
+                class="w-full" />
+        </div>
+        <div class="flex items-center gap-4 xl:h-26">
+            <!-- Auto Renewal -->
+            <div class="flex items-center">
+                <p-checkbox
+                    id="autoRenewal"
+                    formControlName="autoRenewal"
+                    label="Auto Renewal"
+                    binary="true"></p-checkbox>
+                <label class="ml-2">Auto Renewal</label>
+            </div>
+
+            <!-- Is Trial -->
+            <div class="flex items-center">
+                <p-checkbox
+                    id="isTrial"
+                    formControlName="isTrial"
+                    label="Is Trial"
+                    binary="true"></p-checkbox>
+                <label class="ml-2">Is Trial</label>
+            </div>
+        </div>
+    </div>
+    <!-- Submit Button -->
+    <div class="text-right">
+        <p-button
+            [disabled]="isLoading() || form.invalid"
+            (click)="onSubmit($event)"
+            type="submit"
+            label="Submit"
+            [severity]="form.invalid ? 'secondary' : 'success'"
+            size="small" />
+    </div>
+</form>

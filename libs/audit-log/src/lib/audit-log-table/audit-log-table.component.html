@@ -1,0 +1,123 @@
+<div class="hidden lg:block">
+    <div>
+        @let state = this.auditLogsStateService.selectAll() | async;
+        @let loading = this.auditLogsStateService.select('loading') | async;
+
+        @if (loading) {
+            <div class="flex items-center justify-center py-8">
+                <i
+                    class="pi pi-spin pi-spinner"
+                    style="font-size: 2rem; color: green"></i>
+            </div>
+        } @else if (state?.auditLogs?.length) {
+            <p-table
+                [value]="state?.auditLogs ?? []"
+                [paginator]="true"
+                [rows]="state?.size ?? 10"
+                [first]="((state?.page ?? 1) - 1) * (state?.size ?? 10)"
+                [totalRecords]="state?.total ?? 0"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [globalFilterFields]="['creatorId', 'action']"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [lazy]="true"
+                (onPage)="onPageChange($event)"
+                [alwaysShowPaginator]="true">
+                <ng-template #header>
+                    <tr>
+                        <th style="width: 10%">Creator</th>
+                        <th style="width: 5%">Type</th>
+                        <th style="width: 5%">Entity</th>
+                        <th style="width: 10%">New Snapshot</th>
+                        <th style="width: 10%" class="text-center">
+                            Old Snapshot
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-log>
+                    <tr class="cursor-pointer hover:bg-[#eaffeaa0]">
+                        <td>
+                            <span class="block text-xs">{{
+                                log?.creator?.name
+                            }}</span>
+                            <span class="block text-xs">
+                                {{ log?.creator?.email }}</span
+                            >
+                        </td>
+                        <td class="capitalize">
+                            <span
+                                [ngClass]="{
+                                    'badge-delete': log.action === 'delete',
+                                    'badge-purple': log.action === 'create',
+                                    'badge-yellow': log.action === 'update',
+                                }">
+                                {{ log.action }}
+                            </span>
+                        </td>
+                        <td class="capitalize">
+                            {{ log.entity }}
+                        </td>
+                        <td>
+                            @let expanded = expandedStates()[log.id];
+                            <pre class="log-data">
+                                 {{
+                                    expanded?.previous
+                                        ? displayData(log.previousData)
+                                        : (displayData(log.previousData)
+                                          | slice: 0 : 15)
+                                }}
+                                {{
+                                    needsSeeMore(log.previousData) &&
+                                    !expanded?.previous
+                                        ? '...'
+                                        : ''
+                                }}
+                               </pre
+                            >
+
+                            @if (needsSeeMore(log.previousData)) {
+                                <button
+                                    (click)="toggleExpand(log.id, 'previous')"
+                                    class="see-more-btn">
+                                    {{
+                                        expanded?.previous
+                                            ? 'See Less'
+                                            : 'See More'
+                                    }}
+                                </button>
+                            }
+                        </td>
+                        <td>
+                            <pre class="log-data">
+                                {{
+                                    expanded?.updated
+                                        ? displayData(log.updatedData)
+                                        : (displayData(log.updatedData)
+                                          | slice: 0 : 15)
+                                }}
+                                {{
+                                    needsSeeMore(log.updatedData) &&
+                                    !expanded?.updated
+                                        ? '...'
+                                        : ''
+                                }}
+                            </pre>
+                            @if (needsSeeMore(log.updatedData)) {
+                                <button
+                                    (click)="toggleExpand(log.id, 'updated')"
+                                    class="see-more-btn">
+                                    {{
+                                        expanded?.updated
+                                            ? 'See Less'
+                                            : 'See More'
+                                    }}
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        } @else {
+            <lib-no-data [noDataMessage]="'No data found'" />
+        }
+    </div>
+</div>

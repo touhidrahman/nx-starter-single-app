@@ -1,0 +1,26 @@
+@if (post(); as post) {
+    <div class="flex items-center justify-start gap-3 border-b pb-1">
+        <div class="h-24 w-[15%] overflow-hidden">
+            <img
+                [src]="post.image"
+                class="h-24 w-full rounded-md object-cover object-center"
+                alt="" />
+        </div>
+        <div class="w-[30%]">{{ post.title }}</div>
+        <div class="w-[40%]">{{ post.description }}</div>
+
+        <div class="flex w-[15%] items-center justify-start gap-1">
+            <p-button
+                icon="pi pi-pen-to-square"
+                rounded="true"
+                text="true"
+                severity="success"
+                (click)="onEdit(post)" />
+            <p-button
+                severity="danger"
+                icon="pi pi-trash"
+                text="true"
+                rounded="true" />
+        </div>
+    </div>
+}

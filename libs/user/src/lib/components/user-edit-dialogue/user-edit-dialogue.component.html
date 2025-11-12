@@ -1,0 +1,82 @@
+<form [formGroup]="this.userFormService.form">
+    <h3 class="col-span-12 mb-3 text-lg font-semibold">Personal Information</h3>
+    <div class="grid grid-cols-12 gap-5 md:grid-cols-3">
+        <div class="flex flex-col gap-2">
+            <label for="firstName">First Name</label>
+            <input pInputText formControlName="firstName" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="lastName">Last Name</label>
+            <input pInputText formControlName="lastName" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="email">Email</label>
+            <input pInputText formControlName="email" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="phone">Phone Number</label>
+            <input pInputText formControlName="phone" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="status">Status</label>
+            <p-select
+                formControlName="status"
+                [options]="statusOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Status"
+                class="w-full">
+            </p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="verified">Verification Status</label>
+            <p-select
+                formControlName="verified"
+                [options]="verificationOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Verification Status"
+                class="w-full">
+            </p-select>
+        </div>
+    </div>
+    <h3 class="col-span-12 mt-10 mb-3 text-lg font-semibold">
+        Contact & Location
+    </h3>
+    <div class="grid grid-cols-12 gap-5 md:grid-cols-3">
+        <div class="flex flex-col gap-2">
+            <label for="address">Address</label>
+            <input pInputText formControlName="address" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="city">City</label>
+            <input pInputText formControlName="city" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="country">Country</label>
+            <input pInputText formControlName="country" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="state">State</label>
+            <input pInputText formControlName="state" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="postCode">Post code</label>
+            <input pInputText formControlName="postCode" />
+        </div>
+    </div>
+
+    <div class="mt-5 grid grid-cols-12 gap-5 md:grid-cols-3"></div>
+</form>
+<div class="mt-5">
+    <p-button
+        [disabled]="isLoading()"
+        styleClass="bg-green rounded-sm px-4 py-1  text-white"
+        [loading]="isLoading()"
+        (click)="onSubmit()"
+        type="submit">
+        Save
+    </p-button>
+</div>

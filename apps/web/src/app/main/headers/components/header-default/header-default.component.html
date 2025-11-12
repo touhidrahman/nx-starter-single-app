@@ -1,0 +1,368 @@
+@let profile = profileStateService.select('profile') | async;
+
+<!-- @let loading = profileStateService.select('loading') | async; -->
+
+<nav class="header-class bg-color-header w-full text-gray-700">
+    <div class="mx-auto flex flex-wrap items-center justify-between px-4 py-2">
+        <div class="flex items-center gap-2">
+            <div (click)="toggleSidebar()" class="cursor-pointer">
+                <i class="pi pi-bars secondary-text text-2xl md:text-3xl"></i>
+            </div>
+
+            <a class="ml-4 flex md:hidden">
+                <img
+                    [routerLink]="['/dashboard/home']"
+                    src="assets/logo/logo1.png"
+                    class="h-10 w-32 cursor-pointer"
+                    alt="Full Logo" />
+            </a>
+        </div>
+
+        @let user = authStateService.select('user') | async;
+        @let newsTicker = newsTickerStateService.select('newsTickers') | async;
+
+        @if (user && isNewsTickerVisible()) {
+            <div
+                class="hidden items-center rounded-sm px-2 py-[2px] text-gray-400 xl:flex">
+                <app-news-ticker-carousel
+                    class=""
+                    [newsTicker]="newsTicker ?? []"
+                    (isNewsTickerVisible)="onToggleNewsTicker()" />
+            </div>
+        }
+
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <app-header-support></app-header-support>
+                <div
+                    class="bg-color-header org-name-header relative hidden rounded-md px-4 md:flex">
+                    <div
+                        class="flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 px-3 py-1"
+                        (click)="toggleOrgDropdown()">
+                        <div class="mt-1">
+                            <i
+                                style="font-size: 1.8rem"
+                                class="pi pi-building header-icon-color"></i>
+                        </div>
+                        <div class="flex w-full items-center justify-between">
+                            <div>
+                                <div class="text-green text-xs">
+                                    {{ profile?.firstName }}
+                                    {{ profile?.lastName }}
+                                </div>
+                                <div class="-mt-1 cursor-pointer">
+                                    {{ organization()?.name | textSlice: 40 }}
+                                </div>
+                            </div>
+                            <i
+                                class="pi pi-chevron-down ml-2 text-xs"
+                                #orgChevron></i>
+                        </div>
+                    </div>
+
+                    <!-- Organization Dropdown -->
+                    @if (isOrgDropdownVisible()) {
+                        <div
+                            #orgDropdown
+                            class="bg-gray-white-700 absolute top-12 left-4 z-10 flex w-72 flex-col rounded-md bg-white shadow-md">
+                            @let groupData =
+                                userGroupStateService.selectAll() | async;
+                            @if (groupData?.loading) {
+                                <span class="secondary-text block px-1 py-1"
+                                    >Loading...</span
+                                >
+                            } @else {
+                                @for (
+                                    group of groupData?.groups;
+                                    track $index
+                                ) {
+                                    <button
+                                        [disabled]="
+                                            isLoading() ||
+                                            this.authStateService.getGroupId() ===
+                                                group.id
+                                        "
+                                        (click)="onSwitchGroup(group.id)"
+                                        class="secondary-text org-button flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700">
+                                        @if (selectedGroupId() === group.id) {
+                                            <i
+                                                class="pi pi-spinner pi-spin secondary-text font-medium text-gray-700"></i>
+                                        }
+                                        @if (
+                                            this.authStateService.getGroupId() ===
+                                            group.id
+                                        ) {
+                                            <i
+                                                class="pi pi-check-circle check-icon"></i>
+                                        }
+                                        <span class="font-semibold">{{
+                                            group.name | textSlice: 35
+                                        }}</span>
+                                    </button>
+                                    <div class="-mt-2 ml-9">
+                                        @if (groupData?.hasVendorGroup) {
+                                            <div
+                                                class="max-w-fit rounded-full border border-orange-100 bg-orange-50 px-2">
+                                                <h1
+                                                    class="text-xs font-bold text-orange-800">
+                                                    Lawyer/law firm
+                                                </h1>
+                                            </div>
+                                        }
+                                        @if (groupData?.hasClientGroup) {
+                                            <div
+                                                class="bg-color-container max-w-fit rounded-full border border-purple-100 bg-purple-50 px-2">
+                                                <h1
+                                                    class="text-xs font-bold text-purple-800 dark:text-blue-300">
+                                                    Client
+                                                </h1>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (!groupData?.hasVendorGroup) {
+                                    <button
+                                        (click)="onNavigate('/create-profile')"
+                                        class="org-button flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700 hover:bg-slate-200">
+                                        <span
+                                            class="pi pi-plus secondary-text font-medium"></span>
+                                        <span class="secondary-text text-sm"
+                                            >Create organization</span
+                                        >
+                                    </button>
+                                }
+                                @if (!groupData?.hasClientGroup) {
+                                    <button
+                                        (click)="onNavigate('/create-profile')"
+                                        class="flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700 hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                                        <span
+                                            class="pi pi-plus secondary-text font-medium"></span>
+                                        <span class="secondary-text text-sm"
+                                            >Create Client Organization</span
+                                        >
+                                    </button>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <!-- <div class="relative w-56 sm:w-80">
+                <input
+                    class="w-full rounded-full border-t border-gray-300 bg-emerald-50 px-4 py-2 pl-10"
+                    placeholder="Search" />
+                <div
+                    class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span
+                        class="pi pi-search text-sm font-semibold text-gray-500"></span>
+                </div>
+            </div> -->
+
+            <div>
+                @let totalPermission =
+                    permissionRequestsListStateService.select(
+                        'totalUnreadRequests'
+                    ) | async;
+
+                @if ((totalPermission ?? 0) >= 1) {
+                    <p-overlay-badge
+                        (click)="openPermissionRequestNotificationModal()"
+                        [value]="totalPermission"
+                        severity="danger"
+                        badgeSize="small">
+                        <p-avatar
+                            icon="pi pi-bell"
+                            size="normal"
+                            shape="circle"
+                            class="h-10 w-10 cursor-pointer rounded-full" />
+                    </p-overlay-badge>
+                } @else {
+                    <p-avatar
+                        (click)="openPermissionRequestNotificationModal()"
+                        icon="pi pi-bell"
+                        size="normal"
+                        shape="circle"
+                        class="h-10 w-10 cursor-pointer rounded-full" />
+                }
+            </div>
+
+            @let profilePhoto =
+                profileStateService.select('profilePhotoUrl') | async;
+            <div (click)="onViewDropDown()">
+                <user-login-status
+                    [user]="user?.firstName + ' ' + user?.lastName"
+                    [profilePhoto]="profilePhoto ?? ''"
+                    [userEmail]="authStateService.getUserFirstName() ?? ''" />
+            </div>
+        </div>
+
+        @if (isVisible()) {
+            <div
+                #dropdown
+                class="bg-gray-white-700 absolute top-16 right-4 flex w-56 flex-col rounded-md bg-white shadow-md lg:top-16"
+                id="profileDropDown">
+                <span class="secondary-text px-3 py-2">
+                    <span class="block text-lg">
+                        {{ profile?.firstName }}
+                        {{ profile?.lastName }}
+                    </span>
+                    <span
+                        class="text-green1g -mt-1 block text-xs font-semibold">
+                        <i
+                            style="font-size: 0.7rem"
+                            class="pi pi-building mr-1"></i
+                        >{{ organization()?.name | textSlice: 40 }}
+                    </span>
+                </span>
+
+                <hr class="opacity-30 dark:border-gray-400" />
+
+                <button
+                    class="secondary-text flex cursor-pointer items-center justify-start gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]"
+                    (click)="onNavigate('/profile')">
+                    <i
+                        class="pi pi-user secondary-text font-medium text-black"></i>
+                    Profile
+                </button>
+
+                @if (groupType() === 'vendor') {
+                    <div
+                        class="group flex cursor-pointer items-center justify-between gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]"
+                        (click)="onUpgradeSubscription(subscriptionPlanId())">
+                        <div class="secondary-text flex items-center gap-2">
+                            <i
+                                class="pi pi-briefcase secondary-text font-medium text-black"></i>
+                            <p>Subscription</p>
+                        </div>
+
+                        <span
+                            class="badge-green bg-color-main primary-text-2 capitalize group-hover:!bg-[var(--color-gray-white-700)]">
+                            {{ subscriptionPlanName() }}
+                        </span>
+                    </div>
+                }
+                <button
+                    (click)="onNavigate('/dashboard/settings')"
+                    class="secondary-text flex cursor-pointer items-center justify-start gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                    <i
+                        class="pi pi-cog secondary-text font-medium text-black"></i>
+                    Settings
+                </button>
+
+                <hr class="opacity-30 dark:border-gray-400" />
+
+                @if (groupType() === 'vendor') {
+                    <div class="px-3 py-3">
+                        <p
+                            class="secondary-text mb-2 text-sm font-medium text-gray-800">
+                            Are you a lawyer?
+                            {{ user?.groupType }}
+                        </p>
+                        <p class="secondary-text-2 mb-3 text-xs text-gray-600">
+                            Submit your profile to MyApp public search
+                            directory
+                        </p>
+
+                        <p-button
+                            label="Submit Profile"
+                            size="small"
+                            styleClass="bg-primary hover:bg-green-700 py-1.5 w-full rounded text-xs font-semibold"
+                            (onClick)="onNavigate('/lawyer-profile')" />
+                    </div>
+                    <hr class="opacity-30" />
+                }
+
+                <div class="m-0 w-56 p-0">
+                    <button
+                        class="flex w-full items-center justify-between px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]"
+                        (click)="onLoadOwnedGroups(moreOptions, chevron)">
+                        <span
+                            class="secondary-text flex cursor-pointer items-center justify-start gap-2">
+                            <span>
+                                <span
+                                    class="pi pi-users secondary-text font-medium text-black"></span>
+                            </span>
+                            <span>Switch Organization</span>
+                        </span>
+                        <span
+                            class="pi pi-chevron-right secondary-text text-xs font-medium text-black transition-all duration-400"
+                            #chevron></span>
+                    </button>
+
+                    @let groupData = userGroupStateService.selectAll() | async;
+                    <div
+                        class="mt-0 h-0 overflow-hidden transition-all duration-400"
+                        #moreOptions>
+                        @if (groupData?.loading) {
+                            <span class="secondary-text block px-3"
+                                >Loading...</span
+                            >
+                        } @else {
+                            @for (group of groupData?.groups; track $index) {
+                                <button
+                                    [disabled]="
+                                        isLoading() ||
+                                        this.authStateService.getGroupId() ===
+                                            group.id
+                                    "
+                                    (click)="onSwitchGroup(group.id)"
+                                    class="secondary-text flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                                    @if (selectedGroupId() === group.id) {
+                                        <i
+                                            class="pi pi-spinner pi-spin secondary-text font-medium text-gray-700"></i>
+                                    } @else {
+                                        <i
+                                            class="pi pi-users secondary-text font-medium text-gray-700"></i>
+                                    }
+
+                                    {{ group.name | textSlice: 20 }}
+                                    @if (
+                                        this.authStateService.getGroupId() ===
+                                        group.id
+                                    ) {
+                                        <i
+                                            class="pi pi-check-circle text-green3 secondary-text m-0 text-xs"></i>
+                                    }
+                                </button>
+                            }
+                            @if (!groupData?.hasVendorGroup) {
+                                <button
+                                    (click)="onNavigate('/create-profile')"
+                                    class="flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                                    <span
+                                        class="pi pi-plus secondary-text font-medium"></span>
+                                    <span class="secondary-text">
+                                        Create organization</span
+                                    >
+                                </button>
+                            }
+                            @if (!groupData?.hasClientGroup) {
+                                <button
+                                    (click)="onNavigate('/create-profile')"
+                                    class="flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                                    <span
+                                        class="secondary-text pi pi-plus font-medium"></span>
+                                    <span class="secondary-text">
+                                        Create Client</span
+                                    >
+                                </button>
+                            }
+                        }
+                        <!-- //TODO: active when pagination feature add -->
+                        <!-- <button
+                                class="flex w-full items-center justify-center px-3 leading-loose transition-all hover:bg-slate-200">
+                                <span>More</span>
+                            </button> -->
+                    </div>
+                </div>
+                <hr class="opacity-30 dark:border-gray-400" />
+                <button
+                    (click)="logout()"
+                    class="secondary-text flex cursor-pointer items-center justify-start gap-2 px-3 py-2 leading-relaxed text-red-800 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
+                    <span class="pi pi-sign-out font-medium"></span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        }
+    </div>
+</nav>

@@ -1,0 +1,38 @@
+<div class="min-h-screen bg-white shadow-md">
+    <div>
+        <a class="flex justify-center pt-2">
+            @if (!isCollapsed) {
+                <img
+                    [routerLink]="['/']"
+                    src="assets/logo/logo1.png"
+                    class="h-16 w-48 cursor-pointer"
+                    alt="Full Logo" />
+            } @else {
+                <img
+                    [routerLink]="['/']"
+                    src="assets/logo/logo1.png"
+                    class="h-12 w-12 cursor-pointer"
+                    alt="Collapsed Logo" />
+            }
+        </a>
+    </div>
+    <div class="space-y-6 px-2">
+        <ul class="mt-6 space-y-1">
+            @for (item of navigationItems; track $index) {
+                <li>
+                    <a
+                        [routerLink]="[item.routerLink]"
+                        routerLinkActive="active"
+                        class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-gray-700 hover:bg-green-100">
+                        <span
+                            class="pi {{ item.icon }} text-xl text-gray-700"
+                            routerLinkActive="text-white"></span>
+                        @if (!isCollapsed) {
+                            <span class="font-medium">{{ item.label }}</span>
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

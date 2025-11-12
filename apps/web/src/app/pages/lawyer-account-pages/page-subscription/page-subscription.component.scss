@@ -1,0 +1,73 @@
+:host {
+    display: block;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #45d1c1 30%, #6ac199 50%, #35bd7e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.animate-top {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    animation: moveFromTop 1.6s ease-out forwards;
+}
+
+@keyframes moveFromTop {
+    0% {
+        top: -100px;
+        opacity: 0;
+    }
+    100% {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes fromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-from-left {
+    animation: fromLeft 1s ease-out forwards;
+}
+
+.animate-from-right {
+    animation: fromRight 1s ease-out forwards;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 1s ease-out forwards;
+}

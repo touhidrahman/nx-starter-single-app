@@ -1,0 +1,39 @@
+:host {
+    display: block;
+}
+
+/* Default */
+.positioning {
+    position: relative;
+    bottom: 15rem;
+}
+
+@media (min-width: 640px) and (max-width: 965px) {
+    .positioning {
+        bottom: 17rem;
+    }
+}
+
+@media (min-width: 587px) and (max-width: 639px) {
+    .positioning {
+        bottom: 21rem;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 586px) {
+    .positioning {
+        bottom: 25rem;
+    }
+}
+
+@media (min-width: 409px) and (max-width: 499px) {
+    .positioning {
+        bottom: 26.2rem;
+    }
+}
+
+@media (min-width: 350px) and (max-width: 408px) {
+    .positioning {
+        bottom: 33.2rem;
+    }
+}

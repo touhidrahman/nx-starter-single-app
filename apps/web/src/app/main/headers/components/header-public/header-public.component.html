@@ -1,0 +1,138 @@
+<nav
+    class="header-class sticky top-0 z-[100] w-full overflow-x-clip bg-white pb-2 text-neutral-800 transition-all duration-300"
+    [class]="
+        scrollService.isScrolled() ? 'bg-color-header bg-white shadow-md' : ''
+    "
+    role="navigation"
+    aria-label="Main Navigation">
+    <div class="mx-4 flex items-center justify-between py-2 md:mx-16">
+        <!-- Left Section -->
+        <div class="order-1 flex items-center gap-3 md:gap-16">
+            @if (headerService.isHomePage()) {
+                <button
+                    class="md:hidden"
+                    (click)="headerService.toggleMenu()"
+                    aria-label="Toggle main menu">
+                    <i
+                        class="pi text-2xl"
+                        [ngClass]="
+                            headerService.menuOpen() ? 'pi-times' : 'pi-bars'
+                        "></i>
+                </button>
+            }
+
+            <a
+                class="flex cursor-pointer items-center"
+                (click)="navigateToHome()"
+                title="MyApp Home">
+                <div class="h-12 w-30">
+                    <img
+                        src="assets/logo/logo.png"
+                        class="h-full w-full cursor-pointer"
+                        alt="MyApp official logo - Smart case management system in Bangladesh" />
+                </div>
+            </a>
+        </div>
+
+        <!-- Center Navigation -->
+        @if (headerService.isHomePage()) {
+            <div
+                class="order-2 hidden items-center justify-between md:flex md:gap-5 lg:gap-10">
+                @for (link of headerRoutesData; track link.id) {
+                    <a
+                        class="relative block cursor-pointer text-lg text-gray-700 after:absolute after:bottom-[-6px] after:left-0 after:h-[4px] after:w-0 after:bg-[#16a34a] after:transition-all after:duration-500 after:ease-linear after:[clip-path:polygon(0_0,calc(100%-2px)_0,100%_100%,0_100%)] hover:after:w-[85%]"
+                        [class.active-link]="
+                            scrollService.activeSection() === link.id
+                        "
+                        (click)="navigateToFragment(link.id)"
+                        title="{{ link.title }} section link">
+                        {{ link.title }}
+                    </a>
+                }
+            </div>
+        }
+
+        <!-- Right Section -->
+        @let user = headerAuthService.auth.select('user') | async;
+        @let profilePhoto =
+            profileStateService.select('profilePhotoUrl') | async;
+
+        <div class="order-3 flex items-center gap-4">
+            @if (headerAuthService.auth.isLoggedIn()) {
+                <div class="flex items-center gap-6">
+                    <a
+                        class="secondary-text bg-green border-gray bg-gray-white-700 text-greenc4 cursor-pointer rounded-md border border-gray-300 p-2"
+                        [routerLink]="
+                            headerAuthService.auth.getGroupType() === 'client'
+                                ? ['/dashboard/home/client']
+                                : ['/dashboard/home']
+                        "
+                        title="Go to user dashboard">
+                        Go To Dashboard
+                    </a>
+
+                    <div
+                        class="mt-1 cursor-pointer"
+                        (click)="headerAuthService.toggleDropdown()"
+                        aria-label="User account menu">
+                        <user-login-status
+                            [user]="user?.firstName + ' ' + user?.lastName"
+                            [profilePhoto]="profilePhoto ?? ''"
+                            [userEmail]="
+                                headerAuthService.auth.getUserEmail() ?? ''
+                            " />
+                    </div>
+                </div>
+            } @else {
+                <div class="flex items-center space-x-3">
+                    <p-button
+                        [outlined]="true"
+                        size="small"
+                        label="Sign In"
+                        severity="contrast"
+                        routerLink="/login" />
+                    <p-button
+                        size="small"
+                        label="Sign Up"
+                        severity="success"
+                        routerLink="/signup" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    @if (headerService.menuOpen()) {
+        <div
+            class="fixed inset-0 z-40"
+            (click)="headerService.closeMenu()"
+            aria-hidden="true"></div>
+    }
+
+    <!-- Mobile Menu -->
+    <div
+        class="absolute top-16 -left-64 z-50 w-44 rounded-se-md rounded-ee-md bg-white py-4 shadow-sm transition-all duration-400 ease-linear"
+        [ngClass]="headerService.menuOpen() ? 'left-0' : '-left-64'"
+        (click)="headerService.closeMenu()"
+        #mobileNav
+        role="navigation"
+        aria-label="Mobile Navigation Menu"
+        [attr.aria-hidden]="!headerService.menuOpen()">
+        <div class="ml-5 space-y-4 text-left">
+            @for (link of headerRoutesData; track link.id) {
+                <a
+                    class="hover:text-green block cursor-pointer text-lg font-medium"
+                    [class.text-green-600]="
+                        scrollService.activeSection() === link.id
+                    "
+                    [class.font-semibold]="
+                        scrollService.activeSection() === link.id
+                    "
+                    (click)="navigateToFragment(link.id)"
+                    title="{{ link.title }} section link">
+                    {{ link.title }}
+                </a>
+            }
+        </div>
+    </div>
+</nav>

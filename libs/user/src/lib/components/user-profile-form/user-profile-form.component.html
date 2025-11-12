@@ -1,0 +1,133 @@
+<div class="max-w-3xl">
+    <div class="mb-3 flex items-center justify-between">
+        <h1 class="secondary-text text-lg font-bold">Personal Information</h1>
+        @if (isEditable()) {
+            <button
+                class="flex w-16 items-center justify-center rounded-sm border bg-[#f8f8f8] px-1.5 text-sm font-thin"
+                (click)="edit.emit(false)">
+                <i class="pi pi-times mr-1 text-xs font-thin"></i>
+                Cancel
+            </button>
+        } @else {
+            <button
+                class="flex w-16 items-center justify-center rounded-sm border bg-[#f8f8f8] px-1.5 text-sm font-thin dark:bg-[var(--color-gray-white-800)]"
+                (click)="edit.emit(true)">
+                <i class="pi pi-pen-to-square mr-1 text-xs font-thin"></i>Edit
+            </button>
+        }
+    </div>
+    <div class="p-fluid">
+        <form [formGroup]="form()">
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >First Name</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="firstName"
+                            formControlName="firstName" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >Last Name</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="lastName"
+                            formControlName="lastName" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >Phone</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="phone"
+                            formControlName="phone" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >City</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="city"
+                            formControlName="city" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >State</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="state"
+                            formControlName="state" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >Country</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="country"
+                            formControlName="country" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >Post Code</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="postCode"
+                            formControlName="postCode" />
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-6">
+                    <div class="p-field w-full">
+                        <label for="firstName" class="user-form-label"
+                            >Address</label
+                        >
+                        <input
+                            class="user-form-input"
+                            pInputText
+                            name="address"
+                            formControlName="address" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="mt-5">
+            @if (isEditable()) {
+                <p-button
+                    [disabled]="isLoading()"
+                    styleClass="bg-green rounded-sm px-4 py-1 text-sm text-white dark:!bg-[var(--color-primary)]"
+                    [loading]="isLoading()"
+                    (click)="save.emit($event)"
+                    type="submit">
+                    Save
+                </p-button>
+            }
+        </div>
+    </div>
+</div>

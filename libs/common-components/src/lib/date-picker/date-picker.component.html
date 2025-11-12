@@ -1,0 +1,9 @@
+<p-datepicker
+    [ngModel]="selectedDate()"
+    (ngModelChange)="selectedDate.set($event)"
+    [iconDisplay]="'input'"
+    appendTo="body"
+    [dateFormat]="dateFormat()"
+    [readonlyInput]="isReadonly()"
+    [showIcon]="true"
+    inputId="icondisplay" />

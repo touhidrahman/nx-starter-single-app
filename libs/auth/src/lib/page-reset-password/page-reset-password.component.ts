@@ -1,0 +1,69 @@
+import { Component, inject } from '@angular/core'
+import {
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms'
+
+@Component({
+    selector: 'app-page-reset-password',
+    imports: [ReactiveFormsModule],
+    templateUrl: './page-reset-password.component.html',
+    styleUrl: './page-reset-password.component.scss',
+})
+export class PageResetPasswordComponent {
+    private fb = inject(FormBuilder)
+
+    resetPasswordForm: FormGroup = this.fb.group({
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+    })
+
+    passwordMatchValidator(form: FormGroup) {
+        const newPassword = form.get('newPassword')
+        const confirmPassword = form.get('confirmPassword')
+        if (newPassword && confirmPassword) {
+            return newPassword.value === confirmPassword.value
+                ? null
+                : { mismatch: true }
+        }
+        return null
+    }
+
+    onSubmit() {
+        // if (this.resetPasswordForm.valid) {
+        //     const { currentPassword, newPassword, confirmPassword } =
+        //         this.resetPasswordForm.value;
+        //     this.authApiService
+        //         .changePassword(currentPassword, newPassword, confirmPassword)
+        //         .subscribe({
+        //             next: (response: ApiResponse<boolean>) => {
+        //                 if (response.data) {
+        //                     // Show success toast
+        //                     toast('Password changed successfully', {
+        //                         description: 'You have successfully changed your password.',
+        //                         action: {
+        //                             label: 'Login',
+        //                             onClick: () => this.router.navigate(['/login']),
+        //                         }
+        //                     });
+        //                 } else {
+        //                     // Show error toast
+        //                     toast('Password change failed', {
+        //                         description: 'Please try again.',
+        //                     });
+        //                 }
+        //             },
+        //             error: (err) => {
+        //                 // Show error toast
+        //                 toast('Password change failed', {
+        //                     description: 'An error occurred. Please try again.',
+        //                 });
+        //                 console.error('Password change failed', err);
+        //             },
+        //         });
+        // }
+    }
+}

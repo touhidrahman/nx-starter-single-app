@@ -1,0 +1,66 @@
+@let state = newsTickerListStateService.selectAll() | async;
+@let loading = this.newsTickerListStateService.select('loading') | async;
+
+@if (loading) {
+    <div class="flex items-center justify-center py-8">
+        <i
+            class="pi pi-spin pi-spinner"
+            style="font-size: 2rem; color: green"></i>
+    </div>
+} @else if (state?.newsTickers?.length) {
+    <p-table
+        [value]="state?.newsTickers ?? []"
+        [paginator]="false"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [globalFilterFields]="['title', 'status', 'url']"
+        [lazy]="true"
+        stripedRows="true">
+        <ng-template #header>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Ticker Url</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-data>
+            <tr>
+                <td>
+                    <span class="bangla">{{ data.title }}</span>
+                </td>
+                <td>
+                    <span
+                        class="rounded-sm px-2 py-1 text-xs font-medium"
+                        [ngClass]="{
+                            'bg-green-100 text-green-800': data.isActive,
+                            'bg-red-100 text-red-800': !data.isActive,
+                        }">
+                        {{ data.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                </td>
+                <td>
+                    <span class="text-xs">{{ data.tickerUrl }}</span>
+                </td>
+                <td class="flex items-center justify-start gap-1">
+                    <p-button
+                        styleClass="mb-2"
+                        icon="pi pi-pen-to-square"
+                        size="small"
+                        rounded="true"
+                        text="true"
+                        (click)="onEditNewsTicker(data)" />
+                    <p-button
+                        styleClass="mb-2"
+                        severity="warn"
+                        icon="pi pi-trash"
+                        size="small"
+                        [rounded]="true"
+                        [text]="true"
+                        (click)="confirmDelete(data)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+} @else {
+    <lib-no-data [noDataMessage]="'No data found'" />
+}

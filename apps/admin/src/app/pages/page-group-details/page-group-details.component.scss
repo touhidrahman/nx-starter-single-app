@@ -1,0 +1,13 @@
+:host {
+    display: block;
+}
+
+@reference "tailwindcss";
+
+.nav-link {
+    @apply flex items-center gap-2 border-gray-200 px-8 py-2 text-gray-800 hover:text-[#10B981];
+}
+
+.active-link {
+    @apply border-b-4 border-[#10B981] font-semibold text-[#10B981];
+}

@@ -1,0 +1,49 @@
+:host {
+    display: block;
+}
+
+@reference "tailwindcss";
+
+.badge-purple {
+    @apply me-2 rounded-sm bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800;
+}
+.badge-delete {
+    @apply me-2 rounded-sm bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800;
+}
+.badge-yellow {
+    @apply me-2 rounded-sm bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800;
+}
+
+.audit-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+.audit-log-table th,
+.audit-log-table td {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.log-data {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    font-family: monospace;
+    max-width: 300px;
+    overflow: hidden;
+}
+
+.see-more-btn {
+    background: none;
+    border: none;
+    color: #2196f3;
+    cursor: pointer;
+    padding: 0px 0;
+    font-size: 0.8rem;
+}
+
+//   .see-more-btn:hover {
+//     text-decoration: underline;
+//   }

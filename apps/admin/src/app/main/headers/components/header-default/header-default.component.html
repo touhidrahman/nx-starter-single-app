@@ -1,0 +1,80 @@
+<nav class="relative w-full bg-white text-gray-700 shadow-sm">
+    <div class="mx-auto flex flex-wrap items-center justify-between px-4 py-2">
+        <div (click)="toggleSidebar()" class="cursor-pointer">
+            <i class="pi pi-bars !text-3xl"></i>
+        </div>
+        @let user = adminAuthSateService.select('userId') | async;
+        <!-- @let profilePhoto =
+            profileStateService.select('profilePhotoUrl') | async; -->
+        <div class="hidden space-x-5 md:block">
+            @if (user) {
+                <div
+                    class="hidden space-x-5 md:block"
+                    (click)="openProfileDropDown()">
+                    <!-- //TODO: Active when admin profile full feature complete -->
+                    <!-- @if (profilePhoto) {
+                        <p-avatar
+                            id="profileButton"
+                            image="{{ profilePhoto }}"
+                            class=" h-12 w-12 border-2 border-gray-300 cursor-pointer  "
+                            [style]="{
+                                'background-color': '#dee9fc',
+                                color: '#1a2551',
+                                'font-size': '24px',
+                            }"
+                            shape="circle" />
+                    } @else {
+                        <p-avatar
+                            label="{{
+                                adminAuthSateService.getUserEmail()?.slice(0, 1)
+                            }}"
+                            class="mr-2 uppercase w-10 h-10 border-2 border-gray-300 cursor-pointer"
+                            [style]="{
+                                'background-color': '#dee9fc',
+                                color: '#1a2551',
+                            }"
+                            shape="circle" />
+                    } -->
+                    <p-avatar
+                        label="{{
+                            adminAuthSateService.getUserEmail()?.slice(0, 2)
+                        }}"
+                        class="mr-2 h-10 w-10 cursor-pointer border-2 border-gray-300 uppercase"
+                        style="background-color: #ece9fc; color: #2a1261"
+                        shape="circle" />
+                </div>
+            } @else {
+                <!-- TODO: No need signup -->
+                <!-- <button
+                    class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
+                    routerLink="/signup">
+                    Sign Up
+                </button> -->
+                <p-button
+                    [severity]="'primary'"
+                    label="Sign In"
+                    routerLink="/login">
+                </p-button>
+            }
+        </div>
+    </div>
+
+    @if (isVisibleDropDown()) {
+        <div
+            class="absolute top-14 right-2 flex w-56 flex-col gap-3 rounded-md border border-gray-300 bg-white py-4 shadow-md"
+            id="profileDropDown">
+            <button class="flex justify-start px-3 leading-relaxed">
+                <span>{{ adminAuthSateService.getUserEmail() }}</span>
+            </button>
+            <hr />
+            <p-button
+                [text]="true"
+                label="Log Out"
+                [icon]="'pi pi-sign-out'"
+                [severity]="'warn'"
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all"
+                (click)="adminAuthSateService.logout('/login')">
+            </p-button>
+        </div>
+    }
+</nav>

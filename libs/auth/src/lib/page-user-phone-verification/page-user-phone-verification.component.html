@@ -1,0 +1,134 @@
+<div class="container">
+    <div class="mx-auto grid min-h-screen max-w-4xl place-items-center">
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 lg:col-span-6">
+                <img
+                    src="assets/images/phone_otp.png"
+                    class="h-[400px] w-[400px]"
+                    alt="phone otp" />
+            </div>
+            <div class="col-span-12 lg:col-span-6">
+                <div>
+                    <h1
+                        class="text-center text-2xl font-normal text-green-700 lg:text-4xl">
+                        Verify Your Phone Number
+                    </h1>
+                    <p
+                        class="mt-2 text-center text-base font-normal text-[#707070] xl:px-8">
+                        Enter the <strong>OTP code</strong> we sent to your
+                        number {{ secretPhone() }} within the next 20 minutes.
+                        Do not share this code with anyone for security reasons.
+                    </p>
+
+                    @let codeControl =
+                        verifyUserFormService.verificationCodeControl;
+                    @let codeDirtyOrTouched =
+                        codeControl?.dirty || codeControl?.touched;
+                    @let phoneControl = verifyUserFormService.phoneControl;
+                    @let phoneDirtyOrTouched =
+                        phoneControl?.dirty || phoneControl?.touched;
+
+                    <div
+                        [formGroup]="verifyUserForm"
+                        class="mt-8 grid grid-cols-12 gap-4">
+                        <div class="col-span-12">
+                            <label
+                                for="phone"
+                                class="text-900 mb-2 block font-medium"
+                                >Phone</label
+                            >
+                            <input
+                                id="phone"
+                                type="text"
+                                placeholder="phone number"
+                                pInputText
+                                formControlName="phone"
+                                class="w-full" />
+                            @if (
+                                phoneControl?.hasError('required') &&
+                                phoneDirtyOrTouched
+                            ) {
+                                <small class="mt-1 text-sm text-red-500"
+                                    >Phone is required</small
+                                >
+                            }
+
+                            @if (
+                                phoneControl?.hasError('pattern') &&
+                                phoneDirtyOrTouched
+                            ) {
+                                <small class="mt-1 text-sm text-red-500">
+                                    Please enter a valid phone number
+                                    (01XXXXXXXXX)
+                                </small>
+                            }
+                        </div>
+                        <div class="col-span-12">
+                            <label
+                                for="verificationCode"
+                                class="text-900 mb-2 block font-medium"
+                                >Verification Code</label
+                            >
+                            <input
+                                id="verificationCode"
+                                type="text"
+                                inputmode="numeric"
+                                placeholder="verification code"
+                                pInputText
+                                formControlName="verificationCode"
+                                required
+                                [maxlength]="6"
+                                [minlength]="6"
+                                pattern="[0-9]*"
+                                class="w-full" />
+                            @if (
+                                codeControl?.hasError('required') &&
+                                codeDirtyOrTouched
+                            ) {
+                                <small class="mt-1 text-sm text-red-500">
+                                    Verification code is required
+                                </small>
+                            }
+
+                            @if (
+                                (codeControl?.hasError('minlength') ||
+                                    codeControl?.hasError('maxlength')) &&
+                                codeDirtyOrTouched
+                            ) {
+                                <small class="mt-1 text-sm text-red-500">
+                                    Code must be exactly 6 digits
+                                </small>
+                            }
+
+                            @if (
+                                codeControl?.hasError('pattern') &&
+                                codeDirtyOrTouched
+                            ) {
+                                <small class="mt-1 text-sm text-red-500">
+                                    Only numbers are allowed
+                                </small>
+                            }
+                        </div>
+                        <div class="col-span-12 xl:col-span-12">
+                            <button
+                                pButton
+                                pRipple
+                                (click)="verifyUser($event)"
+                                [disabled]="
+                                    verifyUserForm.invalid || isLoading()
+                                "
+                                icon="pi pi-lock"
+                                class="bg-green mt-3 w-full">
+                                @if (isLoading()) {
+                                    loading...
+                                } @else {
+                                    Verify
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

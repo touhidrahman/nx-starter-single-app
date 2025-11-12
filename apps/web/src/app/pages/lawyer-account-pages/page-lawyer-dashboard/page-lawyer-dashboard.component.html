@@ -1,0 +1,136 @@
+<div class="relative w-full overflow-x-clip p-5">
+    <div class="flex items-center gap-4">
+        <div
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
+            style="box-shadow: 1px 1px 10px 0px #0000001a">
+            <div
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
+                style="box-shadow: 1px 1px 10px 0px #00000080">
+                <img src="../../../../assets/icons/case.png" alt="" />
+            </div>
+            <div class="text-right">
+                <p class="text-2xl font-bold text-neutral-800">Total Cases</p>
+                <span class="text-blue0a !font-poppins text-7xl font-semibold"
+                    >12</span
+                >
+            </div>
+        </div>
+
+        <div
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
+            style="box-shadow: 1px 1px 10px 0px #0000001a">
+            <div
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
+                style="box-shadow: 1px 1px 10px 0px #00000080">
+                <img src="../../../../assets/icons/active.png" alt="" />
+            </div>
+            <div class="text-right">
+                <p class="text-lightGreen text-2xl font-bold">Active Cases</p>
+                <span class="text-blue8b !font-poppins text-7xl font-semibold"
+                    >12</span
+                >
+            </div>
+        </div>
+
+        <div
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
+            style="box-shadow: 1px 1px 10px 0px #0000001a">
+            <div
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
+                style="box-shadow: 1px 1px 10px 0px #00000080">
+                <img src="../../../../assets/icons/pending.png" alt="" />
+            </div>
+            <div class="text-right">
+                <p class="text-2xl font-bold text-neutral-800">Pending Cases</p>
+                <span class="text-blue0b !font-poppins text-7xl font-semibold"
+                    >12</span
+                >
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <h2 class="my-6 text-4xl font-semibold text-neutral-800">
+            Upcoming Cases
+        </h2>
+        <div class="grid grid-cols-3 gap-5 px-4">
+            @for (i of [1, 2, 3, 4]; track $index) {
+                <div
+                    class="relative z-40 col-span-1 p-4"
+                    style="box-shadow: 1px 1px 10px 0px #0000001a">
+                    <div class="pb-5">
+                        <div
+                            class="flex items-center justify-center space-x-1 text-neutral-800">
+                            <i
+                                class="pi pi-calendar text-lg !font-extrabold"></i>
+                            <span class="text-2xl font-bold">10/12/2024</span>
+                        </div>
+
+                        <div
+                            class="text-gray70 flex items-center justify-center space-x-1 text-xs">
+                            <i
+                                class="pi pi-map-marker text-xs !font-medium"></i>
+
+                            <span> Dhaka Judge Court </span>
+                        </div>
+                    </div>
+                    <h4
+                        class="mb-2.5 text-center text-2xl font-bold text-neutral-800">
+                        Ariful vs Ferdous
+                    </h4>
+
+                    <p class="px-3 text-center text-base">
+                        Here are the details of the card. Lorem ipsum dolor sit
+                        amet consectetur adipisicing elit.Here are the details
+                        of the card. Lorem ipsum dolor sit amet consectetur
+                        adipisicing elit.Here are the details of the card. Lorem
+                        ipsum dolor sit amet consectetur adipisicing elit.Here
+                        are the details of the card df sdf sdf sdf ssfr estrt
+                        rtt rt rt .
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <h2 class="my-6 text-4xl font-semibold text-neutral-800">
+            Pinned Cases
+        </h2>
+        <div class="grid grid-cols-3 gap-4">
+            @for (i of [1, 2, 3, 4, 5, 6]; track $index) {
+                <div
+                    class="col-span-1 flex items-center justify-between rounded-xl bg-white p-4"
+                    style="box-shadow: 1px 1px 10px 0px #0000001a">
+                    <div class="customAfter pl-4">
+                        <h3 class="text-bold text-2xl text-neutral-800">
+                            Ariful vs Ferdous
+                        </h3>
+                        <div class="flex items-center justify-start gap-5">
+                            <div
+                                class="text-gray70 flex items-center justify-center space-x-1 text-base">
+                                <i
+                                    class="pi pi-map-marker text-xs !font-medium"></i>
+
+                                <span> Dhaka Judge Court </span>
+                            </div>
+                            <div
+                                class="text-gray70 flex items-center justify-center space-x-1 text-base">
+                                <i
+                                    class="pi pi-calendar text-xs !font-medium"></i>
+
+                                <span> 10/12/2024 </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-lightGreen flex items-center justify-center rounded-full p-2.5"
+                        style="box-shadow: 1px 1px 10px 0px #00000026">
+                        <i class="pi pi-thumbtack text-lg !font-semibold"></i>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

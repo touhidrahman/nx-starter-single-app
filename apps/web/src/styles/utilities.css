@@ -1,0 +1,61 @@
+@layer utilities {
+    .bg-color-main {
+        background-color: var(--color-gray-white-50);
+    }
+
+    .bg-color-sidebar {
+        background-color: var(--color-gray-white-50);
+    }
+
+    .bg-color-header {
+        background-color: var(--color-gray-white-50);
+    }
+
+    .bg-color-container {
+        background-color: var(--color-gray-white);
+    }
+
+    .bg-color-alert {
+        background-color: var(--color-gray-white-300);
+    }
+
+    /* Text Utilities */
+    .text-gradient {
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    /* Global gradient background animation */
+    .animated-green-bg {
+        min-height: 100vh;
+        background: linear-gradient(
+            to right,
+            #e6ffe6 0%,
+            #e0ffff 25%,
+            #e6e6fa 50%,
+            #b0ffcc 75%,
+            #e6ffe6 100%
+        );
+        background-size: 10000px 100%;
+        animation: bg-scroll 30s linear infinite;
+    }
+
+    /* Animation */
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}

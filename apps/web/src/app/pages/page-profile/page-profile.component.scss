@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.profile {
+    @apply ml-2 flex h-[100px] w-[100px] items-center justify-center rounded-full border border-white shadow;
+}
+
+.badge-position {
+    @apply absolute -right-[-6px] -bottom-[-6px] flex h-4 w-4 items-center justify-center rounded-full;
+}

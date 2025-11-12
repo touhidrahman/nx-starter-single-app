@@ -1,0 +1,53 @@
+<div class="relative flex gap-0">
+    <!-- Sidebar for Desktop -->
+    <div
+        [ngClass]="{
+            'min-w-18': isSidebarCollapsed,
+            'min-w-56': !isSidebarCollapsed,
+            'hidden md:block': true,
+        }"
+        class="sticky top-0 bottom-0 left-0 z-50 h-screen overflow-hidden">
+        <app-sidebar-default
+            [isCollapsed]="isSidebarCollapsed"></app-sidebar-default>
+    </div>
+
+    <!-- Sidebar Drawer for Mobile -->
+
+    @if (true) {
+        <div
+            class="fixed inset-0 z-50 backdrop-blur-[1.5px] transition-opacity duration-400 md:hidden"
+            [ngStyle]="{
+                'background-color': isMobileSidebarOpen
+                    ? 'rgba(0, 0, 0, 0.3)'
+                    : 'transparent',
+                'pointer-events': isMobileSidebarOpen ? 'auto' : 'none',
+                opacity: isMobileSidebarOpen ? '1' : '0',
+            }"
+            (click)="closeMobileSidebar()">
+            <div
+                class="absolute top-0 left-0 h-full w-64 transform bg-gray-50 shadow-lg transition-transform duration-400 ease-in-out"
+                [ngClass]="{
+                    '-translate-x-full': !isMobileSidebarOpen,
+                    'translate-x-0': isMobileSidebarOpen,
+                }">
+                <app-sidebar-default
+                    [isCollapsed]="false"></app-sidebar-default>
+            </div>
+        </div>
+    }
+
+    <!--  -->
+
+    <section class="bg-color-main flex-1">
+        <app-header-default
+            (sidebarToggle)="toggleSidebar()"
+            class="sticky top-0 z-50"></app-header-default>
+
+        <main class="bg-color-main p-4">
+            <ng-content></ng-content>
+        </main>
+        <!-- <div class="fixed right-4 bottom-4 z-50">
+            <app-page-feedback />
+        </div> -->
+    </section>
+</div>

@@ -1,0 +1,18 @@
+<div
+    class="case-header border-garay border-gray mb-4 border-b border-gray-100 pb-4 text-gray-700/80">
+    <div
+        class="text-green1f secondary-text mt-2 flex items-center justify-start gap-2 font-bold">
+        <i class="pi pi pi-receipt"></i>
+        <h2 class="text-xl font-bold">Cause List</h2>
+    </div>
+</div>
+
+<app-cause-list-hero-section />
+@let causeList = causeListStateService.select('causeList') | async;
+@let isLoading = causeListStateService.select('loading') | async;
+
+<div class="relative mt-4 h-[400px] overflow-y-auto">
+    <app-cause-list-details-card
+        [causeList]="causeList ?? []"
+        [isLoading]="isLoading ?? false" />
+</div>

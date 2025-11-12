@@ -1,0 +1,52 @@
+<div class="col-span-12">
+    <h2 class="mb-4 text-center text-xl font-bold text-gray-800">
+        Select Registration Type
+    </h2>
+</div>
+
+<div [formGroup]="registerFormService.form">
+    <div class="col-span-12" formGroupName="organization">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            @for (groupType of groupTypes(); track $index) {
+                <div
+                    class="max-w-sm cursor-pointer rounded-xl border-2 p-2 transition-all hover:border-green-400 hover:shadow-md"
+                    [ngClass]="
+                        registerFormService.form.get('organization.groupType')
+                            ?.value === groupType.value
+                            ? 'border-green-500 bg-gray-50 text-green-800 shadow-sm'
+                            : 'border-gray-200 bg-white text-gray-700'
+                    "
+                    (click)="selectGroupType(groupType.value)">
+                    <h3 class="mb-2 text-lg font-bold">
+                        {{ groupType.label }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        {{
+                            groupType.value === 'client'
+                                ? 'For individuals who want to track cases and stay connected with their lawyer.'
+                                : 'For lawyers, clerks, or law firms who wish to manage and collaborate on cases through MyApp.'
+                        }}
+                    </p>
+                </div>
+            }
+        </div>
+
+        @if (
+            registerFormService.form.get('organization.groupType')?.value ===
+                'client' ||
+            registerFormService.form.get('organization.groupType')?.value ===
+                'vendor'
+        ) {
+            <div class="flex justify-end pt-6">
+                <p-button
+                    (onClick)="next.emit()"
+                    label="Next"
+                    icon="pi pi-arrow-right"
+                    iconPos="right"
+                    variant="outlined"
+                    severity="success" />
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,82 @@
+:host {
+    display: block;
+}
+
+::ng-deep .p-accordionheader {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+::ng-deep .p-accordionheader .p-icon {
+    order: -1 !important;
+    margin-right: 0.6rem;
+    transform: rotate(180deg);
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+:host ::ng-deep .p-accordion-content {
+    padding: 0;
+}
+
+:host ::ng-deep .p-accordion .p-table {
+    border: none;
+}
+
+:host ::ng-deep table {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 50rem; /* Ensure table doesn't collapse too small */
+}
+
+:host ::ng-deep th,
+:host ::ng-deep td {
+    width: auto;
+    color: #334155;
+    white-space: nowrap; /* Prevent text wrapping in cells */
+}
+
+:host ::ng-deep td .text-sm {
+    white-space: normal; /* Allow description to wrap */
+}
+
+.custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ccc;
+    border-radius: 20%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+    background-color: #424242;
+    border-color: #424242;
+}
+
+.custom-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.custom-checkbox:hover {
+    border-color: #005f15;
+}

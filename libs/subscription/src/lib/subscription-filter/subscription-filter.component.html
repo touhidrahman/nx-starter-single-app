@@ -1,0 +1,61 @@
+<div class="relative inline-block text-left">
+    <p-button
+        label="Filters"
+        styleClass="btn-outline"
+        icon="pi pi-filter"
+        iconPos="left"
+        (click)="showFilter.set(!showFilter())">
+    </p-button>
+    @if (showFilter()) {
+        <div
+            class="absolute right-0 z-10 mt-1 w-max rounded-md border border-gray-200 bg-white shadow-lg">
+            <div class="w-full">
+                <div class="flex flex-col gap-4 px-4 py-5">
+                    <div class="grid grid-cols-3 gap-4">
+                        <!-- Plan filter -->
+                        <p-select
+                            [options]="planOptions"
+                            [(ngModel)]="selectedPlan"
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select Plan">
+                        </p-select>
+
+                        <!-- Subscription Type filter -->
+                        <p-select
+                            [options]="subscriptionTypeOptions"
+                            [(ngModel)]="selectedSubscriptionType"
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select Type">
+                        </p-select>
+
+                        <!-- Status filter -->
+                        <p-select
+                            [options]="statusOptions"
+                            [(ngModel)]="selectedStatus"
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select Status">
+                        </p-select>
+                    </div>
+                </div>
+                <div
+                    class="flex items-center justify-end gap-4 border-t border-gray-200 px-4 py-3">
+                    <p-button
+                        severity="secondary"
+                        size="small"
+                        class="cursor-pointer text-gray-600"
+                        (click)="resetFilter()">
+                        Clear all filters
+                    </p-button>
+                    <p-button
+                        size="small"
+                        styleClass="bg-primary"
+                        label="Apply"
+                        (click)="applyFilters()" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

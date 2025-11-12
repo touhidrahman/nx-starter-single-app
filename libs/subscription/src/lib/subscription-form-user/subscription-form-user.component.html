@@ -1,0 +1,90 @@
+<form [formGroup]="subscriptionFormService.form" class="space-y-4">
+    <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+            <label
+                for="subscriptionType"
+                class="secondary-text block text-base font-medium text-gray-700"
+                >Subscription Type</label
+            >
+            <input
+                pInputText
+                id="transactionId"
+                formControlName="subscriptionType"
+                class="w-full" />
+        </div>
+        <div class="space-y-2">
+            <label
+                for="transactionId"
+                class="secondary-text block text-base font-medium text-gray-700"
+                >Transaction ID</label
+            >
+            <input
+                pInputText
+                id="transactionId"
+                formControlName="transactionId"
+                class="w-full" />
+        </div>
+        <div class="space-y-2">
+            <label
+                for="paymentNumber"
+                class="secondary-text block text-base font-medium text-gray-700"
+                >Payment Number</label
+            >
+            <input
+                pInputText
+                id="paymentNumber"
+                formControlName="paymentNumber"
+                class="w-full" />
+            @if (
+                subscriptionFormService.phoneControl?.hasError('required') &&
+                (subscriptionFormService.phoneControl?.dirty ||
+                    subscriptionFormService.phoneControl?.touched)
+            ) {
+                <small class="secondary-text-2 mt-1 text-sm text-red-500"
+                    >Phone is required</small
+                >
+            }
+
+            @if (
+                subscriptionFormService.phoneControl?.hasError('pattern') &&
+                (subscriptionFormService.phoneControl?.dirty ||
+                    subscriptionFormService.phoneControl?.touched)
+            ) {
+                <small class="secondary-text-2 mt-1 text-sm text-red-500">
+                    Please enter a valid phone number (01XXXXXXXXX)
+                </small>
+            }
+        </div>
+        <div class="space-y-2">
+            <label
+                for="paymentMethod"
+                class="secondary-text block text-base font-medium text-gray-700"
+                >Payment Method</label
+            >
+            <p-select
+                id="paymentMethod"
+                formControlName="paymentMethod"
+                [options]="['bKash']"
+                class="w-full"></p-select>
+        </div>
+        <div class="flex gap-4">
+            <div class="flex items-center">
+                <p-checkbox
+                    id="autoRenewal"
+                    formControlName="autoRenewal"
+                    label="Auto Renewal"
+                    binary="true"></p-checkbox>
+                <label class="secondary-text ml-2">Auto Renewal</label>
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <p-button
+            [loading]="isLoading()"
+            [disabled]="subscriptionFormService.form.invalid || isLoading()"
+            (click)="onSubmit($event)"
+            type="submit"
+            label="Submit payment details"
+            size="small" />
+    </div>
+</form>

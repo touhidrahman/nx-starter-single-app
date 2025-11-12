@@ -1,0 +1,4 @@
+<div class="space-y-8 px-4">
+    <app-current-subscription-card [subscription]="subscription()" />
+    <app-all-plans [currentPlanId]="subscription()?.planId" />
+</div>

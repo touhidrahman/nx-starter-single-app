@@ -1,0 +1,44 @@
+<section>
+    <h2 class="text-4xl leading-10 font-bold">Courts</h2>
+
+    <div class="my-5 flex items-center justify-between">
+        <div class="flex items-center justify-end gap-3">
+            <p-button
+                size="small"
+                styleClass="bg-secondary py-2"
+                (onClick)="showCreateDialog()">
+                <i class="pi pi-plus"></i> Create Court</p-button
+            >
+            <p-button
+                size="small"
+                styleClass="bg-secondary py-2"
+                (onClick)="showUploadDialog()">
+                <i class="pi pi-upload"></i> Upload Json</p-button
+            >
+            <p-button
+                size="small"
+                styleClass="bg-secondary py-2"
+                (onClick)="confirmIndexing()">
+                <i class="pi pi-file-arrow-up"></i> Meilisearch
+                Indexing</p-button
+            >
+        </div>
+        <div class="relative w-[400px]">
+            <i
+                class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 transform text-gray-400"></i>
+            <input
+                type="text"
+                pInputText
+                size="small"
+                placeholder="Search court by name or district"
+                class="search-field w-full pl-10"
+                (input)="onSearch($event)" />
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <p-card>
+            <app-court-table></app-court-table>
+        </p-card>
+    </div>
+</section>

@@ -1,0 +1,52 @@
+<div
+    class="relative overflow-hidden bg-[url('/assets/images/lawyer.png')] bg-cover bg-center">
+    <div class="relative px-4 py-8 lg:px-16 lg:py-10">
+        <div
+            class="md:flex md:items-center md:space-x-12 lg:w-2/3 lg:space-x-24">
+            <div class="md:w-4/5 lg:w-full">
+                <h2
+                    class="gradient1 text-3xl font-bold italic sm:text-5xl md:text-5xl lg:text-left">
+                    Meet experienced lawyers for your legal help
+                </h2>
+                <p class="md:text-normal mt-2 text-sm text-gray-300 lg:w-4/5">
+                    Connect with the most experienced and highly rated lawyers
+                    around you. Our expert panel is carefully selected based on
+                    reputation, success rate, and years of practice. Use filters
+                    like district, rating, and experience to find the right
+                    legal professional for your needs. Trusted support is just a
+                    few clicks away.
+                </p>
+            </div>
+        </div>
+
+        <button
+            class="group relative mt-4 flex min-h-[2.92rem] max-w-full min-w-[8.5rem] cursor-pointer items-center justify-start rounded-full bg-white/20 py-2 shadow-[inset_1px_2px_5px_#00000080] transition-all duration-[0.8s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] hover:bg-green-400"
+            aria-label="Search and find experienced lawyers"
+            (click)="onSearchRedirect()">
+            <div class="absolute inset-0 flex items-center justify-start p-1">
+                <div
+                    class="w-[0%] transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:w-full"></div>
+                <div
+                    class="flex aspect-square h-full shrink-0 items-center justify-center rounded-full bg-green-400 shadow-[inset_1px_-1px_3px_0_black] transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:bg-black">
+                    <div
+                        class="size-[0.8rem] text-black transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:-rotate-45 group-hover:text-white">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 16 16"
+                            height="100%"
+                            width="100%">
+                            <path
+                                fill="currentColor"
+                                d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="pr-[1.1rem] pl-[3.4rem] text-white transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:pr-[3.4rem] group-hover:pl-[1.1rem] group-hover:text-black">
+                Find lawyer around you
+            </div>
+        </button>
+    </div>
+</div>

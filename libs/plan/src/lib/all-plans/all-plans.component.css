@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+:host {
+    display: block;
+}
+
+.plans-item {
+    @apply flex items-center;
+}
+
+.plans-item i {
+    @apply mr-2 text-sm;
+}

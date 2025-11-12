@@ -1,0 +1,47 @@
+<div class="grid h-screen items-center">
+    <div
+        id="toast-interactive"
+        class="mx-auto w-full max-w-xs rounded-lg bg-white p-4 text-gray-500 shadow-sm"
+        role="alert">
+        <div class="flex">
+            <div
+                class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500">
+                <i class="pi pi-check-circle text-green-500"></i>
+            </div>
+            <div class="ms-3 text-sm font-normal">
+                <span class="mb-1 text-sm font-semibold text-gray-900">
+                    {{
+                        isReset()
+                            ? 'Send Password Reset Link via Email'
+                            : 'Send Verification Email'
+                    }}
+                </span>
+                <div class="mb-2 text-sm font-normal">
+                    Please check your email to
+                    {{
+                        isReset()
+                            ? 'reset your password'
+                            : 'verify your account'
+                    }}.
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div></div>
+                    <div>
+                        <a
+                            routerLink="/login"
+                            class="inline-flex w-full justify-center rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-xs font-medium text-gray-900 hover:bg-gray-100"
+                            >Login</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <button
+                type="button"
+                class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+                data-dismiss-target="#toast-interactive"
+                aria-label="Close">
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="flex justify-between">
+    <h1 class="text-2xl font-bold">Subscriptions List</h1>
+    <span></span>
+</div>
+<div class="my-5 flex items-center justify-end">
+    <app-subscription-filter></app-subscription-filter>
+</div>
+<div class="mt-2">
+    @let allSubscriptions =
+        subscriptionStateService.select('subscriptions') | async;
+
+    @let state = subscriptionStateService.selectAll() | async;
+    @let loading = this.subscriptionStateService.select('loading') | async;
+
+    @if (loading) {
+        <div class="flex items-center justify-center py-8">
+            <i
+                class="pi pi-spin pi-spinner"
+                style="font-size: 2rem; color: green"></i>
+        </div>
+    } @else if (state?.subscriptions?.length) {
+        <p-card>
+            <p-table
+                [value]="allSubscriptions ?? []"
+                [paginator]="true"
+                [rows]="state?.size ?? 10"
+                [first]="((state?.page ?? 1) - 1) * (state?.size ?? 10)"
+                [totalRecords]="state?.totalItems ?? 0"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [lazy]="true"
+                (onPage)="onPageChange($event)"
+                [alwaysShowPaginator]="true"
+                stripedRows="true">
+                <ng-template #header>
+                    <tr>
+                        <th>Group ID</th>
+                        <th>Group Name</th>
+                        <th>Plan</th>
+                        <th>Subscription Type</th>
+                        <th>Status</th>
+                        <th>Payment method</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-subscription>
+                    <tr>
+                        <td>{{ subscription.groupId }}</td>
+                        <td>{{ subscription.groupName }}</td>
+                        <td>{{ subscription.planName }}</td>
+                        <td>{{ subscription.subscriptionType }}</td>
+                        <td>
+                            <span
+                                class="me-2 rounded-md px-2.5 py-0.5 text-sm font-medium dark:bg-emerald-200 dark:text-emerald-900"
+                                [ngClass]="{
+                                    'bg-emerald-100 text-emerald-800':
+                                        subscription.status === 'active',
+                                    'bg-yellow-100 text-yellow-800':
+                                        subscription.status === 'pending',
+                                    'bg-pink-100 text-pink-800':
+                                        subscription.status === 'inactive',
+                                }"
+                                >{{ subscription.status | uppercase }}</span
+                            >
+                        </td>
+                        <td>{{ subscription.paymentMethod }}</td>
+                        <td>
+                            {{ subscription.startDate | date: 'mediumDate' }}
+                        </td>
+                        <td>
+                            {{ subscription.endDate | date: 'mediumDate' }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    } @else {
+        <lib-no-data [noDataMessage]="'No data found'" />
+    }
+</div>

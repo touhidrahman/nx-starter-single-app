@@ -1,0 +1,41 @@
+<form [formGroup]="newsTickerFormService.form">
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="title" class="required">Title</label>
+                <input pInputText formControlName="title" />
+            </div>
+        </div>
+        <div class="col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="url">Ticker Url</label>
+                <input pInputText formControlName="tickerUrl" />
+            </div>
+        </div>
+        <div class="col-span-12">
+            <div class="flex items-center gap-3">
+                <div class="field-checkbox">
+                    <p-radiobutton
+                        inputId="active"
+                        [value]="true"
+                        formControlName="isActive" />
+                    <label for="active" class="ml-2">Active</label>
+                </div>
+                <div class="field-checkbox">
+                    <p-radiobutton
+                        inputId="inactive"
+                        [value]="false"
+                        formControlName="isActive" />
+                    <label for="inactive" class="ml-2">Inactive</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <p-button
+            [loading]="isLoading()"
+            [disabled]="isLoading() || newsTickerFormService.form.invalid"
+            label="{{ this.config.data?.newsTicker ? 'Update' : 'Save' }}"
+            (onClick)="onSubmit($event)" />
+    </div>
+</form>

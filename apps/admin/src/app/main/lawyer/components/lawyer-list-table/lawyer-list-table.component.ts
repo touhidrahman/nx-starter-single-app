@@ -1,0 +1,20 @@
+import { Component, input, model } from '@angular/core'
+import { PrimeModules } from '@repo/prime-modules'
+
+@Component({
+    selector: 'app-lawyer-list-table',
+    imports: [PrimeModules],
+    templateUrl: './lawyer-list-table.component.html',
+    styleUrl: './lawyer-list-table.component.css',
+})
+export class LawyerListTableComponent {
+    lawyers = input<any>([])
+
+    editMode = model(false)
+    visible = model(true)
+
+    onEdit() {
+        this.visible.set(!this.visible())
+        this.editMode.set(!this.editMode())
+    }
+}

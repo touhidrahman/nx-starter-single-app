@@ -1,0 +1,63 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
+        "target": "es2022",
+        "module": "esnext",
+        "lib": ["es2020", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@repo/common-auth": ["libs/common-auth/src/index.ts"],
+            "@repo/common-components": [
+                "libs/common-components/src/index.ts"
+            ],
+            "@repo/common-directives": [
+                "libs/common-directives/src/index.ts"
+            ],
+            "@repo/common-models": ["libs/common-models/src/index.ts"],
+            "@repo/common-page-layouts": [
+                "libs/common-page-layouts/src/index.ts"
+            ],
+            "@repo/common-pipes": ["libs/common-pipes/src/index.ts"],
+            "@repo/common-services": ["libs/common-services/src/index.ts"],
+            "@repo/common-util": ["libs/common-util/src/index.ts"],
+            "@repo/native-devices-util": [
+                "libs/native-devices-util/src/index.ts"
+            ],
+            "@repo/permission-request": [
+                "libs/permission-request/src/index.ts"
+            ],
+            "@repo/prime-modules": ["libs/prime-modules/src/index.ts"],
+            "@repo/audit-log": ["libs/audit-log/src/index.ts"],
+            "@repo/auth": ["libs/auth/src/index.ts"],
+            "@repo/backup": ["libs/backup/src/index.ts"],
+            "@repo/clients": ["libs/clients/src/index.ts"],
+            "@repo/common": ["libs/common/src/index.ts"],
+            "@repo/core": ["libs/core/src/index.ts"],
+            "@repo/feedback": ["libs/feedback/src/index.ts"],
+            "@repo/filestore": ["libs/filestore/src/index.ts"],
+            "@repo/group": ["libs/group/src/index.ts"],
+            "@repo/home": ["libs/home/src/index.ts"],
+            "@repo/news-ticker": ["libs/news-ticker/src/index.ts"],
+            "@repo/plan": ["libs/plan/src/index.ts"],
+            "@repo/public-pages": ["libs/public-pages/src/index.ts"],
+            "@repo/referral": ["libs/referral/src/index.ts"],
+            "@repo/role-permission": ["libs/role-permission/src/index.ts"],
+            "@repo/subscription": ["libs/subscription/src/index.ts"],
+            "@repo/user": ["libs/user/src/index.ts"],
+            "@repo/user-setting": ["libs/user-setting/src/index.ts"],
+            "@repo/store": ["libs/store/src/index.ts"]
+        }
+    },
+    "exclude": ["node_modules", "tmp"]
+}

@@ -1,0 +1,155 @@
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    @let plans = allPlans();
+
+    <!-- @for (item of plans; track $index) {
+        <div
+            class="flex h-full flex-col rounded-2xl border-2 border-gray-200 shadow-[0_0_15px_rgba(0,255,128,0.15)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-green-500/50 hover:shadow-[0_0_40px_rgba(0,255,128,0.3)]"
+            [ngClass]="plans.length > 1 ? 'lg:col-span-1' : 'lg:col-span-3'">
+            <div class="flex flex-1 flex-col justify-between">
+                <h3
+                    class="px-4 py-4 text-center text-3xl font-bold tracking-wide text-green-600 drop-shadow-amber-900">
+                    {{ item.name }}
+                </h3>
+
+                <div
+                    class="mx-4 mb-4 rounded-xl border border-gray-100 p-4 backdrop-blur-md">
+                    <div
+                        class="flex items-baseline justify-center text-5xl font-extrabold text-emerald-700 drop-shadow-[0_1px_8px_rgba(0,255,128,0.35)]">
+                        @if (isYearly() === 'yearly') {
+                            ৳ {{ item.yearlyPrice }}
+                            <span class="ml-2 text-lg font-medium text-gray-600"
+                                >/year</span
+                            >
+                        } @else {
+                            ৳ {{ item.monthlyPrice }}
+                            <span class="ml-2 text-lg font-medium text-gray-600"
+                                >/month</span
+                            >
+                        }
+                    </div>
+                    <p class="mt-2 text-center text-base text-gray-600">
+                        {{ item.description }}
+                    </p>
+                </div>
+
+                <div class="px-4 pb-4">
+                    <button
+                        class="w-full cursor-pointer rounded-lg bg-gradient-to-r from-emerald-700 to-green-700 px-4 py-3 font-semibold text-white shadow-[0_0_15px_rgba(0,255,128,0.4)] transition-all duration-300 hover:from-emerald-600 hover:to-green-700 hover:shadow-[0_0_25px_rgba(0,255,128,0.6)]"
+                        (click)="onUpgrade(item.id)">
+                        {{
+                            plans.length > 1
+                                ? 'Upgrade Subscription'
+                                : 'Get Started'
+                        }}
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="text-bold rounded-b-2xl border-t border-emerald-700/20 p-6 text-lg backdrop-blur-sm">
+                <ul role="list" class="space-y-2">
+                    @for (activeFeature of item.activeFeatures; track $index) {
+                        <li class="flex items-center">
+                            <i
+                                class="pi pi-check-circle text-green-500 drop-shadow-[0_1px_5px_rgba(0,255,128,0.25)]"></i>
+                            <p class="ml-3 text-gray-600">
+                                {{ activeFeature }}
+                            </p>
+                        </li>
+                    }
+
+                    @for (
+                        inactiveFeature of item.inactiveFeatures;
+                        track $index
+                    ) {
+                        <li class="flex items-center">
+                            <i
+                                class="pi pi-ban text-red-400 drop-shadow-[0_1px_5px_rgba(255,0,0,0.2)]"></i>
+                            <p class="ml-3 text-gray-600 line-through">
+                                {{ inactiveFeature }}
+                            </p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    } -->
+    @for (item of plans; track $index) {
+        <div
+            class="flex h-full flex-col rounded-xl border border-gray-200"
+            [ngClass]="plans.length > 1 ? 'lg:col-span-1' : 'lg:col-span-3'">
+            <div class="flex flex-1 flex-col justify-between">
+                <h3
+                    class="primary-text px-4 py-4 text-2xl font-bold tracking-wide text-gray-600">
+                    {{ item.name }}
+                </h3>
+                <div class="mb-4 px-4 pt-4">
+                    <div
+                        class="secondary-text flex items-baseline text-3xl font-extrabold text-emerald-700">
+                        @if (isYearly() === 'yearly') {
+                            {{
+                                item.yearlyPrice
+                                    | currency: '৳' : 'symbol' : '1.0-0'
+                            }}
+                            <span
+                                class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
+                                >/year</span
+                            >
+                        } @else {
+                            {{
+                                item.monthlyPrice
+                                    | currency: '৳' : 'symbol' : '1.0-0'
+                            }}
+                            <span
+                                class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
+                                >/month</span
+                            >
+                        }
+                    </div>
+                    <p class="secondary-text text-base text-gray-600">
+                        {{ item.description }}
+                    </p>
+                </div>
+                <div class="px-4 pb-4">
+                    <p-button
+                        [label]="
+                            plans.length > 1 ? 'Select Plan' : 'Get Started'
+                        "
+                        styleClass="bg-primary border-0 w-full"
+                        [disabled]="currentPlan()?.name == item.name"
+                        (click)="changePlan(item)" />
+                </div>
+            </div>
+
+            <div
+                class="text-bold border-spacing-1 rounded-b-2xl border-t border-emerald-700/20 px-4 py-6">
+                <ul role="list" class="space-y-2 text-base">
+                    @for (activeFeature of item.activeFeatures; track $index) {
+                        <li class="flex items-center">
+                            <i
+                                class="pi pi-check-circle secondary-text text-green-500"></i>
+                            <p
+                                class="secondary-text ml-2 text-sm text-gray-600">
+                                {{ activeFeature }}
+                            </p>
+                        </li>
+                    }
+
+                    @for (
+                        inactiveFeature of item.inactiveFeatures;
+                        track $index
+                    ) {
+                        <li class="flex items-center">
+                            <i
+                                class="pi pi-ban secondary-text-2 text-red-400"></i>
+                            <p
+                                class="secondary-text-2 ml-2 text-sm text-gray-600 line-through">
+                                {{ inactiveFeature }}
+                            </p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>

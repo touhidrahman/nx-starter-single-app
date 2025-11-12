@@ -1,0 +1,83 @@
+@let followedCases = followedCasesStateService.select('followedCases') | async;
+
+<div class="bg-color-sidebar sticky top-0 shadow-md">
+    <div>
+        <a class="flex justify-center pt-2">
+            @if (!isCollapsed) {
+                <img
+                    [routerLink]="
+                        isClient()
+                            ? ['/dashboard/home/client']
+                            : ['/dashboard/home']
+                    "
+                    src="assets/logo/logo1.png"
+                    class="h-12 w-36 cursor-pointer"
+                    alt="Full Logo" />
+            }
+            @if (isCollapsed) {
+                <img
+                    [routerLink]="
+                        isClient()
+                            ? ['/dashboard/home/client']
+                            : ['/dashboard/home']
+                    "
+                    src="assets/logo/logo1.png"
+                    class="h-12 w-12 cursor-pointer"
+                    alt="Collapsed Logo" />
+            }
+        </a>
+    </div>
+    <div
+        class="flex min-h-[100vh] flex-col justify-between space-y-6 px-2 pb-16">
+        <ul class="mt-14 space-y-1 sm:mt-6">
+            @for (
+                item of isClient() ? clientNavigationItems : navigationItems;
+                track $index
+            ) {
+                <li>
+                    <a
+                        [routerLink]="[item.routerLink]"
+                        routerLinkActive="active"
+                        #rla="routerLinkActive"
+                        class="secondary-text flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-gray-700 hover:bg-green-100 dark:hover:bg-[#1b1a1a]">
+                        <span
+                            class="pi {{
+                                item.icon
+                            }} text-xl md:text-2xl font-semibold text-gray-700 secondary-text"
+                            routerLinkActive="text-white"
+                            [pTooltip]="
+                                isCollapsed ? item.label : undefined
+                            "></span>
+                        @if (!isCollapsed) {
+                            @if (followedCases) {
+                                @if (
+                                    followedCases.length > 0 &&
+                                    item.label === 'My Cases'
+                                ) {
+                                    <span class="font-medium"
+                                        >{{ item.label }}
+                                        <span
+                                            [class]="
+                                                rla.isActive
+                                                    ? 'py ml-3 rounded-full bg-white px-1.5 text-xs text-black'
+                                                    : 'py ml-3 rounded-full bg-gray-500 px-1.5 text-xs text-white'
+                                            "
+                                            >{{ followedCases.length }}</span
+                                        ></span
+                                    >
+                                } @else {
+                                    <span class="font-medium">{{
+                                        item.label
+                                    }}</span>
+                                }
+                            }
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+        <div class="bottom-0">
+            <span class="text-xs text-gray-400">Version: {{ version() }}</span>
+        </div>
+    </div>
+</div>

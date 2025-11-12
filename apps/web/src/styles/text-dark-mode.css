@@ -1,0 +1,25 @@
+@layer components {
+    .dark .primary-text {
+        color: var(--color-gray-white-150) !important;
+    }
+
+    .dark .primary-text-2 {
+        color: var(--color-gray-white-175) !important;
+    }
+
+    .dark .secondary-text {
+        color: var(--color-gray-white-200) !important;
+    }
+
+    .dark .secondary-text-2 {
+        color: var(--color-gray-white-300);
+    }
+
+    .dark .secondary-text-3 {
+        color: var(--color-gray-white-250);
+    }
+
+    .dark .primary-text-4 {
+        color: var(--color-primary-2);
+    }
+}

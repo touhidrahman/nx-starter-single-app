@@ -1,0 +1,12 @@
+@let organization = authStateService.select('group') | async;
+@let owner = loggedInGroupStateService.select('groupOwner') | async;
+
+@if (organization) {
+    <app-organization-header
+        class="mb-4 ml-0 lg:ml-4"
+        [organization]="organization"
+        [organizationCreatorName]="owner?.firstName + ' ' + owner?.lastName">
+    </app-organization-header>
+}
+
+<app-group-members></app-group-members>

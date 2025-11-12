@@ -1,0 +1,50 @@
+<nav
+    class="relative flex w-full items-center justify-between bg-white px-6 py-4 text-gray-700 shadow-sm">
+    <div class="">
+        <i class="pi pi-bars text-3xl"></i>
+    </div>
+
+    <button id="profileButton">
+        <img
+            src="avatar/avater.img"
+            alt="User image"
+            (error)="showFallback($event)"
+            class="h-10 w-10 rounded-full object-cover" />
+        @if (!uiState.imageLoaded) {
+            <div
+                class="bg-destructive inline-block h-10 w-10 rounded-full text-xl font-semibold text-white">
+                <span class="leading-10">RG</span>
+            </div>
+        }
+    </button>
+
+    @if (uiState.showProfileDropDown) {
+        <div
+            class="absolute top-20 right-4 flex w-56 flex-col gap-3 rounded-md bg-white px-3.5 py-4 shadow-md"
+            id="profileDropDown">
+            <button class="flex justify-start">
+                <span>John Doe</span>
+            </button>
+            <hr class="opacity-70" />
+            <button
+                class="flex items-center justify-start gap-2"
+                routerLink="/profile">
+                <span class="pi pi-user !font-medium !text-black"></span>
+                <span>Profile</span>
+            </button>
+            <button class="flex items-center justify-start gap-2">
+                <span class="pi pi-cog !font-medium !text-black"></span>
+                <span>Settings</span>
+            </button>
+            <button class="flex items-center justify-start gap-2">
+                <span class="pi pi-users !font-medium !text-black"></span>
+                <span>Team</span>
+            </button>
+            <hr class="opacity-50" />
+            <button class="flex items-center justify-start gap-2">
+                <span class="pi pi-sign-out !font-medium !text-black"></span>
+                <span>Log Out</span>
+            </button>
+        </div>
+    }
+</nav>

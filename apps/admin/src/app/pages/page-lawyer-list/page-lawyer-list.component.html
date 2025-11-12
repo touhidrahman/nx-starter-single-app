@@ -1,0 +1,130 @@
+<div class="flex justify-between">
+    <h1 class="text-2xl font-bold">Lawyer List</h1>
+    <p-button
+        label="Add Lawyer"
+        icon="pi pi-user"
+        iconPos="left"
+        styleClass="bg-green"
+        (onClick)="openDialog(null)"></p-button>
+</div>
+
+<div class="my-4 flex items-center justify-between">
+    <div class="relative w-[400px]">
+        <i
+            class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 transform text-gray-400"></i>
+        <input
+            type="text"
+            pInputText
+            size="small"
+            placeholder="Search lawyer by name or email"
+            class="w-full pl-10"
+            (input)="onLawyerSearch($event)" />
+    </div>
+
+    <div class="">
+        <button
+            class="bg-lightGreen flex w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 px-6 py-2 text-lg text-gray-700 hover:bg-green-50"
+            (click)="openFilterModal()">
+            <i class="pi pi-filter mr-2"></i> Filters
+        </button>
+    </div>
+
+    @if (isFilterModal()) {
+        <div
+            class="fixed inset-0 z-50 flex bg-black/50 backdrop-blur-sm"
+            (click)="closeFilterModal()">
+            <div
+                class="mt-12 ml-auto h-full w-4/5 max-w-sm transform overflow-auto bg-white p-4 shadow-xl transition-transform duration-300 lg:mt-0"
+                (click)="$event.stopPropagation()">
+                <button
+                    class="absolute top-14 right-4 cursor-pointer text-4xl text-gray-500 hover:text-gray-800 lg:top-2"
+                    (click)="closeFilterModal()">
+                    &times;
+                </button>
+
+                <app-public-lawyer-filter
+                    [closeDrawer]="closeFilterModal.bind(this)" />
+            </div>
+        </div>
+    }
+</div>
+@let allLawyers = lawyerStateService.select('lawyers') | async;
+@let state = lawyerStateService.selectAll() | async;
+@let loading = this.lawyerStateService.select('loading') | async;
+
+@if (loading) {
+    <div class="flex items-center justify-center py-8">
+        <i
+            class="pi pi-spin pi-spinner"
+            style="font-size: 2rem; color: green"></i>
+    </div>
+} @else if (state?.lawyers?.length) {
+    <p-card>
+        <p-table
+            [value]="allLawyers ?? []"
+            [paginator]="true"
+            [rows]="state?.size ?? 10"
+            [first]="((state?.page ?? 1) - 1) * (state?.size ?? 10)"
+            [totalRecords]="state?.total ?? 0"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            [lazy]="true"
+            (onPage)="onPageChange($event)"
+            [alwaysShowPaginator]="true"
+            stripedRows="true">
+            <ng-template #header>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Lawyer Type</th>
+                    <th>Practice Start Year</th>
+                    <th>Creator Name</th>
+                    <th>Status</th>
+                    <th>District</th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-lawyer>
+                <tr>
+                    <td>{{ lawyer.name }}</td>
+                    <td>{{ lawyer.email }}</td>
+                    <td>{{ lawyer.lawyerType }}</td>
+                    <td>{{ lawyer.practiceStartYear }}</td>
+                    <td>{{ lawyer.creatorName }}</td>
+                    <td>
+                        <span
+                            class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap"
+                            [ngClass]="{
+                                'bg-red-100 text-red-800':
+                                    lawyer.status === 'hidden',
+                                'bg-pink-100 text-pink-800':
+                                    lawyer.status === 'pending',
+                                'bg-emerald-100 text-emerald-800':
+                                    lawyer.status === 'approved',
+                            }">
+                            {{ lawyer.status | uppercase }}
+                        </span>
+                    </td>
+                    <td>{{ lawyer.district }}</td>
+
+                    <td class="flex space-x-4">
+                        <p-button
+                            icon="pi pi-pen-to-square"
+                            size="small"
+                            text="true"
+                            (onClick)="openDialog(lawyer)" />
+
+                        <p-button
+                            severity="warn"
+                            icon="pi pi-trash"
+                            size="small"
+                            [text]="true"
+                            (onClick)="confirmDelete($event, lawyer)" />
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+} @else {
+    <lib-no-data [noDataMessage]="'No data found'" />
+}

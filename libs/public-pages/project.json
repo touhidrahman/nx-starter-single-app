@@ -1,0 +1,9 @@
+{
+    "name": "public-pages",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/public-pages/src",
+    "prefix": "lib",
+    "projectType": "library",
+    "tags": [],
+    "targets": {}
+}

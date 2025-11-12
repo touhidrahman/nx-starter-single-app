@@ -1,0 +1,64 @@
+<div class="-mt-4 mb-2 flex items-center justify-between lg:mt-0">
+    <h1 class="text-4xl font-bold">Cases</h1>
+    <!-- <app-video-popup videoId="Yg5vlWKTPfo" buttonText="How to create a case?">
+    </app-video-popup> -->
+</div>
+
+<div class="table-container">
+    <div
+        class="my-2 mb-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between dark:lg:p-4">
+        <div class="flex justify-between gap-3">
+            <p-button
+                size="small"
+                styleClass="bg-primary hover:bg-green-700 py-2"
+                (onClick)="goToCreateCase()">
+                <i class="pi pi-plus"></i> Create Case</p-button
+            >
+            <p-button
+                size="small"
+                styleClass="btn-outline py-2"
+                variant="outlined"
+                (onClick)="showMyCase()">
+                <i class="pi pi-search"></i> My Cases</p-button
+            >
+        </div>
+        <div class="flex items-center justify-between gap-1">
+            <div class="flex justify-between gap-3">
+                <div class="flex items-center justify-start gap-2">
+                    <div class="relative w-full">
+                        <i
+                            class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 transform text-gray-400"></i>
+                        <input
+                            type="text"
+                            pInputText
+                            size="small"
+                            placeholder="Search Case"
+                            class="search-field w-full pl-10"
+                            (input)="onSearch($event)" />
+                    </div>
+                </div>
+                <div (click)="toggleFilter()">
+                    <app-case-filter></app-case-filter>
+                </div>
+            </div>
+            <!-- TODO: Please don't remove. -->
+            <!-- <div>
+            <p-menu
+                styleClass="px-4 py-2"
+                #menu
+                [popup]="true"
+                [model]="menuItems"></p-menu>
+            <div>
+                <p-button
+                    size="small"
+                    icon="pi pi-ellipsis-v"
+                    styleClass="btn-outline py-2"
+                    (onClick)="menu.toggle($event)">
+                </p-button>
+            </div>
+        </div> -->
+        </div>
+    </div>
+
+    <app-cases-table></app-cases-table>
+</div>

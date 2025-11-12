@@ -1,0 +1,21 @@
+:host {
+    display: block;
+}
+
+.gradient1 {
+    background: linear-gradient(
+        45deg,
+        #00ff80 38.37%,
+        #02ff2c 44.9%,
+        #34db81 48.17%,
+        #13d369 51.44%,
+        #2fd088 57.98%,
+        #8ee161 64.52%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+.input-border-gradient {
+    background: linear-gradient(90deg, #155405 0%, #2eba0b 100%);
+}

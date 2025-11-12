@@ -1,0 +1,36 @@
+<div>
+    <h1 class="text-4xl font-bold">Clients</h1>
+</div>
+<div class="my-5 flex items-center justify-between">
+    <div>
+        <p-button icon="pi pi-filter" label="Filters" styleClass="bg-green3" />
+    </div>
+    <div class="flex items-center justify-end gap-3">
+        <input pInputText size="small" />
+        <p>Search</p>
+        <!--        <form [formGroup]="caseForm">-->
+        <!--            <p-autocomplete-->
+        <!--                delay="500"-->
+        <!--                formControlName="selectedCase"-->
+        <!--                [showClear]="true"-->
+        <!--                [suggestions]="cases || []"-->
+        <!--                (completeMethod)="filterCase($event)"-->
+        <!--                (onSelect)="onSelect($event)"-->
+        <!--                (onClear)="onClear()"-->
+        <!--                field="caseTitle" />-->
+        <!--        </form>-->
+
+        <p-button
+            styleClass="bg-green3"
+            label="Create Client"
+            icon="pi pi-plus"
+            (onClick)="openClientCreateForm()" />
+    </div>
+</div>
+<div class="mt-6">
+    @let clients = clientListStateService.select('clients') | async;
+    <p-card>
+        <lib-client-list-table
+            [clients]="clients || []"></lib-client-list-table>
+    </p-card>
+</div>

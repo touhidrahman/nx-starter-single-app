@@ -1,0 +1,274 @@
+<div [formGroup]="registerFormService.form" class="grid grid-cols-12 gap-2">
+    <div class="col-span-12">
+        <h2 class="mb-2 text-center text-xl font-bold text-gray-800">
+            Complete Your Details
+        </h2>
+    </div>
+
+    <div class="col-span-12 xl:col-span-6">
+        <label for="firstName" class="mb-2 block font-semibold text-gray-700">
+            First Name
+        </label>
+        <input
+            id="firstName"
+            type="text"
+            pInputText
+            formControlName="firstName"
+            required
+            class="w-full" />
+        @if (
+            registerFormService.form.get('firstName')?.hasError('required') &&
+            registerFormService.form.get('firstName')?.touched
+        ) {
+            <small class="mt-1 block text-xs font-medium text-red-600">
+                First name is required
+            </small>
+        }
+    </div>
+
+    <div class="col-span-12 xl:col-span-6">
+        <label for="lastName" class="mb-2 block font-semibold text-gray-700">
+            Last Name
+        </label>
+        <input
+            id="lastName"
+            type="text"
+            pInputText
+            formControlName="lastName"
+            required
+            class="w-full" />
+        @if (
+            registerFormService.form.get('lastName')?.hasError('required') &&
+            registerFormService.form.get('lastName')?.touched
+        ) {
+            <small class="mt-1 block text-xs font-medium text-red-600">
+                Last name is required
+            </small>
+        }
+    </div>
+
+    <div class="col-span-12">
+        <label class="mb-3 block font-semibold text-gray-700">
+            Registration by
+        </label>
+
+        <div
+            class="relative mb-2 inline-flex rounded-lg border border-gray-200 bg-gray-100 p-1">
+            @for (item of registrationBy(); track $index; let i = $index) {
+                <div class="relative">
+                    <button
+                        type="button"
+                        class="cursor-pointer rounded-md px-6 py-2 text-sm font-medium transition-all duration-300 ease-in-out focus:ring-2 focus:ring-green-300 focus:ring-offset-2 focus:outline-none"
+                        [ngClass]="{
+                            'bg-white text-green-700 ring-1 ring-green-200':
+                                registerFormService.form.get('registrationBy')
+                                    ?.value === item.value,
+                            'text-gray-600 hover:bg-white/50 hover:text-gray-800':
+                                registerFormService.form.get('registrationBy')
+                                    ?.value !== item.value,
+                        }"
+                        (click)="selectRegistrationMethod(item.value)">
+                        <div class="flex items-center gap-2">
+                            <i
+                                class="text-sm"
+                                [ngClass]="
+                                    item.value === 'email'
+                                        ? 'pi pi-envelope'
+                                        : 'pi pi-phone'
+                                "></i>
+                            <span>
+                                {{ item.label }}
+                            </span>
+                        </div>
+                        @if (item.value === 'email') {
+                            <span
+                                class="absolute -bottom-0 left-1/2 -translate-x-1/2 text-[10px] font-semibold text-gray-300">
+                                (Recommended)
+                            </span>
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div class="tab-content mt-5">
+            @if (
+                registerFormService.form.get('registrationBy')?.value ===
+                'email'
+            ) {
+                <user-identifier-input-field
+                    [id]="'email'"
+                    label="email"
+                    [type]="'text'"
+                    formControlName="email"
+                    [placeholder]="'Enter email'"
+                    [required]="true"
+                    (onFieldInput)="onFieldInput()"
+                    (onFieldBlur)="onFieldBlur('email')"
+                    [isChecking]="
+                        userVerificationStatusCheckService.isChecking()
+                    " />
+            }
+            @if (
+                registerFormService.form.get('registrationBy')?.value ===
+                'phone'
+            ) {
+                <user-identifier-input-field
+                    [id]="'phone'"
+                    label="phone"
+                    [type]="'text'"
+                    formControlName="phone"
+                    [placeholder]="'Enter phone number'"
+                    [required]="true"
+                    (onFieldInput)="onFieldInput()"
+                    (onFieldBlur)="onFieldBlur('phone')"
+                    [isChecking]="
+                        userVerificationStatusCheckService.isChecking()
+                    "
+                    [patternErrorMsgText]="
+                        'Please enter a valid phone number (01XXXXXXXXX)'
+                    " />
+            }
+        </div>
+
+        <div class="mt-3">
+            <app-user-verification-button
+                [shouldShowVerifyButton]="shouldShowVerifyButton()"
+                [isLoading]="
+                    userVerificationStatusCheckService.isSendingVerification()
+                "
+                [isEmail]="userVerificationStatusCheckService.isEmail()"
+                (userVerify)="userVerify()" />
+        </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="col-span-12 xl:col-span-12">
+        <label for="password1" class="mb-2 block font-semibold text-gray-700">
+            Password
+        </label>
+        <p-password
+            formControlName="password"
+            class="mb-1 w-full"
+            inputStyleClass="w-full"
+            [feedback]="false"
+            [toggleMask]="true"></p-password>
+
+        @if (registerFormService.form.get('password')?.touched) {
+            @if (
+                registerFormService.form.get('password')?.hasError('required')
+            ) {
+                <small class="mt-1 block text-xs font-medium text-red-600">
+                    Password is required
+                </small>
+            }
+        }
+    </div>
+
+    @if (
+        registerFormService.form.get('organization.groupType')?.value ===
+        'vendor'
+    ) {
+        <div class="col-span-12 mt-4">
+            <div formGroupName="organization">
+                <label class="mb-2 block text-sm font-semibold text-gray-700">
+                    Organization Name
+                </label>
+                <input
+                    type="text"
+                    placeholder="Organization Name"
+                    pInputText
+                    class="w-full"
+                    formControlName="name"
+                    required />
+            </div>
+        </div>
+    }
+
+    @if (
+        registerFormService.form.get('organization.groupType')?.value ===
+        'vendor'
+    ) {
+        <div class="col-span-12 mt-2">
+            <p-button
+                (click)="openReferralFiled()"
+                label="Have Referral Code?"
+                icon="pi pi-chevron-down"
+                iconPos="left"
+                [icon]="
+                    !isReferral() ? 'pi pi-chevron-up' : 'pi pi-chevron-down'
+                "
+                text="true"
+                styleClass="text-gray-700 hover:text-green-600 font-medium transition-colors select-none" />
+            @if (isReferral()) {
+                <div class="mt-2 flex items-center gap-x-2">
+                    <input
+                        id="referralCode"
+                        type="text"
+                        formControlName="referralCode"
+                        pInputText
+                        [disabled]="disableReferralCodeField()"
+                        class="w-full text-xl font-normal tracking-wider uppercase" />
+                </div>
+            }
+        </div>
+    }
+
+    <div class="col-span-12 mt-2">
+        <div class="flex items-center gap-x-3">
+            <p-checkbox
+                formControlName="acceptTerms"
+                binary="true"
+                inputId="terms" />
+            <span class="block leading-none text-gray-700">
+                I accept
+                <strong class="mr-1 leading-none">MyApp's</strong>
+                <a
+                    href="/privacy-policy"
+                    target="_blank"
+                    class="font-medium text-green-600 underline hover:text-green-700"
+                    >Privacy Policy</a
+                >
+                and
+                <a
+                    href="/terms-and-conditions"
+                    target="_blank"
+                    class="font-medium text-green-600 underline hover:text-green-700"
+                    >terms & conditions</a
+                >.
+            </span>
+        </div>
+    </div>
+
+    <div class="col-span-12 mt-5 flex items-center gap-4 xl:col-span-12">
+        @if (!isBackButtonVisible()) {
+            <p-button
+                (onClick)="back.emit()"
+                label="Back"
+                icon="pi pi-arrow-left"
+                iconPos="left"
+                variant="outlined"
+                severity="success" />
+        }
+        <button
+            pButton
+            pRipple
+            (click)="register.emit()"
+            [disabled]="
+                registerFormService.form.invalid ||
+                isLoading() ||
+                (registerFormService.form.get('registrationBy')?.value ===
+                    'phone' &&
+                    shouldShowVerifyButton())
+            "
+            icon="pi pi-user"
+            class="flex-1 bg-green-600 px-6 py-2 font-medium transition-colors hover:bg-green-700">
+            @if (isLoading()) {
+                <i class="pi pi-spin pi-spinner mr-2"></i>
+                <span>Creating Account...</span>
+            } @else {
+                <span>Sign Up</span>
+            }
+        </button>
+    </div>
+</div>

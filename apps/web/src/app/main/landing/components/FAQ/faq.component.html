@@ -1,0 +1,65 @@
+<section
+    id="faq"
+    role="region"
+    aria-label="Frequently Asked Questions"
+    class="mx-auto grid w-full grid-cols-12 gap-2 px-4 py-8 lg:px-16 lg:py-16">
+    <div class="col-span-12 lg:col-span-4">
+        <img
+            src="/assets/images/faq.png"
+            class="mx-auto mb-4 h-30 w-30 lg:mx-0"
+            alt="faq icon"
+            aria-hidden="true"
+            loading="lazy" />
+        <h3
+            class="mb-6 text-center text-3xl font-semibold text-emerald-900 underline decoration-emerald-200/80 lg:text-left lg:text-4xl">
+            Frequently Asked Questions
+        </h3>
+        <p
+            class="mb-8 text-center text-lg text-gray-600 md:text-xl lg:mb-0 lg:text-left">
+            Feel free to let me know if you need any additional
+            <br class="hidden sm:block" />
+            questions or if there are specific areas you want to focus.
+        </p>
+    </div>
+
+    <div class="col-span-12 space-y-1 lg:col-span-8">
+        @for (faq of faqs; track faq.question) {
+            <div
+                class="overflow-hidden rounded-xl transition-all duration-300 ease-in-out hover:shadow-md"
+                [class.shadow-md]="openIndex === $index"
+                [attr.aria-controls]="'faq-content-' + $index"
+                id="faq-btn-{{ $index }}">
+                <button
+                    type="button"
+                    (click)="toggle($index)"
+                    class="flex w-full cursor-pointer items-center justify-between bg-emerald-800 px-6 py-3 text-left text-white transition-all duration-300 hover:bg-emerald-900 focus:outline-none"
+                    [attr.aria-expanded]="openIndex === $index">
+                    <span
+                        class="text-lg font-medium lg:text-xl"
+                        role="heading"
+                        aria-level="4">
+                        {{ faq.question }}
+                    </span>
+
+                    <i
+                        class="pi pi-chevron-down transition-transform duration-300"
+                        [class.rotate-180]="openIndex === $index">
+                    </i>
+                </button>
+
+                <div
+                    [id]="'faq-content-' + $index"
+                    role="region"
+                    [attr.aria-labelledby]="'faq-btn-' + $index"
+                    class="overflow-hidden transition-all duration-300 ease-in-out"
+                    [class.max-h-0]="openIndex !== $index"
+                    [class.max-h-[500px]]="openIndex === $index">
+                    <div
+                        class="rounded-b-2xl bg-emerald-50/80 px-6 py-4 text-emerald-900 lg:text-xl">
+                        <p class="leading-relaxed">{{ faq.answer }}</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

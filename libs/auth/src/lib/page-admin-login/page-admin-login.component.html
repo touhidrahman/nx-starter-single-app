@@ -1,0 +1,63 @@
+<div
+    class="animate-gradient flex min-h-screen items-center justify-center bg-gradient-to-r from-green-200 via-white to-green-300 bg-[length:200%_100%]">
+    <div
+        class="surface-card w-full max-w-2xl rounded-md bg-gray-50 px-14 py-12 shadow-sm sm:px-8 sm:py-14">
+        <div class="mb-5 text-center">
+            <div class="text-900 mb-3 text-3xl font-medium">MyApp Admin</div>
+        </div>
+
+        @if (errors.length) {
+            <div
+                class="mb-4 rounded border-red-800 bg-red-100 p-4 text-red-800">
+                @for (error of errors; track $index) {
+                    <p class="text-sm">{{ error }}</p>
+                }
+            </div>
+        }
+
+        <form (ngSubmit)="submit()" [formGroup]="loginFormService.form">
+            <label for="identifier" class="text-900 mb-2 block font-medium"
+                >Email</label
+            >
+            <input
+                id="identifier"
+                type="text"
+                formControlName="identifier"
+                pInputText
+                placeholder="Admin email"
+                class="mb-3 w-full"
+                required />
+            @if (
+                loginFormService.form.get('identifier')?.invalid &&
+                loginFormService.form.get('identifier')?.touched
+            ) {
+                <p class="text-xs text-red-700">Valid email required</p>
+            }
+
+            <label for="password" class="text-900 mb-2 block font-medium"
+                >Password</label
+            >
+            <p-password
+                formControlName="password"
+                [toggleMask]="true"
+                [feedback]="false"
+                styleClass="w-full mb-3"
+                inputStyleClass="w-full"
+                placeholder="Password"></p-password>
+
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="mt-2 w-full"
+                [disabled]="loginFormService.form.invalid || isLoading()"
+                icon="pi pi-lock">
+                @if (isLoading()) {
+                    <span>Signing in...</span>
+                } @else {
+                    <span>Sign In</span>
+                }
+            </button>
+        </form>
+    </div>
+</div>

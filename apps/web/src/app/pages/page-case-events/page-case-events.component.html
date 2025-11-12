@@ -1,0 +1,4 @@
+@let case = caseStateService.select('case') | async;
+@if (case) {
+    <app-case-history [case]="case" />
+}

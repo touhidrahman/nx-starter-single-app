@@ -1,0 +1,199 @@
+<!-- TODO:Don't remove -->
+<!-- <div class="mb-3">
+    <h1 class="primary-text mb-1 text-lg font-semibold">Language</h1>
+    <div class="flex items-center">
+        <p class="secondary-text text-base sm:mr-3 sm:text-lg">
+            Choose your preferred language :
+        </p>
+
+        <div class="ml-2 flex items-center justify-center">
+            <span class="secondary-text mr-2 text-base md:text-lg">
+                English</span
+            >
+            <p-toggleswitch
+                class="mt-2"
+                [(ngModel)]="languageChecked"
+                (onChange)="onLanguageChange()"
+                disabled="true"></p-toggleswitch>
+            <span class="secondary-text ml-2 text-base md:text-lg"> বাংলা</span>
+        </div>
+    </div>
+</div> -->
+<div class="mb-3">
+    <h1 class="primary-text mb-1 text-lg font-semibold">Theme</h1>
+    <div class="flex items-center">
+        <p class="secondary-text text-base sm:mr-3 sm:text-lg">
+            Choose your preferred theme :
+        </p>
+
+        <div class="ml-2 flex items-center justify-center">
+            <span class="secondary-text mr-2 text-base md:text-lg"> Light</span>
+            <p-toggleswitch
+                class="mt-2"
+                [(ngModel)]="themeChecked"
+                (onChange)="onThemeChange()"
+                [inputId]="toggleId">
+            </p-toggleswitch>
+            <span class="secondary-text ml-2 text-base md:text-lg"> Dark</span>
+        </div>
+    </div>
+</div>
+<!-- TODO:Don't remove -->
+<!-- <section class="pt-6 md:pt-4">
+    @let currentSubscription =
+        subscriptionStateService.select('currentSubscription') | async;
+
+    @if (currentSubscription) {
+        <div class="mb-2 mt-4 flex items-center gap-8">
+            <h1 class="mb-1 text-lg font-medium md:text-2xl">
+                Organization Name
+            </h1>
+            <i class="pi pi-pen-to-square -mt-1 text-[1.20rem]"></i>
+        </div>
+        <div>
+            <p
+                class="max-w-44 rounded-lg border px-3 py-1 text-[18px] md:max-w-sm">
+                {{ organization()?.name | titlecase }}
+            </p>
+        </div>
+        <h1 class="mb-1 mt-7 text-lg font-medium sm:text-2xl">
+            Subscription History
+        </h1>
+
+        <div class="my-7">
+            <div
+                class="flex w-full overflow-hidden rounded-lg border-[1.5px] bg-white md:max-w-2xl">
+                <div class="w-[57%] p-6 sm:w-[28rem]">
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        {{ currentSubscription.planName }}
+                    </h1>
+                    <p class="mt-1 text-gray-600">
+                        120 tk per month | Add maximum 12 members
+                    </p>
+                    <div class="mb-1.5 mt-5 flex flex-col sm:flex-row">
+                        <p class="min-w-32 text-[17px] text-gray-500">
+                            Duration
+                        </p>
+                        @if (
+                            currentSubscription.subscriptionType === 'monthly'
+                        ) {
+                            <p class="text-[17px] font-bold">1 Month</p>
+                        }
+                    </div>
+                    <div class="mb-1.5 flex flex-col sm:flex-row">
+                        <p class="min-w-32 text-[17px] text-gray-500">
+                            Auto Renew
+                        </p>
+                        <div class="flex">
+                            <p>off</p>
+                            <p-toggleswitch
+                                [(ngModel)]="autoRenewchecked"
+                                class="mx-2" />
+                            <p>on</p>
+                        </div>
+                    </div>
+                    <div class="mb-1.5 flex flex-col sm:flex-row">
+                        <p class="min-w-32 text-[17px] text-gray-500">
+                            Auto Renew Date
+                        </p>
+                        <p class="text-[17px] font-bold">
+                            {{
+                                getRenewDate(currentSubscription.endDate)
+                                    | date: 'mediumDate'
+                            }}
+                        </p>
+                    </div>
+                    <div class="mb-8 flex flex-col sm:flex-row">
+                        <div>
+                            <p class="min-w-32 text-[17px] text-gray-500">
+                                Payment Method
+                            </p>
+                            <p class="-mt-1 text-xs text-blue-400">
+                                View payment details
+                            </p>
+                        </div>
+                        @if (currentSubscription.paymentMethod === 'bKash') {
+                            <p class="text-[17px] font-bold text-[#F23E9B]">
+                                bKash
+                            </p>
+                        }
+                        <p class="text-[17px] font-bold capitalize">
+                            {{ currentSubscription.paymentMethod }}
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4 sm:flex-row">
+                        <button
+                            class="rounded-xl bg-[#EFEFEF] px-3.5 py-1 text-[14px] text-[#828282] sm:py-[1px]">
+                            View Receipt
+                        </button>
+                        <button
+                            (click)="confirmCancel($event)"
+                            class="rounded-xl bg-[#FFE2E2] px-3.5 py-1 text-[14px] text-[#828282] sm:py-[1px]">
+                            Cancel Plan
+                        </button>
+                    </div>
+                </div>
+                <div class="w-[43%] bg-[#3F3F3F] p-5 sm:w-[14rem]">
+                    <div class="mt-20 sm:mt-0">
+                        <div class="my-4 flex items-center gap-3">
+                            <i
+                                class="pi pi-circle-on text-[8.5px]"
+                                [ngClass]="{
+                                    'text-green15b':
+                                        currentSubscription.status === 'active',
+                                    'text-red-500':
+                                        currentSubscription.status ===
+                                        'inactive',
+                                }"></i>
+                            <p
+                                class="text-[18px] font-semibold capitalize"
+                                [ngClass]="{
+                                    'text-green15b':
+                                        currentSubscription.status === 'active',
+                                    'text-red-500':
+                                        currentSubscription.status ===
+                                        'inactive',
+                                }">
+                                {{ currentSubscription.status }}
+                            </p>
+                        </div>
+
+                        <div class="">
+                            <p class="text-sm font-normal text-[#BDBDBD]">
+                                Activated On
+                            </p>
+                            <p class="text-base font-bold text-[#FEFEFE]">
+                                {{
+                                    currentSubscription.startDate
+                                        | date: 'mediumDate'
+                                }}
+                            </p>
+                        </div>
+                        <div class="my-4">
+                            <p class="text-sm font-normal text-[#BDBDBD]">
+                                Days Remaining
+                            </p>
+                            <p class="text-base font-bold text-[#FEFEFE]">
+                                {{
+                                    getRemainingDay(currentSubscription.endDate)
+                                }}
+                            </p>
+                        </div>
+                        <div class="">
+                            <p class="text-sm font-normal text-[#BDBDBD]">
+                                Purchased
+                            </p>
+                            <p class="text-base font-bold text-[#FEFEFE]">3</p>
+                        </div>
+                        <button
+                            class="mt-6 rounded-xl bg-gradient-to-r from-[#77CC58] to-[#4CA694] px-3.5 py-[1px] text-[14px] font-medium text-white">
+                            UPGRADE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <p class="text-center text-gray-500">No active subscription found</p>
+    }
+</section> -->

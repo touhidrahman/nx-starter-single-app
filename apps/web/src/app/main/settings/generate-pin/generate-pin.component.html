@@ -1,0 +1,27 @@
+@let state = userSettingStateService.selectAll() | async;
+<p class="p secondary-text mb-3 italic">
+    Enhance security by setting up PIN CODE. It will help you to use app in your
+    mobile device more securely.
+</p>
+
+<div class="my-3 flex items-center justify-start gap-3">
+    <h3 class="secondary-text font-semibold">Enable pin:</h3>
+    <p-toggleswitch
+        [ngModel]="state?.settings?.isPinEnabled === 'true' ? true : false"
+        (onChange)="onEnablePin()" />
+</div>
+
+<div class="flex items-center justify-start gap-5">
+    @let settings = this.userSettingStateService.select('settings') | async;
+
+    <span
+        class="bg-color-main secondary-text rounded-md bg-gray-100 px-4 text-xl leading-10 font-semibold tracking-widest"
+        >{{ settings?.pinCode }}</span
+    >
+
+    <p-button
+        label="{{ settings?.pinCode ? 'Change' : 'Set New' }} PIN"
+        size="small"
+        styleClass="bgGreen bg-color-primary"
+        (onClick)="onSetNewPin()" />
+</div>

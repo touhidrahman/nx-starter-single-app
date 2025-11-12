@@ -1,0 +1,26 @@
+:host ::ng-deep .delete-item .pi-trash {
+    color: red !important;
+}
+
+.delete-item .pi-trash {
+    color: red;
+}
+::ng-deep .p-menu .delete-item .p-menuitem-text {
+    color: inherit !important;
+}
+
+:host ::ng-deep .bg-gray-200 .p-button-icon {
+    color: var(--gray-300, #585858) !important;
+}
+
+:host ::ng-deep .bg-green-500 .p-button-icon {
+    color: white !important;
+}
+
+:host ::ng-deep .bg-green-500:hover .p-button-icon {
+    color: #008d07 !important;
+}
+
+.custom-icon-button .p-button-icon {
+    color: inherit;
+}

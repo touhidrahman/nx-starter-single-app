@@ -1,0 +1,39 @@
+<p-avatar-group class="py-2">
+    @for (user of displayUsers(); track user.id) {
+        @let profilePhoto = user.profilePhoto || undefined;
+        @if (user?.profilePhoto) {
+            <p-avatar
+                [image]="profilePhoto"
+                [size]="size()"
+                shape="circle"
+                [pTooltip]="
+                    showTooltips() ? user.firstName + ' ' + user.lastName : ''
+                "
+                tooltipPosition="top">
+            </p-avatar>
+        } @else {
+            <p-avatar
+                [label]="user.firstName | initialName"
+                [class]="avatarStyle()"
+                [size]="size()"
+                shape="circle"
+                [pTooltip]="
+                    showTooltips() ? user.firstName + ' ' + user.lastName : ''
+                "
+                tooltipPosition="top">
+            </p-avatar>
+        }
+    }
+
+    @if (hasMoreUsers()) {
+        <p-avatar
+            [label]="'+' + moreUsersCount()"
+            shape="circle"
+            [size]="size()"
+            [pTooltip]="
+                showTooltips() ? 'And ' + moreUsersCount() + ' more' : ''
+            "
+            tooltipPosition="top">
+        </p-avatar>
+    }
+</p-avatar-group>

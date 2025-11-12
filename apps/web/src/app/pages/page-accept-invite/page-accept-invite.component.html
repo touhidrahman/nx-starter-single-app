@@ -1,0 +1,44 @@
+<h1 class="mt-8 text-center text-2xl text-gray-600 md:text-5xl lg:mt-32">
+    Welcome to MyApp
+</h1>
+<div
+    class="mx-6 mt-4 flex max-w-3xl flex-col items-center justify-center md:mx-auto md:flex-row lg:mt-18">
+    <img
+        src="assets/images/icons/invite.png"
+        class="h-32 w-32 md:h-58 md:w-58"
+        alt="" />
+
+    <div class="mx-16 hidden h-42 w-px bg-gray-300 md:block"></div>
+    <div class="text-center md:text-left">
+        <h1 class="text-2xl text-gray-700 md:text-3xl">
+            You have an Invitation to Join
+            <span class="text-secondary font-semibold">{{
+                organizationName()
+            }}</span>
+        </h1>
+        <p class="my-4 mt-4 text-lg text-gray-500">
+            By accepting this invitation, you will gain access to the
+            organization
+            <span class="text-secondary text-lg font-semibold">{{
+                organizationName()
+            }}</span>
+            and its resources. We look forward to having you as part of our
+            community!
+        </p>
+
+        <div class="mt-4 flex gap-4">
+            <p-button
+                (click)="acceptInvite()"
+                [loading]="isLoading()"
+                label="Accept"
+                class="w-full"
+                styleClass="w-full" />
+            <p-button
+                label="Cancel"
+                severity="secondary"
+                class="w-full"
+                [outlined]="true"
+                styleClass="w-full" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div>
+    <div
+        class="mx-auto flex w-56 items-center justify-center gap-4 rounded-md bg-yellow-100 px-4 py-2 md:w-72 md:gap-6">
+        <ng-content select=".title"></ng-content>
+        <span class="text-gray59">
+            <ng-content select=".title-icon"></ng-content>
+        </span>
+    </div>
+    <ng-content select=".subtitle"></ng-content>
+</div>
