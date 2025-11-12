@@ -6,22 +6,17 @@ import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { groupsTable, usersGroupsTable } from '../../../core/db/schema'
+import { membershipsTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { DateUtil } from '../../../core/utils/date.util'
-import { GroupDto, zSelectGroup } from '../../group/group.schema'
+import { zSelectGroup } from '../../group/group.schema'
+import { findGroupById } from '../../group/group.service'
 import { zSelectRole } from '../../role/role.schema'
 import { zSelectUserWithoutPass } from '../../user/user.schema'
+import { setDefaultGroupId } from '../../user/user.service'
 import { TokenCreateUserData, zLogin } from '../auth.schema'
-import {
-    findUserByEmail,
-    findUserByPhone,
-    getRoleByUserAndGroup,
-    setDefaultGroupId,
-    updateLastLogin,
-    validateIdentifier,
-} from '../auth.service'
+import { findUser, getRoleByUserAndGroup } from '../auth.service'
 import {
     ACCESS_TOKEN_LIFE,
     createAccessToken,
@@ -35,7 +30,6 @@ export const loginRoute = createRoute({
     method: 'post',
     tags,
     request: {
-        query: z.object({ groupId: z.string().optional() }),
         body: jsonContentRequired(zLogin, 'User login details'),
     },
     responses: {
@@ -51,99 +45,73 @@ export const loginRoute = createRoute({
             }),
             'User login successful',
         ),
-
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid email or password'),
         [FORBIDDEN]: ApiResponse(zEmpty, 'Invalid status!'),
     },
 })
 
 export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
-    const { identifier, password } = c.req.valid('json')
+    const { username, password } = c.req.valid('json')
 
-    const groupId = c.req.query('groupId')
-    const identifierResult = validateIdentifier(identifier ?? '')
-    const user =
-        identifierResult.type === 'email'
-            ? await findUserByEmail(identifier ?? '')
-            : await findUserByPhone(identifier ?? '')
+    const user = await findUser(username ?? '')
 
     if (!user) {
         return c.json(
             {
-                message: 'Invalid email or password',
+                message: 'Invalid username or password',
                 data: {},
                 success: false,
-                error: 'Invalid email or password',
                 meta: null,
             },
             BAD_REQUEST,
-        )
-    }
-
-    if (user.status === 'inactive' || user.status === 'banned') {
-        return c.json(
-            {
-                message: 'Your account is inactive',
-                data: {},
-                success: false,
-                error: 'Your account is inactive',
-                meta: null,
-            },
-            FORBIDDEN,
         )
     }
 
     const dateUtil = DateUtil
     const now = dateUtil.date()
 
-    if (!(await argon2.verify(user.password, password))) {
+    if (
+        user.bannedAt &&
+        dateUtil.isBefore(dateUtil.toJsDate(user.bannedAt), now)
+    ) {
         return c.json(
             {
-                message: 'Invalid email or password',
+                message: 'Your account is locked. Please contact support.',
                 data: {},
                 success: false,
-                error: 'Invalid email or password',
-                meta: null,
-            },
-            BAD_REQUEST,
-        )
-    }
-
-    if (!user.verified) {
-        return c.json(
-            {
-                message: 'Please verify your account first',
-                data: {},
-                success: false,
-                error: 'Please verify your account first',
                 meta: null,
             },
             FORBIDDEN,
         )
     }
 
+    if (!(await argon2.verify(user.password, password))) {
+        return c.json(
+            {
+                message: 'Invalid username or password',
+                data: {},
+                success: false,
+                meta: null,
+            },
+            BAD_REQUEST,
+        )
+    }
+
     const tokenCreateUserData: TokenCreateUserData = {
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email ?? null,
-        phone: user.phone ?? null,
         username: user.username,
         id: user.id,
-        status: user.status,
-    }
-
-    if (!user.defaultGroupId && groupId) {
-        await setDefaultGroupId(user.id, groupId)
     }
 
     const expiresIn = dateUtil.addSeconds(now, ACCESS_TOKEN_LIFE).toISOString()
 
-    // if query param has group id, get the user profile belonging to that group
-    const chosenGroupId = groupId || user.defaultGroupId
+    const chosenGroupId = user.defaultGroupId
+    const group = await findGroupById(chosenGroupId ?? '')
 
-    if (!chosenGroupId) {
-        const userMemberships = await db.query.usersGroupsTable.findMany({
-            where: eq(usersGroupsTable.userId, user.id),
+    if (!group) {
+        const userMemberships = await db.query.membershipsTable.findMany({
+            where: eq(membershipsTable.userId, user.id),
         })
 
         if (userMemberships.length === 0) {
@@ -175,31 +143,13 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
             await setDefaultGroupId(user.id, userMemberships[0].groupId)
         }
     }
-
-    const group = await db.query.groupsTable.findFirst({
-        where: eq(groupsTable.id, chosenGroupId),
-    })
-
-    if (group?.status === 'inactive') {
-        return c.json(
-            {
-                data: {},
-                message: 'This organization is not active',
-                success: false,
-                error: 'This organization is not active',
-                meta: null,
-            },
-            FORBIDDEN,
-        )
-    }
-
-    const role = await getRoleByUserAndGroup(user.id, chosenGroupId)
+    const role = await getRoleByUserAndGroup(user.id, group?.id ?? '')
     const accessToken = await createAccessToken(
         tokenCreateUserData,
         role?.id ?? '',
-        group as GroupDto,
+        group,
     )
-    const refreshToken = await createRefreshToken(user.id, chosenGroupId)
+    const refreshToken = await createRefreshToken(user.id, group?.id ?? '')
 
     return c.json(
         {

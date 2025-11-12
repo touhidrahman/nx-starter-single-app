@@ -5,7 +5,7 @@ import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
 
 export const zLogin = z.object({
-    identifier: z.string(),
+    username: z.string(),
     password: z.string(),
 })
 
@@ -91,11 +91,8 @@ export const zAdminPayload = z.object({
 export interface TokenCreateUserData {
     firstName: string
     lastName: string
-    email: string | null
-    phone: string | null
     username: string
     id: string
-    status: 'active' | 'inactive' | 'banned'
 }
 
 export const CreateUserSchema = z.object({

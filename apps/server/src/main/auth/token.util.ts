@@ -3,7 +3,7 @@ import { sign, verify } from 'hono/jwt'
 import { SystemUserLevel } from '../../core/core.type'
 import { addDuration, DateUnit, DateUtil } from '../../core/utils/date.util'
 import env from '../../env'
-import { InsertGroup } from '../group/group.schema'
+import { InsertGroup, SelectGroup } from '../group/group.schema'
 import { TokenCreateUserData } from './auth.schema'
 
 const dateUtil = DateUtil
@@ -15,25 +15,19 @@ export const REFRESH_TOKEN_LIFE = 7 * 24 * 60 * 60 // 7 days
 export type AccessTokenPayload = {
     firstName: string
     lastName: string
-    email: string
-    phone: string
     username: string
     level: SystemUserLevel
     roleId: string
-    status: 'active' | 'inactive' | 'banned' | ''
     groupId: string | ''
-    groupType: 'client' | 'vendor' | ''
-    groupStatus: 'pending' | 'active' | 'inactive' | ''
     sub: string // userId
     exp: number
-    groupOwnerCount?: number
 }
 
 export type RefreshTokenPayload = {
     sub: string
     exp: number
     groupId: string
-    level?: string
+    level?: SystemUserLevel
 }
 
 export type InvitationTokenPayload = {
@@ -47,20 +41,15 @@ export type InvitationTokenPayload = {
 export async function createAccessToken(
     user: TokenCreateUserData,
     roleId?: string,
-    group?: InsertGroup,
+    group?: SelectGroup,
 ) {
     const tokenPayload: AccessTokenPayload = {
         firstName: user?.firstName ?? '',
         lastName: user?.lastName ?? '',
-        email: user.email ?? '',
-        phone: user.phone ?? '',
         username: user.username ?? '',
         level: SystemUserLevel.USER,
         roleId: roleId ?? '',
         groupId: group?.id ?? '',
-        groupType: group?.type ?? '',
-        groupStatus: group?.status ?? '',
-        status: user.status ?? '',
         sub: user.id,
         exp: dateUtil.addSeconds(dateUtil.date(), ACCESS_TOKEN_LIFE).getTime(),
     }
@@ -89,7 +78,7 @@ export async function decodeRefreshToken(
         sub: sub as string,
         groupId: groupId as string,
         exp: exp as number,
-        level: level as string,
+        level: level as SystemUserLevel | undefined,
     }
 }
 

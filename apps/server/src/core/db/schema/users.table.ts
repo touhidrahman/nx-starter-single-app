@@ -1,7 +1,8 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { AnyPgColumn, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
+import { groupsTable } from './groups.table'
 import { invitesTable } from './invites.table'
 import { referralsTable } from './referral.table'
 
@@ -10,6 +11,7 @@ export const usersTable = pgTable('users', {
     username: text().notNull().unique(),
     firstName: text().notNull(),
     lastName: text().notNull(),
+    defaultGroupId: text().references((): AnyPgColumn => groupsTable.id),
     coverPhoto: text(),
     profilePhoto: text(),
     email: text(),
@@ -30,4 +32,8 @@ export const usersTable = pgTable('users', {
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
     invites: many(invitesTable),
     referrals: many(referralsTable),
+    defaultGroup: one(groupsTable, {
+        fields: [usersTable.defaultGroupId],
+        references: [groupsTable.id],
+    }),
 }))

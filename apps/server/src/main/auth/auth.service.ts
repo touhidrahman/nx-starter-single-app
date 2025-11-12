@@ -184,7 +184,9 @@ export const verifyUser = async (userId: string) => {
     return user
 }
 
-export async function findUser(phoneEmailOrUsername: string) {
+export async function findUserByUsernameEmailPhone(
+    phoneEmailOrUsername: string,
+) {
     const results = await db
         .select()
         .from(usersTable)
@@ -195,6 +197,15 @@ export async function findUser(phoneEmailOrUsername: string) {
                 eq(usersTable.phone, phoneEmailOrUsername),
             ),
         )
+        .limit(1)
+    return results?.[0] ?? null
+}
+
+export async function findUser(username: string) {
+    const results = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.username, username))
         .limit(1)
     return results?.[0] ?? null
 }

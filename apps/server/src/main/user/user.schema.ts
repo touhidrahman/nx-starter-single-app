@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { groupTypeEnum, usersTable } from '../../core/db/schema'
+import { usersTable } from '../../core/db/schema'
 
 export type UserDto = typeof usersTable.$inferInsert
 export type User = typeof usersTable.$inferSelect
@@ -27,7 +27,6 @@ export const zSearchUser = zSelectUser
     .extend({
         page: z.string().optional(),
         size: z.string().optional(),
-        groupType: z.enum(groupTypeEnum.enumValues).optional(),
         search: z.string().optional(),
     })
     .partial()

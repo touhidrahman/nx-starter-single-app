@@ -11,10 +11,11 @@ import {
 import { db } from '../../core/db/db'
 import {
     groupsTable,
+    membershipsTable,
     rolesTable,
-    usersGroupsTable,
     usersTable,
 } from '../../core/db/schema'
+import { SelectUser } from '../auth/auth.schema'
 import { Member, UserDto } from './user.schema'
 
 type UsersQueryParams = {
@@ -102,15 +103,7 @@ export const getUsersWhereConditions = (
     if (lastName) conditions.push(eq(usersTable.lastName, lastName))
     if (city) conditions.push(eq(usersTable.city, city))
     if (country) conditions.push(eq(usersTable.country, country))
-    if (postCode) conditions.push(eq(usersTable.postCode, postCode))
-
-    if (groupType) {
-        conditions.push(eq(groupsTable.type, groupType))
-    }
-
-    if (status) {
-        conditions.push(eq(usersTable.status, status))
-    }
+    if (postCode) conditions.push(eq(usersTable.zip, postCode))
 
     if (search) {
         const searchTerm = `%${search}%`
@@ -180,9 +173,9 @@ export async function userExists(id: string) {
 
 export async function changeUserRole(userId: string, roleId: string) {
     const [updatedUser] = await db
-        .update(usersGroupsTable)
+        .update(membershipsTable)
         .set({ roleId })
-        .where(eq(usersGroupsTable.userId, userId))
+        .where(eq(membershipsTable.userId, userId))
         .returning()
 
     return updatedUser
@@ -236,76 +229,52 @@ export const getUsersByGroupId = async (groupId: string) => {
             coverPhoto: usersTable.coverPhoto,
             profilePhoto: usersTable.profilePhoto,
             phone: usersTable.phone,
-            address: usersTable.address,
+            address1: usersTable.address1,
             city: usersTable.city,
             state: usersTable.state,
             country: usersTable.country,
-            postCode: usersTable.postCode,
-            url: usersTable.url,
-            bio: usersTable.bio,
+            zip: usersTable.zip,
             lastLogin: usersTable.lastLogin,
-            status: usersTable.status,
-            verified: usersTable.verified,
             defaultGroupId: usersTable.defaultGroupId,
             createdAt: usersTable.createdAt,
             updatedAt: usersTable.updatedAt,
-            roleId: usersGroupsTable.roleId,
+            roleId: membershipsTable.roleId,
             roleName: rolesTable.name,
         })
         .from(usersTable)
-        .innerJoin(usersGroupsTable, eq(usersTable.id, usersGroupsTable.userId))
-        .innerJoin(groupsTable, eq(usersGroupsTable.groupId, groupsTable.id))
-        .innerJoin(rolesTable, eq(usersGroupsTable.roleId, rolesTable.id))
+        .innerJoin(membershipsTable, eq(usersTable.id, membershipsTable.userId))
+        .innerJoin(groupsTable, eq(membershipsTable.groupId, groupsTable.id))
+        .innerJoin(rolesTable, eq(membershipsTable.roleId, rolesTable.id))
         .where(eq(groupsTable.id, groupId))
         .execute()
 
     return result
 }
 
-// TODO: add this to cron job
-export const deleteUnverifiedUsers = async () => {
-    const THIRTY_DAYS_AGO = new Date()
-    THIRTY_DAYS_AGO.setDate(THIRTY_DAYS_AGO.getDate() - 30)
+export async function setDefaultGroupId(userId: string, groupId: string) {
+    const [updatedUser] = await db
+        .update(usersTable)
+        .set({ defaultGroupId: groupId })
+        .where(eq(usersTable.id, userId))
+        .returning()
 
-    const usersToDelete = await db
-        .select()
-        .from(usersTable)
-        .where(
-            and(
-                eq(usersTable.verified, false),
-                lt(usersTable.createdAt, THIRTY_DAYS_AGO),
-            ),
-        )
-
-    if (usersToDelete.length === 0) return []
-
-    // Delete users
-    await db
-        .delete(usersTable)
-        .where(
-            and(
-                eq(usersTable.verified, false),
-                lt(usersTable.createdAt, THIRTY_DAYS_AGO),
-            ),
-        )
-
-    return usersToDelete
+    return updatedUser
 }
 
 export async function findGroupsOwnedByUser(userId: string) {
     const ownedGroups = await db.query.groupsTable.findMany({
-        where: eq(groupsTable.ownerId, userId),
+        where: eq(groupsTable.creatorId, userId),
     })
     return [...ownedGroups]
 }
 
 export async function removeAllMembershipsOfUser(userId: string) {
-    await db.delete(usersGroupsTable).where(eq(usersGroupsTable.userId, userId))
+    await db.delete(membershipsTable).where(eq(membershipsTable.userId, userId))
 }
 
 export const findUserBasicInfoById = async (
     userId: string,
-): Promise<Member | null> => {
+): Promise<Partial<SelectUser> | null> => {
     if (!userId) return null
 
     const [user] = await db

@@ -96,7 +96,9 @@ export async function countGroups() {
     return result?.[0]?.count || 0
 }
 
-export async function findGroupById(id: string) {
+export async function findGroupById(
+    id: string,
+): Promise<SelectGroup | undefined> {
     const result = await db.query.groupsTable.findFirst({
         where: eq(groupsTable.id, id),
     })
