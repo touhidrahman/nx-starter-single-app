@@ -18,7 +18,6 @@ import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
 import { userV1Routes } from './main/user/user.routes'
 import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
-import { userVerificationV1Routes } from './main/user-verification/user-verification.routes'
 
 const app = createApp()
 
@@ -41,7 +40,6 @@ const routes = [
     subscriptionV1Route,
     userSettingsV1Routes,
     userV1Routes,
-    userVerificationV1Routes,
 ]
 
 configureOpenAPI(app)

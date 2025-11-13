@@ -1,15 +1,9 @@
 import { and, eq } from 'drizzle-orm'
-import z from 'zod'
 import { db } from '../../core/db/db'
 import { usersSettingsTable } from '../../core/db/schema'
-import { zSelectUserSettings } from './user-setting.schema'
+import { UserSettings } from './user-setting.schema'
 
-export type UserSetting = z.infer<typeof zSelectUserSettings>
-
-export const findUserSettings = async (
-    userId: string,
-    key: string,
-): Promise<UserSetting | null> => {
+export const findUserSettings = async (userId: string, key: string) => {
     return db.query.usersSettingsTable.findFirst({
         where: and(
             eq(usersSettingsTable.userId, userId),
@@ -20,7 +14,7 @@ export const findUserSettings = async (
 
 export const findUserSettingsByUserId = async (
     userId: string,
-): Promise<UserSetting[]> => {
+): Promise<UserSettings[]> => {
     return db.query.usersSettingsTable.findMany({
         where: eq(usersSettingsTable.userId, userId),
     })
@@ -29,7 +23,7 @@ export const findUserSettingsByUserId = async (
 export async function upsertUserSetting(
     userId: string,
     data: Record<string, string>,
-): Promise<UserSetting[]> {
+): Promise<UserSettings[]> {
     const entries = Object.entries(data)
 
     if (entries.length === 0) {

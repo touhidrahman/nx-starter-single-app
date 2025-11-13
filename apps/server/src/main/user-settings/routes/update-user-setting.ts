@@ -16,7 +16,7 @@ import {
 import { upsertUserSetting } from '../user-setting.service'
 
 export const userSettingsRoute = createRoute({
-    path: '/v1/user-setting/:userId',
+    path: '/v1/user-settings/:userId',
     method: 'put',
     tags: ['User Settings'],
     request: {
@@ -40,9 +40,14 @@ export const userSettingsHandler: AppRouteHandler<
     try {
         const updatedSettings = await upsertUserSetting(userId, body)
 
+        const settings: Record<string, string> = {}
+        updatedSettings.forEach((setting) => {
+            settings[setting.key] = setting.value
+        })
+
         return c.json(
             {
-                data: updatedSettings as any,
+                data: settings,
                 message: 'Settings updated successfully',
                 success: true,
                 error: null,
@@ -51,18 +56,6 @@ export const userSettingsHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Bad request',
-                    success: false,
-                    error: error.errors,
-                },
-                BAD_REQUEST,
-            )
-        }
-        console.error('Error updating user settings:', error)
         c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             { data: {}, message: 'Internal Server Error', success: false },

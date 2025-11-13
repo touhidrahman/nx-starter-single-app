@@ -1,8 +1,8 @@
 import { createRouter } from '../../core/create-app'
 import {
-    getUsersSettingByUserIdRoute,
-    getUsersSettingsByUserIdHandler,
-} from './routes/get-user-setting-by-userId'
+    getUserSettingsRoute,
+    getUsersSettingsHandler,
+} from './routes/get-user-setting'
 import {
     userSettingsHandler,
     userSettingsRoute,
@@ -10,5 +10,4 @@ import {
 
 export const userSettingsV1Routes = createRouter()
     .openapi(userSettingsRoute, userSettingsHandler)
-
-    .openapi(getUsersSettingByUserIdRoute, getUsersSettingsByUserIdHandler)
+    .openapi(getUserSettingsRoute, getUsersSettingsHandler)

@@ -5,22 +5,22 @@ import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findUserById } from '../../user/user.service'
-import { zUserSettings } from '../user-setting.schema'
+import { zSelectUserSettings } from '../user-setting.schema'
 import { findUserSettingsByUserId } from '../user-setting.service'
 
-export const getUsersSettingByUserIdRoute = createRoute({
-    path: '/v1/user-setting',
+export const getUserSettingsRoute = createRoute({
+    path: '/v1/user-settings',
     method: 'get',
     tags: ['User Settings'],
     middleware: [checkToken] as const,
     responses: {
-        [OK]: ApiResponse(zUserSettings, 'User Settings '),
+        [OK]: ApiResponse(zSelectUserSettings, 'User Settings '),
         [NOT_FOUND]: ApiResponse(zEmpty, 'User setting not found'),
     },
 })
 
-export const getUsersSettingsByUserIdHandler: AppRouteHandler<
-    typeof getUsersSettingByUserIdRoute
+export const getUsersSettingsHandler: AppRouteHandler<
+    typeof getUserSettingsRoute
 > = async (c) => {
     const payload = c.get('jwtPayload')
 
@@ -38,16 +38,16 @@ export const getUsersSettingsByUserIdHandler: AppRouteHandler<
         )
     }
 
-    const userSetting = await findUserSettingsByUserId(user.id)
+    const userSettings = await findUserSettingsByUserId(user.id)
 
-    const settingsObject = userSetting?.reduce((acc, curr) => {
-        acc[curr.key] = curr.value
-        return acc
-    }, {})
+    const settingsObject: Record<string, string> = {}
+    userSettings.forEach((setting) => {
+        settingsObject[setting.key] = setting.value
+    })
 
     return c.json(
         {
-            data: { settings: settingsObject },
+            data: settingsObject,
             message: 'User setting is successfully fetched',
             success: true,
             error: null,

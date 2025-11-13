@@ -22,8 +22,6 @@ type UsersQueryParams = {
     city?: string
     country?: string
     postCode?: string
-    groupType?: 'client' | 'vendor'
-    status?: 'active' | 'inactive' | 'banned'
     level?: 'user' | 'moderator' | 'admin'
 }
 
@@ -81,8 +79,6 @@ export const getUsersWhereConditions = (
         city,
         country,
         postCode,
-        groupType,
-        status,
     } = params
 
     const conditions: SQL<unknown>[] = []
