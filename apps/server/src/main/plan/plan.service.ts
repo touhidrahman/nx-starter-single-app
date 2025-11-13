@@ -1,4 +1,4 @@
-import { and, eq, getTableColumns, ilike, or, SQL, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { pricingPlanTable } from '../../core/db/schema'
 import { InsertPlan } from './plan.schema'
@@ -66,17 +66,14 @@ export const getAllPlans = async (params: {
     }
 }
 
-// find specific plan by id
 export const findPlanById = async (id: string) =>
     await db.query.pricingPlanTable.findFirst({
         where: eq(pricingPlanTable.id, id),
     })
 
-// Insert a new plan.
 export const createPlan = async (planItem: InsertPlan) =>
     await db.insert(pricingPlanTable).values(planItem).returning()
 
-// Update an existing plan by ID.
 export const updatePlan = async (id: string, planItem: Partial<InsertPlan>) =>
     db
         .update(pricingPlanTable)
@@ -84,7 +81,6 @@ export const updatePlan = async (id: string, planItem: Partial<InsertPlan>) =>
         .where(eq(pricingPlanTable.id, id))
         .returning()
 
-// Remove a plan by ID.
 export const deletePlan = async (id: string) =>
     db.delete(pricingPlanTable).where(eq(pricingPlanTable.id, id)).returning()
 
@@ -93,23 +89,6 @@ export const findPlanByName = async (name: string) =>
         where: eq(pricingPlanTable.name, name),
     })
 
-// get plans
 export const getPlans = async () => {
     return db.query.pricingPlanTable.findMany()
-}
-
-export async function getStarterPlan() {
-    const plan = await db
-        .select()
-        .from(pricingPlanTable)
-        .where(
-            or(
-                eq(pricingPlanTable.isStarterPlan, true),
-                ilike(pricingPlanTable.name, 'free'),
-            ),
-        )
-        .limit(1)
-        .execute()
-
-    return plan[0]
 }

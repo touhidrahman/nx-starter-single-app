@@ -68,22 +68,7 @@ export const updatePlanHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Bad request',
-                    success: false,
-                    error: error.issues,
-                },
-                BAD_REQUEST,
-            )
-        }
-        console.error(
-            'Error updating plan:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        // c.var.logger.error((error as Error)?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,

@@ -25,7 +25,7 @@ export const deleteRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission(['role:delete']), isAdmin),
+        some(checkPermission({ and: ['role:delete'] }), isAdmin),
     ] as const,
     params: zId,
     responses: {
@@ -53,16 +53,6 @@ export const deleteRoleHandler: AppRouteHandler<
                     success: false,
                 },
                 BAD_REQUEST,
-            )
-        }
-        if (exists.isSystemRole) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Default role cannot be deleted.',
-                    success: false,
-                },
-                FORBIDDEN,
             )
         }
 

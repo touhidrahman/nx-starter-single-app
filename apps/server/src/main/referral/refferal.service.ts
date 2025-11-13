@@ -1,11 +1,12 @@
-import { and, eq, sql } from 'drizzle-orm'
+import { and, eq, gte, sql } from 'drizzle-orm'
+import { DateUtil } from '../../../../../libs/common-util/src'
 import { db } from '../../core/db/db'
 import {
+    membershipsTable,
     pricingPlanTable,
     referralCodesTable,
     referralsTable,
     subscriptionsTable,
-    usersGroupsTable,
     usersTable,
 } from '../../core/db/schema'
 
@@ -42,10 +43,10 @@ export const getReferredUsers = async (userId: string) => {
             eq(referralsTable.referralCodeId, referralCodesTable.id),
         )
         .innerJoin(usersTable, eq(referralsTable.referredId, usersTable.id))
-        .innerJoin(usersGroupsTable, eq(usersGroupsTable.userId, usersTable.id))
+        .innerJoin(membershipsTable, eq(membershipsTable.userId, usersTable.id))
         .innerJoin(
             subscriptionsTable,
-            eq(subscriptionsTable.groupId, usersGroupsTable.groupId),
+            eq(subscriptionsTable.groupId, membershipsTable.groupId),
         )
         .innerJoin(
             pricingPlanTable,
@@ -54,7 +55,7 @@ export const getReferredUsers = async (userId: string) => {
         .where(
             and(
                 eq(referralCodesTable.userId, userId),
-                eq(subscriptionsTable.status, 'active'),
+                gte(subscriptionsTable.endDate, DateUtil.date()),
             ),
         )
 }
@@ -70,10 +71,10 @@ export const getReferredPoints = async (userId: string) => {
             eq(referralsTable.referralCodeId, referralCodesTable.id),
         )
         .innerJoin(usersTable, eq(referralsTable.referredId, usersTable.id))
-        .innerJoin(usersGroupsTable, eq(usersGroupsTable.userId, usersTable.id))
+        .innerJoin(membershipsTable, eq(membershipsTable.userId, usersTable.id))
         .innerJoin(
             subscriptionsTable,
-            eq(subscriptionsTable.groupId, usersGroupsTable.groupId),
+            eq(subscriptionsTable.groupId, membershipsTable.groupId),
         )
         .innerJoin(
             pricingPlanTable,
@@ -82,7 +83,7 @@ export const getReferredPoints = async (userId: string) => {
         .where(
             and(
                 eq(referralCodesTable.userId, userId),
-                eq(subscriptionsTable.status, 'active'),
+                gte(subscriptionsTable.endDate, DateUtil.date()),
             ),
         )
 
@@ -109,10 +110,10 @@ export const findReferralPoints = async (userId: string) => {
             eq(referralsTable.referralCodeId, referralCodesTable.id),
         )
         .innerJoin(usersTable, eq(referralsTable.referredId, usersTable.id))
-        .innerJoin(usersGroupsTable, eq(usersGroupsTable.userId, usersTable.id))
+        .innerJoin(membershipsTable, eq(membershipsTable.userId, usersTable.id))
         .innerJoin(
             subscriptionsTable,
-            eq(subscriptionsTable.groupId, usersGroupsTable.groupId),
+            eq(subscriptionsTable.groupId, membershipsTable.groupId),
         )
         .innerJoin(
             pricingPlanTable,
@@ -121,7 +122,7 @@ export const findReferralPoints = async (userId: string) => {
         .where(
             and(
                 eq(referralsTable.referredId, userId),
-                eq(subscriptionsTable.status, 'active'),
+                gte(subscriptionsTable.endDate, DateUtil.date()),
             ),
         )
         .limit(1)

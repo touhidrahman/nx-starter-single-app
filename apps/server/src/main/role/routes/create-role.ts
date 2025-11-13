@@ -13,8 +13,6 @@ import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
-import { Group } from '../../group/group.schema'
-import { findGroupById } from '../../group/group.service'
 import { zInsertRole, zSelectRole } from '../role.schema'
 import { createRole } from '../role.service'
 
@@ -24,7 +22,7 @@ export const createRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission(['role:write']), isAdmin),
+        some(checkPermission({ and: ['role:write'] }), isAdmin),
     ] as const,
     request: {
         body: jsonContent(zInsertRole, 'Role details'),
@@ -40,23 +38,17 @@ export const createRoleHandler: AppRouteHandler<
     typeof createRoleRoute
 > = async (c) => {
     const body = c.req.valid('json')
-    const { sub, groupType } = c.get('jwtPayload')
-    const { name, description, groupId, claims, isSystemRole } = body
+    const { sub } = c.get('jwtPayload')
+    const { name, description, groupId, permissions } = body
 
     try {
-        let finedGroupType = ''
-        if (!groupType) {
-            const groupDetails: Group = await findGroupById(groupId as string)
-            finedGroupType = groupDetails?.type as string
-        }
+        const permissionsSorted = (permissions ?? '')?.split(',')
 
         const newRole = await createRole(
             groupId as string,
-            name,
+            name ?? '',
             description as string,
-            groupType ?? finedGroupType,
-            claims ?? [],
-            isSystemRole ?? false,
+            permissionsSorted,
         )
 
         await saveLog(

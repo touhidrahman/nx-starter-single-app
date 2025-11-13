@@ -19,7 +19,10 @@ export async function createRole(
             name: name,
             description: description,
             groupId: groupId,
-            permissions: permissions.sort().join(','),
+            permissions: permissions
+                .map((p) => p.trim().toLowerCase())
+                .sort()
+                .join(','),
         })
         .returning()
 

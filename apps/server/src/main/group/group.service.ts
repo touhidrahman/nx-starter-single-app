@@ -97,10 +97,9 @@ export async function countGroups() {
 export async function findGroupById(
     id: string,
 ): Promise<SelectGroup | undefined> {
-    const result = await db.query.groupsTable.findFirst({
+    return db.query.groupsTable.findFirst({
         where: eq(groupsTable.id, id),
     })
-    return result
 }
 
 // Check if a user is the owner of a group.
