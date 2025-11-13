@@ -1,7 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
 import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { ApiResponse } from '../../../core/utils/api-response.util'
@@ -13,7 +12,10 @@ export const inviteUserRoute = createRoute({
     path: '/v1/invite',
     method: 'post',
     tags: ['User'],
-    middleware: [checkToken, checkPermission(['invite:write'])] as const,
+    middleware: [
+        checkToken,
+        checkPermission({ and: ['invite:write'] }),
+    ] as const,
     request: {
         body: jsonContent(zInsertInvite, 'Invite user details'),
     },

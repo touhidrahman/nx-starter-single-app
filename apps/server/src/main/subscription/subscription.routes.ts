@@ -32,10 +32,6 @@ import {
     getSubscriptionListRoute,
 } from './routes/get-subscription-list'
 import {
-    getSubscriptionListByGroupIdHandler,
-    getSubscriptionListByGroupIdRoute,
-} from './routes/get-subscription-list-groupId'
-import {
     getSubscriptionRequestListHandler,
     getSubscriptionRequestListRoute,
 } from './routes/get-subscription-request-list'
@@ -50,10 +46,6 @@ export const subscriptionV1Route = createRouter()
     .openapi(getSubscriptionRequestListRoute, getSubscriptionRequestListHandler)
     .openapi(getSubscriptionRoute, getSubscriptionHandler)
     .openapi(getSubscriptionByGroupIdRoute, getSubscriptionByGroupIdHandler)
-    .openapi(
-        getSubscriptionListByGroupIdRoute,
-        getSubscriptionListByGroupIdHandler,
-    )
     .openapi(getSubscriptionListRoute, getSubscriptionListHandler)
     .openapi(approveSubscriptionRequestRoute, approveSubscriptionRequestHandler)
     .openapi(updateSubscriptionRoute, updateSubscriptionHandler)

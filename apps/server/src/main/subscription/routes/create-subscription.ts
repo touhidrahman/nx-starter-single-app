@@ -1,4 +1,4 @@
-import { createRoute, z } from '@hono/zod-openapi'
+import { createRoute } from '@hono/zod-openapi'
 import {
     BAD_REQUEST,
     CREATED,
@@ -12,6 +12,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findGroupById, updateSubscriptionId } from '../../group/group.service'
 import {
+    InsertSubscription,
     zInsertSubscription,
     zSelectSubscription,
 } from '../subscription.schema'
@@ -44,7 +45,6 @@ export const createSubscriptionsHandler: AppRouteHandler<
     const body = c.req.valid('json')
     const { sub } = c.get('jwtPayload')
     const groupId = body.groupId as string
-    const subscriptionType = body.subscriptionType as 'monthly' | 'yearly'
 
     if (!groupId) {
         return c.json(
@@ -84,29 +84,9 @@ export const createSubscriptionsHandler: AppRouteHandler<
         }
 
         const startDate = new Date()
-        let endDate: Date
-
-        if (subscriptionType === 'monthly') {
-            endDate = new Date(startDate)
-            endDate.setMonth(startDate.getMonth() + 1)
-        } else if (subscriptionType === 'yearly') {
-            endDate = new Date(startDate)
-            endDate.setFullYear(startDate.getFullYear() + 1)
-        } else {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Invalid subscriptionType ',
-                    success: false,
-                },
-                BAD_REQUEST,
-            )
-        }
-
-        const newSubscription = {
+        const newSubscription: InsertSubscription = {
             ...body,
             startDate: startDate,
-            endDate: endDate,
         }
         const [subscription] = await createSubscription(newSubscription)
 
@@ -142,17 +122,6 @@ export const createSubscriptionsHandler: AppRouteHandler<
             CREATED,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Bad request',
-                    success: false,
-                    error: error.errors,
-                },
-                BAD_REQUEST,
-            )
-        }
         c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             { data: {}, message: 'Internal Server Error', success: false },

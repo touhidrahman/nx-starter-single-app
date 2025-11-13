@@ -1,7 +1,12 @@
 import { and, count, eq, getTableColumns, or } from 'drizzle-orm'
+import { uniq } from 'es-toolkit'
 import { db } from '../../core/db/db'
 import { rolesTable } from '../../core/db/schema/roles.table'
 import { InsertRole } from './role.schema'
+
+function normalizePermissions(permissions: string[]): string {
+    return uniq(permissions.map((p) => p.trim().toLowerCase()).sort()).join(',')
+}
 
 export async function findRoleById(id: string) {
     return db.select().from(rolesTable).where(eq(rolesTable.id, id))
@@ -19,10 +24,7 @@ export async function createRole(
             name: name,
             description: description,
             groupId: groupId,
-            permissions: permissions
-                .map((p) => p.trim().toLowerCase())
-                .sort()
-                .join(','),
+            permissions: normalizePermissions(permissions),
         })
         .returning()
 
@@ -35,7 +37,12 @@ export async function updateRole(roleId: string, data: Partial<InsertRole>) {
         throw new Error('Role not found')
     }
 
-    const updateData: Partial<InsertRole> = { ...data }
+    const updateData: Partial<InsertRole> = {
+        ...data,
+        permissions: data.permissions
+            ? normalizePermissions(data.permissions.split(','))
+            : undefined,
+    }
 
     const [updatedRole] = await db
         .update(rolesTable)

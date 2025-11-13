@@ -1,6 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
-import { AppRouteHandler } from '../../../core/core.type'
 import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -12,7 +11,10 @@ export const deleteInvitationRoute = createRoute({
     path: '/v1/invites/:id',
     method: 'delete',
     tags: ['Invite'],
-    middleware: [checkToken, checkPermission(['invite:write'])] as const,
+    middleware: [
+        checkToken,
+        checkPermission({ and: ['invite:write'] }),
+    ] as const,
     request: {
         params: z.object({
             id: z.string(),

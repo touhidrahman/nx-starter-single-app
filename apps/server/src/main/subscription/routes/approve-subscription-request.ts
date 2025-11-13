@@ -97,8 +97,6 @@ export const approveSubscriptionRequestHandler: AppRouteHandler<
     const endDate = calculateEndDate(startDate, subscriptionType)
 
     const newSubscriptionData: InsertSubscription = {
-        status: 'active',
-        subscriptionType: subscriptionType,
         planId: requestedSubscription.planId,
         groupId: requestedSubscription.groupId,
         isTrial: requestedSubscription.isTrial,
@@ -106,6 +104,7 @@ export const approveSubscriptionRequestHandler: AppRouteHandler<
         startDate,
         endDate,
         usedStorage: 0,
+        approveDate: new Date().toISOString(),
     }
 
     const [newSubscription] = await createSubscription(newSubscriptionData)
@@ -114,8 +113,7 @@ export const approveSubscriptionRequestHandler: AppRouteHandler<
 
     const updatedRequestedSubscription: InsertSubscriptionRequest = {
         ...requestedSubscription,
-        status: 'approved' as const,
-        statusChangeDate: new Date().toISOString(),
+        approveDate: new Date().toISOString(),
     }
 
     await saveLog(

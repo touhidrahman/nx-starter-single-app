@@ -18,7 +18,7 @@ export const getRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission(['role:read']), isAdmin),
+        some(checkPermission({ and: ['role:read'] }), isAdmin),
     ] as const,
     params: zId,
     responses: {

@@ -1,12 +1,11 @@
 import { relations } from 'drizzle-orm'
-import { boolean, date, pgTable, text } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
+import { boolean, date, integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
+import { timestampColumns } from './_common.table'
 import { groupsTable } from './groups.table'
 import { pricingPlanTable } from './pricing-plan.table'
-import { integer } from 'drizzle-orm/pg-core'
 
-export const subscriptionsRequestTable = pgTable('subscriptions_request', {
+export const subscriptionsRequestTable = pgTable('subscription_requests', {
     id: text().primaryKey().$defaultFn(generateId),
     groupId: text()
         .references(() => groupsTable.id, { onDelete: 'cascade' })

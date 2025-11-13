@@ -1,7 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
 import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -13,7 +12,10 @@ export const deleteUsersRoute = createRoute({
     path: '/v1/users/delete',
     method: 'delete',
     tags: ['User'],
-    middleware: [checkToken, checkPermission(['user:delete'])] as const,
+    middleware: [
+        checkToken,
+        checkPermission({ and: ['user:delete'] }),
+    ] as const,
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),

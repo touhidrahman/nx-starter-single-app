@@ -117,17 +117,6 @@ export const uploadFileHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'An error occurred while uploading the image',
-                    success: false,
-                    error: error.errors,
-                },
-                BAD_REQUEST,
-            )
-        }
         return c.json(
             {
                 data: {},

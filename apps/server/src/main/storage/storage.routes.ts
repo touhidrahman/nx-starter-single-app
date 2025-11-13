@@ -10,7 +10,7 @@ import {
 import {
     getStorageItemsByGroupHandler,
     getStorageItemsByGroupRoute,
-} from './routes/get-storage-items-by-groupId'
+} from './routes/get-storage-items-by-group'
 import { uploadHandler, uploadRoute } from './routes/upload'
 import { uploadFileHandler, uploadFileRoute } from './routes/upload-file'
 

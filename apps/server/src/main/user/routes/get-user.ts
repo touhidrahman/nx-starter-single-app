@@ -1,6 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
-import { AppRouteHandler } from '../../../core/core.type'
 import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -13,7 +12,7 @@ export const getUserRoute = createRoute({
     path: '/v1/users/:id',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken, checkPermission(['user:read'])] as const,
+    middleware: [checkToken, checkPermission({ and: ['user:read'] })] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

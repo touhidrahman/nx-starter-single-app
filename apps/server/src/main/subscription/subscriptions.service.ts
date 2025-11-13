@@ -18,6 +18,7 @@ import { subscriptionsRequestTable } from '../../core/db/schema/subscriptions-re
 import {
     InsertSubscription,
     InsertSubscriptionRequest,
+    SelectSubscription,
 } from './subscription.schema'
 
 export const getAllSubscriptions = async (params: {
@@ -26,37 +27,23 @@ export const getAllSubscriptions = async (params: {
     size: number
     orderBy?: string
     plan?: string
-    subscriptionType?: string
-    status?: string
+    active?: boolean
 }) => {
-    const { search, page, size, orderBy, plan, subscriptionType, status } =
-        params
+    const { search, page, size, orderBy, plan, active } = params
 
     const conditions: SQL<unknown>[] = []
 
     if (search) {
         const searchTerm = `%${search}%`
-        conditions.push(
-            sql`(${ilike(subscriptionsTable.status, searchTerm)} OR ${ilike(subscriptionsTable.subscriptionType, searchTerm)} OR ${ilike(pricingPlanTable.name, searchTerm)})`,
-        )
+        conditions.push(sql`(${ilike(pricingPlanTable.name, searchTerm)})`)
     }
 
     if (plan) {
         conditions.push(eq(pricingPlanTable.name, plan))
     }
 
-    if (subscriptionType) {
-        if (subscriptionType === 'monthly' || subscriptionType === 'yearly') {
-            conditions.push(
-                eq(subscriptionsTable.subscriptionType, subscriptionType),
-            )
-        }
-    }
-
-    if (status && (status === 'active' || status === 'inactive')) {
-        conditions.push(
-            eq(subscriptionsTable.status, status as 'active' | 'inactive'),
-        )
+    if (active !== undefined) {
+        conditions.push(eq(subscriptionsTable.endDate, null))
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
@@ -105,43 +92,23 @@ export const getAllSubscriptionsRequest = async (params: {
     size: number
     orderBy?: string
     plan?: string
-    subscriptionType?: string
-    status?: string
+    active?: boolean
 }) => {
-    const { search, page, size, orderBy, plan, subscriptionType, status } =
-        params
+    const { search, page, size, orderBy, plan, active } = params
 
     const conditions: SQL<unknown>[] = []
 
     if (search) {
         const searchTerm = `%${search}%`
-        conditions.push(
-            sql`(${ilike(subscriptionsRequestTable.status, searchTerm)} OR ${ilike(subscriptionsRequestTable.subscriptionType, searchTerm)} OR ${ilike(pricingPlanTable.name, searchTerm)})`,
-        )
+        conditions.push(sql`(${ilike(pricingPlanTable.name, searchTerm)})`)
     }
 
     if (plan) {
         conditions.push(eq(pricingPlanTable.name, plan))
     }
 
-    if (subscriptionType) {
-        if (subscriptionType === 'monthly' || subscriptionType === 'yearly') {
-            conditions.push(
-                eq(
-                    subscriptionsRequestTable.subscriptionType,
-                    subscriptionType,
-                ),
-            )
-        }
-    }
-
-    if (status && (status === 'pending' || status === 'approved')) {
-        conditions.push(
-            eq(
-                subscriptionsRequestTable.status,
-                status as 'pending' | 'approved',
-            ),
-        )
+    if (active !== undefined) {
+        conditions.push(eq(subscriptionsTable.endDate, null))
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
@@ -206,12 +173,7 @@ export const findActiveSubscriptionByGroupId = async (groupId: string) => {
     return db
         .select()
         .from(subscriptionsTable)
-        .where(
-            and(
-                eq(subscriptionsTable.groupId, groupId),
-                eq(subscriptionsTable.status, 'active'),
-            ),
-        )
+        .where(and(eq(subscriptionsTable.groupId, groupId)))
         .limit(1)
         .execute()
 }
@@ -223,7 +185,7 @@ export const findActiveSubscriptionsByGroupId = async (groupId: string) => {
         .where(
             and(
                 eq(subscriptionsTable.groupId, groupId),
-                eq(subscriptionsTable.status, 'active'),
+                eq(subscriptionsTable.endDate, null),
             ),
         )
         .execute()
@@ -233,12 +195,7 @@ export const findSubscriptionRequestByGroupId = async (groupId: string) => {
     return await db
         .select()
         .from(subscriptionsRequestTable)
-        .where(
-            and(
-                eq(subscriptionsRequestTable.groupId, groupId),
-                eq(subscriptionsRequestTable.status, 'pending'),
-            ),
-        )
+        .where(and(eq(subscriptionsRequestTable.groupId, groupId)))
         .limit(1)
         .execute()
 }
@@ -256,9 +213,6 @@ export const findSubscriptionRequestByGroupIdAndId = async (
             autoRenewal: subscriptionsRequestTable.autoRenewal,
             paymentMethod: subscriptionsRequestTable.paymentMethod,
             transactionId: subscriptionsRequestTable.transactionId,
-            status: subscriptionsRequestTable.status,
-            statusChangeDate: subscriptionsRequestTable.statusChangeDate,
-            subscriptionType: subscriptionsRequestTable.subscriptionType,
             createdAt: subscriptionsRequestTable.createdAt,
             updatedAt: subscriptionsRequestTable.updatedAt,
             groupName: groupsTable.name,
@@ -269,7 +223,6 @@ export const findSubscriptionRequestByGroupIdAndId = async (
             and(
                 eq(subscriptionsRequestTable.groupId, groupId),
                 eq(subscriptionsRequestTable.id, id),
-                eq(subscriptionsRequestTable.status, 'pending'),
             ),
         )
         .leftJoin(
@@ -339,7 +292,9 @@ export const findByGroupId = async (groupId: string) => {
     return subscription[0] || null
 }
 // Find  subscription list by GroupID
-export const findSubscriptionListByGroupId = async (groupId: string) => {
+export const findSubscriptionListByGroupId = async (
+    groupId: string,
+): Promise<SelectSubscription[]> => {
     const subscriptions = await db
         .select(getTableColumns(subscriptionsTable))
         .from(subscriptionsTable)
