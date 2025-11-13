@@ -12,10 +12,10 @@ if (!dbUrl) {
     throw new Error('DATABASE_URL is not defined')
 }
 
-const dbConnMode = process.env.DB_MODE || 'neon'
+const dbConnMode = process.env.DB_MODE || 'pg'
 const isNeonMode = dbConnMode === 'neon'
-console.info(`Database connection mode: ${dbConnMode}`)
-console.info(`Database URL: ${dbUrl.split('@')[1]}`)
+console.log(`Database connection mode: ${dbConnMode}`)
+console.log(`Database URL: ${dbUrl.split('@')[1]}`)
 
 export const client = isNeonMode ? neon(dbUrl) : undefined
 

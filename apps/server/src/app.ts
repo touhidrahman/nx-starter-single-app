@@ -1,4 +1,5 @@
 import { uniq } from 'es-toolkit'
+import { pad } from 'es-toolkit/string'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
@@ -48,9 +49,7 @@ configureOpenAPI(app)
 const paths = []
 for (const route of routes) {
     paths.push(
-        ...uniq(
-            route.routes.map((r) => `${r.method.substring(0, 3)}: ${r.path}`),
-        ),
+        ...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)),
     )
     app.route('/', route)
 }
