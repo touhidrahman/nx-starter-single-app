@@ -23,8 +23,6 @@ export const getSubscriptionListRoute = createRoute({
             size: z.string().optional(),
             orderBy: z.string().optional(),
             plan: z.string().optional(),
-            subscriptionType: z.string().optional(),
-            status: z.string().optional(),
         }),
     },
     responses: {
@@ -40,8 +38,7 @@ export const getSubscriptionListHandler: AppRouteHandler<
     typeof getSubscriptionListRoute
 > = async (c) => {
     try {
-        const { search, page, size, orderBy, plan, subscriptionType, status } =
-            c.req.query()
+        const { search, page, size, orderBy, plan } = c.req.query()
 
         const pageNumber = Number(page)
         const limitNumber = Number(size)
@@ -52,8 +49,6 @@ export const getSubscriptionListHandler: AppRouteHandler<
             size: limitNumber,
             orderBy,
             plan,
-            subscriptionType,
-            status,
         })
 
         const count = await countSubscription()

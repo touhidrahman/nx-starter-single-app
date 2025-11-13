@@ -1,20 +1,16 @@
 import { createRouter } from '../../core/create-app'
 import {
     approveSubscriptionRequestHandler,
-    approveSubscriptionRequestRoute,
+    approveSubscriptionRoute,
 } from './routes/approve-subscription-request'
 import {
     createSubscriptionsHandler,
     createSubscriptionsRoute,
 } from './routes/create-subscription'
 import {
-    createSubscriptionsRequestHandler,
-    createSubscriptionsRequestRoute,
-} from './routes/create-subscriptions-request'
-import {
     deleteAllSubscriptionHandler,
     deleteAllSubscriptionRoute,
-} from './routes/delete-all-subscription'
+} from './routes/delete-many-subscriptions'
 import {
     deleteSubscriptionHandler,
     deleteSubscriptionRoute,
@@ -26,15 +22,11 @@ import {
 import {
     getSubscriptionByGroupIdHandler,
     getSubscriptionByGroupIdRoute,
-} from './routes/get-subscription-groupId'
+} from './routes/get-subscription-by-group'
 import {
     getSubscriptionListHandler,
     getSubscriptionListRoute,
 } from './routes/get-subscription-list'
-import {
-    getSubscriptionRequestListHandler,
-    getSubscriptionRequestListRoute,
-} from './routes/get-subscription-request-list'
 import {
     updateSubscriptionHandler,
     updateSubscriptionRoute,
@@ -42,12 +34,10 @@ import {
 
 export const subscriptionV1Route = createRouter()
     .openapi(createSubscriptionsRoute, createSubscriptionsHandler)
-    .openapi(createSubscriptionsRequestRoute, createSubscriptionsRequestHandler)
-    .openapi(getSubscriptionRequestListRoute, getSubscriptionRequestListHandler)
     .openapi(getSubscriptionRoute, getSubscriptionHandler)
     .openapi(getSubscriptionByGroupIdRoute, getSubscriptionByGroupIdHandler)
     .openapi(getSubscriptionListRoute, getSubscriptionListHandler)
-    .openapi(approveSubscriptionRequestRoute, approveSubscriptionRequestHandler)
+    .openapi(approveSubscriptionRoute, approveSubscriptionRequestHandler)
     .openapi(updateSubscriptionRoute, updateSubscriptionHandler)
     .openapi(deleteSubscriptionRoute, deleteSubscriptionHandler)
     .openapi(deleteAllSubscriptionRoute, deleteAllSubscriptionHandler)

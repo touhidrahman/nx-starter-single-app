@@ -6,7 +6,10 @@ import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog } from '../../audit-log/audit-log.service'
-import { deleteById, findById } from '../subscriptions.service'
+import {
+    deleteSubscriptionById,
+    findSubscriptionById,
+} from '../subscriptions.service'
 
 export const deleteSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
@@ -30,7 +33,7 @@ export const deleteSubscriptionHandler: AppRouteHandler<
     const payload = c.get('jwtPayload')
 
     try {
-        const subscription = await findById(id)
+        const subscription = await findSubscriptionById(id)
         if (!subscription) {
             return c.json(
                 { data: {}, message: 'Item not found', success: false },
@@ -38,7 +41,7 @@ export const deleteSubscriptionHandler: AppRouteHandler<
             )
         }
 
-        await deleteById(id)
+        await deleteSubscriptionById(id)
 
         await saveLog('subscriptions', id, payload.sub, 'delete', {}, {})
 
@@ -51,10 +54,6 @@ export const deleteSubscriptionHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        console.error(
-            'Error deleting subscription:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
         c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             {

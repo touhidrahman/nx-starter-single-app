@@ -18,7 +18,7 @@ import {
 } from '../subscription.schema'
 import {
     createSubscription,
-    findActiveSubscriptionByGroupId,
+    findSubscriptionByGroupId,
 } from '../subscriptions.service'
 
 export const createSubscriptionsRoute = createRoute({
@@ -69,8 +69,7 @@ export const createSubscriptionsHandler: AppRouteHandler<
             )
         }
 
-        const activeSubscription =
-            await findActiveSubscriptionByGroupId(groupId)
+        const activeSubscription = await findSubscriptionByGroupId(groupId)
         if (activeSubscription.length > 0) {
             return c.json(
                 {

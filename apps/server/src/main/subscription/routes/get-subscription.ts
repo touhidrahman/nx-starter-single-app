@@ -6,7 +6,7 @@ import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectSubscription } from '../subscription.schema'
-import { findById } from '../subscriptions.service'
+import { findSubscriptionById } from '../subscriptions.service'
 
 export const getSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
@@ -26,7 +26,7 @@ export const getSubscriptionHandler: AppRouteHandler<
     typeof getSubscriptionRoute
 > = async (c) => {
     const id = c.req.param('id')
-    const subscription = await findById(id)
+    const subscription = await findSubscriptionById(id)
 
     if (!subscription) {
         return c.json(

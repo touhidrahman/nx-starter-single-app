@@ -14,7 +14,10 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findGroupById, updateSubscriptionId } from '../../group/group.service'
 import { zUpdateSubscription } from '../subscription.schema'
-import { findById, updateById } from '../subscriptions.service'
+import {
+    findSubscriptionById,
+    updateSubscriptionById,
+} from '../subscriptions.service'
 
 export const updateSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
@@ -46,14 +49,14 @@ export const updateSubscriptionHandler: AppRouteHandler<
     const { sub } = c.get('jwtPayload')
 
     try {
-        const subscription = await findById(id)
+        const subscription = await findSubscriptionById(id)
         if (!subscription) {
             return c.json(
                 { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const [updatedMessage] = await updateById(id, groupId, body)
+        const [updatedMessage] = await updateSubscriptionById(id, groupId, body)
         await saveLog(
             'subscriptions',
             id,

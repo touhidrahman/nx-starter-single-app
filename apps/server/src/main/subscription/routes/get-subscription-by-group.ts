@@ -5,10 +5,10 @@ import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectSubscription } from '../subscription.schema'
-import { findByGroupId } from '../subscriptions.service'
+import { findSubscriptionByGroupId } from '../subscriptions.service'
 
 export const getSubscriptionByGroupIdRoute = createRoute({
-    path: '/v1/subscriptions/:groupId/subscription',
+    path: '/v1/subscriptions/by-group/:groupId',
     tags: ['Subscriptions'],
     method: 'get',
     middleware: [checkToken] as const,
@@ -25,7 +25,7 @@ export const getSubscriptionByGroupIdHandler: AppRouteHandler<
     typeof getSubscriptionByGroupIdRoute
 > = async (c) => {
     const groupId = c.req.param('groupId')
-    const subscription = await findByGroupId(groupId)
+    const [subscription] = await findSubscriptionByGroupId(groupId)
 
     if (!subscription) {
         return c.json(

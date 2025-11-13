@@ -270,13 +270,6 @@ export const updateSubscriptionId = async (
         .where(eq(groupsTable.id, groupId))
         .returning()
 
-export const removeSubscriptionIdFromGroup = async (groupId: string) =>
-    db
-        .update(groupsTable)
-        .set({ subscriptionId: null })
-        .where(eq(groupsTable.id, groupId))
-        .returning()
-
 export const getAllGroupsByUserId = async (userId: string) => {
     const groups = await db
         .select({

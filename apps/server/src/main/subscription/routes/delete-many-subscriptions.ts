@@ -7,7 +7,7 @@ import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog } from '../../audit-log/audit-log.service'
-import { deleteManyByIds } from '../subscriptions.service'
+import { deleteManySubscriptionsByIds } from '../subscriptions.service'
 
 export const deleteAllSubscriptionRoute = createRoute({
     path: '/v1/subscriptions',
@@ -33,15 +33,12 @@ export const deleteAllSubscriptionHandler: AppRouteHandler<
     const payload = c.get('jwtPayload')
 
     try {
-        await deleteManyByIds(body.ids, payload.groupId)
+        await deleteManySubscriptionsByIds(body.ids)
+
         for (const id of body.ids) {
             await saveLog('subscriptions', id, payload.sub, 'delete', {}, {})
         }
     } catch (error) {
-        console.error(
-            'Error deleting subscriptions:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
         c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             {
