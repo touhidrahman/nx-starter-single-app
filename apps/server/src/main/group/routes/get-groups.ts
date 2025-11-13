@@ -1,4 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
+import { toInt } from 'radash'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
@@ -16,11 +17,7 @@ export const getGroupsRoute = createRoute({
             search: z.string().optional(),
             size: z.string().optional(),
             page: z.string().optional(),
-            status: z.enum(['active', 'inactive', 'pending']).optional(),
-            type: z
-                .enum(['client', 'vendor'])
-                .transform((val) => val.toLowerCase())
-                .optional(),
+            orderBy: z.string().optional(),
         }),
     },
     responses: {
@@ -31,19 +28,12 @@ export const getGroupsRoute = createRoute({
 export const getGroupsHandler: AppRouteHandler<typeof getGroupsRoute> = async (
     c,
 ) => {
-    const { search, page, size, orderBy, status, type } = c.req.query()
+    const { search, page, size, orderBy } = c.req.query()
 
-    const pageNumber = Number.parseInt(page, 10) || 1
-    const pageSize = Number.parseInt(size, 10) || 10
-    const validStatus: 'active' | 'inactive' | 'pending' = status as
-        | 'active'
-        | 'inactive'
-        | 'pending'
-    const validType: 'client' | 'vendor' = type as 'client' | 'vendor'
+    const pageNumber = toInt(page, 1)
+    const pageSize = toInt(size, 10)
 
     const groups = await findManyGroups({
-        status: validStatus,
-        type: validType,
         search,
         page: pageNumber,
         size: pageSize,

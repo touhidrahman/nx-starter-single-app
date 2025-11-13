@@ -31,8 +31,6 @@ export async function findAllGroups(page = 1, size = 10) {
 
 export const findManyGroups = async (params: {
     search?: string
-    status?: 'active' | 'inactive' | 'pending'
-    type?: 'client' | 'vendor'
     page: number
     size: number
     orderBy: string

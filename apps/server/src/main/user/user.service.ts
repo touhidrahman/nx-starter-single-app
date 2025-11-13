@@ -7,7 +7,7 @@ import {
     usersTable,
 } from '../../core/db/schema'
 import { SelectUser } from '../auth/auth.schema'
-import { Member, UserDto } from './user.schema'
+import { UserDto } from './user.schema'
 
 type UsersQueryParams = {
     page?: number
@@ -253,6 +253,13 @@ export async function setDefaultGroupId(
         .returning()
 
     return updatedUser
+}
+
+export async function resetDefaultGroupId(groupId: string) {
+    await db
+        .update(usersTable)
+        .set({ defaultGroupId: null })
+        .where(eq(usersTable.defaultGroupId, groupId))
 }
 
 export async function findGroupsOwnedByUser(userId: string) {

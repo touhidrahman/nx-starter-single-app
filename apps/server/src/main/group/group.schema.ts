@@ -10,7 +10,7 @@ export const zInsertGroup = createInsertSchema(groupsTable, {
     verifiedOn: z.coerce.date().optional(),
     creatorId: z.string().optional(),
 })
-export const zSelectGroup = createSelectSchema(groupsTable).partial()
+export const zSelectGroup = createSelectSchema(groupsTable)
 export const zUpdateGroup = zInsertGroup.omit({
     // public facing API cannot update these fields
     verified: true,
@@ -20,9 +20,6 @@ export const zUpdateGroup = zInsertGroup.omit({
 export const zUpdateUserRole = z.object({
     userId: z.string(),
     roleId: z.string(),
-})
-export const zUpdateGroupStatus = z.object({
-    status: z.enum(['pending', 'active', 'inactive']),
 })
 
 export const zAddGroupByInvite = z.object({
@@ -34,4 +31,3 @@ export const zAddGroupByInvite = z.object({
 export const zSwitchGroup = z.object({
     groupId: z.string(),
 })
-export type groupStatus = z.infer<typeof zUpdateGroupStatus>

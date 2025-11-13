@@ -10,8 +10,9 @@ import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
-import { GroupDto, zInsertGroup, zSelectGroup } from '../group.schema'
-import { createGroup, setDefaultGroup } from '../group.service'
+import { setDefaultGroupId } from '../../user/user.service'
+import { InsertGroup, zInsertGroup, zSelectGroup } from '../group.schema'
+import { createGroup } from '../group.service'
 
 export const createGroupRoute = createRoute({
     path: '/v1/groups',
@@ -30,27 +31,20 @@ export const createGroupRoute = createRoute({
 export const createGroupHandler: AppRouteHandler<
     typeof createGroupRoute
 > = async (c) => {
-    const body = c.req.valid('json') as GroupDto
-
+    const body = c.req.valid('json') as InsertGroup
     const { sub } = await c.get('jwtPayload')
 
-    // const hasOwnedGroup = await isOwner(userId, groupId)
-    // if (hasOwnedGroup) {
-    //     return c.json(
-    //         {
-    //             message: 'You already have a group owned by you',
-    //             data: {},
-    //             success: false,
-    //         },
-    //         BAD_REQUEST,
-    //     )
-    // }
-
-    // Insert a new entry into groups
     const [newGroup] = await createGroup({
         ...body,
-        ownerId: sub,
+        creatorId: sub,
     })
+
+    if (!newGroup) {
+        return c.json(
+            { data: {}, success: false, message: 'Invalid group data' },
+            BAD_REQUEST,
+        )
+    }
 
     await saveLog(
         'groups',
@@ -61,7 +55,7 @@ export const createGroupHandler: AppRouteHandler<
         toJsonSafe(newGroup),
     )
 
-    await setDefaultGroup(sub, newGroup.id)
+    await setDefaultGroupId(sub, newGroup.id)
 
     return c.json(
         {

@@ -7,12 +7,12 @@ import { isAdmin } from '../../../core/middlewares/is-admin.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
+import { resetDefaultGroupId } from '../../user/user.service'
 import {
     deleteGroupWithOwner,
     findGroupById,
     removeAllGroupMembers,
     removeGroupOwner,
-    resetDefaultGroupId,
 } from '../group.service'
 
 export const deleteGroupByIdRoute = createRoute({
@@ -49,7 +49,6 @@ export const deleteGroupHandler: AppRouteHandler<
             )
         }
 
-        //! TODO: we can delete without those method we case use caseCade or set null
         await removeGroupOwner(id)
         await removeAllGroupMembers(id)
         await resetDefaultGroupId(id)
@@ -74,7 +73,7 @@ export const deleteGroupHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        c.var.logger.error(error?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             {
                 data: {},

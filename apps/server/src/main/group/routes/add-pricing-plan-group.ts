@@ -24,7 +24,7 @@ export const addSubscriptionToGroupRoute = createRoute({
         params: zId,
         body: jsonContent(
             z.object({
-                pricingPlanId: z.string(), // Subscription plan ID
+                pricingPlanId: z.string(),
             }),
             'Subscription Plan',
         ),
@@ -84,10 +84,7 @@ export const addSubscriptionToGroupHandler: AppRouteHandler<
             CREATED,
         )
     } catch (error) {
-        c.var.logger.error(
-            error?.stack ?? error,
-            'Error adding subscription to group',
-        )
+        c.var.logger.error(error, 'Error adding subscription to group')
         return c.json(
             {
                 message: 'Error adding subscription to group',

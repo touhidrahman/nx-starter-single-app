@@ -1,5 +1,4 @@
 import { createRoute, z } from '@hono/zod-openapi'
-
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'

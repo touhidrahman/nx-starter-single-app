@@ -13,15 +13,11 @@ export const getMyGroupsRoute = createRoute({
     middleware: [checkToken] as const,
     responses: {
         [OK]: ApiResponse(
-            z.object({
-                groups: z.array(
-                    zSelectGroup.extend({
-                        membership: z.enum(['owner', 'member']),
-                    }),
-                ),
-                hasVendorGroup: z.boolean(),
-                hasClientGroup: z.boolean(),
-            }),
+            z.array(
+                zSelectGroup.extend({
+                    membership: z.enum(['owner', 'member']),
+                }),
+            ),
             'List of Groups',
         ),
     },
@@ -30,29 +26,21 @@ export const getMyGroupsRoute = createRoute({
 export const getMyGroupsHandler: AppRouteHandler<
     typeof getMyGroupsRoute
 > = async (c) => {
-    const { sub, groupId } = await c.get('jwtPayload')
+    const { sub } = await c.get('jwtPayload')
 
     const groupsMemberOf = await getAllGroupsByUserId(sub)
     const myGroups = groupsMemberOf
         .map((g) => ({
             ...g,
-            membership: (g.ownerId === sub ? 'owner' : 'member') as
+            membership: (g.creatorId === sub ? 'owner' : 'member') as
                 | 'owner'
                 | 'member',
         }))
         .sort((a) => (a.membership === 'owner' ? -1 : 1))
-    const ownedGroups = groupsMemberOf.filter((g) => g.ownerId === sub)
-
-    const hasVendorGroup = ownedGroups.some((g) => g.type === 'vendor')
-    const hasClientGroup = ownedGroups.some((g) => g.type === 'client')
 
     return c.json(
         {
-            data: {
-                groups: myGroups,
-                hasVendorGroup,
-                hasClientGroup,
-            },
+            data: myGroups,
             message: 'Owned group list',
             success: true,
         },
