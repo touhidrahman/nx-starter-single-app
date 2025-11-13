@@ -110,7 +110,7 @@ export const updateSubscriptionHandler: AppRouteHandler<
             'Error updating subscription:',
             error instanceof Error ? error.message : 'Unknown error',
         )
-        c.var.logger.error(error?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,

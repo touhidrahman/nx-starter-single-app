@@ -38,7 +38,7 @@ export const deleteNewsTickerHandler: AppRouteHandler<
             )
         }
 
-        const deletedNewsTicker = await deleteNewsTicker(newsTickerId)
+        await deleteNewsTicker(newsTickerId)
 
         await saveLog(
             'news_ticker',
@@ -51,7 +51,7 @@ export const deleteNewsTickerHandler: AppRouteHandler<
 
         return c.json(
             {
-                data: deletedNewsTicker,
+                data: {},
                 message: 'News Ticker deleted successfully',
                 success: true,
             },

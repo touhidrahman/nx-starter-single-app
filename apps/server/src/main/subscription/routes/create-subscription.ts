@@ -153,7 +153,7 @@ export const createSubscriptionsHandler: AppRouteHandler<
                 BAD_REQUEST,
             )
         }
-        c.var.logger.error(error?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,

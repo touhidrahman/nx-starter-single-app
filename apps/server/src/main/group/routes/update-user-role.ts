@@ -3,7 +3,7 @@ import { CREATED, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { usersGroupsTable } from '../../../core/db/schema'
+import { membershipsTable } from '../../../core/db/schema'
 import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../core/models/common.schema'
@@ -15,7 +15,10 @@ export const updateUserRoleRoute = createRoute({
     path: '/v1/groups/:id/update-user-role',
     method: 'post',
     tags: ['Group'],
-    middleware: [checkToken, checkPermission(['role:assign'])] as const,
+    middleware: [
+        checkToken,
+        checkPermission({ and: ['role:assign'] }),
+    ] as const,
     request: {
         params: zId,
         body: jsonContent(zUpdateUserRole, 'User ID and Role'),
@@ -26,7 +29,6 @@ export const updateUserRoleRoute = createRoute({
     },
 })
 
-// TODO: move to user folder, change path
 export const updateUserRoleHandler: AppRouteHandler<
     typeof updateUserRoleRoute
 > = async (c) => {
@@ -36,14 +38,14 @@ export const updateUserRoleHandler: AppRouteHandler<
 
     try {
         const [data] = await db
-            .insert(usersGroupsTable)
+            .insert(membershipsTable)
             .values({
                 groupId,
                 userId,
                 roleId,
             })
             .onConflictDoUpdate({
-                target: [usersGroupsTable.groupId, usersGroupsTable.userId],
+                target: [membershipsTable.groupId, membershipsTable.userId],
                 set: { roleId },
             })
             .returning()

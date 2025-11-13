@@ -1,4 +1,5 @@
 import { Context, Next } from 'hono'
+import { FORBIDDEN } from 'stoker/http-status-codes'
 
 export const checkLevel =
     (allowedLevels: string[]) => async (ctx: Context, next: Next) => {
@@ -7,7 +8,7 @@ export const checkLevel =
         if (!allowedLevels.includes(payload.level)) {
             return ctx.json(
                 { message: 'Forbidden: Insufficient permissions' },
-                403,
+                FORBIDDEN,
             )
         }
         return next()

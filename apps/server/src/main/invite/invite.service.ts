@@ -110,7 +110,6 @@ export async function updateInviteStatus(id: string, status: string) {
     return db
         .update(invitesTable)
         .set({
-            status,
             acceptedOn: status === 'accepted' ? new Date() : undefined,
         })
         .where(eq(invitesTable.id, id))
@@ -124,7 +123,6 @@ export async function updateInviteStatusForEmail(
     return db
         .update(invitesTable)
         .set({
-            status,
             acceptedOn: status === 'accepted' ? new Date() : undefined,
         })
         .where(eq(invitesTable.email, email))

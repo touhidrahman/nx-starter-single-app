@@ -55,7 +55,7 @@ export const deleteSubscriptionHandler: AppRouteHandler<
             'Error deleting subscription:',
             error instanceof Error ? error.message : 'Unknown error',
         )
-        c.var.logger.error(error?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             {
                 data: {},

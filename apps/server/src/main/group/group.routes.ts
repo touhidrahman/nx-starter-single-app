@@ -32,10 +32,6 @@ import {
     updateGroupHandler,
 } from './routes/update-group-by-id'
 import {
-    updateGroupStatusHandler,
-    updateGroupStatusRoute,
-} from './routes/update-group-status'
-import {
     updateUserRoleHandler,
     updateUserRoleRoute,
 } from './routes/update-user-role'
@@ -50,7 +46,6 @@ export const groupsV1Route = createRouter()
     .openapi(createGroupRoute, createGroupHandler)
     .openapi(getGroupByIDRoute, getGroupByIdHandler)
     .openapi(updateGroupByIdRoute, updateGroupHandler)
-    .openapi(updateGroupStatusRoute, updateGroupStatusHandler)
     .openapi(deleteGroupByIdRoute, deleteGroupHandler)
     .openapi(addUserToGroupRoute, addUserToGroupHandler)
     .openapi(updateUserRoleRoute, updateUserRoleHandler)

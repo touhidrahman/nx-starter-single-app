@@ -3,7 +3,7 @@ import { and, eq } from 'drizzle-orm'
 import { BAD_REQUEST, CREATED } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { usersGroupsTable } from '../../../core/db/schema'
+import { membershipsTable } from '../../../core/db/schema'
 import { checkToken } from '../../../core/middlewares/check-token.middleware'
 import { isGroupParticipant } from '../../../core/middlewares/is-group-participant.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -29,11 +29,11 @@ export const leaveGroupHandler: AppRouteHandler<
     const { userId } = await c.get('jwtPayload')
 
     const [user] = await db
-        .delete(usersGroupsTable)
+        .delete(membershipsTable)
         .where(
             and(
-                eq(usersGroupsTable.groupId, id),
-                eq(usersGroupsTable.userId, userId),
+                eq(membershipsTable.groupId, id),
+                eq(membershipsTable.userId, userId),
             ),
         )
         .returning()

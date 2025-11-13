@@ -69,7 +69,7 @@ export const updateAdminUserHandler: AppRouteHandler<
             'Error promoting user to admin:',
             error instanceof Error ? error.message : 'Unknown error',
         )
-        c.var.logger.error(error?.stack ?? error)
+        c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(
             {
                 data: {},

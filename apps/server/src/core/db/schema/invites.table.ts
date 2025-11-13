@@ -17,7 +17,6 @@ export const invitesTable = pgTable('invites', {
         .notNull(),
     invitedOn: timestamp({ withTimezone: true }).notNull().defaultNow(),
     acceptedOn: timestamp({ withTimezone: true }),
-    status: text().notNull().default('pending'),
 })
 
 export const invitesRelations = relations(invitesTable, ({ one }) => ({

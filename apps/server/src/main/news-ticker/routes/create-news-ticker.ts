@@ -67,7 +67,7 @@ export const createNewsTickerHandler: AppRouteHandler<
         return c.json(
             {
                 data: {},
-                error: error?.stack ?? error,
+                error: (error as Error)?.stack ?? error,
                 message: 'Failed to create News Ticker',
                 success: false,
             },

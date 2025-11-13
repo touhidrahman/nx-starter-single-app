@@ -42,7 +42,10 @@ export const createAdminHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        c.var.logger.error(error?.stack ?? error, 'Error creating admin user')
+        c.var.logger.error(
+            (error as Error)?.stack ?? error,
+            'Error creating admin user',
+        )
         return c.json(
             {
                 data: {},
