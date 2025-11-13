@@ -1,5 +1,4 @@
 import { and, eq, gte, sql } from 'drizzle-orm'
-import { DateUtil } from '../../../../../libs/common-util/src'
 import { db } from '../../core/db/db'
 import {
     membershipsTable,
@@ -9,6 +8,7 @@ import {
     subscriptionsTable,
     usersTable,
 } from '../../core/db/schema'
+import { DateUtil } from '../../core/utils/date.util'
 
 export const findReferralCodeRecord = async (refCode: string) => {
     return db

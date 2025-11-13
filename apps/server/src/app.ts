@@ -1,3 +1,4 @@
+import { uniq } from 'es-toolkit'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
@@ -44,8 +45,16 @@ const routes = [
 
 configureOpenAPI(app)
 
+const paths = []
 for (const route of routes) {
+    paths.push(
+        ...uniq(
+            route.routes.map((r) => `${r.method.substring(0, 3)}: ${r.path}`),
+        ),
+    )
     app.route('/', route)
 }
+console.log('Registered routes:\n')
+console.log(paths.join('\n'))
 
 export default app

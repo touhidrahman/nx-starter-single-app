@@ -39,9 +39,9 @@ export const adminLoginRoute = createRoute({
 export const adminLoginHandler: AppRouteHandler<
     typeof adminLoginRoute
 > = async (c) => {
-    const { identifier, password } = c.req.valid('json')
+    const { username, password } = c.req.valid('json')
 
-    const admin = await getAdminUserByEmail(identifier)
+    const admin = await getAdminUserByEmail(username)
 
     if (!admin) {
         return c.json(
@@ -68,7 +68,7 @@ export const adminLoginHandler: AppRouteHandler<
         )
     }
 
-    if (!admin.verified) {
+    if (!admin.verifiedAt) {
         return c.json(
             { message: 'Please verify your account', data: {}, success: false },
             BAD_REQUEST,
