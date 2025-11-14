@@ -18,6 +18,8 @@ export const zResponsePagination = z.object({
     totalPages: z.number(),
 })
 
+export type ResponsePagination = z.infer<typeof zResponsePagination>
+
 export function ApiResponse<T extends ZodSchema>(
     dataSchema: T,
     description: string,

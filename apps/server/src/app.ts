@@ -4,6 +4,7 @@ import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
 import { crudAccountRoutes } from './crud/account/account-crud.routes'
+import { accountRoutes } from './main/account/account.routes'
 import { adminUserV1Routes } from './main/admin/admin-user.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authV1Routes } from './main/auth/auth.routes'
@@ -27,6 +28,7 @@ const app = createApp()
 const routes = [
     crudAccountRoutes,
     coreRoutes,
+    accountRoutes,
     adminUserV1Routes,
     authV1Routes,
     claimV1Routes,

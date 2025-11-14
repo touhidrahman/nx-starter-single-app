@@ -3,18 +3,13 @@ import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
-import { checkToken } from '../../core/middlewares/check-token.middleware'
-import { isAdmin } from '../../core/middlewares/is-admin.middleware'
 import { zEmpty, zId, zIds } from '../../core/models/common.schema'
-import {
-    APP_OPENAPI_TAGS,
-    DEFAULT_PAGE_SIZE,
-    REQ_METHOD,
-} from '../../core/models/common.values'
+import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../core/models/common.values'
 import {
     ApiListResponse,
     ApiResponse,
 } from '../../core/utils/api-response.util'
+import { buildPaginationResponse } from '../../core/utils/pagination.util'
 import {
     zInsertAccount,
     zQueryAccounts,
@@ -42,21 +37,14 @@ const crudGetAccountsRoute = createRoute({
 const crudGetAccountsHandler: AppRouteHandler<
     typeof crudGetAccountsRoute
 > = async (c) => {
-    const query = c.req.valid('query')
+    const { page, size, ...query } = c.req.valid('query')
     const data = await AccountCrudService.findMany(query)
     const count = await AccountCrudService.count(query)
 
     return c.json(
         {
             data,
-            pagination: {
-                total: count,
-                page: query.page || 1,
-                size: query.size || DEFAULT_PAGE_SIZE,
-                totalPages: Math.ceil(
-                    count / (query.size || DEFAULT_PAGE_SIZE),
-                ),
-            },
+            pagination: buildPaginationResponse(page, size, count),
             message: 'Account list fetched successfully',
             success: true,
         },

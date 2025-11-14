@@ -31,6 +31,7 @@
             },
             "complexity": {
                 "useLiteralKeys": "off",
+                "noStaticOnlyClass": "off",
                 "noForEach": "off"
             },
             "suspicious": {
