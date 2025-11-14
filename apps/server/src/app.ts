@@ -3,6 +3,7 @@ import { pad } from 'es-toolkit/string'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
+import { crudAccountRoutes } from './crud/account/account-crud.routes'
 import { adminUserV1Routes } from './main/admin/admin-user.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authV1Routes } from './main/auth/auth.routes'
@@ -24,6 +25,7 @@ import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 const app = createApp()
 
 const routes = [
+    crudAccountRoutes,
     coreRoutes,
     adminUserV1Routes,
     authV1Routes,

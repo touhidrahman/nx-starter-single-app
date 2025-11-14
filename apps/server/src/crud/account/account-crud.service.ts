@@ -94,7 +94,7 @@ export class AccountCrudService {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {
-            const searchTerm = `%${params.search}%`
+            const searchTerm = `%${params.search.trim()}%`
             conditions.push(or(ilike(accountsTable.name, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {

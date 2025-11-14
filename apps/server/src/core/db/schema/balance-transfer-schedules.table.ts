@@ -20,10 +20,10 @@ export const balanceTransferSchedulesTable = pgTable(
         amount: decimal().notNull(),
         title: text(),
         note: text(),
-        categoryId: text().references(() => categoriesTable.id, {
+        categoryId: integer().references(() => categoriesTable.id, {
             onDelete: 'set null',
         }),
-        subcategoryId: text().references(() => categoriesTable.id, {
+        subcategoryId: integer().references(() => categoriesTable.id, {
             onDelete: 'set null',
         }),
         creatorId: text().references(() => usersTable.id, {

@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { decimal, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { decimal, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
@@ -26,10 +26,10 @@ export const balanceTransfersTable = pgTable('balance_transfers', {
     inTransactionId: text().references(() => transactionsTable.id, {
         onDelete: 'set null',
     }),
-    categoryId: text().references(() => categoriesTable.id, {
+    categoryId: integer().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
-    subcategoryId: text().references(() => categoriesTable.id, {
+    subcategoryId: integer().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
     creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),

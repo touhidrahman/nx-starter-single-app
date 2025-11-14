@@ -24,10 +24,10 @@ export const transactionSchedulesTable = pgTable('transaction_schedules', {
     title: text(),
     note: text(),
     isOutgoing: boolean().notNull().default(true),
-    categoryId: text().references(() => categoriesTable.id, {
+    categoryId: integer().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
-    subcategoryId: text().references(() => categoriesTable.id, {
+    subcategoryId: integer().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
     creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
