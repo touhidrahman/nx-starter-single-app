@@ -1,11 +1,8 @@
-import { deleteUnverifiedUsers } from '../../../main/user/user.service'
-import { DateUtil } from '../../utils/date.util'
-
-const dateUtil = DateUtil
+import { deleteUnverifiedUsers } from '../../main/user/user.service'
 
 async function deleteUnverifiedUsersFn() {
     try {
-        const deletedUsers = await deleteUnverifiedUsers()
+        const _deletedUsers = await deleteUnverifiedUsers()
     } catch (error) {
         console.error('❌ Failed to delete unverified users:', error)
     }

@@ -1,8 +1,8 @@
-import { createDatabaseBackup } from '../../../main/database-backup/database-backup.service'
+import { createDatabaseBackup } from '../../main/database-backup/database-backup.service'
 
 async function weeklyDatabaseBackup() {
     try {
-        const backupPath = await createDatabaseBackup()
+        await createDatabaseBackup()
     } catch (error) {
         console.error(
             '❌ Weekly backup failed:',

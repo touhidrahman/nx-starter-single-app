@@ -1,9 +1,9 @@
 import { Context, MiddlewareHandler, Next } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { BAD_REQUEST, FORBIDDEN } from 'stoker/http-status-codes'
-import { AccessTokenPayload } from '../../main/auth/token.util'
-import { findAllClaimsList } from '../../main/claim/claim.service'
-import { getRolePermissions } from '../../main/role/role.service'
+import { AccessTokenPayload } from '../main/auth/token.util'
+import { findAllClaimsList } from '../main/claim/claim.service'
+import { getRolePermissions } from '../main/role/role.service'
 
 export const checkPermission = (claims: {
     and?: string[]

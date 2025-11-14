@@ -1,4 +1,4 @@
-import { removeBackups } from '../../../main/database-backup/database-backup.service'
+import { removeBackups } from '../../main/database-backup/database-backup.service'
 
 async function removeSixMonthOldBackups() {
     try {
