@@ -1,6 +1,6 @@
 import { and, eq } from 'drizzle-orm'
-import { db } from '../../core/db/db'
-import { usersSettingsTable } from '../../core/db/schema'
+import { db } from '../../db/db'
+import { usersSettingsTable } from '../../db/schema'
 import { UserSettings } from './user-setting.schema'
 
 export const findUserSettings = async (userId: string, key: string) => {

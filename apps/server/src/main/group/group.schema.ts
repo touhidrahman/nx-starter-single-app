@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { groupsTable } from '../../core/db/schema'
+import { groupsTable } from '../../db/schema'
 
 export type InsertGroup = z.infer<typeof zInsertGroup>
 export type SelectGroup = z.infer<typeof zSelectGroup>

@@ -1,7 +1,7 @@
 import { and, count, eq, getTableColumns, or } from 'drizzle-orm'
 import { uniq } from 'es-toolkit'
-import { db } from '../../core/db/db'
-import { rolesTable } from '../../core/db/schema/roles.table'
+import { db } from '../../db/db'
+import { rolesTable } from '../../db/schema/roles.table'
 import { InsertRole } from './role.schema'
 
 function normalizePermissions(permissions: string[]): string {

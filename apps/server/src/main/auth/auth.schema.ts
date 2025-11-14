@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { usersTable } from '../../core/db/schema'
+import { usersTable } from '../../db/schema'
 import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
 

@@ -8,14 +8,14 @@ import {
     SQL,
     sql,
 } from 'drizzle-orm'
-import { db } from '../../core/db/db'
+import { db } from '../../db/db'
 import {
     groupsTable,
     invitesTable,
     membershipsTable,
     rolesTable,
     usersTable,
-} from '../../core/db/schema'
+} from '../../db/schema'
 import { InsertGroup, SelectGroup } from './group.schema'
 
 export async function findAllGroups(page = 1, size = 10) {

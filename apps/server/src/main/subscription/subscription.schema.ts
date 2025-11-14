@@ -1,5 +1,5 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { subscriptionsTable } from '../../core/db/schema'
+import { subscriptionsTable } from '../../db/schema'
 
 export type InsertSubscription = typeof subscriptionsTable.$inferInsert
 export type SelectSubscription = typeof subscriptionsTable.$inferSelect

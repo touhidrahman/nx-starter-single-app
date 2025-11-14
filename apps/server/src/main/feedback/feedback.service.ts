@@ -1,7 +1,7 @@
 import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 
-import { db } from '../../core/db/db'
-import { feedbackTable, usersTable } from '../../core/db/schema'
+import { db } from '../../db/db'
+import { feedbackTable, usersTable } from '../../db/schema'
 import { InsertFeedback } from './feedback.schema'
 
 export const getAllFeedbacks = async (params: {

@@ -1,11 +1,11 @@
 import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
-import { db } from '../../core/db/db'
+import { db } from '../../db/db'
 import {
     groupsTable,
     membershipsTable,
     rolesTable,
     usersTable,
-} from '../../core/db/schema'
+} from '../../db/schema'
 import { SelectUser } from '../auth/auth.schema'
 import { UserDto } from './user.schema'
 

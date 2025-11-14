@@ -1,6 +1,6 @@
 import { createSelectSchema } from 'drizzle-zod'
 import z from 'zod'
-import { usersSettingsTable } from '../../core/db/schema'
+import { usersSettingsTable } from '../../db/schema'
 
 export const zSelectUserSettings =
     createSelectSchema(usersSettingsTable).partial()

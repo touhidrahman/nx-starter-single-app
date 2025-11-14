@@ -1,6 +1,6 @@
 import { and, eq, getTableColumns, ilike, or } from 'drizzle-orm'
-import { db } from '../../core/db/db'
-import { newsTickersTable } from '../../core/db/schema'
+import { db } from '../../db/db'
+import { newsTickersTable } from '../../db/schema'
 import { InsertNewsTicker } from './news-ticker.schema'
 
 export const createNewsTicker = async (newsTricker: InsertNewsTicker) =>

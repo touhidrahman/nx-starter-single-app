@@ -1,6 +1,6 @@
 import { and, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
-import { db } from '../../core/db/db'
-import { pricingPlanTable } from '../../core/db/schema'
+import { db } from '../../db/db'
+import { pricingPlanTable } from '../../db/schema'
 import { InsertPlan } from './plan.schema'
 
 export const getAllPlans = async (params: {

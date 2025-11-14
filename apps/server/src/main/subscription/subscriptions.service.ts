@@ -11,12 +11,12 @@ import {
     SQL,
     sql,
 } from 'drizzle-orm'
-import { db } from '../../core/db/db'
+import { db } from '../../db/db'
 import {
     groupsTable,
     pricingPlanTable,
     subscriptionsTable,
-} from '../../core/db/schema'
+} from '../../db/schema'
 import { InsertSubscription } from './subscription.schema'
 
 export const getAllSubscriptions = async (params: {

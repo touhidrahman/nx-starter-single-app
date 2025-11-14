@@ -1,7 +1,7 @@
 import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { JSONValue } from 'jsonc-eslint-parser/lib/utils/ast'
-import { db } from '../../core/db/db'
-import { auditLogTable, usersTable } from '../../core/db/schema'
+import { db } from '../../db/db'
+import { auditLogTable, usersTable } from '../../db/schema'
 import { InsertLog } from './audit-log.schema'
 
 export const getAllLogs = async (params: {

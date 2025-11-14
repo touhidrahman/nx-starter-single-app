@@ -1,5 +1,5 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { pricingPlanTable } from '../../core/db/schema'
+import { pricingPlanTable } from '../../db/schema'
 
 export type InsertPlan = typeof pricingPlanTable.$inferInsert
 export type SelectPlan = typeof pricingPlanTable.$inferSelect

@@ -8,14 +8,14 @@ import {
     SQL,
     sql,
 } from 'drizzle-orm'
-import { db } from '../../core/db/db'
+import { db } from '../../db/db'
 import {
     invitesTable,
     membershipsTable,
     pricingPlanTable,
     rolesTable,
     subscriptionsTable,
-} from '../../core/db/schema'
+} from '../../db/schema'
 import { GroupLimitResult, InviteDto } from './invite.schema'
 
 export async function createInvite(invite: InviteDto, invitedByUserId: string) {

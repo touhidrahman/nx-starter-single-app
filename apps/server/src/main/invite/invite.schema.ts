@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { invitesTable } from '../../core/db/schema'
+import { invitesTable } from '../../db/schema'
 
 export type InviteDto = z.infer<typeof zInsertInvite>
 export type Invite = z.infer<typeof zSelectInvite>

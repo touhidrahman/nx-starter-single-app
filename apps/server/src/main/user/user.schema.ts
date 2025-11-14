@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { usersTable } from '../../core/db/schema'
+import { usersTable } from '../../db/schema'
 
 export type UserDto = typeof usersTable.$inferInsert
 export type User = typeof usersTable.$inferSelect

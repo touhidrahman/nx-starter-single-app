@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import z from 'zod'
-import { referralCodesTable, referralsTable } from '../../core/db/schema'
+import { referralCodesTable, referralsTable } from '../../db/schema'
 
 export type InsertReferralCode = typeof referralCodesTable.$inferInsert
 export type SelectReferralCode = typeof referralCodesTable.$inferSelect

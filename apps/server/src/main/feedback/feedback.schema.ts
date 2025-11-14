@@ -1,5 +1,5 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { feedbackTable } from '../../core/db/schema'
+import { feedbackTable } from '../../db/schema'
 
 export type InsertFeedback = typeof feedbackTable.$inferInsert
 export type SelectFeedback = typeof feedbackTable.$inferSelect

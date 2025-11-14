@@ -1,5 +1,5 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { auditLogTable } from '../../core/db/schema'
+import { auditLogTable } from '../../db/schema'
 
 export type InsertLog = typeof auditLogTable.$inferInsert
 export type SelectLog = typeof auditLogTable.$inferSelect
