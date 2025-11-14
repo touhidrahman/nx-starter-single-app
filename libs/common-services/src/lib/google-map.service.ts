@@ -44,7 +44,7 @@ export class GoogleMapService {
 
         return loader
             .load()
-            .then(() => { })
+            .then(() => {})
             .catch((error) => {
                 throw new Error(`Failed to load Google Maps: ${error}`)
             })

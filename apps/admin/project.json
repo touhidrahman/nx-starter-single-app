@@ -31,9 +31,7 @@
     "targets": {
         "build": {
             "executor": "@angular-devkit/build-angular:application",
-            "outputs": [
-                "{options.outputPath}"
-            ],
+            "outputs": ["{options.outputPath}"],
             "options": {
                 "outputPath": "dist/apps/admin",
                 "index": "apps/admin/src/index.html",
@@ -46,9 +44,7 @@
                     "apps/admin/src/assets",
                     "apps/admin/src/manifest.webmanifest"
                 ],
-                "styles": [
-                    "apps/admin/src/styles.css"
-                ],
+                "styles": ["apps/admin/src/styles.css"],
                 "scripts": []
             },
             "configurations": {

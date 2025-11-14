@@ -1,9 +1,4 @@
-import {
-    pgTable,
-    text,
-    timestamp,
-    uniqueIndex
-} from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { lower } from '../orm.util'
 import { timestampColumns } from './_common.table'

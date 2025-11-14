@@ -1,4 +1,4 @@
-import env from "../../../env"
+import env from '../../../env'
 
 export class EmailTemplateBuilder<TProps> {
     private header = `

@@ -1,9 +1,6 @@
 import { Component, inject, input, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import {
-    AuthApiService,
-    ChangePasswordFormService,
-} from '@repo/common-auth'
+import { AuthApiService, ChangePasswordFormService } from '@repo/common-auth'
 import { ApiResponse } from '@repo/common-models'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'

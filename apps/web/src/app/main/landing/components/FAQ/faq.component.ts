@@ -29,8 +29,7 @@ export class FaqComponent {
             answer: 'Yes. MyApp uses encryption and privacy-first design to ensure your data is always secure and confidential.​',
         },
         {
-            question:
-                'What kind of legal issues can I get help with on MyApp?​',
+            question: 'What kind of legal issues can I get help with on MyApp?​',
             answer: 'MyApp supports a wide range of legal areas — from property disputes, family issues, business matters, to criminal and labor law.​',
         },
         {

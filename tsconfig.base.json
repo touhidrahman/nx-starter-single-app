@@ -18,12 +18,8 @@
         "baseUrl": ".",
         "paths": {
             "@repo/common-auth": ["libs/common-auth/src/index.ts"],
-            "@repo/common-components": [
-                "libs/common-components/src/index.ts"
-            ],
-            "@repo/common-directives": [
-                "libs/common-directives/src/index.ts"
-            ],
+            "@repo/common-components": ["libs/common-components/src/index.ts"],
+            "@repo/common-directives": ["libs/common-directives/src/index.ts"],
             "@repo/common-models": ["libs/common-models/src/index.ts"],
             "@repo/common-page-layouts": [
                 "libs/common-page-layouts/src/index.ts"
