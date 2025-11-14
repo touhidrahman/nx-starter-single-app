@@ -2,7 +2,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { accountsTable } from '../../core/db/schema'
 import { zPagination, zSearch } from '../../core/models/common.schema'
-import { zInsertAccount } from './account-crud.model'
+import { zInsertAccount } from '../../crud/account/account-crud.model'
 
 export type InsertCardAccount = z.infer<typeof zInsertCardAccount>
 export type UpdateCardAccount = z.infer<typeof zUpdateCardAccount>
