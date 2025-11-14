@@ -1,16 +1,16 @@
 import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
-import { db } from '../../core/db/db'
-import { accountsTable } from '../../core/db/schema'
-import { DEFAULT_PAGE_SIZE } from '../../core/models/common.values'
+import { db } from '../../../core/db/db'
+import { accountsTable } from '../../../core/db/schema'
+import { DEFAULT_PAGE_SIZE } from '../../../core/models/common.values'
 import {
     InsertAccount,
     QueryAccounts,
     SelectAccount,
-} from './account-crud.model'
+} from './account-base.model'
 
-export class AccountCrudService {
+export class AccountBaseService {
     static async findMany(filters: QueryAccounts): Promise<SelectAccount[]> {
-        const conditions = AccountCrudService.buildWhereConditions(filters)
+        const conditions = AccountBaseService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
         const accounts = await db
@@ -32,7 +32,7 @@ export class AccountCrudService {
     }
 
     static async count(filters: QueryAccounts): Promise<number> {
-        const conditions = AccountCrudService.buildWhereConditions(filters)
+        const conditions = AccountBaseService.buildWhereConditions(filters)
 
         const [{ count }] = await db
             .select({ count: sql<number>`count(${accountsTable.id})` })
@@ -73,11 +73,11 @@ export class AccountCrudService {
         id: string,
         input: InsertAccount,
     ): Promise<SelectAccount> {
-        const existingAccount = await AccountCrudService.findById(id)
+        const existingAccount = await AccountBaseService.findById(id)
         if (existingAccount) {
-            return AccountCrudService.update(id, input)
+            return AccountBaseService.update(id, input)
         }
-        return AccountCrudService.create(input)
+        return AccountBaseService.create(input)
     }
 
     static async delete(id: string): Promise<void> {

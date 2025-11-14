@@ -1,5 +1,5 @@
-import { SelectAccount } from '../../crud/account/account-crud.model'
-import { AccountCrudService } from '../../crud/account/account-crud.service'
+import { SelectAccount } from '../base/account-base.model'
+import { AccountBaseService } from '../base/account-base.service'
 import {
     ACCOUNT_TYPE,
     InsertBankAccount,
@@ -10,7 +10,7 @@ import {
     UpdateLoanAccount,
 } from './account.model'
 
-export class AccountService extends AccountCrudService {
+export class AccountService extends AccountBaseService {
     static async createCardAccount(
         input: InsertCardAccount,
     ): Promise<SelectAccount> {

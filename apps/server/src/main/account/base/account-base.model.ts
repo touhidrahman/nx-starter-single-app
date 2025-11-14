@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { accountsTable } from '../../core/db/schema'
-import { zPagination, zSearch } from '../../core/models/common.schema'
+import { accountsTable } from '../../../core/db/schema'
+import { zPagination, zSearch } from '../../../core/models/common.schema'
 
 export type InsertAccount = z.infer<typeof zInsertAccount>
 export type SelectAccount = z.infer<typeof zSelectAccount>

@@ -1,22 +1,25 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../core/core.type'
-import { createRouter } from '../../core/create-app'
-import { zEmpty, zId, zIds } from '../../core/models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../core/models/common.values'
+import { AppRouteHandler } from '../../../core/core.type'
+import { createRouter } from '../../../core/create-app'
+import { zEmpty, zId, zIds } from '../../../core/models/common.schema'
+import {
+    APP_OPENAPI_TAGS,
+    REQ_METHOD,
+} from '../../../core/models/common.values'
 import {
     ApiListResponse,
     ApiResponse,
-} from '../../core/utils/api-response.util'
-import { buildPaginationResponse } from '../../core/utils/pagination.util'
+} from '../../../core/utils/api-response.util'
+import { buildPaginationResponse } from '../../../core/utils/pagination.util'
 import {
     zInsertAccount,
     zQueryAccounts,
     zSelectAccount,
     zUpdateAccount,
-} from './account-crud.model'
-import { AccountCrudService } from './account-crud.service'
+} from './account-base.model'
+import { AccountBaseService } from './account-base.service'
 
 const tags = [APP_OPENAPI_TAGS.ACCOUNT]
 const path = '/crud/accounts'
@@ -39,8 +42,8 @@ const crudGetAccountsHandler: AppRouteHandler<
     typeof crudGetAccountsRoute
 > = async (c) => {
     const { page, size, ...query } = c.req.valid('query')
-    const data = await AccountCrudService.findMany(query)
-    const count = await AccountCrudService.count(query)
+    const data = await AccountBaseService.findMany(query)
+    const count = await AccountBaseService.count(query)
 
     return c.json(
         {
@@ -71,7 +74,7 @@ const crudGetAccountByIdHandler: AppRouteHandler<
     typeof crudGetAccountByIdRoute
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const account = await AccountCrudService.findById(id)
+    const account = await AccountBaseService.findById(id)
 
     if (!account) {
         return c.json(
@@ -111,7 +114,7 @@ const crudCreateAccountHandler: AppRouteHandler<
     typeof crudCreateAccountRoute
 > = async (c) => {
     const body = c.req.valid('json')
-    const newAccount = await AccountCrudService.create(body)
+    const newAccount = await AccountBaseService.create(body)
 
     return c.json(
         {
@@ -143,7 +146,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
 > = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
-    const existingAccount = await AccountCrudService.findById(id)
+    const existingAccount = await AccountBaseService.findById(id)
 
     if (!existingAccount) {
         return c.json(
@@ -156,7 +159,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
         )
     }
 
-    const updatedAccount = await AccountCrudService.update(id, body)
+    const updatedAccount = await AccountBaseService.update(id, body)
 
     return c.json(
         {
@@ -186,7 +189,7 @@ const crudDeleteAccountHandler: AppRouteHandler<
     typeof crudDeleteAccountRoute
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const existingAccount = await AccountCrudService.findById(id)
+    const existingAccount = await AccountBaseService.findById(id)
 
     if (!existingAccount) {
         return c.json(
@@ -199,7 +202,7 @@ const crudDeleteAccountHandler: AppRouteHandler<
         )
     }
 
-    await AccountCrudService.delete(id)
+    await AccountBaseService.delete(id)
 
     return c.json(
         {
@@ -229,7 +232,7 @@ const crudDeleteMultipleAccountsHandler: AppRouteHandler<
 > = async (c) => {
     const { ids } = c.req.valid('json')
 
-    await AccountCrudService.deleteMany(ids)
+    await AccountBaseService.deleteMany(ids)
 
     return c.json(
         {
