@@ -23,8 +23,8 @@ export default defineConfig({
     dbCredentials: {
         url: dbUrl,
     },
-    schema: './src/core/db/schema',
-    out: './src/core/db/migrations',
+    schema: './src/db/schema',
+    out: './src/db/migrations',
     verbose: process.env.NODE_ENV === 'production',
     strict: true,
     casing: 'snake_case',

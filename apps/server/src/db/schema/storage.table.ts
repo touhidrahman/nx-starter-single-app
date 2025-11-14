@@ -1,7 +1,6 @@
 import { integer, pgTable, text } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
 import { generateId } from '../id.util'
-import { fileTypeEnum } from './_common.table'
+import { fileTypeEnum, timestampColumns } from './_common.table'
 
 export const storageTable = pgTable('storage', {
     id: text().primaryKey().$defaultFn(generateId),

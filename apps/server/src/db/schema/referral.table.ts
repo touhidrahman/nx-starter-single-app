@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { integer, pgTable, text } from 'drizzle-orm/pg-core'
-import { timestampColumns } from './_common.table'
 import { generateId } from '../id.util'
+import { timestampColumns } from './_common.table'
 import { referralCodesTable } from './referral-code.table'
 import { usersTable } from './users.table'
 
