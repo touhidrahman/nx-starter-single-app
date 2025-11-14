@@ -1,32 +1,22 @@
-import {
-    and,
-    count,
-    eq,
-    getTableColumns,
-    ilike,
-    inArray,
-    or,
-    SQL,
-    sql,
-} from 'drizzle-orm'
+import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { accountsTable } from '../../core/db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../core/models/common.values'
 import {
-    FilterAccounts,
     InsertAccount,
+    QueryAccounts,
     SelectAccount,
 } from './account-crud.model'
 
 export class AccountCrudService {
-    static async findMany(filters: FilterAccounts): Promise<SelectAccount[]> {
-        const whereClause = AccountCrudService.getWhereConditions(filters)
+    static async findMany(filters: QueryAccounts): Promise<SelectAccount[]> {
+        const conditions = AccountCrudService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
         const accounts = await db
             .select()
             .from(accountsTable)
-            .where(whereClause)
+            .where(conditions)
             .offset(offset)
             .limit(size)
         return accounts
@@ -41,13 +31,13 @@ export class AccountCrudService {
         return account[0] || null
     }
 
-    static async count(filters: FilterAccounts): Promise<number> {
-        const whereClause = AccountCrudService.getWhereConditions(filters)
+    static async count(filters: QueryAccounts): Promise<number> {
+        const conditions = AccountCrudService.buildWhereConditions(filters)
 
         const [{ count }] = await db
             .select({ count: sql<number>`count(${accountsTable.id})` })
             .from(accountsTable)
-            .where(whereClause)
+            .where(conditions)
         return count
     }
 
@@ -57,6 +47,14 @@ export class AccountCrudService {
             .values(input)
             .returning()
         return account
+    }
+
+    static async createMany(inputs: InsertAccount[]): Promise<SelectAccount[]> {
+        const accounts = await db
+            .insert(accountsTable)
+            .values(inputs)
+            .returning()
+        return accounts
     }
 
     static async update(
@@ -71,15 +69,27 @@ export class AccountCrudService {
         return account
     }
 
+    static async upsert(
+        id: string,
+        input: InsertAccount,
+    ): Promise<SelectAccount> {
+        const existingAccount = await AccountCrudService.findById(id)
+        if (existingAccount) {
+            return AccountCrudService.update(id, input)
+        }
+        return AccountCrudService.create(input)
+    }
+
     static async delete(id: string): Promise<void> {
         await db.delete(accountsTable).where(eq(accountsTable.id, id))
     }
+
     static async deleteMany(ids: string[]): Promise<void> {
         await db.delete(accountsTable).where(inArray(accountsTable.id, ids))
     }
 
-    static getWhereConditions(
-        params: FilterAccounts,
+    static buildWhereConditions(
+        params: QueryAccounts,
     ): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 

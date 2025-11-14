@@ -14,6 +14,7 @@ import { db } from '../../core/db/db'
 import { accountsTable } from '../../core/db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../core/models/common.values'
 import {
+    ACCOUNT_TYPE,
     InsertBankAccount,
     InsertCardAccount,
     InsertLoanAccount,
@@ -22,8 +23,8 @@ import {
     UpdateLoanAccount,
 } from './account.model'
 import {
-    FilterAccounts,
     InsertAccount,
+    QueryAccounts,
     SelectAccount,
 } from './account-crud.model'
 import { AccountCrudService } from './account-crud.service'
@@ -32,19 +33,19 @@ export class AccountService extends AccountCrudService {
     static async createCardAccount(
         input: InsertCardAccount,
     ): Promise<SelectAccount> {
-        return AccountService.create({ ...input, type: 1 })
+        return AccountService.create({ ...input, type: ACCOUNT_TYPE.CARD })
     }
 
     static async createBankAccount(
         input: InsertBankAccount,
     ): Promise<SelectAccount> {
-        return AccountService.create({ ...input, type: 2 })
+        return AccountService.create({ ...input, type: ACCOUNT_TYPE.BANK })
     }
 
     static async createLoanAccount(
         input: InsertLoanAccount,
     ): Promise<SelectAccount> {
-        return AccountService.create({ ...input, type: 3 })
+        return AccountService.create({ ...input, type: ACCOUNT_TYPE.LOAN })
     }
 
     static async updateCardAccount(

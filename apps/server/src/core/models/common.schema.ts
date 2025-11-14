@@ -20,13 +20,17 @@ export const zIds = z.object({
 export const zId = z.object({
     id: z.string(),
 })
+export const zNull = z.null()
 
 export const zEmpty = z.object({})
+
 export const zEmptyList = z.array(z.object({})).length(0)
+
 export const zSearch = z.object({
     search: z.string().optional(),
     ids: z.array(z.string()).optional(),
 })
+
 export const zPagination = z.object({
     page: z.number().min(1).optional(),
     size: z.number().min(1).max(100).optional(),

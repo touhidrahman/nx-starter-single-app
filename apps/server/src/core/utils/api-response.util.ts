@@ -8,9 +8,15 @@ import {
     ZodOptional,
     ZodString,
 } from 'zod'
-//TODO:  Zod version 4.1.5, AnyZodObject doesn't exist.
-// export type ZodSchema = z.AnyZodObject | z.ZodArray<z.AnyZodObject>
+
 export type ZodSchema = ZodObject<any> | ZodArray<ZodObject<any>>
+
+export const zResponsePagination = z.object({
+    page: z.number(),
+    size: z.number(),
+    total: z.number(),
+    totalPages: z.number(),
+})
 
 export function ApiResponse<T extends ZodSchema>(
     dataSchema: T,
@@ -24,13 +30,6 @@ export function ApiResponse<T extends ZodSchema>(
                 success: ZodBoolean
                 error: ZodOptional<ZodAny>
                 meta: ZodOptional<ZodAny>
-                pagination: ZodOptional<
-                    ZodObject<{
-                        page: ZodNumber
-                        size: ZodNumber
-                        total: ZodNumber
-                    }>
-                >
             }>
         }
     }
@@ -45,13 +44,6 @@ export function ApiResponse<T extends ZodSchema>(
                     success: z.boolean(),
                     error: z.any().optional(),
                     meta: z.any().optional(),
-                    pagination: z
-                        .object({
-                            page: z.number(),
-                            size: z.number(),
-                            total: z.number(),
-                        })
-                        .optional(),
                 }),
             },
         },
@@ -59,19 +51,96 @@ export function ApiResponse<T extends ZodSchema>(
     }
 }
 
-export function buildApiResponse<T>(
+export function ApiListResponse<T extends ZodSchema>(
+    dataSchema: T,
+    description: string,
+): {
+    content: {
+        'application/json': {
+            schema: ZodObject<{
+                data: T
+                message: ZodString
+                success: ZodBoolean
+                error: ZodOptional<ZodAny>
+                meta: ZodOptional<ZodAny>
+                pagination: ZodObject<{
+                    page: ZodNumber
+                    size: ZodNumber
+                    total: ZodNumber
+                    totalPages: ZodNumber
+                }>
+            }>
+        }
+    }
+    description: string
+} {
+    return {
+        content: {
+            'application/json': {
+                schema: z.object({
+                    data: dataSchema,
+                    message: z.string(),
+                    success: z.boolean(),
+                    error: z.any().optional(),
+                    meta: z.any().optional(),
+                    pagination: zResponsePagination,
+                }),
+            },
+        },
+        description,
+    }
+}
+
+export function respond<T>(
     data: T,
     message: string,
     success: boolean,
+    error?: any,
+    meta?: any,
 ): {
     data: T
     message: string
     success: boolean
+    error?: any
+    meta?: any
 } {
     return {
         data,
         message,
         success,
+        error,
+        meta,
+    }
+}
+
+export function respondList<T>(
+    data: T[],
+    message: string,
+    success: boolean,
+    page: number,
+    size: number,
+    total: number,
+): {
+    data: T[]
+    message: string
+    success: boolean
+    pagination: {
+        page: number
+        size: number
+        total: number
+        totalPages: number
+    }
+} {
+    return {
+        data,
+        message,
+        success,
+        pagination: {
+            page,
+            size,
+            total,
+            totalPages: Math.ceil(total / size),
+        },
     }
 }
 
