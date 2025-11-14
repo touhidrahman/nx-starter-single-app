@@ -34,11 +34,11 @@ export const accountsTable = pgTable('accounts', {
     bankSwiftCode: text(),
 
     cardExpiryDate: date(),
+    cardHolderName: text(),
     cardLimit: decimal(),
     cardMonthlyDueDate: integer(),
     cardMonthlyStatementDate: integer(),
     cardNumber: text(),
-    cardOwnerName: text(),
     cardType: text(),
 
     loanEndDate: date(),

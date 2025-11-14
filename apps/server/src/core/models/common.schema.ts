@@ -1,3 +1,5 @@
+import { orderBy } from 'es-toolkit'
+import { sort } from 'radash'
 import { z } from 'zod'
 
 // Define a schema for a date-time string
@@ -21,6 +23,16 @@ export const zId = z.object({
 
 export const zEmpty = z.object({})
 export const zEmptyList = z.array(z.object({})).length(0)
+export const zSearch = z.object({
+    search: z.string().optional(),
+    ids: z.array(z.string()).optional(),
+})
+export const zPagination = z.object({
+    page: z.number().min(1).optional(),
+    size: z.number().min(1).max(100).optional(),
+    orderBy: z.string().optional(),
+    sortOrder: z.enum(['asc', 'desc']).optional(),
+})
 
 export const zFile = z.object({
     file: z.instanceof(File).optional(),
