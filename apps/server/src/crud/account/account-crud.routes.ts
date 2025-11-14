@@ -19,10 +19,11 @@ import {
 import { AccountCrudService } from './account-crud.service'
 
 const tags = [APP_OPENAPI_TAGS.ACCOUNT]
+const path = '/crud/accounts'
 const middleware = undefined // [checkToken, isAdmin]
 
 const crudGetAccountsRoute = createRoute({
-    path: '/crud/accounts',
+    path,
     tags,
     method: REQ_METHOD.GET,
     middleware,
@@ -53,7 +54,7 @@ const crudGetAccountsHandler: AppRouteHandler<
 }
 
 const crudGetAccountByIdRoute = createRoute({
-    path: '/crud/accounts/:id',
+    path: path + '/:id',
     tags,
     method: REQ_METHOD.GET,
     middleware,
@@ -94,7 +95,7 @@ const crudGetAccountByIdHandler: AppRouteHandler<
 }
 
 const crudCreateAccountRoute = createRoute({
-    path: '/crud/accounts',
+    path,
     tags,
     method: REQ_METHOD.POST,
     middleware,
@@ -123,7 +124,7 @@ const crudCreateAccountHandler: AppRouteHandler<
 }
 
 const crudUpdateAccountRoute = createRoute({
-    path: '/crud/accounts/:id',
+    path: path + '/:id',
     tags,
     method: REQ_METHOD.PUT,
     middleware,
@@ -168,7 +169,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
 }
 
 const crudDeleteAccountRoute = createRoute({
-    path: '/crud/accounts/:id',
+    path: path + '/:id',
     tags,
     method: REQ_METHOD.DELETE,
     middleware,
@@ -211,7 +212,7 @@ const crudDeleteAccountHandler: AppRouteHandler<
 }
 
 const crudDeleteMultipleAccountsRoute = createRoute({
-    path: '/crud/accounts',
+    path,
     tags,
     method: REQ_METHOD.DELETE,
     middleware,

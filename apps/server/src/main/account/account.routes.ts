@@ -1,22 +1,31 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { OK } from 'stoker/http-status-codes'
+import { HTTPException } from 'hono/http-exception'
+import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkToken } from '../../core/middlewares/check-token.middleware'
+import { zEmpty, zId } from '../../core/models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../core/models/common.values'
-import { ApiListResponse } from '../../core/utils/api-response.util'
+import {
+    ApiListResponse,
+    ApiResponse,
+} from '../../core/utils/api-response.util'
 import { buildPaginationResponse } from '../../core/utils/pagination.util'
 import {
+    zInsertAccount,
     zQueryAccounts,
     zSelectAccount,
+    zUpdateAccount,
 } from '../../crud/account/account-crud.model'
 import { AccessTokenPayload } from '../auth/token.util'
 import { AccountService } from './account.service'
 
 const tags = [APP_OPENAPI_TAGS.ACCOUNT]
+const path = '/main/accounts'
 
-const getAccountsRoute = createRoute({
-    path: '/bff/accounts',
+const getAccountListRoute = createRoute({
+    path: path,
     tags,
     method: REQ_METHOD.GET,
     middleware: [checkToken] as const,
@@ -24,13 +33,13 @@ const getAccountsRoute = createRoute({
         query: zQueryAccounts,
     },
     responses: {
-        [OK]: ApiListResponse(z.array(zSelectAccount), 'List of Accounts'),
+        [OK]: ApiListResponse(z.array(zSelectAccount), 'List of Items'),
     },
 })
 
-const getAccountsHandler: AppRouteHandler<typeof getAccountsRoute> = async (
-    c,
-) => {
+const getAccountListHandler: AppRouteHandler<
+    typeof getAccountListRoute
+> = async (c) => {
     const { page, size, ...query } = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -48,7 +57,141 @@ const getAccountsHandler: AppRouteHandler<typeof getAccountsRoute> = async (
     )
 }
 
-export const accountRoutes = createRouter().openapi(
-    getAccountsRoute,
-    getAccountsHandler,
-)
+const getAccountRoute = createRoute({
+    path: path + '/:id',
+    tags,
+    method: REQ_METHOD.GET,
+    middleware: [checkToken] as const,
+    request: {
+        params: zId,
+        body: jsonContent(zUpdateAccount, 'Input'),
+    },
+    responses: {
+        [OK]: ApiResponse(zSelectAccount, 'Item'),
+    },
+})
+
+const getAccountHandler: AppRouteHandler<typeof getAccountRoute> = async (
+    c,
+) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    const input = c.req.valid('json')
+    const existing = await AccountService.findById(c.req.valid('param').id)
+    if (!existing) {
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
+    }
+
+    return c.json(
+        {
+            data: existing,
+            message: 'Account fetched successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const createAccountRoute = createRoute({
+    path,
+    tags,
+    method: REQ_METHOD.POST,
+    middleware: [checkToken] as const,
+    request: {
+        body: jsonContent(zInsertAccount, 'Input'),
+    },
+    responses: {
+        [OK]: ApiResponse(zSelectAccount, 'Item'),
+    },
+})
+
+const createAccountHandler: AppRouteHandler<typeof createAccountRoute> = async (
+    c,
+) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    const input = c.req.valid('json')
+    const data = await AccountService.create({ ...input, groupId })
+
+    return c.json(
+        {
+            data,
+            message: 'Account created successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const updateAccountRoute = createRoute({
+    path: path + '/:id',
+    tags,
+    method: REQ_METHOD.PUT,
+    middleware: [checkToken] as const,
+    request: {
+        params: zId,
+        body: jsonContent(zUpdateAccount, 'Input'),
+    },
+    responses: {
+        [OK]: ApiResponse(zSelectAccount, 'Item'),
+    },
+})
+
+const updateAccountHandler: AppRouteHandler<typeof updateAccountRoute> = async (
+    c,
+) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    const input = c.req.valid('json')
+    const existing = await AccountService.findById(c.req.valid('param').id)
+    if (!existing) {
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
+    }
+    const data = await AccountService.update(existing.id, { ...input, groupId })
+
+    return c.json(
+        {
+            data,
+            message: 'Account updated successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const deleteAccountRoute = createRoute({
+    path: path + '/:id',
+    tags,
+    method: REQ_METHOD.DELETE,
+    middleware: [checkToken] as const,
+    request: {
+        params: zId,
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, 'Item'),
+    },
+})
+
+const deleteAccountHandler: AppRouteHandler<typeof deleteAccountRoute> = async (
+    c,
+) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    const existing = await AccountService.findById(c.req.valid('param').id)
+    if (!existing) {
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
+    }
+    await AccountService.delete(existing.id)
+
+    return c.json(
+        {
+            data: {},
+            message: 'Account deleted successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const accountRoutes = createRouter()
+    .openapi(getAccountListRoute, getAccountListHandler)
+    .openapi(createAccountRoute, createAccountHandler)
+    .openapi(updateAccountRoute, updateAccountHandler)
+    .openapi(deleteAccountRoute, deleteAccountHandler)
+    .openapi(getAccountRoute, getAccountHandler)
