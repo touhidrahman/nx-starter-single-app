@@ -46,8 +46,12 @@ export const accountsTable = pgTable('accounts', {
     loanMonthlyDueDate: integer(),
     loanStartDate: date(),
 
-    groupId: text().references(() => groupsTable.id, { onDelete: 'cascade' }),
-    creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
+    groupId: text()
+        .notNull()
+        .references(() => groupsTable.id, { onDelete: 'cascade' }),
+    creatorId: text()
+        .notNull()
+        .references(() => usersTable.id, { onDelete: 'set null' }),
 
     ...timestampColumns,
 })

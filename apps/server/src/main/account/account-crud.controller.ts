@@ -4,8 +4,12 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { checkToken } from '../../core/middlewares/check-token.middleware'
 import { isAdmin } from '../../core/middlewares/is-admin.middleware'
-import { zEmpty, zId } from '../../core/models/common.schema'
-import { DEFAULT_PAGE_SIZE } from '../../core/models/common.values'
+import { zEmpty, zId, zIds } from '../../core/models/common.schema'
+import {
+    APP_OPENAPI_TAGS,
+    DEFAULT_PAGE_SIZE,
+    REQ_METHOD,
+} from '../../core/models/common.values'
 import {
     ApiListResponse,
     ApiResponse,
@@ -18,10 +22,12 @@ import {
 } from './account-crud.model'
 import { AccountCrudService } from './account-crud.service'
 
-export const adminGetAccountsRoute = createRoute({
+const tags = [APP_OPENAPI_TAGS.ACCOUNT]
+
+export const crudGetAccountsRoute = createRoute({
     path: '/crud/accounts',
-    tags: ['Account'],
-    method: 'get',
+    tags,
+    method: REQ_METHOD.GET,
     middleware: [checkToken, isAdmin] as const,
     request: {
         query: zQueryAccounts,
@@ -31,8 +37,8 @@ export const adminGetAccountsRoute = createRoute({
     },
 })
 
-export const adminGetAccountsHandler: AppRouteHandler<
-    typeof adminGetAccountsRoute
+export const crudGetAccountsHandler: AppRouteHandler<
+    typeof crudGetAccountsRoute
 > = async (c) => {
     const query = c.req.valid('query')
     const data = await AccountCrudService.findMany(query)
@@ -56,10 +62,10 @@ export const adminGetAccountsHandler: AppRouteHandler<
     )
 }
 
-export const adminGetAccountByIdRoute = createRoute({
+export const crudGetAccountByIdRoute = createRoute({
     path: '/crud/accounts/:id',
-    tags: ['Account'],
-    method: 'get',
+    tags,
+    method: REQ_METHOD.GET,
     middleware: [checkToken, isAdmin] as const,
     request: {
         params: zId,
@@ -70,8 +76,8 @@ export const adminGetAccountByIdRoute = createRoute({
     },
 })
 
-export const adminGetAccountByIdHandler: AppRouteHandler<
-    typeof adminGetAccountByIdRoute
+export const crudGetAccountByIdHandler: AppRouteHandler<
+    typeof crudGetAccountByIdRoute
 > = async (c) => {
     const { id } = c.req.valid('param')
     const account = await AccountCrudService.findById(id)
@@ -97,10 +103,10 @@ export const adminGetAccountByIdHandler: AppRouteHandler<
     )
 }
 
-export const adminCreateAccountRoute = createRoute({
+export const crudCreateAccountRoute = createRoute({
     path: '/crud/accounts',
-    tags: ['Account'],
-    method: 'post',
+    tags,
+    method: REQ_METHOD.POST,
     middleware: [checkToken, isAdmin] as const,
     request: {
         body: jsonContent(zInsertAccount, 'Account Create Data'),
@@ -110,8 +116,8 @@ export const adminCreateAccountRoute = createRoute({
     },
 })
 
-export const adminCreateAccountHandler: AppRouteHandler<
-    typeof adminCreateAccountRoute
+export const crudCreateAccountHandler: AppRouteHandler<
+    typeof crudCreateAccountRoute
 > = async (c) => {
     const body = c.req.valid('json')
     const newAccount = await AccountCrudService.create(body)
@@ -126,10 +132,10 @@ export const adminCreateAccountHandler: AppRouteHandler<
     )
 }
 
-export const adminUpdateAccountRoute = createRoute({
+export const crudUpdateAccountRoute = createRoute({
     path: '/crud/accounts/:id',
-    tags: ['Account'],
-    method: 'put',
+    tags,
+    method: REQ_METHOD.PUT,
     middleware: [checkToken, isAdmin] as const,
     request: {
         params: zId,
@@ -141,8 +147,8 @@ export const adminUpdateAccountRoute = createRoute({
     },
 })
 
-export const adminUpdateAccountHandler: AppRouteHandler<
-    typeof adminUpdateAccountRoute
+export const crudUpdateAccountHandler: AppRouteHandler<
+    typeof crudUpdateAccountRoute
 > = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
@@ -165,6 +171,79 @@ export const adminUpdateAccountHandler: AppRouteHandler<
         {
             data: updatedAccount,
             message: 'Account updated successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const crudDeleteAccountRoute = createRoute({
+    path: '/crud/accounts/:id',
+    tags,
+    method: REQ_METHOD.DELETE,
+    middleware: [checkToken, isAdmin] as const,
+    request: {
+        params: zId,
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, 'Account deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Account not found'),
+    },
+})
+
+export const crudDeleteAccountHandler: AppRouteHandler<
+    typeof crudDeleteAccountRoute
+> = async (c) => {
+    const { id } = c.req.valid('param')
+    const existingAccount = await AccountCrudService.findById(id)
+
+    if (!existingAccount) {
+        return c.json(
+            {
+                data: {},
+                message: 'Account not found',
+                success: false,
+            },
+            NOT_FOUND,
+        )
+    }
+
+    await AccountCrudService.delete(id)
+
+    return c.json(
+        {
+            data: {},
+            message: 'Account deleted successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const crudDeleteMultipleAccountsRoute = createRoute({
+    path: '/crud/accounts',
+    tags,
+    method: REQ_METHOD.DELETE,
+    middleware: [checkToken, isAdmin] as const,
+    request: {
+        body: jsonContent(zIds, 'Account IDs to delete'),
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, 'Accounts deleted successfully'),
+    },
+})
+
+export const crudDeleteMultipleAccountsHandler: AppRouteHandler<
+    typeof crudDeleteMultipleAccountsRoute
+> = async (c) => {
+    const { ids } = c.req.valid('json')
+
+    await AccountCrudService.deleteMany(ids)
+
+    return c.json(
+        {
+            data: {},
+            message: 'Accounts deleted successfully',
             success: true,
         },
         OK,
