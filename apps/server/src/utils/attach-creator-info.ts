@@ -1,5 +1,5 @@
-import { Member } from '../../main/user/user.schema'
-import { findUserBasicInfoById } from '../../main/user/user.service'
+import { Member } from '../main/user/user.schema'
+import { findUserBasicInfoById } from '../main/user/user.service'
 
 export async function attachCreatorInfo<T extends { creatorId: string | null }>(
     items: T[],

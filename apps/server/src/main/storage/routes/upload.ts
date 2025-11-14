@@ -2,9 +2,9 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { CREATED } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import {
     SelectStorage,

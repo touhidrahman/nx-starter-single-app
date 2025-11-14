@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { zFile } from '../../core/models/common.schema'
 import { storageTable } from '../../db/schema'
+import { zFile } from '../../models/common.schema'
 
 export type InsertStorage = typeof storageTable.$inferInsert
 export type SelectStorage = typeof storageTable.$inferSelect

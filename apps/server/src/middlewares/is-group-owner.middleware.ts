@@ -1,6 +1,6 @@
 import { Context, Next } from 'hono'
 import { FORBIDDEN } from 'stoker/http-status-codes'
-import { isOwner } from '../../main/group/group.service'
+import { isOwner } from '../main/group/group.service'
 
 export const isGroupOwner = async (ctx: Context, next: Next) => {
     const { groupId, sub } = await ctx.get('jwtPayload')

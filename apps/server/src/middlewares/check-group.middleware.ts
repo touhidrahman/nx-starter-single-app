@@ -1,6 +1,6 @@
 import { MiddlewareHandler } from 'hono'
 import { BAD_REQUEST, NOT_FOUND } from 'stoker/http-status-codes'
-import { findGroupById } from '../../main/group/group.service'
+import { findGroupById } from '../main/group/group.service'
 
 export function checkGroupParam(paramName = 'groupId'): MiddlewareHandler {
     return async (c, next) => {

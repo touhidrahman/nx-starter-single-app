@@ -15,9 +15,7 @@ export const getAllAdmins = async (params: {
 
     if (search) {
         const searchTerm = `%${search}%`
-        conditions.push(
-            sql`(${ilike(adminsTable.email, searchTerm)} OR ${ilike(adminsTable.status, searchTerm)})`,
-        )
+        conditions.push(sql`(${ilike(adminsTable.email, searchTerm)}`)
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
@@ -63,7 +61,7 @@ export async function approveAdminUser(adminId: string) {
     try {
         const result = await db
             .update(adminsTable)
-            .set({ verified: true })
+            .set({ verifiedAt: new Date() })
             .where(and(eq(adminsTable.id, adminId)))
             .returning()
 
@@ -120,8 +118,7 @@ export async function createAdminUser(user: InsertAdmin) {
             email: user.email,
             password: user.password,
             name: user.name,
-            status: user.status,
-            verified: true,
+            verifiedAt: user.verifiedAt,
         })
         .returning()
 
@@ -138,7 +135,6 @@ export async function updateAdminUser(
             email: user.email,
             password: user.password,
             name: user.name,
-            status: user.status,
         })
         .where(and(eq(adminsTable.id, adminId)))
         .returning()

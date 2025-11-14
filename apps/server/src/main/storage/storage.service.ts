@@ -1,7 +1,7 @@
 import { and, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
-import { getFileType } from '../../core/utils/file.util'
 import { db } from '../../db/db'
 import { storageTable } from '../../db/schema'
+import { getFileType } from '../../utils/file.util'
 
 export const getStorageItemById = async (id: string) => {
     const [result] = await db

@@ -1,9 +1,9 @@
 import { createRoute } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { zEmpty } from '../../../core/models/common.schema'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { zEmpty } from '../../../models/common.schema'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { findUserById } from '../../user/user.service'
 import { zUserSettings } from '../../user-settings/user-setting.schema'
 import {

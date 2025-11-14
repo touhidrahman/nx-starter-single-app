@@ -1,9 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
-import { checkPermission } from '../../../core/middlewares/check-permission.middleware'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { zEmpty } from '../../../core/models/common.schema'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkPermission } from '../../../middlewares/check-permission.middleware'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { zEmpty } from '../../../models/common.schema'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteInvitation, findInvitationById } from '../invite.service'
 

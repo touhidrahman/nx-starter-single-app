@@ -5,10 +5,10 @@ import {
     INTERNAL_SERVER_ERROR,
 } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { zEmpty } from '../../../core/models/common.schema'
-import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { zEmpty } from '../../../models/common.schema'
+import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findUserById } from '../../user/user.service'
 import {

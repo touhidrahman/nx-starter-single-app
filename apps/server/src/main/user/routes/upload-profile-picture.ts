@@ -6,13 +6,13 @@ import {
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { zEmpty } from '../../../core/models/common.schema'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { zEmpty } from '../../../models/common.schema'
 import {
     deleteS3File,
     uploadToS3AndGetUrl,
-} from '../../../core/third-party/s3.service'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+} from '../../../third-party/s3.service'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import {
     createStorageRecord,
@@ -128,18 +128,6 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message:
-                        'An error occurred while uploading the profile picture',
-                    success: false,
-                    error: error.errors,
-                },
-                BAD_REQUEST,
-            )
-        }
         return c.json(
             {
                 data: {},

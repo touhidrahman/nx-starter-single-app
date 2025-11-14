@@ -1,7 +1,7 @@
 import { pickBy } from 'es-toolkit'
 import { pinoLogger } from 'hono-pino'
 import { pino, stdTimeFunctions } from 'pino'
-import env from '../../env'
+import env from '../env'
 
 const isProduction = env.NODE_ENV === 'production'
 

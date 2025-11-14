@@ -7,8 +7,8 @@ import {
 import DateFnsUtils from '@date-io/date-fns'
 import { spawn } from 'child_process'
 import { format, parse } from 'date-fns'
-import { databaseBackupS3Client } from '../../core/third-party/s3.service'
 import env from '../../env'
+import { databaseBackupS3Client } from '../../third-party/s3.service'
 import { DbBackupRecord, RemovalOptions } from './database-backup.schema'
 
 export function getBackupFileName(date: Date = new Date()): string {

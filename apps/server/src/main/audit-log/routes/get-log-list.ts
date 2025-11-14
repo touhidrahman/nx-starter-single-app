@@ -1,8 +1,8 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectLog } from '../audit-log.schema'
 import { getAllLogs } from '../audit-log.service'
 

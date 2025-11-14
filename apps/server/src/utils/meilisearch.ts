@@ -1,5 +1,5 @@
 import { MeiliSearch, Task } from 'meilisearch'
-import env from '../../env'
+import env from '../env'
 
 export const meiliClient = new MeiliSearch({
     host: env.MEILISEARCH_API_URL,

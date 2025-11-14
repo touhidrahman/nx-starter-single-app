@@ -2,7 +2,7 @@ import { Context, Next } from 'hono'
 import { createMiddleware } from 'hono/factory'
 import { HTTPException } from 'hono/http-exception'
 import { FORBIDDEN } from 'stoker/http-status-codes'
-import { SystemUserLevel } from '../core.type'
+import { SystemUserLevel } from '../core/core.type'
 
 export const isAdmin = createMiddleware(async (ctx: Context, next: Next) => {
     const payload = ctx.get('jwtPayload')

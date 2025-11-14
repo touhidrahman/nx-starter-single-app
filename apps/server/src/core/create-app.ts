@@ -8,9 +8,9 @@ import { trimTrailingSlash } from 'hono/trailing-slash'
 import { serveEmojiFavicon } from 'stoker/middlewares'
 import { defaultHook } from 'stoker/openapi'
 import { AppBindings } from './core.type'
-import { customLogger } from './middlewares/pino-logger.middleware'
 import { onErrorFn } from './on-error'
 import { notFoundFn } from './on-not-found'
+import { customLogger } from './pino-logger.middleware'
 
 export function createRouter() {
     return new OpenAPIHono<AppBindings>({ strict: false, defaultHook })

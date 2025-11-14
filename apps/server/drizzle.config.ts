@@ -15,7 +15,7 @@ if (!dbUrl) {
 //     debug: true,
 // })
 
-// const pathToSchema = join(__dirname, 'src/core/db/schema/*')
+// const pathToSchema = join(__dirname, 'src/db/schema/*')
 // const pathToMigrations = join(__dirname, 'migrations')
 
 export default defineConfig({

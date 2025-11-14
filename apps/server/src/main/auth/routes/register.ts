@@ -8,8 +8,8 @@ import {
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../core/models/common.schema'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { zEmpty } from '../../../models/common.schema'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { getAllAdmins } from '../../admin/admin-user.service'
 import { createGroup } from '../../group/group.service'
 import {

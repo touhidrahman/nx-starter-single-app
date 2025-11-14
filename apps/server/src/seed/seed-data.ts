@@ -1,4 +1,4 @@
-import { InsertPlan } from '../../main/plan/plan.schema'
+import { InsertPlan } from '../main/plan/plan.schema'
 
 export const SEED_DATA_PLANS: InsertPlan[] = [
     {

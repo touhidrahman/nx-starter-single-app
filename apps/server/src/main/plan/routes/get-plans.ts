@@ -1,7 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectPlan } from '../plan.schema'
 import { getAllPlans } from '../plan.service'
 

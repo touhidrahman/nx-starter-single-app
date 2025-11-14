@@ -3,7 +3,7 @@ import 'dotenv/config' // Must be first
 import { serve } from '@hono/node-server'
 import { showRoutes } from 'hono/dev'
 import app from './app'
-import { startJobRunner } from './core/cron-jobs/bree'
+import { startJobRunner } from './cron-jobs/bree'
 import env from './env'
 
 const logRoutesToConsole = false

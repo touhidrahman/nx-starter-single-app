@@ -2,9 +2,9 @@ import { createRoute } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../../core/models/common.schema'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { zEmpty, zId } from '../../../models/common.schema'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { deleteLog, logExists } from '../audit-log.service'
 
 export const deleteLogRoute = createRoute({

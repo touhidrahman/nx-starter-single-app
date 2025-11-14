@@ -4,7 +4,7 @@ import {
     PutObjectCommand,
     S3Client,
 } from '@aws-sdk/client-s3'
-import env from '../../env'
+import env from '../env'
 import { getHashedFileName } from '../utils/file.util'
 
 export const appS3Client = new S3Client({

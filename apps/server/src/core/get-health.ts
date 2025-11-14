@@ -1,8 +1,8 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import env from '../env'
+import { ApiResponse } from '../utils/api-response.util'
 import { AppRouteHandler } from './core.type'
-import { ApiResponse } from './utils/api-response.util'
 
 const tags = ['Core']
 
