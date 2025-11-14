@@ -186,7 +186,7 @@ const deleteAccountHandler: AppRouteHandler<typeof deleteAccountRoute> = async (
     )
 }
 
-export const accountRoutes = createRouter()
+export const commonAccountRoutes = createRouter()
     .openapi(getAccountListRoute, getAccountListHandler)
     .openapi(createAccountRoute, createAccountHandler)
     .openapi(updateAccountRoute, updateAccountHandler)

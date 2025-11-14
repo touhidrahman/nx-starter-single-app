@@ -238,7 +238,7 @@ const crudDeleteMultipleAccountsHandler: AppRouteHandler<
     )
 }
 
-export const crudAccountRoutes = createRouter()
+export const baseAccountRoutes = createRouter()
     .openapi(crudDeleteAccountRoute, crudDeleteAccountHandler)
     .openapi(crudDeleteMultipleAccountsRoute, crudDeleteMultipleAccountsHandler)
     .openapi(crudUpdateAccountRoute, crudUpdateAccountHandler)

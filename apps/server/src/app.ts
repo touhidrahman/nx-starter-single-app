@@ -3,6 +3,8 @@ import { pad } from 'es-toolkit/string'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
+import { baseAccountRoutes } from './main/account/base/account-base.routes'
+import { commonAccountRoutes } from './main/account/common/account.routes'
 import { adminUserV1Routes } from './main/admin/admin-user.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authV1Routes } from './main/auth/auth.routes'
@@ -24,9 +26,9 @@ import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 const app = createApp()
 
 const routes = [
-    crudAccountRoutes,
     coreRoutes,
-    accountRoutes,
+    baseAccountRoutes,
+    commonAccountRoutes,
     adminUserV1Routes,
     authV1Routes,
     claimV1Routes,
@@ -50,9 +52,9 @@ configureOpenAPI(app)
 
 const paths = []
 for (const route of routes) {
-    paths.push(
-        ...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)),
-    )
+    // paths.push(
+    //     ...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)),
+    // )
     app.route('/', route)
 }
 console.log('Registered routes:\n')
