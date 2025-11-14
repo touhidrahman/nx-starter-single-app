@@ -2,10 +2,10 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { and, eq, sql } from 'drizzle-orm'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { db } from '../../../core/db/db'
-import { groupsTable, subscriptionsTable } from '../../../core/db/schema'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { db } from '../../../db/db'
+import { groupsTable, subscriptionsTable } from '../../../db/schema'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { ApiResponse } from '../../../utils/api-response.util'
 
 export const getGroupOwnerOverviewByGroupIdRoute = createRoute({
     path: '/v1/group/overview',

@@ -1,6 +1,6 @@
 import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
-import { db } from '../../../core/db/db'
-import { accountsTable } from '../../../core/db/schema'
+import { db } from '../../../db/db'
+import { accountsTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
 import {
     InsertAccount,

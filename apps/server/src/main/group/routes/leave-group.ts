@@ -2,12 +2,12 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { and, eq } from 'drizzle-orm'
 import { BAD_REQUEST, CREATED } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
-import { db } from '../../../core/db/db'
-import { membershipsTable } from '../../../core/db/schema'
-import { checkToken } from '../../../core/middlewares/check-token.middleware'
-import { isGroupParticipant } from '../../../core/middlewares/is-group-participant.middleware'
-import { zEmpty } from '../../../core/models/common.schema'
-import { ApiResponse } from '../../../core/utils/api-response.util'
+import { db } from '../../../db/db'
+import { membershipsTable } from '../../../db/schema'
+import { checkToken } from '../../../middlewares/check-token.middleware'
+import { isGroupParticipant } from '../../../middlewares/is-group-participant.middleware'
+import { zEmpty } from '../../../models/common.schema'
+import { ApiResponse } from '../../../utils/api-response.util'
 
 export const leaveGroupRoute = createRoute({
     path: '/v1/groups/:id/leave',
