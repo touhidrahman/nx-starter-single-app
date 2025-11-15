@@ -45,6 +45,15 @@ export class TransactionCoreService {
         return transaction[0] || null
     }
 
+    static async exists(id: string): Promise<boolean> {
+        const countResult = await db
+            .select({ count: sql<number>`count(${transactionsTable.id})` })
+            .from(transactionsTable)
+            .where(eq(transactionsTable.id, id))
+        const count = countResult[0]?.count || 0
+        return count > 0
+    }
+
     static async count(filters: QueryTransactions): Promise<number> {
         const conditions = TransactionCoreService.buildWhereConditions(filters)
 

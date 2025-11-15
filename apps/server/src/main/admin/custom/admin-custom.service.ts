@@ -49,4 +49,14 @@ export class AdminCustomService extends AdminCoreService {
         const count = await AdminCustomService.count({})
         return count === 0
     }
+
+    static async approve(adminId: string): Promise<SelectAdmin> {
+        const admin = await AdminCustomService.update(adminId, {
+            verifiedAt: new Date(),
+        })
+        if (admin) {
+            return { ...admin, password: '' }
+        }
+        throw new Error('Approval failed')
+    }
 }

@@ -1,6 +1,5 @@
 import { uniq } from 'es-toolkit'
 import { pad } from 'es-toolkit/string'
-import { adminUserV1Routes } from './admin/admin-user.routes'
 import { authV1Routes } from './auth/auth.routes'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
@@ -35,7 +34,6 @@ const routes = [
     accountCrudRoutes,
     adminCrudRoutes,
     adminCustomRoutes,
-    adminUserV1Routes,
     authV1Routes,
     claimV1Routes,
     dashboardV1Routes,

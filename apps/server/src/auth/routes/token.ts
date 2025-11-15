@@ -2,8 +2,8 @@ import { createRoute } from '@hono/zod-openapi'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
-import { findAdminById } from '../../admin/admin-user.service'
 import { AppRouteHandler } from '../../core/core.type'
+import { AdminCustomService } from '../../main/admin/custom/admin-custom.service'
 import { SelectGroup, zSelectGroup } from '../../main/group/group.schema'
 import { SelectRole, zSelectRole } from '../../main/role/role.schema'
 import { zSelectUserWithoutPass } from '../../main/user/user.schema'
@@ -86,7 +86,7 @@ export const getTokenRouteHandler: AppRouteHandler<
     let role: SelectRole | undefined
 
     if (level === 'admin') {
-        const admin = await findAdminById(sub)
+        const admin = await AdminCustomService.findById(sub)
         if (!admin) {
             return c.json(
                 { message: 'Admin not found', data: {}, success: false },

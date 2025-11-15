@@ -7,8 +7,8 @@ import {
     NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { getAllAdmins } from '../../admin/admin-user.service'
 import { AppRouteHandler } from '../../core/core.type'
+import { AdminCustomService } from '../../main/admin/custom/admin-custom.service'
 import { createGroup } from '../../main/group/group.service'
 import {
     createReferral,
@@ -134,7 +134,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
             }
         }
 
-        const { data: admins } = await getAllAdmins({ page: 1, size: 100 })
+        const admins = await AdminCustomService.findMany({ page: 1, size: 100 })
         const adminEmails = admins.map((admin) => admin.email)
         await sendUpdateStatusEmailToAdmin(user, group, adminEmails)
 
