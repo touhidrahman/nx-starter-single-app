@@ -31,8 +31,6 @@ const routes = [
     coreRoutes,
     accountBaseRoutes,
     accountCommonRoutes,
-    transactionBasicRoutes,
-    transactionCommonRoutes,
     adminUserV1Routes,
     authV1Routes,
     claimV1Routes,
@@ -48,6 +46,8 @@ const routes = [
     roleV1Routes,
     storageV1Routes,
     subscriptionV1Route,
+    transactionBasicRoutes,
+    transactionCommonRoutes,
     userSettingsV1Routes,
     userV1Routes,
 ]

@@ -8,7 +8,7 @@ import {
 import { groupsTable } from './groups.table'
 
 export const categoriesTable = pgTable('categories', {
-    id: serial().primaryKey(),
+    id: integer().generatedAlwaysAsIdentity().primaryKey(),
     name: text().notNull(),
     icon: text(),
     color: text(),

@@ -30,7 +30,7 @@ export const transactionsTable = pgTable('transactions', {
     subcategoryId: integer().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
-    committedAt: timestamp({ withTimezone: true }).notNull(),
+    committedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
     creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
     groupId: text()
         .notNull()

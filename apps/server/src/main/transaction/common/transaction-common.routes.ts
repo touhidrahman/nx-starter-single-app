@@ -30,7 +30,7 @@ const GetTransactionListDef = createRoute({
         query: zQueryTransactions,
     },
     responses: {
-        [OK]: ApiListResponse(z.array(zSelectTransaction), 'List of Items'),
+        [OK]: ApiListResponse(z.array(zSelectTransaction), 'Transaction List'),
     },
 })
 
