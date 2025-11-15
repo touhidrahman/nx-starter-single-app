@@ -6,9 +6,9 @@ import {
     OK,
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
+import { AppRouteHandler } from '../../core/core.type'
+import { zEmpty } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 import { findUserByEmail, resendVerificationEmail } from '../auth.service'
 
 const tags = ['Auth']

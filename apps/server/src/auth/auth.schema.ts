@@ -1,8 +1,8 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { usersTable } from '../../db/schema'
-import { SelectGroup } from '../group/group.schema'
-import { SelectRole } from '../role/role.schema'
+import { usersTable } from '../db/schema'
+import { SelectGroup } from '../main/group/group.schema'
+import { SelectRole } from '../main/role/role.schema'
 
 export const zLogin = z.object({
     username: z.string(),

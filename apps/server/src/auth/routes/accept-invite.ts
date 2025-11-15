@@ -7,16 +7,16 @@ import {
     NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { findGroupById } from '../../group/group.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { findGroupById } from '../../main/group/group.service'
 import {
     checkGroupLimit,
     deleteInvitation,
     findInvitationById,
-} from '../../invite/invite.service'
-import { setDefaultGroupId } from '../../user/user.service'
+} from '../../main/invite/invite.service'
+import { setDefaultGroupId } from '../../main/user/user.service'
+import { zEmpty } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 import { zAcceptInvite, zSelectAuthUser } from '../auth.schema'
 import { addUserToGroup, createUser, findUserByEmail } from '../auth.service'
 import { decodeInvitationToken } from '../token.util'

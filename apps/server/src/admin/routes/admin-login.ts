@@ -3,16 +3,16 @@ import * as argon2 from 'argon2'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
+import { zLogin } from '../../auth/auth.schema'
+import {
+    createAdminAccessToken,
+    createAdminRefreshToken,
+} from '../../auth/token.util'
 import type { AppRouteHandler } from '../../core/core.type'
 import { zEmpty } from '../../models/common.schema'
 import { ApiResponse } from '../../utils/api-response.util'
 import { DateUtil } from '../../utils/date.util'
 import { getAdminUserByEmail } from '../admin-user.service'
-import { zLogin } from '../auth/auth.schema'
-import {
-    createAdminAccessToken,
-    createAdminRefreshToken,
-} from '../auth/token.util'
 
 const tags = ['Auth']
 

@@ -5,14 +5,14 @@ import {
     NOT_FOUND,
     OK,
 } from 'stoker/http-status-codes'
-import { AppRouteHandler } from '../../../core/core.type'
-import { sendEmailUsingResend } from '../../../email/email.service'
-import { checkToken } from '../../../middlewares/check-token.middleware'
-import { zEmpty } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { buildForgotPinEmailTemplate } from '../../email/templates/forgot-pin'
-import { findUserById } from '../../user/user.service'
-import { findUserSettings } from '../../user-settings/user-setting.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { sendEmailUsingResend } from '../../email/email.service'
+import { buildForgotPinEmailTemplate } from '../../main/email/templates/forgot-pin'
+import { findUserById } from '../../main/user/user.service'
+import { findUserSettings } from '../../main/user-settings/user-setting.service'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { zEmpty } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 
 export const forgotPINCodeRoute = createRoute({
     path: '/auth/forgot-pin',

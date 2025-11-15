@@ -1,9 +1,8 @@
 import { randomBytes } from 'node:crypto'
 import { sign, verify } from 'hono/jwt'
-import { SystemUserLevel } from '../../core/core.type'
-import env from '../../env'
-import { addDuration, DateUnit, DateUtil } from '../../utils/date.util'
-import { InsertGroup, SelectGroup } from '../group/group.schema'
+import { SystemUserLevel } from '../core/core.type'
+import env from '../env'
+import { addDuration, DateUnit, DateUtil } from '../utils/date.util'
 import { TokenCreateUserData } from './auth.schema'
 
 const dateUtil = DateUtil
@@ -41,7 +40,7 @@ export type InvitationTokenPayload = {
 export async function createAccessToken(
     user: TokenCreateUserData,
     roleId?: string,
-    group?: SelectGroup,
+    group?: { id: string },
 ) {
     const tokenPayload: AccessTokenPayload = {
         firstName: user?.firstName ?? '',

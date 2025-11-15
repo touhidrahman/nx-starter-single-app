@@ -1,12 +1,12 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../middlewares/check-token.middleware'
-import { zEmpty } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { findUserById } from '../../user/user.service'
-import { findUserSettingsByUserId } from '../../user-settings/user-setting.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { findUserById } from '../../main/user/user.service'
+import { findUserSettingsByUserId } from '../../main/user-settings/user-setting.service'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { zEmpty } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 
 export const verifyPinRoute = createRoute({
     path: '/auth/verify-pin',

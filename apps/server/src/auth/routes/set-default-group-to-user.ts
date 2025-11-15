@@ -1,12 +1,12 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { zSelectUser } from '../../user/user.schema'
-import { setDefaultGroupId } from '../../user/user.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { zSelectUser } from '../../main/user/user.schema'
+import { setDefaultGroupId } from '../../main/user/user.service'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { zEmpty, zId } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 
 export const setDefaultGroupRoute = createRoute({
     path: '/user/:id',

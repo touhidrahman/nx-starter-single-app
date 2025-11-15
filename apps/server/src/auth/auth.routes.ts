@@ -1,4 +1,4 @@
-import { createRouter } from '../../core/create-app'
+import { createRouter } from '../core/create-app'
 import { acceptInviteHandler, acceptInviteRoute } from './routes/accept-invite'
 import {
     changePasswordHandler,

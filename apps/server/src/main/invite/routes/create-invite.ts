@@ -2,6 +2,7 @@ import { createRoute } from '@hono/zod-openapi'
 import { some } from 'hono/combine'
 import { FORBIDDEN, INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
+import { generateInvitationToken } from '../../../auth/token.util'
 import { AppRouteHandler } from '../../../core/core.type'
 import { sendEmailUsingResend } from '../../../email/email.service'
 import env from '../../../env'
@@ -11,10 +12,9 @@ import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
-import { generateInvitationToken } from '../../auth/token.util'
 import { buildInviteUserEmailTemplate } from '../../email/templates/invite-user'
 import { findGroupById } from '../../group/group.service'
-import { zCreateInvite, zSelectInvite } from '../invite.schema'
+import { zInsertInvite, zSelectInvite } from '../invite.schema'
 import { checkGroupLimit, createInvite } from '../invite.service'
 
 export const createInviteRoute = createRoute({
@@ -26,7 +26,7 @@ export const createInviteRoute = createRoute({
         some(checkPermission({ and: ['invite:write'] }), isAdmin),
     ] as const,
     request: {
-        body: jsonContent(zCreateInvite, 'Invite details'),
+        body: jsonContent(zInsertInvite, 'Invite details'),
     },
     responses: {
         [OK]: ApiResponse(zSelectInvite, 'Create Invite successfully!'),

@@ -1,15 +1,15 @@
 import { createRoute } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
-import { AppRouteHandler } from '../../../core/core.type'
-import { checkToken } from '../../../middlewares/check-token.middleware'
-import { zEmpty } from '../../../models/common.schema'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { findUserById } from '../../user/user.service'
-import { zUserSettings } from '../../user-settings/user-setting.schema'
+import { AppRouteHandler } from '../../core/core.type'
+import { findUserById } from '../../main/user/user.service'
+import { zUserSettings } from '../../main/user-settings/user-setting.schema'
 import {
     findUserSettings,
     upsertUserSetting,
-} from '../../user-settings/user-setting.service'
+} from '../../main/user-settings/user-setting.service'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { zEmpty } from '../../models/common.schema'
+import { ApiResponse } from '../../utils/api-response.util'
 
 export const enablePinRoute = createRoute({
     path: '/auth/enable-pin',

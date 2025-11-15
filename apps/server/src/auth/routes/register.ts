@@ -7,17 +7,17 @@ import {
     NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS } from '../../../models/common.values'
-import { ApiResponse } from '../../../utils/api-response.util'
-import { trimLowercase } from '../../../utils/string.util'
 import { getAllAdmins } from '../../admin/admin-user.service'
-import { createGroup } from '../../group/group.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { createGroup } from '../../main/group/group.service'
 import {
     createReferral,
     findReferralCodeRecord,
-} from '../../referral/refferal.service'
+} from '../../main/referral/refferal.service'
+import { zEmpty } from '../../models/common.schema'
+import { APP_OPENAPI_TAGS } from '../../models/common.values'
+import { ApiResponse } from '../../utils/api-response.util'
+import { trimLowercase } from '../../utils/string.util'
 import { InsertUser, zRegister, zSelectAuthUser } from '../auth.schema'
 import {
     addUserToGroup,
