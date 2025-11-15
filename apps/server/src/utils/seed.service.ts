@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
-import { InsertPlan } from '../../main/plan/plan.schema'
 import { db } from '../db/db'
 import { pricingPlanTable } from '../db/schema'
+import { InsertPlan } from '../main/plan/plan.schema'
 
 export const seedPlans = async (plans: InsertPlan[]) => {
     for (const p of plans) {

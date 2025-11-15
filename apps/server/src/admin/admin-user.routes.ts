@@ -4,10 +4,6 @@ import {
     createAdminHandler,
     createAdminRoute,
 } from './routes/create-admin-user'
-import {
-    createFirstAdminHandler,
-    createFirstAdminRoute,
-} from './routes/create-first-admin'
 import { getAdminUserHandler, getAdminUserRoute } from './routes/get-admin-user'
 import {
     getAdminUsersHandler,
@@ -24,4 +20,3 @@ export const adminUserV1Routes = createRouter()
     .openapi(getAdminUsersRoute, getAdminUsersHandler)
     .openapi(updateAdminUserRoute, updateAdminUserHandler)
     .openapi(adminLoginRoute, adminLoginHandler)
-    .openapi(createFirstAdminRoute, createFirstAdminHandler)

@@ -12,4 +12,9 @@ export class AdminCustomService extends AdminCoreService {
         })
         return { ...result, password: '' }
     }
+
+    static async isTableEmpty(): Promise<boolean> {
+        const count = await AdminCustomService.count({})
+        return count === 0
+    }
 }
