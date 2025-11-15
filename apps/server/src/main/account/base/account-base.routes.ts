@@ -15,8 +15,8 @@ import {
 } from './account-base.model'
 import { AccountBaseService } from './account-base.service'
 
-const tags = [APP_OPENAPI_TAGS.ACCOUNT]
-const path = '/accounts/basic'
+const tags = [APP_OPENAPI_TAGS.Account]
+const path = '/basic/accounts'
 const middleware = undefined // [checkToken, isAdmin]
 
 const crudGetAccountsRoute = createRoute({
@@ -51,7 +51,7 @@ const crudGetAccountsHandler: AppRouteHandler<
 }
 
 const crudGetAccountByIdRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
     middleware,
@@ -121,7 +121,7 @@ const crudCreateAccountHandler: AppRouteHandler<
 }
 
 const crudUpdateAccountRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
     middleware,
@@ -166,7 +166,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
 }
 
 const crudDeleteAccountRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
     middleware,

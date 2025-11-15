@@ -1,7 +1,7 @@
 import { createRouter } from '../../../core/create-app'
 import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 
-const tags = [APP_OPENAPI_TAGS.ACCOUNT]
-const path = '/main/accounts'
+const tags = [APP_OPENAPI_TAGS.Account]
+const path = '/custom/accounts'
 
 export const accountCustomRoutes = createRouter()

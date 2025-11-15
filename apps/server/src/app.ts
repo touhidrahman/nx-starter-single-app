@@ -20,6 +20,8 @@ import { referralCodeV1Routes } from './main/referral/referral.routes'
 import { roleV1Routes } from './main/role/role.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
+import { transactionBasicRoutes } from './main/transaction/basic/transaction-basic.routes'
+import { transactionCommonRoutes } from './main/transaction/common/transaction-common.routes'
 import { userV1Routes } from './main/user/user.routes'
 import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 
@@ -29,6 +31,8 @@ const routes = [
     coreRoutes,
     accountBaseRoutes,
     accountCommonRoutes,
+    transactionBasicRoutes,
+    transactionCommonRoutes,
     adminUserV1Routes,
     authV1Routes,
     claimV1Routes,
