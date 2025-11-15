@@ -1,7 +1,11 @@
 import { CryptoService } from '../../auth/crypto.service'
+import {
+    createAdminAccessToken,
+    createAdminRefreshToken,
+} from '../../auth/token.util'
 import { SelectAdmin } from '../core/admin-core.model'
 import { AdminCoreService } from '../core/admin-core.service'
-import { RegisterAdmin } from './admin-custom.model'
+import { AdminLoginResponse, RegisterAdmin } from './admin-custom.model'
 
 export class AdminCustomService extends AdminCoreService {
     static async register(input: RegisterAdmin): Promise<SelectAdmin> {
@@ -11,6 +15,34 @@ export class AdminCustomService extends AdminCoreService {
             password: passwordHash,
         })
         return { ...result, password: '' }
+    }
+
+    static async login(
+        email: string,
+        password: string,
+    ): Promise<AdminLoginResponse> {
+        const admin = await AdminCustomService.findOne({ email })
+        if (!admin) {
+            throw new Error('Invalid email or password')
+        }
+
+        const isPasswordValid = await CryptoService.verifyPassword(
+            password,
+            admin.password,
+        )
+        if (!isPasswordValid) {
+            throw new Error('Invalid email or password')
+        }
+
+        const accessToken = await createAdminAccessToken(admin)
+        const refreshToken = await createAdminRefreshToken(admin)
+
+        return {
+            accessToken,
+            refreshToken,
+            lastLogin: new Date().toISOString(),
+            admin: { ...admin, password: '' },
+        }
     }
 
     static async isTableEmpty(): Promise<boolean> {

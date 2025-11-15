@@ -92,6 +92,11 @@ export class AdminCoreService {
             const searchTerm = `%${params.search.trim()}%`
             conditions.push(or(ilike(adminsTable.name, searchTerm)))
         }
+        if (params.email) {
+            conditions.push(
+                ilike(adminsTable.email, `%${params.email.trim()}%`),
+            )
+        }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(adminsTable.id, params.ids))
         }
