@@ -12,14 +12,14 @@ import {
     zQueryAccounts,
     zSelectAccount,
     zUpdateAccount,
-} from './account-base.model'
-import { AccountBaseService } from './account-base.service'
+} from './account-core.model'
+import { AccountCoreService } from './account-core.service'
 
 const tags = [APP_OPENAPI_TAGS.Account]
-const path = '/basic/accounts'
+const path = '/core/accounts'
 const middleware = undefined // [checkToken, isAdmin]
 
-const crudGetAccountsRoute = createRoute({
+const GetAccountListCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.GET,
@@ -32,12 +32,12 @@ const crudGetAccountsRoute = createRoute({
     },
 })
 
-const crudGetAccountsHandler: AppRouteHandler<
-    typeof crudGetAccountsRoute
+const GetAccountListCore: AppRouteHandler<
+    typeof GetAccountListCoreDef
 > = async (c) => {
     const { page, size, ...query } = c.req.valid('query')
-    const data = await AccountBaseService.findMany(query)
-    const count = await AccountBaseService.count(query)
+    const data = await AccountCoreService.findMany(query)
+    const count = await AccountCoreService.count(query)
 
     return c.json(
         {
@@ -50,7 +50,7 @@ const crudGetAccountsHandler: AppRouteHandler<
     )
 }
 
-const crudGetAccountByIdRoute = createRoute({
+const GetAccountByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
@@ -64,11 +64,11 @@ const crudGetAccountByIdRoute = createRoute({
     },
 })
 
-const crudGetAccountByIdHandler: AppRouteHandler<
-    typeof crudGetAccountByIdRoute
+const GetAccountByIdCore: AppRouteHandler<
+    typeof GetAccountByIdCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const account = await AccountBaseService.findById(id)
+    const account = await AccountCoreService.findById(id)
 
     if (!account) {
         return c.json(
@@ -91,7 +91,7 @@ const crudGetAccountByIdHandler: AppRouteHandler<
     )
 }
 
-const crudCreateAccountRoute = createRoute({
+const CreateAccountCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.POST,
@@ -104,11 +104,11 @@ const crudCreateAccountRoute = createRoute({
     },
 })
 
-const crudCreateAccountHandler: AppRouteHandler<
-    typeof crudCreateAccountRoute
-> = async (c) => {
+const CreateAccountCore: AppRouteHandler<typeof CreateAccountCoreDef> = async (
+    c,
+) => {
     const body = c.req.valid('json')
-    const newAccount = await AccountBaseService.create(body)
+    const newAccount = await AccountCoreService.create(body)
 
     return c.json(
         {
@@ -120,7 +120,7 @@ const crudCreateAccountHandler: AppRouteHandler<
     )
 }
 
-const crudUpdateAccountRoute = createRoute({
+const UpdateAccountCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
@@ -135,12 +135,12 @@ const crudUpdateAccountRoute = createRoute({
     },
 })
 
-const crudUpdateAccountHandler: AppRouteHandler<
-    typeof crudUpdateAccountRoute
-> = async (c) => {
+const UpdateAccountCore: AppRouteHandler<typeof UpdateAccountCoreDef> = async (
+    c,
+) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
-    const existingAccount = await AccountBaseService.findById(id)
+    const existingAccount = await AccountCoreService.findById(id)
 
     if (!existingAccount) {
         return c.json(
@@ -153,7 +153,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
         )
     }
 
-    const updatedAccount = await AccountBaseService.update(id, body)
+    const updatedAccount = await AccountCoreService.update(id, body)
 
     return c.json(
         {
@@ -165,7 +165,7 @@ const crudUpdateAccountHandler: AppRouteHandler<
     )
 }
 
-const crudDeleteAccountRoute = createRoute({
+const DeleteAccountCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
@@ -179,11 +179,11 @@ const crudDeleteAccountRoute = createRoute({
     },
 })
 
-const crudDeleteAccountHandler: AppRouteHandler<
-    typeof crudDeleteAccountRoute
-> = async (c) => {
+const DeleteAccountCore: AppRouteHandler<typeof DeleteAccountCoreDef> = async (
+    c,
+) => {
     const { id } = c.req.valid('param')
-    const existingAccount = await AccountBaseService.findById(id)
+    const existingAccount = await AccountCoreService.findById(id)
 
     if (!existingAccount) {
         return c.json(
@@ -196,7 +196,7 @@ const crudDeleteAccountHandler: AppRouteHandler<
         )
     }
 
-    await AccountBaseService.delete(id)
+    await AccountCoreService.delete(id)
 
     return c.json(
         {
@@ -208,7 +208,7 @@ const crudDeleteAccountHandler: AppRouteHandler<
     )
 }
 
-const crudDeleteMultipleAccountsRoute = createRoute({
+const DeleteManyAccountsCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.DELETE,
@@ -221,12 +221,12 @@ const crudDeleteMultipleAccountsRoute = createRoute({
     },
 })
 
-const crudDeleteMultipleAccountsHandler: AppRouteHandler<
-    typeof crudDeleteMultipleAccountsRoute
+const DeleteManyAccountsCore: AppRouteHandler<
+    typeof DeleteManyAccountsCoreDef
 > = async (c) => {
     const { ids } = c.req.valid('json')
 
-    await AccountBaseService.deleteMany(ids)
+    await AccountCoreService.deleteMany(ids)
 
     return c.json(
         {
@@ -238,10 +238,10 @@ const crudDeleteMultipleAccountsHandler: AppRouteHandler<
     )
 }
 
-export const accountBaseRoutes = createRouter()
-    .openapi(crudDeleteAccountRoute, crudDeleteAccountHandler)
-    .openapi(crudDeleteMultipleAccountsRoute, crudDeleteMultipleAccountsHandler)
-    .openapi(crudUpdateAccountRoute, crudUpdateAccountHandler)
-    .openapi(crudCreateAccountRoute, crudCreateAccountHandler)
-    .openapi(crudGetAccountByIdRoute, crudGetAccountByIdHandler)
-    .openapi(crudGetAccountsRoute, crudGetAccountsHandler)
+export const accountCoreRoutes = createRouter()
+    .openapi(DeleteAccountCoreDef, DeleteAccountCore)
+    .openapi(DeleteManyAccountsCoreDef, DeleteManyAccountsCore)
+    .openapi(UpdateAccountCoreDef, UpdateAccountCore)
+    .openapi(CreateAccountCoreDef, CreateAccountCore)
+    .openapi(GetAccountByIdCoreDef, GetAccountByIdCore)
+    .openapi(GetAccountListCoreDef, GetAccountListCore)

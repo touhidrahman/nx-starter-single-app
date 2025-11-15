@@ -11,50 +11,50 @@ import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/token.util'
 import {
-    zInsertTransaction,
-    zQueryTransactions,
-    zSelectTransaction,
-    zUpdateTransaction,
-} from '../basic/transaction-basic.model'
-import { TransactionCommonService } from './transaction-common.service'
+    zInsertAccount,
+    zQueryAccounts,
+    zSelectAccount,
+    zUpdateAccount,
+} from '../core/account-core.model'
+import { AccountCrudService } from './account-crud.service'
 
-const tags = [APP_OPENAPI_TAGS.Transaction]
-const path = '/common/transactions'
+const tags = [APP_OPENAPI_TAGS.Account]
+const path = '/crud/accounts'
 
-const GetTransactionListDef = createRoute({
+const GetAccountListCrudDef = createRoute({
     path: path,
     tags,
     method: REQ_METHOD.GET,
     middleware: [checkToken] as const,
     request: {
-        query: zQueryTransactions,
+        query: zQueryAccounts,
     },
     responses: {
-        [OK]: ApiListResponse(z.array(zSelectTransaction), 'Transaction List'),
+        [OK]: ApiListResponse(z.array(zSelectAccount), 'Account List'),
     },
 })
 
-const GetTransactionList: AppRouteHandler<
-    typeof GetTransactionListDef
+const GetAccountListCrud: AppRouteHandler<
+    typeof GetAccountListCrudDef
 > = async (c) => {
     const { page, size, ...query } = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
-    const data = await TransactionCommonService.findMany(groupSpecificQuery)
-    const count = await TransactionCommonService.count(groupSpecificQuery)
+    const data = await AccountCrudService.findMany(groupSpecificQuery)
+    const count = await AccountCrudService.count(groupSpecificQuery)
 
     return c.json(
         {
             data,
             pagination: buildPaginationResponse(page, size, count),
-            message: 'Transaction list fetched successfully',
+            message: 'Account list fetched successfully',
             success: true,
         },
         OK,
     )
 }
 
-const GetTransactionDef = createRoute({
+const GetAccountCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
@@ -63,90 +63,84 @@ const GetTransactionDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectAccount, 'Account'),
     },
 })
 
-const GetTransaction: AppRouteHandler<typeof GetTransactionDef> = async (c) => {
+const GetAccountCrud: AppRouteHandler<typeof GetAccountCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
-    const existing = await TransactionCommonService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await AccountCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
 
     return c.json(
         {
             data: existing,
-            message: 'Transaction fetched successfully',
+            message: 'Account fetched successfully',
             success: true,
         },
         OK,
     )
 }
 
-const CreateTransactionDef = createRoute({
+const CreateAccountCrudDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.POST,
     middleware: [checkToken] as const,
     request: {
-        body: jsonContent(zInsertTransaction, 'Input'),
+        body: jsonContent(zInsertAccount, 'Input'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectAccount, 'Account'),
     },
 })
 
-const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (
+const CreateAccountCrud: AppRouteHandler<typeof CreateAccountCrudDef> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
-    const data = await TransactionCommonService.create({ ...input, groupId })
+    const data = await AccountCrudService.create({ ...input, groupId })
 
     return c.json(
         {
             data,
-            message: 'Transaction created successfully',
+            message: 'Account created successfully',
             success: true,
         },
         OK,
     )
 }
 
-const UpdateTransactionDef = createRoute({
+const UpdateAccountCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
     middleware: [checkToken] as const,
     request: {
         params: zId,
-        body: jsonContent(zUpdateTransaction, 'Input'),
+        body: jsonContent(zUpdateAccount, 'Input'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectAccount, 'Account'),
     },
 })
 
-const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (
+const UpdateAccountCrud: AppRouteHandler<typeof UpdateAccountCrudDef> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
-    const existing = await TransactionCommonService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await AccountCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
 
     const input = c.req.valid('json')
-    const data = await TransactionCommonService.update(existing.id, {
+    const data = await AccountCrudService.update(existing.id, {
         ...input,
         groupId,
     })
@@ -154,14 +148,14 @@ const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (
     return c.json(
         {
             data,
-            message: 'Transaction updated successfully',
+            message: 'Account updated successfully',
             success: true,
         },
         OK,
     )
 }
 
-const DeleteTransactionDef = createRoute({
+const DeleteAccountCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
@@ -170,37 +164,34 @@ const DeleteTransactionDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Item'),
+        [OK]: ApiResponse(zEmpty, 'Account'),
     },
 })
 
-const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
+const DeleteAccountCrud: AppRouteHandler<typeof DeleteAccountCrudDef> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
-    const existing = await TransactionCommonService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await AccountCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
-    await TransactionCommonService.delete(existing.id)
+    await AccountCrudService.delete(existing.id)
 
     return c.json(
         {
             data: {},
-            message: 'Transaction deleted successfully',
+            message: 'Account deleted successfully',
             success: true,
         },
         OK,
     )
 }
 
-export const transactionCommonRoutes = createRouter()
-    .openapi(GetTransactionListDef, GetTransactionList)
-    .openapi(CreateTransactionDef, CreateTransaction)
-    .openapi(UpdateTransactionDef, UpdateTransaction)
-    .openapi(DeleteTransactionDef, DeleteTransaction)
-    .openapi(GetTransactionDef, GetTransaction)
+export const accountCrudRoutes = createRouter()
+    .openapi(GetAccountListCrudDef, GetAccountListCrud)
+    .openapi(CreateAccountCrudDef, CreateAccountCrud)
+    .openapi(UpdateAccountCrudDef, UpdateAccountCrud)
+    .openapi(DeleteAccountCrudDef, DeleteAccountCrud)
+    .openapi(GetAccountCrudDef, GetAccountCrud)

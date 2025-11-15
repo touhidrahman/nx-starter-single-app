@@ -1,6 +1,6 @@
 import { SelectAccount } from '../base/account-base.model'
-import { ACCOUNT_TYPE } from '../common/account-common.model'
-import { AccountCommonService } from '../common/account-common.service'
+import { ACCOUNT_TYPE } from '../crud/account-crud.model'
+import { AccountCrudService } from '../crud/account-crud.service'
 import {
     InsertBankAccount,
     InsertCardAccount,
@@ -10,11 +10,11 @@ import {
     UpdateLoanAccount,
 } from './account-custom.model'
 
-export class AccountCustomService extends AccountCommonService {
+export class AccountCustomService extends AccountCrudService {
     static async createCardAccount(
         input: InsertCardAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.create({
+        return AccountCrudService.create({
             ...input,
             type: ACCOUNT_TYPE.CARD,
         })
@@ -23,7 +23,7 @@ export class AccountCustomService extends AccountCommonService {
     static async createBankAccount(
         input: InsertBankAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.create({
+        return AccountCrudService.create({
             ...input,
             type: ACCOUNT_TYPE.BANK,
         })
@@ -32,7 +32,7 @@ export class AccountCustomService extends AccountCommonService {
     static async createLoanAccount(
         input: InsertLoanAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.create({
+        return AccountCrudService.create({
             ...input,
             type: ACCOUNT_TYPE.LOAN,
         })
@@ -42,20 +42,20 @@ export class AccountCustomService extends AccountCommonService {
         id: string,
         input: UpdateCardAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.update(id, { ...input })
+        return AccountCrudService.update(id, { ...input })
     }
 
     static async updateBankAccount(
         id: string,
         input: UpdateBankAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.update(id, { ...input })
+        return AccountCrudService.update(id, { ...input })
     }
 
     static async updateLoanAccount(
         id: string,
         input: UpdateLoanAccount,
     ): Promise<SelectAccount> {
-        return AccountCommonService.update(id, { ...input })
+        return AccountCrudService.update(id, { ...input })
     }
 }

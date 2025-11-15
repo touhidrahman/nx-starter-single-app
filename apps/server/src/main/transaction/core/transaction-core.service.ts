@@ -6,13 +6,13 @@ import {
     InsertTransaction,
     QueryTransactions,
     SelectTransaction,
-} from './transaction-basic.model'
+} from './transaction-core.model'
 
-export class TransactionBasicService {
+export class TransactionCoreService {
     static async findMany(
         filters: QueryTransactions,
     ): Promise<SelectTransaction[]> {
-        const conditions = TransactionBasicService.buildWhereConditions(filters)
+        const conditions = TransactionCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
         const transactions = await db
@@ -27,7 +27,7 @@ export class TransactionBasicService {
     static async findOne(
         filters: QueryTransactions,
     ): Promise<SelectTransaction | null> {
-        const conditions = TransactionBasicService.buildWhereConditions(filters)
+        const conditions = TransactionCoreService.buildWhereConditions(filters)
         const transactions = await db
             .select()
             .from(transactionsTable)
@@ -46,7 +46,7 @@ export class TransactionBasicService {
     }
 
     static async count(filters: QueryTransactions): Promise<number> {
-        const conditions = TransactionBasicService.buildWhereConditions(filters)
+        const conditions = TransactionCoreService.buildWhereConditions(filters)
 
         const [{ count }] = await db
             .select({ count: sql<number>`count(${transactionsTable.id})` })
@@ -89,11 +89,11 @@ export class TransactionBasicService {
         id: string,
         input: InsertTransaction,
     ): Promise<SelectTransaction> {
-        const existingTransaction = await TransactionBasicService.findById(id)
+        const existingTransaction = await TransactionCoreService.findById(id)
         if (existingTransaction) {
-            return TransactionBasicService.update(id, input)
+            return TransactionCoreService.update(id, input)
         }
-        return TransactionBasicService.create(input)
+        return TransactionCoreService.create(input)
     }
 
     static async delete(id: string): Promise<void> {

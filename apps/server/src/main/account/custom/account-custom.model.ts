@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { zInsertAccount } from '../base/account-base.model'
+import { zInsertAccount } from '../core/account-core.model'
 
 export type InsertCardAccount = z.infer<typeof zInsertCardAccount>
 export type UpdateCardAccount = z.infer<typeof zUpdateCardAccount>

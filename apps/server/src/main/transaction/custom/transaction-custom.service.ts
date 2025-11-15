@@ -1,3 +1,3 @@
-import { TransactionCommonService } from '../common/transaction-common.service'
+import { TransactionCrudService } from '../crud/transaction-crud.service'
 
-export class TransactionCustomService extends TransactionCommonService {}
+export class TransactionCustomService extends TransactionCrudService {}

@@ -12,14 +12,14 @@ import {
     zQueryTransactions,
     zSelectTransaction,
     zUpdateTransaction,
-} from './transaction-basic.model'
-import { TransactionBasicService } from './transaction-basic.service'
+} from './transaction-core.model'
+import { TransactionCoreService } from './transaction-core.service'
 
 const tags = [APP_OPENAPI_TAGS.Transaction]
-const path = '/basic/transactions'
+const path = '/core/transactions'
 const middleware = undefined // [checkToken, isAdmin]
 
-const GetTransactionListBasicDef = createRoute({
+const GetTransactionListCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.GET,
@@ -32,12 +32,12 @@ const GetTransactionListBasicDef = createRoute({
     },
 })
 
-const GetTransactionListBasic: AppRouteHandler<
-    typeof GetTransactionListBasicDef
+const GetTransactionListCore: AppRouteHandler<
+    typeof GetTransactionListCoreDef
 > = async (c) => {
     const { page, size, ...query } = c.req.valid('query')
-    const data = await TransactionBasicService.findMany(query)
-    const count = await TransactionBasicService.count(query)
+    const data = await TransactionCoreService.findMany(query)
+    const count = await TransactionCoreService.count(query)
 
     return c.json(
         {
@@ -50,7 +50,7 @@ const GetTransactionListBasic: AppRouteHandler<
     )
 }
 
-const GetTransactionByIdBasicDef = createRoute({
+const GetTransactionByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
@@ -64,11 +64,11 @@ const GetTransactionByIdBasicDef = createRoute({
     },
 })
 
-const GetTransactionByIdBasic: AppRouteHandler<
-    typeof GetTransactionByIdBasicDef
+const GetTransactionByIdCore: AppRouteHandler<
+    typeof GetTransactionByIdCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const transaction = await TransactionBasicService.findById(id)
+    const transaction = await TransactionCoreService.findById(id)
 
     if (!transaction) {
         return c.json(
@@ -91,7 +91,7 @@ const GetTransactionByIdBasic: AppRouteHandler<
     )
 }
 
-const CreateTransactionBasicDef = createRoute({
+const CreateTransactionCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.POST,
@@ -107,11 +107,11 @@ const CreateTransactionBasicDef = createRoute({
     },
 })
 
-const CreateTransactionBasic: AppRouteHandler<
-    typeof CreateTransactionBasicDef
+const CreateTransactionCore: AppRouteHandler<
+    typeof CreateTransactionCoreDef
 > = async (c) => {
     const body = c.req.valid('json')
-    const newTransaction = await TransactionBasicService.create(body)
+    const newTransaction = await TransactionCoreService.create(body)
 
     return c.json(
         {
@@ -123,7 +123,7 @@ const CreateTransactionBasic: AppRouteHandler<
     )
 }
 
-const UpdateTransactionBasicDef = createRoute({
+const UpdateTransactionCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
@@ -141,12 +141,12 @@ const UpdateTransactionBasicDef = createRoute({
     },
 })
 
-const UpdateTransactionBasic: AppRouteHandler<
-    typeof UpdateTransactionBasicDef
+const UpdateTransactionCore: AppRouteHandler<
+    typeof UpdateTransactionCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
-    const existingTransaction = await TransactionBasicService.findById(id)
+    const existingTransaction = await TransactionCoreService.findById(id)
 
     if (!existingTransaction) {
         return c.json(
@@ -159,7 +159,7 @@ const UpdateTransactionBasic: AppRouteHandler<
         )
     }
 
-    const updatedTransaction = await TransactionBasicService.update(id, body)
+    const updatedTransaction = await TransactionCoreService.update(id, body)
 
     return c.json(
         {
@@ -171,7 +171,7 @@ const UpdateTransactionBasic: AppRouteHandler<
     )
 }
 
-const DeleteTransactionBasicDef = createRoute({
+const DeleteTransactionCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
@@ -185,11 +185,11 @@ const DeleteTransactionBasicDef = createRoute({
     },
 })
 
-const DeleteTransactionBasic: AppRouteHandler<
-    typeof DeleteTransactionBasicDef
+const DeleteTransactionCore: AppRouteHandler<
+    typeof DeleteTransactionCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const existingTransaction = await TransactionBasicService.findById(id)
+    const existingTransaction = await TransactionCoreService.findById(id)
 
     if (!existingTransaction) {
         return c.json(
@@ -202,7 +202,7 @@ const DeleteTransactionBasic: AppRouteHandler<
         )
     }
 
-    await TransactionBasicService.delete(id)
+    await TransactionCoreService.delete(id)
 
     return c.json(
         {
@@ -214,7 +214,7 @@ const DeleteTransactionBasic: AppRouteHandler<
     )
 }
 
-const DeleteManyTransactionBasicDef = createRoute({
+const DeleteManyTransactionCoreDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.DELETE,
@@ -227,12 +227,12 @@ const DeleteManyTransactionBasicDef = createRoute({
     },
 })
 
-const DeleteManyTransactionBasic: AppRouteHandler<
-    typeof DeleteManyTransactionBasicDef
+const DeleteManyTransactionCore: AppRouteHandler<
+    typeof DeleteManyTransactionCoreDef
 > = async (c) => {
     const { ids } = c.req.valid('json')
 
-    await TransactionBasicService.deleteMany(ids)
+    await TransactionCoreService.deleteMany(ids)
 
     return c.json(
         {
@@ -244,10 +244,10 @@ const DeleteManyTransactionBasic: AppRouteHandler<
     )
 }
 
-export const transactionBasicRoutes = createRouter()
-    .openapi(DeleteTransactionBasicDef, DeleteTransactionBasic)
-    .openapi(DeleteManyTransactionBasicDef, DeleteManyTransactionBasic)
-    .openapi(UpdateTransactionBasicDef, UpdateTransactionBasic)
-    .openapi(CreateTransactionBasicDef, CreateTransactionBasic)
-    .openapi(GetTransactionByIdBasicDef, GetTransactionByIdBasic)
-    .openapi(GetTransactionListBasicDef, GetTransactionListBasic)
+export const transactionCoreRoutes = createRouter()
+    .openapi(DeleteTransactionCoreDef, DeleteTransactionCore)
+    .openapi(DeleteManyTransactionCoreDef, DeleteManyTransactionCore)
+    .openapi(UpdateTransactionCoreDef, UpdateTransactionCore)
+    .openapi(CreateTransactionCoreDef, CreateTransactionCore)
+    .openapi(GetTransactionByIdCoreDef, GetTransactionByIdCore)
+    .openapi(GetTransactionListCoreDef, GetTransactionListCore)

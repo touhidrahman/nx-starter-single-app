@@ -3,8 +3,8 @@ import { pad } from 'es-toolkit/string'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
-import { accountBaseRoutes } from './main/account/base/account-base.routes'
-import { accountCommonRoutes } from './main/account/common/account-common.routes'
+import { accountCoreRoutes } from './main/account/core/account-core.routes'
+import { accountCrudRoutes } from './main/account/crud/account-crud.routes'
 import { adminUserV1Routes } from './main/admin/admin-user.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authV1Routes } from './main/auth/auth.routes'
@@ -20,8 +20,8 @@ import { referralCodeV1Routes } from './main/referral/referral.routes'
 import { roleV1Routes } from './main/role/role.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
-import { transactionBasicRoutes } from './main/transaction/basic/transaction-basic.routes'
-import { transactionCommonRoutes } from './main/transaction/common/transaction-common.routes'
+import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
+import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
 import { userV1Routes } from './main/user/user.routes'
 import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 
@@ -29,8 +29,8 @@ const app = createApp()
 
 const routes = [
     coreRoutes,
-    accountBaseRoutes,
-    accountCommonRoutes,
+    accountCoreRoutes,
+    accountCrudRoutes,
     adminUserV1Routes,
     authV1Routes,
     claimV1Routes,
@@ -46,8 +46,8 @@ const routes = [
     roleV1Routes,
     storageV1Routes,
     subscriptionV1Route,
-    transactionBasicRoutes,
-    transactionCommonRoutes,
+    transactionCoreRoutes,
+    transactionCrudRoutes,
     userSettingsV1Routes,
     userV1Routes,
 ]

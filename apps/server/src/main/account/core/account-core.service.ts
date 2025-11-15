@@ -6,11 +6,11 @@ import {
     InsertAccount,
     QueryAccounts,
     SelectAccount,
-} from './account-base.model'
+} from './account-core.model'
 
-export class AccountBaseService {
+export class AccountCoreService {
     static async findMany(filters: QueryAccounts): Promise<SelectAccount[]> {
-        const conditions = AccountBaseService.buildWhereConditions(filters)
+        const conditions = AccountCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
         const accounts = await db
@@ -25,7 +25,7 @@ export class AccountBaseService {
     static async findOne(
         filters: QueryAccounts,
     ): Promise<SelectAccount | null> {
-        const conditions = AccountBaseService.buildWhereConditions(filters)
+        const conditions = AccountCoreService.buildWhereConditions(filters)
         const accounts = await db
             .select()
             .from(accountsTable)
@@ -44,7 +44,7 @@ export class AccountBaseService {
     }
 
     static async count(filters: QueryAccounts): Promise<number> {
-        const conditions = AccountBaseService.buildWhereConditions(filters)
+        const conditions = AccountCoreService.buildWhereConditions(filters)
 
         const [{ count }] = await db
             .select({ count: sql<number>`count(${accountsTable.id})` })
@@ -85,11 +85,11 @@ export class AccountBaseService {
         id: string,
         input: InsertAccount,
     ): Promise<SelectAccount> {
-        const existingAccount = await AccountBaseService.findById(id)
+        const existingAccount = await AccountCoreService.findById(id)
         if (existingAccount) {
-            return AccountBaseService.update(id, input)
+            return AccountCoreService.update(id, input)
         }
-        return AccountBaseService.create(input)
+        return AccountCoreService.create(input)
     }
 
     static async delete(id: string): Promise<void> {
