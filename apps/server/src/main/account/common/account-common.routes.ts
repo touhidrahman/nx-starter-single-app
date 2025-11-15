@@ -16,10 +16,10 @@ import {
     zSelectAccount,
     zUpdateAccount,
 } from '../base/account-base.model'
-import { AccountService } from './account.service'
+import { AccountCommonService } from './account-common.service'
 
 const tags = [APP_OPENAPI_TAGS.ACCOUNT]
-const path = '/main/accounts'
+const path = '/accounts/common'
 
 const getAccountListRoute = createRoute({
     path: path,
@@ -40,8 +40,8 @@ const getAccountListHandler: AppRouteHandler<
     const { page, size, ...query } = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
-    const data = await AccountService.findMany(groupSpecificQuery)
-    const count = await AccountService.count(groupSpecificQuery)
+    const data = await AccountCommonService.findMany(groupSpecificQuery)
+    const count = await AccountCommonService.count(groupSpecificQuery)
 
     return c.json(
         {
@@ -55,13 +55,12 @@ const getAccountListHandler: AppRouteHandler<
 }
 
 const getAccountRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
     middleware: [checkToken] as const,
     request: {
         params: zId,
-        body: jsonContent(zUpdateAccount, 'Input'),
     },
     responses: {
         [OK]: ApiResponse(zSelectAccount, 'Item'),
@@ -72,8 +71,8 @@ const getAccountHandler: AppRouteHandler<typeof getAccountRoute> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
-    const input = c.req.valid('json')
-    const existing = await AccountService.findById(c.req.valid('param').id)
+    const id = c.req.valid('param').id
+    const existing = await AccountCommonService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
@@ -106,7 +105,7 @@ const createAccountHandler: AppRouteHandler<typeof createAccountRoute> = async (
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
-    const data = await AccountService.create({ ...input, groupId })
+    const data = await AccountCommonService.create({ ...input, groupId })
 
     return c.json(
         {
@@ -119,7 +118,7 @@ const createAccountHandler: AppRouteHandler<typeof createAccountRoute> = async (
 }
 
 const updateAccountRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
     middleware: [checkToken] as const,
@@ -136,12 +135,17 @@ const updateAccountHandler: AppRouteHandler<typeof updateAccountRoute> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
-    const input = c.req.valid('json')
-    const existing = await AccountService.findById(c.req.valid('param').id)
+    const id = c.req.valid('param').id
+    const existing = await AccountCommonService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
-    const data = await AccountService.update(existing.id, { ...input, groupId })
+
+    const input = c.req.valid('json')
+    const data = await AccountCommonService.update(existing.id, {
+        ...input,
+        groupId,
+    })
 
     return c.json(
         {
@@ -154,7 +158,7 @@ const updateAccountHandler: AppRouteHandler<typeof updateAccountRoute> = async (
 }
 
 const deleteAccountRoute = createRoute({
-    path: path + '/:id',
+    path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
     middleware: [checkToken] as const,
@@ -170,11 +174,12 @@ const deleteAccountHandler: AppRouteHandler<typeof deleteAccountRoute> = async (
     c,
 ) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
-    const existing = await AccountService.findById(c.req.valid('param').id)
+    const id = c.req.valid('param').id
+    const existing = await AccountCommonService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
     }
-    await AccountService.delete(existing.id)
+    await AccountCommonService.delete(existing.id)
 
     return c.json(
         {
@@ -186,7 +191,7 @@ const deleteAccountHandler: AppRouteHandler<typeof deleteAccountRoute> = async (
     )
 }
 
-export const commonAccountRoutes = createRouter()
+export const accountCommonRoutes = createRouter()
     .openapi(getAccountListRoute, getAccountListHandler)
     .openapi(createAccountRoute, createAccountHandler)
     .openapi(updateAccountRoute, updateAccountHandler)

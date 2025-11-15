@@ -16,7 +16,7 @@ import {
 import { AccountBaseService } from './account-base.service'
 
 const tags = [APP_OPENAPI_TAGS.ACCOUNT]
-const path = '/crud/accounts'
+const path = '/accounts/basic'
 const middleware = undefined // [checkToken, isAdmin]
 
 const crudGetAccountsRoute = createRoute({
@@ -238,7 +238,7 @@ const crudDeleteMultipleAccountsHandler: AppRouteHandler<
     )
 }
 
-export const baseAccountRoutes = createRouter()
+export const accountBaseRoutes = createRouter()
     .openapi(crudDeleteAccountRoute, crudDeleteAccountHandler)
     .openapi(crudDeleteMultipleAccountsRoute, crudDeleteMultipleAccountsHandler)
     .openapi(crudUpdateAccountRoute, crudUpdateAccountHandler)

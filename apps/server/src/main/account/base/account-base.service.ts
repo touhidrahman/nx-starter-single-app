@@ -22,6 +22,18 @@ export class AccountBaseService {
         return accounts
     }
 
+    static async findOne(
+        filters: QueryAccounts,
+    ): Promise<SelectAccount | null> {
+        const conditions = AccountBaseService.buildWhereConditions(filters)
+        const accounts = await db
+            .select()
+            .from(accountsTable)
+            .where(conditions)
+            .limit(1)
+        return accounts[0] ?? null
+    }
+
     static async findById(id: string): Promise<SelectAccount | null> {
         const account = await db
             .select()

@@ -1,7 +1,4 @@
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { accountsTable } from '../../../db/schema'
-import { zPagination, zSearch } from '../../../models/common.schema'
 import { zInsertAccount } from '../base/account-base.model'
 
 export type InsertCardAccount = z.infer<typeof zInsertCardAccount>
@@ -64,9 +61,3 @@ export const zInsertLoanAccount = zInsertAccount
     .extend(zCommonInsertAccount.shape)
 
 export const zUpdateLoanAccount = zInsertLoanAccount.partial()
-
-export const ACCOUNT_TYPE = {
-    CARD: 1,
-    BANK: 2,
-    LOAN: 3,
-} as const
