@@ -9,7 +9,7 @@ import { findUserById } from '../user.service'
 import { passwordRemoved } from '../user.util'
 
 export const getUserRoute = createRoute({
-    path: '/v1/users/:id',
+    path: '/users/:id',
     method: 'get',
     tags: ['User'],
     middleware: [checkToken, checkPermission({ and: ['user:read'] })] as const,

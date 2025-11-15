@@ -18,7 +18,7 @@ import { zSelectRole, zUpdateRole } from '../role.schema'
 import { findRoleById, updateRole } from '../role.service'
 
 export const updateRoleRoute = createRoute({
-    path: '/v1/roles/:id',
+    path: '/roles/:id',
     method: 'patch',
     tags: ['Role'],
     middleware: [

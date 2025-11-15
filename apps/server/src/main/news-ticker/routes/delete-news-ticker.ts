@@ -9,7 +9,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteNewsTicker, findNewsTickerById } from '../news-ticker.service'
 
 export const deleteNewsTickerRoute = createRoute({
-    path: '/v1/news-tickers/:id',
+    path: '/news-tickers/:id',
     method: 'delete',
     tags: ['News Ticker'],
     middleware: [checkToken, isAdmin] as const,

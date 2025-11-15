@@ -17,7 +17,7 @@ import { zSelectFeedback, zUpdateFeedback } from '../feedback.schema'
 import { findFeedbackById, updateFeedback } from '../feedback.service'
 
 export const updateFeedbackRoute = createRoute({
-    path: '/v1/feedback/:id',
+    path: '/feedback/:id',
     method: 'patch',
     tags: ['Feedback'],
     middleware: [checkToken, isAdmin] as const,

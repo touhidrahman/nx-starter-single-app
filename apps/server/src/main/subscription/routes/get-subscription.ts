@@ -9,7 +9,7 @@ import { zSelectSubscription } from '../subscription.schema'
 import { findSubscriptionById } from '../subscriptions.service'
 
 export const getSubscriptionRoute = createRoute({
-    path: '/v1/subscriptions/:id',
+    path: '/subscriptions/:id',
     tags: ['Subscriptions'],
     method: 'get',
     middleware: [checkToken, isAdmin] as const,

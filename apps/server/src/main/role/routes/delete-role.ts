@@ -20,7 +20,7 @@ import { zSelectRole } from '../role.schema'
 import { findRoleById } from '../role.service'
 
 export const deleteRoleRoute = createRoute({
-    path: '/v1/roles/:id',
+    path: '/roles/:id',
     method: 'delete',
     tags: ['Role'],
     middleware: [

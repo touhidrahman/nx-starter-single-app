@@ -9,7 +9,7 @@ import { zSelectAdmin } from '../admin.schema'
 import { adminUserExists, getAdminUserById } from '../admin-user.service'
 
 export const getAdminUserRoute = createRoute({
-    path: '/v1/admins/:id',
+    path: '/admin/:id',
     method: 'get',
     tags: ['Admin'],
     middleware: [checkToken, isAdmin] as const,

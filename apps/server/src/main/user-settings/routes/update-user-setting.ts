@@ -16,7 +16,7 @@ import {
 import { upsertUserSetting } from '../user-setting.service'
 
 export const userSettingsRoute = createRoute({
-    path: '/v1/user-settings/:userId',
+    path: '/user-settings/:userId',
     method: 'put',
     tags: ['User Settings'],
     request: {

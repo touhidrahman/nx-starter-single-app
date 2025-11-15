@@ -6,7 +6,7 @@ import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectClaim } from '../claim.schema'
 import { findAllClaims } from '../claim.service'
 export const listClaimsRoute = createRoute({
-    path: '/v1/claims',
+    path: '/claims',
     method: 'get',
     tags: ['Claims'],
     middleware: [checkToken],

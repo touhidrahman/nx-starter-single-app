@@ -15,7 +15,7 @@ import {
 } from '../refferal.service'
 
 export const generateReferralCodeRoute = createRoute({
-    path: '/v1/referral-code/generate',
+    path: '/referral-code/generate',
     method: 'post',
     tags: ['Referral Code'],
     middleware: [checkToken, isGroupOwner] as const,

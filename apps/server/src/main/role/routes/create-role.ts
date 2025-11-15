@@ -17,7 +17,7 @@ import { zInsertRole, zSelectRole } from '../role.schema'
 import { createRole } from '../role.service'
 
 export const createRoleRoute = createRoute({
-    path: '/v1/roles',
+    path: '/roles',
     method: 'post',
     tags: ['Role'],
     middleware: [

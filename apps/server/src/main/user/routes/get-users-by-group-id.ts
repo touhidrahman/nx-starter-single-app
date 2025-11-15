@@ -10,7 +10,7 @@ import { getUsersByGroupId } from '../user.service'
 
 export const getUsersByGroupIdRoute = createRoute({
     //TODO : group/:id/users
-    path: '/v1/users/group-user/:id',
+    path: '/users/group-user/:id',
     method: 'get',
     tags: ['User'],
     //TODO : Add User Claim - user:read

@@ -10,7 +10,7 @@ import { saveLog } from '../../audit-log/audit-log.service'
 import { deleteManySubscriptionsByIds } from '../subscriptions.service'
 
 export const deleteAllSubscriptionRoute = createRoute({
-    path: '/v1/subscriptions',
+    path: '/subscriptions',
     method: 'delete',
     tags: ['Subscriptions'],
     middleware: [checkToken, isAdmin] as const,

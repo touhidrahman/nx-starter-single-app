@@ -10,7 +10,7 @@ import { zSelectInvite } from '../invite.schema'
 import { getAllInvites } from '../invite.service'
 
 export const getInvitesRoute = createRoute({
-    path: '/v1/invites',
+    path: '/invites',
     method: 'get',
     tags: ['Invite'],
     middleware: [every(checkToken, checkGroupId)] as const,

@@ -9,7 +9,7 @@ import { zInsertLog, zSelectLog } from '../audit-log.schema'
 import { createLog } from '../audit-log.service'
 
 export const createLogRoute = createRoute({
-    path: '/v1/logs',
+    path: '/logs',
     method: 'post',
     tags: ['Logs'],
     middleware: [checkToken] as const,

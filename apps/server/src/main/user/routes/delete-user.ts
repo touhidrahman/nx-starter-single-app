@@ -24,7 +24,7 @@ import {
 } from '../user.service'
 
 export const deleteUserRoute = createRoute({
-    path: '/v1/users/:id',
+    path: '/users/:id',
     method: 'delete',
     tags: ['User'],
     middleware: [checkToken, isAdmin] as const,

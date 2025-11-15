@@ -11,7 +11,7 @@ import { zSelectStorage } from '../storage.schema'
 import { deleteStorageItemById, getStorageItemById } from '../storage.service'
 
 export const deleteStorageItemRoute = createRoute({
-    path: '/v1/storage/:id',
+    path: '/storage/:id',
     tags: ['Storage'],
     method: 'delete',
     middleware: [checkToken] as const,

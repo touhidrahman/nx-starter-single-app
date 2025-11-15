@@ -8,7 +8,7 @@ import { insertPlan } from '../utils/seed.service'
 import { SEED_DATA_PLANS } from './seed-data'
 
 export const postSeedRoute = createRoute({
-    path: '/v1/seed',
+    path: '/seed',
     method: 'post',
     tags: ['Core'],
     request: {},

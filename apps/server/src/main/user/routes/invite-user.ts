@@ -9,7 +9,7 @@ import { zInsertInvite, zSelectInvite } from '../../invite/invite.schema'
 import { createInvite } from '../../invite/invite.service'
 
 export const inviteUserRoute = createRoute({
-    path: '/v1/invite',
+    path: '/invite',
     method: 'post',
     tags: ['User'],
     middleware: [

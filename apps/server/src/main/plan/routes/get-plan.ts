@@ -8,7 +8,7 @@ import { zSelectPlan } from '../plan.schema'
 import { findPlanById } from '../plan.service'
 
 export const getPlanRoute = createRoute({
-    path: '/v1/plans/:id',
+    path: '/plans/:id',
     method: 'get',
     tags: ['Plan'],
     middleware: [checkToken] as const,

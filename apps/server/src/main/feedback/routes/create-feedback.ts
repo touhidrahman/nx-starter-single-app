@@ -20,7 +20,7 @@ import {
 import { createFeedback } from '../feedback.service'
 
 export const createFeedbackRoute = createRoute({
-    path: '/v1/feedback',
+    path: '/feedback',
     method: 'post',
     tags: ['Feedback'],
     middleware: [checkToken] as const,

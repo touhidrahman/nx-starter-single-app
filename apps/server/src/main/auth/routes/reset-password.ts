@@ -19,7 +19,7 @@ import { decodeVerificationToken } from '../token.util'
 const tags = ['Auth']
 
 export const resetPasswordRoute = createRoute({
-    path: '/v1/auth/reset-password/:token',
+    path: '/auth/reset-password/:token',
     method: 'post',
     tags,
     request: {

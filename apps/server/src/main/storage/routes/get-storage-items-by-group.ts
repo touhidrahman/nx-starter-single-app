@@ -10,7 +10,7 @@ import { zSelectStorage } from '../storage.schema'
 import { getStorageItemsByGroup } from '../storage.service'
 
 export const getStorageItemsByGroupRoute = createRoute({
-    path: '/v1/storage',
+    path: '/storage',
     tags: ['Storage'],
     method: 'get',
     middleware: [every(checkToken, checkGroupId)] as const,

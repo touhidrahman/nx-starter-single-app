@@ -17,7 +17,7 @@ import { getAdminUserByEmail } from '../admin-user.service'
 const tags = ['Auth']
 
 export const adminLoginRoute = createRoute({
-    path: '/v1/admin/login',
+    path: '/admin/login',
     method: 'post',
     tags,
     request: {

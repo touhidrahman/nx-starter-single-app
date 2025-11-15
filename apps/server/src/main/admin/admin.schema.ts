@@ -1,6 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { adminsTable } from '../../db/schema'
+import { zPagination, zSearch } from '../../models/common.schema'
 
 export type InsertAdmin = typeof adminsTable.$inferInsert
 export type SelectAdmin = typeof adminsTable.$inferSelect
@@ -23,9 +24,6 @@ export const zSearchAdmin = zSelectAdmin
         email: true,
         name: true,
     })
-    .extend({
-        page: z.number().int().positive().optional(),
-        size: z.number().int().positive().optional(),
-        search: z.string().optional(),
-    })
+    .extend(zSearch.shape)
+    .extend(zPagination.shape)
     .partial()

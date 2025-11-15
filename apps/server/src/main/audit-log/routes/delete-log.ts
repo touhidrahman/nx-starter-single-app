@@ -8,7 +8,7 @@ import { ApiResponse } from '../../../utils/api-response.util'
 import { deleteLog, logExists } from '../audit-log.service'
 
 export const deleteLogRoute = createRoute({
-    path: '/v1/logs/:id',
+    path: '/logs/:id',
     method: 'delete',
     tags: ['Logs'],
     middleware: [checkToken] as const,

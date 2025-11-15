@@ -7,7 +7,7 @@ import { zSelectLog } from '../audit-log.schema'
 import { getAllLogs } from '../audit-log.service'
 
 export const getLogListRoute = createRoute({
-    path: '/v1/logs',
+    path: '/logs',
     method: 'get',
     tags: ['Logs'],
     middleware: [checkToken] as const,

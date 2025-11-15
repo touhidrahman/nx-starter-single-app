@@ -9,7 +9,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deletePlan, findPlanById } from '../plan.service'
 
 export const deletePlanRoute = createRoute({
-    path: '/v1/plans/:id',
+    path: '/plans/:id',
     method: 'delete',
     tags: ['Plan'],
     middleware: [checkToken, isAdmin] as const,

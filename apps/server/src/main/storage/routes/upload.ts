@@ -14,7 +14,7 @@ import {
 import { createStorageRecord } from '../storage.service'
 
 export const uploadRoute = createRoute({
-    path: '/v1/storage/upload',
+    path: '/storage/upload',
     tags: ['Storage'],
     method: 'post',
     middleware: [checkToken] as const,

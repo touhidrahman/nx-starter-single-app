@@ -6,7 +6,7 @@ import { zSelectPlan } from '../plan.schema'
 import { getAllPlans } from '../plan.service'
 
 export const getPlansRoute = createRoute({
-    path: '/v1/plans',
+    path: '/plans',
     method: 'get',
     tags: ['Plan'],
     request: {

@@ -8,7 +8,7 @@ import { zSelectStorage } from '../storage.schema'
 import { getStorageItemById } from '../storage.service'
 
 export const getStorageItemRoute = createRoute({
-    path: '/v1/storage/:id',
+    path: '/storage/:id',
     tags: ['Storage'],
     method: 'get',
     middleware: [checkToken] as const,

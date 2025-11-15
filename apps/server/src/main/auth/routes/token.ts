@@ -29,7 +29,7 @@ import {
 const tags = ['Auth']
 
 export const getTokenRoute = createRoute({
-    path: '/v1/auth/token',
+    path: '/auth/token',
     method: 'post',
     tags,
     middleware: [checkToken] as const,

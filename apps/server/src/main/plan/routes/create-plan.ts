@@ -15,7 +15,7 @@ import { InsertPlan, zInsertPlan, zSelectPlan } from '../plan.schema'
 import { createPlan, findPlanById } from '../plan.service'
 
 export const createPlanRoute = createRoute({
-    path: '/v1/plans',
+    path: '/plans',
     method: 'post',
     tags: ['Plan'],
     middleware: [checkToken, isAdmin] as const,

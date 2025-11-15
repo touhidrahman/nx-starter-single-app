@@ -24,7 +24,7 @@ import { decodeInvitationToken } from '../token.util'
 const tags = ['Auth']
 
 export const acceptInviteRoute = createRoute({
-    path: '/v1/auth/accept-invite',
+    path: '/auth/accept-invite',
     method: 'post',
     tags,
     request: {

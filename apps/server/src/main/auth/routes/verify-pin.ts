@@ -9,7 +9,7 @@ import { findUserById } from '../../user/user.service'
 import { findUserSettingsByUserId } from '../../user-settings/user-setting.service'
 
 export const verifyPinRoute = createRoute({
-    path: '/v1/auth/verify-pin',
+    path: '/auth/verify-pin',
     method: 'post',
     tags: ['User Settings'],
     middleware: [checkToken] as const,

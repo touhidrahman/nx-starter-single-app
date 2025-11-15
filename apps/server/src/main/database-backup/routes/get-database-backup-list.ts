@@ -9,7 +9,7 @@ import { zDdBackupRecord } from '../database-backup.schema'
 import { listDatabaseBackups } from '../database-backup.service'
 
 export const getDatabaseBackupListRoute = createRoute({
-    path: '/v1/database-backup',
+    path: '/database-backup',
     method: 'get',
     tags: ['Backup Database'],
     middleware: [checkToken, isAdmin] as const,

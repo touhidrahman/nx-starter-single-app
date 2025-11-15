@@ -9,7 +9,7 @@ import { zSelectUserSettings } from '../user-setting.schema'
 import { findUserSettingsByUserId } from '../user-setting.service'
 
 export const getUserSettingsRoute = createRoute({
-    path: '/v1/user-settings',
+    path: '/user-settings',
     method: 'get',
     tags: ['User Settings'],
     middleware: [checkToken] as const,

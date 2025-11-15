@@ -15,7 +15,7 @@ import {
 } from '../database-backup.service'
 
 export const downloadDatabaseBackupRoute = createRoute({
-    path: '/v1/database-backup/:fileName/download',
+    path: '/database-backup/:fileName/download',
     method: 'get',
     tags: ['Backup Database'],
     middleware: [checkToken, isAdmin] as const,

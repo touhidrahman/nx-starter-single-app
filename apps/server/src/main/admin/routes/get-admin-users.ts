@@ -8,7 +8,7 @@ import { zSearchAdmin, zSelectAdminWithoutPassword } from '../admin.schema'
 import { getAllAdmins, removeAdminPassword } from '../admin-user.service'
 
 export const getAdminUsersRoute = createRoute({
-    path: '/v1/admins',
+    path: '/admin',
     method: 'get',
     tags: ['Admin'],
     middleware: [checkToken, isAdmin] as const,
@@ -42,7 +42,6 @@ export const getAdminUsersHandler: AppRouteHandler<
         const userWithoutPassword = removeAdminPassword(user)
         return {
             ...userWithoutPassword,
-            status: userWithoutPassword.status ?? undefined,
             updatedAt: userWithoutPassword?.updatedAt?.toISOString() ?? null,
         }
     })

@@ -11,7 +11,7 @@ import { zSelectGroup } from '../group.schema'
 import { findGroupById } from '../group.service'
 
 export const getGroupByIDRoute = createRoute({
-    path: '/v1/groups/:id',
+    path: '/groups/:id',
     method: 'get',
     tags: ['Group'],
     middleware: [every(checkToken, some(isAdmin, isGroupOwner))] as const,

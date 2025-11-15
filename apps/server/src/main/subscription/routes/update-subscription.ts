@@ -20,7 +20,7 @@ import {
 } from '../subscriptions.service'
 
 export const updateSubscriptionRoute = createRoute({
-    path: '/v1/subscriptions/:id',
+    path: '/subscriptions/:id',
     method: 'patch',
     tags: ['Subscriptions'],
     middleware: [checkToken, isAdmin] as const,

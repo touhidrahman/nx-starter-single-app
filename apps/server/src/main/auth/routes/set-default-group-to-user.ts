@@ -9,7 +9,7 @@ import { zSelectUser } from '../../user/user.schema'
 import { setDefaultGroupId } from '../../user/user.service'
 
 export const setDefaultGroupRoute = createRoute({
-    path: '/v1/user/:id',
+    path: '/user/:id',
     tags: ['User'],
     method: 'post',
     middleware: [checkToken] as const,

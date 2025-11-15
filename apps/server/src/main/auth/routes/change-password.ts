@@ -16,7 +16,7 @@ import { zChangePassword } from '../auth.schema'
 const tags = ['Auth']
 
 export const changePasswordRoute = createRoute({
-    path: '/v1/auth/change-password',
+    path: '/auth/change-password',
     method: 'post',
     tags,
     request: {

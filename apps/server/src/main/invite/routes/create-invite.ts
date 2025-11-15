@@ -18,7 +18,7 @@ import { zCreateInvite, zSelectInvite } from '../invite.schema'
 import { checkGroupLimit, createInvite } from '../invite.service'
 
 export const createInviteRoute = createRoute({
-    path: '/v1/invites',
+    path: '/invites',
     method: 'post',
     tags: ['Invite'],
     middleware: [

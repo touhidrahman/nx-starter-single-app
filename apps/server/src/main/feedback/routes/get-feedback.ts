@@ -8,7 +8,7 @@ import { zSelectFeedback } from '../feedback.schema'
 import { findFeedbackById } from '../feedback.service'
 
 export const getFeedbackRoute = createRoute({
-    path: '/v1/feedback/:id',
+    path: '/feedback/:id',
     method: 'get',
     tags: ['Feedback'],
     middleware: [checkToken] as const,

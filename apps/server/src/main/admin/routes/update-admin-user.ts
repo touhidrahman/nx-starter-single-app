@@ -12,7 +12,7 @@ import { zSelectAdminWithoutPassword, zUpdateAdmin } from '../admin.schema'
 import { getAdminUserById, updateAdminUser } from '../admin-user.service'
 
 export const updateAdminUserRoute = createRoute({
-    path: '/v1/admins/:id',
+    path: '/admin/:id',
     method: 'put',
     tags: ['Admin'],
     middleware: [checkToken, isAdmin] as const,

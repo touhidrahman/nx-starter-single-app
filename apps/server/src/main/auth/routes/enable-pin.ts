@@ -12,7 +12,7 @@ import {
 } from '../../user-settings/user-setting.service'
 
 export const enablePinRoute = createRoute({
-    path: '/v1/auth/enable-pin',
+    path: '/auth/enable-pin',
     method: 'post',
     tags: ['User Settings'],
     middleware: [checkToken] as const,

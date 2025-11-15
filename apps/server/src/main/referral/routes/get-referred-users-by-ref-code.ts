@@ -9,7 +9,7 @@ import { zSelectReferredUsers } from '../referral.schema'
 import { getReferredUsers } from '../refferal.service'
 
 export const getReferredUsersRoute = createRoute({
-    path: '/v1/referred-users',
+    path: '/referred-users',
     method: 'get',
     tags: ['Referral Code'],
     middleware: [checkToken, isGroupOwner] as const,

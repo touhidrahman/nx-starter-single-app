@@ -16,7 +16,7 @@ import { zSelectNewsTicker, zUpdateNewsTicker } from '../news-ticker.schema'
 import { findNewsTickerById, updateNewsTicker } from '../news-ticker.service'
 
 export const updateNewsTickerRoute = createRoute({
-    path: '/v1/news-tickers/:id',
+    path: '/news-tickers/:id',
     method: 'patch',
     tags: ['News Ticker'],
     middleware: [checkToken, isAdmin] as const,

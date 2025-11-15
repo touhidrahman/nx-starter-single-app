@@ -8,7 +8,7 @@ import { zSelectGroup } from '../group.schema'
 import { countGroups, findManyGroups } from '../group.service'
 
 export const getGroupsRoute = createRoute({
-    path: '/v1/groups',
+    path: '/groups',
     tags: ['Group'],
     method: 'get',
     middleware: [checkToken] as const,

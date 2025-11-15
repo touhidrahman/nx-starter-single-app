@@ -1,5 +1,3 @@
-import { orderBy } from 'es-toolkit'
-import { sort } from 'radash'
 import { z } from 'zod'
 
 // Define a schema for a date-time string
@@ -32,8 +30,8 @@ export const zSearch = z.object({
 })
 
 export const zPagination = z.object({
-    page: z.coerce.number().min(1).optional(),
-    size: z.coerce.number().min(1).max(100).optional(),
+    page: z.coerce.number().int().min(1).optional(),
+    size: z.coerce.number().int().min(1).max(100).optional(),
     orderBy: z.string().optional(),
     sortOrder: z.enum(['asc', 'desc']).optional(),
 })

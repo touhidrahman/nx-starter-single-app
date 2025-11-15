@@ -8,7 +8,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteInvitation, findInvitationById } from '../invite.service'
 
 export const deleteInvitationRoute = createRoute({
-    path: '/v1/invites/:id',
+    path: '/invites/:id',
     method: 'delete',
     tags: ['Invite'],
     middleware: [

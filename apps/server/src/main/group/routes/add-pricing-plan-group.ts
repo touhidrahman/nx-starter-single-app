@@ -16,7 +16,7 @@ import { findPlanById } from '../../plan/plan.service'
 import { findGroupById } from '../group.service'
 
 export const addSubscriptionToGroupRoute = createRoute({
-    path: '/v1/groups/:id/add-subscription',
+    path: '/groups/:id/add-subscription',
     method: 'put',
     tags: ['Group'],
     middleware: [checkToken, isAdmin] as const,

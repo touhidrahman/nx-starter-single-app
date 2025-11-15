@@ -12,7 +12,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { changeUserRole } from '../user.service'
 
 export const changeUserRoleRoute = createRoute({
-    path: '/v1/users/:id/role',
+    path: '/users/:id/role',
     method: 'put',
     tags: ['User'],
     middleware: [

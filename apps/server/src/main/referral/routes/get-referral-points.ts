@@ -9,7 +9,7 @@ import { zReferralPoints } from '../referral.schema'
 import { findReferralPoints, getReferredPoints } from '../refferal.service'
 
 export const getReferralPointsRoute = createRoute({
-    path: '/v1/referral-points',
+    path: '/referral-points',
     method: 'get',
     tags: ['Referral Points'],
     middleware: [checkToken, isGroupOwner] as const,

@@ -12,7 +12,7 @@ import { findUserById } from '../../user/user.service'
 import { removeUserFromGroup } from '../group.service'
 
 export const removeUserFromGroupRoute = createRoute({
-    path: '/v1/groups/:id/remove-user/:userId',
+    path: '/groups/:id/remove-user/:userId',
     method: 'delete',
     tags: ['Group'],
     middleware: [checkToken, some(isAdmin, isGroupOwner)] as const,

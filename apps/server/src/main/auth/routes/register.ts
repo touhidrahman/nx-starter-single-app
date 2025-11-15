@@ -9,7 +9,9 @@ import {
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../models/common.schema'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
+import { trimLowercase } from '../../../utils/string.util'
 import { getAllAdmins } from '../../admin/admin-user.service'
 import { createGroup } from '../../group/group.service'
 import {
@@ -26,10 +28,10 @@ import {
     usernameExists,
 } from '../auth.service'
 
-const tags = ['Auth']
+const tags = [APP_OPENAPI_TAGS.Auth]
 
 export const registerRoute = createRoute({
-    path: '/v1/auth/register',
+    path: '/auth/register',
     method: 'post',
     tags,
     request: {
@@ -64,8 +66,8 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     const refCode = referralCode || queryParam.ref
 
     try {
-        const normalizedEmail = email ? email.trim().toLowerCase() : null
-        const normalizedUsername = username.trim().toLowerCase()
+        const normalizedEmail = trimLowercase(email)
+        const normalizedUsername = trimLowercase(username)
 
         if (normalizedEmail) {
             const emailAlreadyExists = await emailExists(normalizedEmail)
@@ -80,7 +82,6 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
                         data: {},
                         success: false,
                         error: 'Conflict',
-                        meta: null,
                     },
                     CONFLICT,
                 )

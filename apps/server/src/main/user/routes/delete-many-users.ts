@@ -9,7 +9,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteUsersByIds } from '../user.service'
 
 export const deleteUsersRoute = createRoute({
-    path: '/v1/users/delete',
+    path: '/users/delete',
     method: 'delete',
     tags: ['User'],
     middleware: [

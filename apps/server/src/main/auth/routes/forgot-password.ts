@@ -19,7 +19,7 @@ import { createVerificationToken } from '../token.util'
 const tags = ['Auth']
 
 export const forgotPasswordRoute = createRoute({
-    path: '/v1/auth/forgot-password',
+    path: '/auth/forgot-password',
     method: 'post',
     tags,
     request: {

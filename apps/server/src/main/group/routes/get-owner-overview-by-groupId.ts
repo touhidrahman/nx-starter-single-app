@@ -8,7 +8,7 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { ApiResponse } from '../../../utils/api-response.util'
 
 export const getGroupOwnerOverviewByGroupIdRoute = createRoute({
-    path: '/v1/group/overview',
+    path: '/group/overview',
     tags: ['Group'],
     method: 'get',
     middleware: [checkToken] as const,

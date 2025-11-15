@@ -13,7 +13,7 @@
 // import { eq } from 'drizzle-orm'
 
 // export const sendEmailToInactiveUsersRoute = createRoute({
-//     path: '/v1/auth/send-email-to-inactive-users',
+//     path: '/auth/send-email-to-inactive-users',
 //     method: 'post',
 //     tags: ['Auth'],
 //     request: {

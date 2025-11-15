@@ -14,7 +14,7 @@ import { findUserByEmail, resendVerificationEmail } from '../auth.service'
 const tags = ['Auth']
 
 export const resendVerificationRoute = createRoute({
-    path: '/v1/auth/resend-verification',
+    path: '/auth/resend-verification',
     method: 'post',
     tags,
     request: {

@@ -12,7 +12,7 @@ import { decodeVerificationToken } from '../token.util'
 const tags = ['Auth']
 
 export const verifyEmailRoute = createRoute({
-    path: '/v1/verify-email/:token',
+    path: '/verify-email/:token',
     method: 'post',
     tags,
     request: {

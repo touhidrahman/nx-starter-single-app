@@ -22,7 +22,7 @@ import {
 } from '../subscriptions.service'
 
 export const createSubscriptionsRoute = createRoute({
-    path: '/v1/subscriptions',
+    path: '/subscriptions',
     method: 'post',
     tags: ['Subscriptions'],
     middleware: [checkToken] as const,

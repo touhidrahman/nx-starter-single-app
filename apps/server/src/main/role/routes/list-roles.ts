@@ -12,7 +12,7 @@ import { zSelectRole } from '../role.schema'
 import { findRoles } from '../role.service'
 
 export const listRolesRoute = createRoute({
-    path: '/v1/roles',
+    path: '/roles',
     method: 'get',
     tags: ['Role'],
     middleware: [

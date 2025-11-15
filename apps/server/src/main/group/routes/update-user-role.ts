@@ -12,7 +12,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zUpdateUserRole } from '../group.schema'
 
 export const updateUserRoleRoute = createRoute({
-    path: '/v1/groups/:id/update-user-role',
+    path: '/groups/:id/update-user-role',
     method: 'post',
     tags: ['Group'],
     middleware: [

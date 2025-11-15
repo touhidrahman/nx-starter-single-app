@@ -22,7 +22,7 @@ import {
 import { zUploadProfileImage } from '../storage.schema'
 
 export const uploadFileRoute = createRoute({
-    path: '/v1/storage/upload-file',
+    path: '/storage/upload-file',
     method: 'post',
     tags: ['Storage'],
     middleware: [checkToken] as const,

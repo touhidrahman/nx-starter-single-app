@@ -14,7 +14,7 @@ import {
 } from '../subscriptions.service'
 
 export const approveSubscriptionRoute = createRoute({
-    path: '/v1/subscriptions/:id/approve',
+    path: '/subscriptions/:id/approve',
     tags: ['Subscriptions'],
     method: 'put',
     middleware: [checkToken, isAdmin] as const,

@@ -9,7 +9,7 @@ import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteFeedBack, findFeedbackById } from '../feedback.service'
 
 export const deleteFeedBackRoute = createRoute({
-    path: '/v1/feedback/:id',
+    path: '/feedback/:id',
     method: 'delete',
     tags: ['Feedback'],
     middleware: [checkToken, isAdmin] as const,

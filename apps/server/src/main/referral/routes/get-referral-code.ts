@@ -9,7 +9,7 @@ import { zSelectReferralCode } from '../referral.schema'
 import { findReferralCode } from '../refferal.service'
 
 export const getReferralCodeRoute = createRoute({
-    path: '/v1/referral-code',
+    path: '/referral-code',
     method: 'get',
     tags: ['Referral Code'],
     middleware: [checkToken, isGroupOwner] as const,

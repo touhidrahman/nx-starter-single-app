@@ -7,7 +7,7 @@ import { zSelectNewsTicker } from '../news-ticker.schema'
 import { findManyNewsTickers } from '../news-ticker.service'
 
 export const getNewsTickerRoute = createRoute({
-    path: '/v1/news-tickers',
+    path: '/news-tickers',
     method: 'get',
     tags: ['News Ticker'],
     middleware: [checkToken] as const,

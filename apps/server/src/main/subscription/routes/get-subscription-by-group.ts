@@ -8,7 +8,7 @@ import { zSelectSubscription } from '../subscription.schema'
 import { findSubscriptionByGroupId } from '../subscriptions.service'
 
 export const getSubscriptionByGroupIdRoute = createRoute({
-    path: '/v1/subscriptions/by-group/:groupId',
+    path: '/subscriptions/by-group/:groupId',
     tags: ['Subscriptions'],
     method: 'get',
     middleware: [checkToken] as const,

@@ -11,7 +11,7 @@ import { zInsertAdmin, zSelectAdminWithoutPassword } from '../admin.schema'
 import { createAdminUser } from '../admin-user.service'
 
 export const createAdminRoute = createRoute({
-    path: '/v1/admins',
+    path: '/admin',
     method: 'post',
     tags: ['Admin'],
     middleware: [checkToken, isAdmin] as const,

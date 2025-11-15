@@ -13,7 +13,7 @@ import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectRole } from '../role.schema'
 
 export const getRoleRoute = createRoute({
-    path: '/v1/roles/:id',
+    path: '/roles/:id',
     method: 'get',
     tags: ['Role'],
     middleware: [

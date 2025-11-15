@@ -19,7 +19,7 @@ import { findUserById } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 
 export const groupSwitchRoute = createRoute({
-    path: '/v1/auth/group-switch/:groupId',
+    path: '/auth/group-switch/:groupId',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken] as const,

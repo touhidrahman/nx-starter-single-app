@@ -16,7 +16,7 @@ import { zSelectPlan, zUpdatePlan } from '../plan.schema'
 import { findPlanById, updatePlan } from '../plan.service'
 
 export const updatePlanRoute = createRoute({
-    path: '/v1/plans/:id',
+    path: '/plans/:id',
     method: 'patch',
     tags: ['Plan'],
     middleware: [checkToken, isAdmin] as const,

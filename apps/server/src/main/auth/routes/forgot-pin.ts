@@ -15,7 +15,7 @@ import { findUserById } from '../../user/user.service'
 import { findUserSettings } from '../../user-settings/user-setting.service'
 
 export const forgotPINCodeRoute = createRoute({
-    path: '/v1/auth/forgot-pin',
+    path: '/auth/forgot-pin',
     method: 'post',
     tags: ['User Settings'],
     middleware: [checkToken] as const,

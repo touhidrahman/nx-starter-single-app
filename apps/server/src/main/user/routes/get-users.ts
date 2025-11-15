@@ -14,7 +14,7 @@ import { countUsers, findUsers } from '../user.service'
 import { passwordRemoved, validateEnum } from '../user.util'
 
 export const getUsersRoute = createRoute({
-    path: '/v1/users',
+    path: '/users',
     method: 'get',
     tags: ['User'],
     middleware: [every(checkToken)] as const,

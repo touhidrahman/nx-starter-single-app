@@ -24,7 +24,7 @@ import { updateUserProfilePictureUrl } from '../user.service'
 import { passwordRemoved } from '../user.util'
 
 export const updateUserProfilePictureRoute = createRoute({
-    path: '/v1/user/profile/upload-profile-picture',
+    path: '/user/profile/upload-profile-picture',
     method: 'post',
     tags: ['User'],
     middleware: [checkToken] as const,

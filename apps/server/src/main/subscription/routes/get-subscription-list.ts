@@ -12,7 +12,7 @@ import {
 } from '../subscriptions.service'
 
 export const getSubscriptionListRoute = createRoute({
-    path: '/v1/subscriptions',
+    path: '/subscriptions',
     tags: ['Subscriptions'],
     method: 'get',
     middleware: [checkToken, isAdmin] as const,

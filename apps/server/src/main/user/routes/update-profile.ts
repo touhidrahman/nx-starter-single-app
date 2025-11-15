@@ -11,7 +11,7 @@ import { updateProfile } from '../user.service'
 import { passwordRemoved } from '../user.util'
 
 export const updateUserProfileRoute = createRoute({
-    path: '/v1/user/profile',
+    path: '/user/profile',
     method: 'patch',
     tags: ['User'],
     middleware: [checkToken] as const,

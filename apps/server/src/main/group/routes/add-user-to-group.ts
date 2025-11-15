@@ -17,7 +17,7 @@ import { findUserById } from '../../user/user.service'
 import { addUserToGroup, isParticipant } from '../group.service'
 
 export const addUserToGroupRoute = createRoute({
-    path: '/v1/groups/:id/add-user',
+    path: '/groups/:id/add-user',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,

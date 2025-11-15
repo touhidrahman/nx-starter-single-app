@@ -12,7 +12,7 @@ import {
 } from '../subscriptions.service'
 
 export const deleteSubscriptionRoute = createRoute({
-    path: '/v1/subscriptions/:id',
+    path: '/subscriptions/:id',
     method: 'delete',
     tags: ['Subscriptions'],
     middleware: [checkToken, isAdmin] as const,

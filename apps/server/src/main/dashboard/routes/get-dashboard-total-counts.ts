@@ -7,7 +7,7 @@ import { dashboardDataSchema } from '../dashboard.schema'
 import { getDashboardData } from '../dashboard.service'
 
 export const getDashboardTotalCountsRoute = createRoute({
-    path: '/v1/dashboards/total-counts',
+    path: '/dashboards/total-counts',
     method: 'get',
     tags: ['Dashboard'],
     middleware: [checkToken] as const,

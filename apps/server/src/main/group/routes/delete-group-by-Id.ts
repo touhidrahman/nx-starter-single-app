@@ -16,7 +16,7 @@ import {
 } from '../group.service'
 
 export const deleteGroupByIdRoute = createRoute({
-    path: '/v1/groups/:id',
+    path: '/groups/:id',
     method: 'delete',
     tags: ['Group'],
     middleware: [checkToken, isAdmin] as const,

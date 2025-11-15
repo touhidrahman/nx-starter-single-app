@@ -19,7 +19,7 @@ import {
 import { createNewsTicker } from '../news-ticker.service'
 
 export const createNewsTickerRoute = createRoute({
-    path: '/v1/news-tickers',
+    path: '/news-tickers',
     method: 'post',
     tags: ['News Ticker'],
     middleware: [checkToken, isAdmin] as const,

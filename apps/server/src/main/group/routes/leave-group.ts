@@ -10,7 +10,7 @@ import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
 
 export const leaveGroupRoute = createRoute({
-    path: '/v1/groups/:id/leave',
+    path: '/groups/:id/leave',
     method: 'delete',
     tags: ['Group'],
     middleware: [checkToken, isGroupParticipant] as const,
