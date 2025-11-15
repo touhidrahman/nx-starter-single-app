@@ -16,6 +16,6 @@ export const zInsertTransaction = createInsertSchema(transactionsTable)
 export const zSelectTransaction = createSelectSchema(transactionsTable)
 export const zUpdateTransaction = createUpdateSchema(transactionsTable)
 export const zQueryTransactions = zInsertTransaction
-    .partial()
     .extend(zSearch.shape)
     .extend(zPagination.shape)
+    .partial()

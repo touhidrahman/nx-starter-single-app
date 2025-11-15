@@ -32,8 +32,8 @@ export const zSearch = z.object({
 })
 
 export const zPagination = z.object({
-    page: z.number().min(1).optional(),
-    size: z.number().min(1).max(100).optional(),
+    page: z.coerce.number().min(1).optional(),
+    size: z.coerce.number().min(1).max(100).optional(),
     orderBy: z.string().optional(),
     sortOrder: z.enum(['asc', 'desc']).optional(),
 })

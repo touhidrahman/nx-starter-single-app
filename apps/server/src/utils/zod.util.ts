@@ -6,5 +6,6 @@ export const { createInsertSchema, createSelectSchema, createUpdateSchema } =
             date: true,
             boolean: true,
             number: true,
+            string: true,
         },
     })

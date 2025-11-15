@@ -7,10 +7,15 @@ export function buildPaginationResponse(
     size: number | undefined,
     total: number,
 ): ResponsePagination {
+    const numPage = toInt(page, 1) || 1
+    const positivePage = numPage < 1 ? 1 : numPage
+    const numSize = toInt(size) || DEFAULT_PAGE_SIZE
+    const numTotal = toInt(total)
+    const totalPages = Math.ceil(numTotal / numSize)
     return {
-        page: toInt(page) || 1,
-        size: toInt(size) || DEFAULT_PAGE_SIZE,
-        total,
-        totalPages: Math.ceil(total / (toInt(size) || DEFAULT_PAGE_SIZE)),
+        page: positivePage,
+        size: numSize,
+        totalItems: numTotal,
+        totalPages,
     }
 }

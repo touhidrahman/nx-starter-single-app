@@ -35,14 +35,14 @@ const GetAccountListCoreDef = createRoute({
 const GetAccountListCore: AppRouteHandler<
     typeof GetAccountListCoreDef
 > = async (c) => {
-    const { page, size, ...query } = c.req.valid('query')
+    const query = c.req.valid('query')
     const data = await AccountCoreService.findMany(query)
     const count = await AccountCoreService.count(query)
 
     return c.json(
         {
             data,
-            pagination: buildPaginationResponse(page, size, count),
+            pagination: buildPaginationResponse(query.page, query.size, count),
             message: 'Account list fetched successfully',
             success: true,
         },

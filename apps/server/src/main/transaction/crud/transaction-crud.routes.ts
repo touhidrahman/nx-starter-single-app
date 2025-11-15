@@ -37,7 +37,7 @@ const GetTransactionListCrudDef = createRoute({
 const GetTransactionListCrud: AppRouteHandler<
     typeof GetTransactionListCrudDef
 > = async (c) => {
-    const { page, size, ...query } = c.req.valid('query')
+    const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
     const data = await TransactionCrudService.findMany(groupSpecificQuery)
@@ -46,7 +46,7 @@ const GetTransactionListCrud: AppRouteHandler<
     return c.json(
         {
             data,
-            pagination: buildPaginationResponse(page, size, count),
+            pagination: buildPaginationResponse(query.page, query.size, count),
             message: 'Transaction list fetched successfully',
             success: true,
         },

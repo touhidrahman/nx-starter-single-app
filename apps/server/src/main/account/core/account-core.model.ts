@@ -16,6 +16,6 @@ export const zInsertAccount = createInsertSchema(accountsTable)
 export const zSelectAccount = createSelectSchema(accountsTable)
 export const zUpdateAccount = createUpdateSchema(accountsTable)
 export const zQueryAccounts = zInsertAccount
-    .partial()
     .extend(zSearch.shape)
     .extend(zPagination.shape)
+    .partial()

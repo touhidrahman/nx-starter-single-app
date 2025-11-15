@@ -14,7 +14,7 @@ export type ZodSchema = ZodObject<any> | ZodArray<ZodObject<any>>
 export const zResponsePagination = z.object({
     page: z.number(),
     size: z.number(),
-    total: z.number(),
+    totalItems: z.number(),
     totalPages: z.number(),
 })
 
@@ -68,7 +68,7 @@ export function ApiListResponse<T extends ZodSchema>(
                 pagination: ZodObject<{
                     page: ZodNumber
                     size: ZodNumber
-                    total: ZodNumber
+                    totalItems: ZodNumber
                     totalPages: ZodNumber
                 }>
             }>
@@ -90,59 +90,6 @@ export function ApiListResponse<T extends ZodSchema>(
             },
         },
         description,
-    }
-}
-
-export function respond<T>(
-    data: T,
-    message: string,
-    success: boolean,
-    error?: any,
-    meta?: any,
-): {
-    data: T
-    message: string
-    success: boolean
-    error?: any
-    meta?: any
-} {
-    return {
-        data,
-        message,
-        success,
-        error,
-        meta,
-    }
-}
-
-export function respondList<T>(
-    data: T[],
-    message: string,
-    success: boolean,
-    page: number,
-    size: number,
-    total: number,
-): {
-    data: T[]
-    message: string
-    success: boolean
-    pagination: {
-        page: number
-        size: number
-        total: number
-        totalPages: number
-    }
-} {
-    return {
-        data,
-        message,
-        success,
-        pagination: {
-            page,
-            size,
-            total,
-            totalPages: Math.ceil(total / size),
-        },
     }
 }
 

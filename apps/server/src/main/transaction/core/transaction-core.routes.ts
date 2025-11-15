@@ -35,14 +35,14 @@ const GetTransactionListCoreDef = createRoute({
 const GetTransactionListCore: AppRouteHandler<
     typeof GetTransactionListCoreDef
 > = async (c) => {
-    const { page, size, ...query } = c.req.valid('query')
+    const query = c.req.valid('query')
     const data = await TransactionCoreService.findMany(query)
     const count = await TransactionCoreService.count(query)
 
     return c.json(
         {
             data,
-            pagination: buildPaginationResponse(page, size, count),
+            pagination: buildPaginationResponse(query.page, query.size, count),
             message: 'Transaction list fetched successfully',
             success: true,
         },
