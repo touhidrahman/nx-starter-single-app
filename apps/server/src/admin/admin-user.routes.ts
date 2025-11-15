@@ -1,4 +1,4 @@
-import { createRouter } from '../../core/create-app'
+import { createRouter } from '../core/create-app'
 import { adminLoginHandler, adminLoginRoute } from './routes/admin-login'
 import {
     createAdminHandler,

@@ -1,6 +1,6 @@
 import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
-import { db } from '../../db/db'
-import { adminsTable } from '../../db/schema'
+import { db } from '../db/db'
+import { adminsTable } from '../db/schema'
 import { InsertAdmin, SelectAdmin } from './admin.schema'
 
 export const getAllAdmins = async (params: {
