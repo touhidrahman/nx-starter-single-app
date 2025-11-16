@@ -4,7 +4,7 @@ import { groupsTable, membershipsTable } from '../../../db/schema'
 import { DateUtil } from '../../../utils/date.util'
 import { CryptoService } from '../../auth/crypto.service'
 import { createAccessToken2, createRefreshToken } from '../../auth/token.util'
-import { InsertUser, SelectUser } from '../core/user-core.model'
+import { SelectUser } from '../core/user-core.model'
 import { UserCrudService } from '../crud/user-crud.service'
 import { UserLoginResponse } from './user-custom.model'
 
@@ -85,55 +85,6 @@ export class UserCustomService extends UserCrudService {
             refreshToken,
             lastLogin: new Date().toISOString(),
             user: { ...user, password: '' },
-            role: role?.role,
-            group,
-        }
-    }
-
-    static async register(input: InsertUser): Promise<UserLoginResponse> {
-        const passwordHash = await CryptoService.hashPassword(input.password)
-        const result = await UserCustomService.create({
-            ...input,
-            password: passwordHash,
-        })
-        const user = { ...result, password: '' }
-        const [group] = await db
-            .insert(groupsTable)
-            .values({
-                name: `${user.firstName}'s Group ${user.id.toUpperCase()}`,
-            })
-            .returning()
-        const [membership] = await db
-            .insert(membershipsTable)
-            .values({
-                userId: user.id,
-                groupId: group.id,
-                roleId: 'owner',
-            })
-            .returning()
-        const role = await db.query.membershipsTable.findFirst({
-            with: { role: true },
-            where: eq(membershipsTable.roleId, membership.roleId ?? ''),
-        })
-        await UserCustomService.update(user.id, {
-            defaultGroupId: group.id,
-        })
-
-        const accessToken = await createAccessToken2({
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            roleId: membership.roleId ?? '',
-            groupId: group.id,
-        })
-        const refreshToken = await createRefreshToken(user.id, group.id)
-
-        return {
-            accessToken,
-            refreshToken,
-            lastLogin: new Date().toISOString(),
-            user,
             role: role?.role,
             group,
         }

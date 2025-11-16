@@ -9,11 +9,9 @@ export const seedPlans = async (plans: InsertPlan[]) => {
             where: eq(pricingPlanTable.name, p.name),
         })
 
-        if (findPlanByName) {
-            throw new Error(`Plan ${p.name} already exists`)
+        if (!findPlanByName) {
+            await insertPlan(p)
         }
-
-        await insertPlan(p)
     }
 }
 

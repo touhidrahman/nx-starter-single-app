@@ -5,6 +5,7 @@ import {
     createAdminAccessToken,
     createAdminRefreshToken,
 } from '../../auth/token.util'
+import { APP_DEFAULT_ROLES, DEFAULT_PERMISSIONS } from '../../claim/claims'
 import { SelectAdmin } from '../core/admin-core.model'
 import { AdminCrudService } from '../crud/admin-crud.service'
 import { AdminLoginResponse, RegisterAdmin } from './admin-custom.model'
@@ -62,12 +63,16 @@ export class AdminCustomService extends AdminCrudService {
         throw new Error('Approval failed')
     }
 
-    static async createDefaultRoles(): Promise<void> {
-        const defaultRoleIds = ['Owner', 'Member', 'Guest']
+    static async seedDefaultRoles(): Promise<void> {
         await db.insert(rolesTable).values(
-            defaultRoleIds.map((roleId) => ({
+            APP_DEFAULT_ROLES.map((roleId) => ({
                 id: roleId,
                 name: roleId,
+                permissions: DEFAULT_PERMISSIONS.filter((perm) =>
+                    perm.forRoles.includes(roleId),
+                )
+                    .map((perm) => perm.id)
+                    .join(','),
                 description: `${roleId} role with default permissions`,
             })),
         )

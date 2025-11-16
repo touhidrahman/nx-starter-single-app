@@ -1,15 +1,15 @@
-const SYSTEM_ROLE_NAMES_CLIENT = ['Owner', 'Member', 'Guest']
+export const APP_DEFAULT_ROLES = ['Owner', 'Member', 'Guest']
 
-export const [GroupOwner, GroupMember, GroupGuest] = SYSTEM_ROLE_NAMES_CLIENT
+export const [GroupOwner, GroupMember, GroupGuest] = APP_DEFAULT_ROLES
 
-type ClaimSeedItem = {
+type PermissionSeedItem = {
     id: string
     section: string
     description: string
     forRoles: string[]
 }
 
-export const CLIENT_CLAIMS_LIST: ClaimSeedItem[] = [
+export const DEFAULT_PERMISSIONS: PermissionSeedItem[] = [
     {
         id: 'Account:Read',
         section: 'Account',
@@ -126,4 +126,4 @@ export const CLIENT_CLAIMS_LIST: ClaimSeedItem[] = [
     },
 ]
 
-export const CLAIMS_LIST: ClaimSeedItem[] = [...CLIENT_CLAIMS_LIST]
+export const CLAIMS_LIST: PermissionSeedItem[] = [...DEFAULT_PERMISSIONS]

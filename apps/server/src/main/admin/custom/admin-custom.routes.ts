@@ -33,13 +33,14 @@ const RegisterAdminDef = createRoute({
 
 const RegisterAdmin: AppRouteHandler<typeof RegisterAdminDef> = async (c) => {
     const body = c.req.valid('json')
-    const isTableEmpty = await AdminCustomService.isTableEmpty()
-    if (!isTableEmpty) {
+    const isFirstAdmin = await AdminCustomService.isTableEmpty()
+    if (!isFirstAdmin) {
         // do more things like seeding default data
         await seedPlans(SEED_DATA_PLANS)
         // TODO: insert account types
         // TODo: insert transaction categories
         // TODO: insert default roles
+        await AdminCustomService.seedDefaultRoles()
     }
     const data = await AdminCustomService.register(body)
 

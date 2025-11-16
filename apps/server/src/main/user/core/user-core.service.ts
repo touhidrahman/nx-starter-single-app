@@ -104,8 +104,12 @@ export class UserCoreService {
                     ilike(usersTable.firstName, searchTerm),
                     ilike(usersTable.lastName, searchTerm),
                     ilike(usersTable.email, searchTerm),
+                    ilike(usersTable.username, searchTerm),
                 ),
             )
+        }
+        if (params.username) {
+            conditions.push(eq(usersTable.username, params.username))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(usersTable.id, params.ids))
