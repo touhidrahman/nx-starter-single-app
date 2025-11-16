@@ -3,6 +3,7 @@ export const MAX_PAGE_SIZE = 100
 
 export const APP_OPENAPI_TAGS = {
     Account: 'Account',
+    AccountType: 'AccountType',
     Admin: 'Admin',
     Auth: 'Auth',
     Category: 'Category',

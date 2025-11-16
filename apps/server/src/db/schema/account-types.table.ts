@@ -1,7 +1,8 @@
-import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core'
+import { integer, pgTable, text } from 'drizzle-orm/pg-core'
+import { generateId } from '../id.util'
 
 export const accountTypesTable = pgTable('account_types', {
-    id: integer().generatedAlwaysAsIdentity().primaryKey(),
+    id: text().primaryKey().$defaultFn(generateId),
     name: text().notNull(),
     sortOrder: integer().notNull().default(0),
 })
