@@ -1,6 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
-import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
@@ -91,7 +91,7 @@ const CreateAdminCrudDef = createRoute({
         body: jsonContent(zInsertAdmin, 'Input'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectAdmin, 'Item'),
+        [CREATED]: ApiResponse(zSelectAdmin, 'Item'),
     },
 })
 
@@ -108,7 +108,7 @@ const CreateAdminCrud: AppRouteHandler<typeof CreateAdminCrudDef> = async (
             message: 'Admin created successfully',
             success: true,
         },
-        OK,
+        CREATED,
     )
 }
 

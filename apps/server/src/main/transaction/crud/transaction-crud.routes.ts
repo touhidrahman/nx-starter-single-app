@@ -9,7 +9,7 @@ import { zEmpty, zId } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import { AccessTokenPayload } from '../../auth/token.util'
+import { AccessTokenPayload } from '../../auth/auth.model'
 import {
     zInsertTransaction,
     zQueryTransactions,

@@ -3,24 +3,13 @@ import { sign, verify } from 'hono/jwt'
 import { SystemUserLevel } from '../../core/core.type'
 import env from '../../env'
 import { addDuration, DateUnit, DateUtil } from '../../utils/date.util'
-import { TokenCreateUserData } from './auth.model'
+import { AccessTokenPayload, TokenCreateUserData } from './auth.model'
 
 const dateUtil = DateUtil
 
 export const ACCESS_TOKEN_LIFE =
     env.NODE_ENV !== 'production' ? 24 * 60 * 60 : 15 * 60
 export const REFRESH_TOKEN_LIFE = 7 * 24 * 60 * 60 // 7 days
-
-export type AccessTokenPayload = {
-    firstName: string
-    lastName: string
-    username: string
-    level: SystemUserLevel
-    roleId: string
-    groupId: string | ''
-    sub: string // userId
-    exp: number
-}
 
 export type RefreshTokenPayload = {
     sub: string
@@ -35,6 +24,27 @@ export type InvitationTokenPayload = {
     organizationName: string
     roleId: string
     invitationId: string
+}
+
+export async function createAccessToken2(
+    data: Omit<AccessTokenPayload, 'exp' | 'level' | 'sub'> & {
+        id: string
+        roleId?: string
+        groupId?: string
+    },
+) {
+    const tokenPayload: AccessTokenPayload = {
+        firstName: data?.firstName ?? '',
+        lastName: data?.lastName ?? '',
+        username: data.username ?? '',
+        level: SystemUserLevel.USER,
+        roleId: data?.roleId ?? '',
+        groupId: data?.groupId ?? '',
+        sub: data.id,
+        exp: dateUtil.addSeconds(dateUtil.date(), ACCESS_TOKEN_LIFE).getTime(),
+    }
+
+    return await sign(tokenPayload, env.ACCESS_TOKEN_SECRET)
 }
 
 export async function createAccessToken(

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { SystemUserLevel } from '../../core/core.type'
 import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
 import { zInactiveUsers, zInsertAuthUser, zSelectAuthUser } from './auth.zod'
@@ -32,3 +33,14 @@ export interface TokenCreateUserData {
 }
 
 export type InactiveUser = Omit<z.infer<typeof zInactiveUsers>, 'phone'>
+
+export type AccessTokenPayload = {
+    firstName: string
+    lastName: string
+    username: string
+    level: SystemUserLevel
+    roleId?: string
+    groupId?: string
+    sub: string // userId
+    exp: number
+}
