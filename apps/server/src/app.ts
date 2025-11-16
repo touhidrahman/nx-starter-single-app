@@ -23,7 +23,9 @@ import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
 import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
-import { userV1Routes } from './main/user/user.routes'
+import { userCoreRoutes } from './main/user/core/user-core.routes'
+import { userCrudRoutes } from './main/user/crud/user-crud.routes'
+import { userCustomRoutes } from './main/user/custom/user-custom.routes'
 import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 
 const app = createApp()
@@ -51,7 +53,9 @@ const routes = [
     transactionCoreRoutes,
     transactionCrudRoutes,
     userSettingsV1Routes,
-    userV1Routes,
+    userCoreRoutes,
+    userCrudRoutes,
+    userCustomRoutes,
 ]
 
 configureOpenAPI(app)

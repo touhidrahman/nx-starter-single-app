@@ -1,3 +1,13 @@
+# Backend Philosophy
+
+Each resource is broken down into three layers:
+
+1. **Core** - Very basic APIs with no relations. These APIs should be hidden and only to be used for Super Admins.
+2. **CRUD** - These APIs only include typical CRUD paths and nothing more. May have logic that is required for the buisiness feature.
+3. **Custom** - Every other API that involves an endpoint outside of the typical CRUD paths.
+
+Each type of APIs are prefixed with the layer name, e.g.- `core\users`, `crud\users`, `custom\users`.
+
 # How to work with Drizzle & Migration for Production environment?
 
 When you create or change any table schema, generate a new file which will be used to migrate:

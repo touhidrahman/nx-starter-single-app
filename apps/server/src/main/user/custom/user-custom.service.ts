@@ -1,10 +1,10 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '../../../db/db'
-import { membershipsTable } from '../../../db/schema'
+import { groupsTable, membershipsTable } from '../../../db/schema'
 import { DateUtil } from '../../../utils/date.util'
 import { CryptoService } from '../../auth/crypto.service'
 import { createAccessToken2, createRefreshToken } from '../../auth/token.util'
-import { SelectUser } from '../core/user-core.model'
+import { InsertUser, SelectUser } from '../core/user-core.model'
 import { UserCrudService } from '../crud/user-crud.service'
 import { UserLoginResponse } from './user-custom.model'
 
@@ -36,8 +36,8 @@ export class UserCustomService extends UserCrudService {
             throw new Error('Invalid email or password')
         }
 
-        let accessToken = ''
-        let refreshToken = ''
+        let roleId = ''
+        let groupId = ''
 
         if (user.defaultGroupId) {
             const membership = await db.query.membershipsTable.findFirst({
@@ -48,40 +48,100 @@ export class UserCustomService extends UserCrudService {
             })
 
             if (membership) {
-                accessToken = await createAccessToken2({
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    username: user.username,
-                    roleId: membership?.roleId ?? undefined,
-                    groupId: membership?.groupId,
-                })
-                refreshToken = await createRefreshToken(
-                    user.id,
-                    membership.groupId,
-                )
+                roleId = membership.roleId ?? ''
+                groupId = membership.groupId
             } else {
-                const res = await UserCustomService.getTokens(user)
-                accessToken = res.accessToken
-                refreshToken = res.refreshToken
+                const res =
+                    await UserCustomService.getFirstMembershipRoleAndGroup(user)
+                roleId = res.roleId
+                groupId = res.groupId
             }
         } else {
-            const tokens = await UserCustomService.getTokens(user)
-            accessToken = tokens.accessToken
-            refreshToken = tokens.refreshToken
+            const res =
+                await UserCustomService.getFirstMembershipRoleAndGroup(user)
+            roleId = res.roleId
+            groupId = res.groupId
         }
 
+        const accessToken = await createAccessToken2({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            roleId: roleId,
+            groupId: groupId,
+        })
+        const refreshToken = await createRefreshToken(user.id, groupId)
+        const role = await db.query.membershipsTable.findFirst({
+            with: { role: true },
+            where: eq(membershipsTable.roleId, roleId),
+        })
+        const group = await db.query.groupsTable.findFirst({
+            where: eq(groupsTable.id, groupId),
+        })
+
         return {
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+            accessToken,
+            refreshToken,
             lastLogin: new Date().toISOString(),
             user: { ...user, password: '' },
+            role: role?.role,
+            group,
         }
     }
 
-    private static async getTokens(
+    static async register(input: InsertUser): Promise<UserLoginResponse> {
+        const passwordHash = await CryptoService.hashPassword(input.password)
+        const result = await UserCustomService.create({
+            ...input,
+            password: passwordHash,
+        })
+        const user = { ...result, password: '' }
+        const [group] = await db
+            .insert(groupsTable)
+            .values({
+                name: `${user.firstName}'s Group ${user.id.toUpperCase()}`,
+            })
+            .returning()
+        const [membership] = await db
+            .insert(membershipsTable)
+            .values({
+                userId: user.id,
+                groupId: group.id,
+                roleId: 'owner',
+            })
+            .returning()
+        const role = await db.query.membershipsTable.findFirst({
+            with: { role: true },
+            where: eq(membershipsTable.roleId, membership.roleId ?? ''),
+        })
+        await UserCustomService.update(user.id, {
+            defaultGroupId: group.id,
+        })
+
+        const accessToken = await createAccessToken2({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            roleId: membership.roleId ?? '',
+            groupId: group.id,
+        })
+        const refreshToken = await createRefreshToken(user.id, group.id)
+
+        return {
+            accessToken,
+            refreshToken,
+            lastLogin: new Date().toISOString(),
+            user,
+            role: role?.role,
+            group,
+        }
+    }
+
+    private static async getFirstMembershipRoleAndGroup(
         user: SelectUser,
-    ): Promise<{ accessToken: string; refreshToken: string }> {
+    ): Promise<{ roleId: string; groupId: string }> {
         let roleId = ''
         let groupId = ''
 
@@ -98,15 +158,6 @@ export class UserCustomService extends UserCrudService {
             })
         }
 
-        const accessToken = await createAccessToken2({
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            roleId,
-            groupId,
-        })
-        const refreshToken = await createRefreshToken(user.id, groupId)
-        return { accessToken, refreshToken }
+        return { roleId, groupId }
     }
 }

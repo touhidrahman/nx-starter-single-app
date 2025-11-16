@@ -1,6 +1,6 @@
-const SYSTEM_ROLE_NAMES_CLIENT = ['Owner', 'Member']
+const SYSTEM_ROLE_NAMES_CLIENT = ['Owner', 'Member', 'Guest']
 
-export const [GroupOwner, GroupMember] = SYSTEM_ROLE_NAMES_CLIENT
+export const [GroupOwner, GroupMember, GroupGuest] = SYSTEM_ROLE_NAMES_CLIENT
 
 type ClaimSeedItem = {
     id: string
@@ -11,115 +11,115 @@ type ClaimSeedItem = {
 
 export const CLIENT_CLAIMS_LIST: ClaimSeedItem[] = [
     {
-        id: 'account:read',
+        id: 'Account:Read',
         section: 'Account',
         description: 'Read account details',
         forRoles: [GroupOwner, GroupMember],
     },
     {
-        id: 'account:write',
+        id: 'Account:Write',
         section: 'Account',
         description: 'Write account details',
         forRoles: [GroupOwner, GroupMember],
     },
     {
-        id: 'account:delete',
+        id: 'Account:Delete',
         section: 'Account',
         description: 'Delete account details',
         forRoles: [GroupOwner, GroupMember],
     },
 
     {
-        id: 'transaction:write',
+        id: 'Transaction:Write',
         section: 'Transaction',
         description: 'Create or update a new transaction entry',
         forRoles: [GroupOwner],
     },
     {
-        id: 'transaction:delete',
+        id: 'Transaction:Delete',
         section: 'Transaction',
         description: 'Delete a transaction entry',
         forRoles: [GroupOwner],
     },
     {
-        id: 'transaction:read',
+        id: 'Transaction:Read',
         section: 'Transaction',
         description: 'Read transaction details',
         forRoles: [GroupOwner, GroupMember],
     },
 
     {
-        id: 'invite:write',
+        id: 'Invite:Write',
         section: 'User',
         description: 'Invite user to Organization, revoke invite',
         forRoles: [GroupOwner],
     },
 
     {
-        id: 'member:write',
+        id: 'Member:Write',
         section: 'Member',
         description: 'Create or update a new member',
         forRoles: [GroupOwner],
     },
     {
-        id: 'member:delete',
+        id: 'Member:Delete',
         section: 'Member',
         description: 'Delete an existing member',
         forRoles: [GroupOwner],
     },
     {
-        id: 'member:read',
+        id: 'Member:Read',
         section: 'Member',
         description: 'Read member details',
         forRoles: [GroupOwner, GroupMember],
     },
 
     {
-        id: 'subscription:write',
+        id: 'Subscription:Write',
         section: 'Subscription',
         description: 'Create or update a new subscription',
         forRoles: [GroupOwner],
     },
     {
-        id: 'subscription:delete',
+        id: 'Subscription:Delete',
         section: 'Subscription',
         description: 'Delete an existing subscription',
         forRoles: [GroupOwner],
     },
     {
-        id: 'subscription:read',
+        id: 'Subscription:Read',
         section: 'Subscription',
         description: 'Read subscription details',
         forRoles: [GroupOwner, GroupMember],
     },
 
     {
-        id: 'user:read',
+        id: 'User:Read',
         section: 'User',
         description: 'user can read their own information',
         forRoles: [GroupOwner],
     },
 
     {
-        id: 'role:read',
+        id: 'Role:Read',
         section: 'Role',
         description: 'Can read the role & permissions',
         forRoles: [GroupOwner, GroupMember],
     },
     {
-        id: 'role:assign',
+        id: 'Role:Assign',
         section: 'Role',
         description: 'Can assign the role to user',
         forRoles: [GroupOwner],
     },
     {
-        id: 'role:write',
+        id: 'Role:Write',
         section: 'Role',
         description: 'Can create the role',
         forRoles: [GroupOwner],
     },
     {
-        id: 'role:delete',
+        id: 'Role:Delete',
         section: 'Role',
         description: 'Can delete the role',
         forRoles: [GroupOwner],

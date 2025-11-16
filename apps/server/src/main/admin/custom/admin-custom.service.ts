@@ -1,13 +1,15 @@
+import { db } from '../../../db/db'
+import { rolesTable } from '../../../db/schema'
 import { CryptoService } from '../../auth/crypto.service'
 import {
     createAdminAccessToken,
     createAdminRefreshToken,
 } from '../../auth/token.util'
 import { SelectAdmin } from '../core/admin-core.model'
-import { AdminCoreService } from '../core/admin-core.service'
+import { AdminCrudService } from '../crud/admin-crud.service'
 import { AdminLoginResponse, RegisterAdmin } from './admin-custom.model'
 
-export class AdminCustomService extends AdminCoreService {
+export class AdminCustomService extends AdminCrudService {
     static async register(input: RegisterAdmin): Promise<SelectAdmin> {
         const passwordHash = await CryptoService.hashPassword(input.password)
         const result = await AdminCustomService.create({
@@ -58,5 +60,16 @@ export class AdminCustomService extends AdminCoreService {
             return { ...admin, password: '' }
         }
         throw new Error('Approval failed')
+    }
+
+    static async createDefaultRoles(): Promise<void> {
+        const defaultRoleIds = ['Owner', 'Member', 'Guest']
+        await db.insert(rolesTable).values(
+            defaultRoleIds.map((roleId) => ({
+                id: roleId,
+                name: roleId,
+                description: `${roleId} role with default permissions`,
+            })),
+        )
     }
 }

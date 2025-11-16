@@ -1,11 +1,12 @@
 import { createRoute } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
-import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
+import { zInsertUser } from '../core/user-core.model'
 import { zUserLogin, zUserLoginResponse } from './user-custom.model'
 import { UserCustomService } from './user-custom.service'
 
@@ -20,24 +21,65 @@ const LoginUserDef = createRoute({
         body: jsonContentRequired(zUserLogin, 'User Login Data'),
     },
     responses: {
-        [OK]: ApiResponse(zUserLoginResponse, 'Item'),
+        [OK]: ApiResponse(zUserLoginResponse, 'User logged in successfully'),
     },
 })
 
 const LoginUser: AppRouteHandler<typeof LoginUserDef> = async (c) => {
-    const existing = await UserCustomService.findById(id)
-    if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'User not found' })
-    }
+    try {
+        const input = c.req.valid('json')
+        const data = await UserCustomService.login(
+            input.username,
+            input.password,
+        )
 
-    return c.json(
-        {
-            data: existing,
-            message: 'User fetched successfully',
-            success: true,
-        },
-        OK,
-    )
+        return c.json(
+            {
+                data,
+                message: 'User logged in successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(BAD_REQUEST, {
+            message: (error as Error).message,
+        })
+    }
 }
 
-export const userCustomRoutes = createRouter().openapi(LoginUserDef, LoginUser)
+const RegisterUserDef = createRoute({
+    path: `${path}/register`,
+    tags,
+    method: REQ_METHOD.POST,
+    request: {
+        body: jsonContentRequired(zInsertUser, 'User Registration Data'),
+    },
+    responses: {
+        [OK]: ApiResponse(zUserLoginResponse, 'User registered successfully'),
+    },
+})
+
+const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
+    try {
+        const input = c.req.valid('json')
+        const data = await UserCustomService.register(input)
+
+        return c.json(
+            {
+                data,
+                message: 'User registered successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(BAD_REQUEST, {
+            message: (error as Error).message,
+        })
+    }
+}
+
+export const userCustomRoutes = createRouter()
+    .openapi(LoginUserDef, LoginUser)
+    .openapi(RegisterUserDef, RegisterUser)

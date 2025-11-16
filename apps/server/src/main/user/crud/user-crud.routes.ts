@@ -10,6 +10,7 @@ import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
+import { CryptoService } from '../../auth/crypto.service'
 import {
     zInsertUser,
     zQueryUsers,
@@ -99,7 +100,8 @@ const CreateUserCrudDef = createRoute({
 
 const CreateUserCrud: AppRouteHandler<typeof CreateUserCrudDef> = async (c) => {
     const input = c.req.valid('json')
-    const data = await UserCrudService.create({ ...input })
+    const password = await CryptoService.hashPassword(input.password)
+    const data = await UserCrudService.create({ ...input, password })
 
     return c.json(
         {
@@ -133,8 +135,12 @@ const UpdateUserCrud: AppRouteHandler<typeof UpdateUserCrudDef> = async (c) => {
     }
 
     const input = c.req.valid('json')
+    const password = input.password
+        ? await CryptoService.hashPassword(input.password)
+        : undefined
     const data = await UserCrudService.update(existing.id, {
         ...input,
+        password,
     })
 
     return c.json(

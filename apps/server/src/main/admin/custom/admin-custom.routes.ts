@@ -38,6 +38,8 @@ const RegisterAdmin: AppRouteHandler<typeof RegisterAdminDef> = async (c) => {
         // do more things like seeding default data
         await seedPlans(SEED_DATA_PLANS)
         // TODO: insert account types
+        // TODo: insert transaction categories
+        // TODO: insert default roles
     }
     const data = await AdminCustomService.register(body)
 
