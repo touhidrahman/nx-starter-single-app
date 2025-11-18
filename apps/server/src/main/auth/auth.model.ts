@@ -2,11 +2,10 @@ import { z } from 'zod'
 import { SystemUserLevel } from '../../core/core.type'
 import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
-import { zInactiveUsers, zInsertAuthUser, zSelectAuthUser } from './auth.zod'
+import { zInactiveUsers, zUserLogin, zUserLoginResponse } from './auth.zod'
 
-export type SelectUser = z.infer<typeof zSelectAuthUser>
-
-export type InsertUser = z.infer<typeof zInsertAuthUser>
+export type UserLogin = z.infer<typeof zUserLogin>
+export type UserLoginResponse = z.infer<typeof zUserLoginResponse>
 
 export interface SMSResponse {
     success: boolean

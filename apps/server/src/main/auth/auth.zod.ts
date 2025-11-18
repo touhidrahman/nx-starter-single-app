@@ -1,15 +1,23 @@
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { usersTable } from '../../db/schema'
-import { SelectGroup } from '../group/group.schema'
-import { SelectRole } from '../role/role.schema'
-
-export const zLogin = z.object({
-    username: z.string(),
-    password: z.string(),
-})
+import { SelectGroup, zSelectGroup } from '../group/group.schema'
+import { SelectRole, zSelectRole } from '../role/role.schema'
+import { zInsertUser, zSelectUser } from '../user/user.schema'
 
 export const zPassword = z.string().min(8).max(64)
+
+export const zUserLogin = z.object({
+    username: z.string(),
+    password: zPassword,
+})
+
+export const zUserLoginResponse = z.object({
+    accessToken: z.string(),
+    refreshToken: z.string(),
+    user: zSelectUser,
+    group: zSelectGroup.optional(),
+    role: zSelectRole.optional(),
+    lastLogin: z.string().optional(),
+})
 
 export const zRegister = z.object({
     username: z
@@ -49,10 +57,7 @@ export const zResetPassword = z.object({
     password: zPassword,
 })
 
-export const zInsertAuthUser = createInsertSchema(usersTable)
-export const zSelectAuthUser = createSelectSchema(usersTable)
-
-export const zUpdateAuthUser = zInsertAuthUser.omit({
+export const zUpdateAuthUser = zInsertUser.omit({
     email: true,
     password: true,
     id: true,
@@ -104,7 +109,7 @@ export const CreateUserSchema = z.object({
     verified: z.boolean().default(false),
 })
 
-export const UserCreateResult = zInsertAuthUser
+export const UserCreateResult = zInsertUser
     .extend({
         id: z.string(),
         email: z.string().nullable(),
