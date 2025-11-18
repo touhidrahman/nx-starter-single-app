@@ -12,6 +12,7 @@ import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
+import { subcategoriesTable } from './subcategories.table'
 import { transactionsTable } from './transactions.table'
 import { usersTable } from './users.table'
 
@@ -24,10 +25,10 @@ export const transactionSchedulesTable = pgTable('transaction_schedules', {
     title: text(),
     note: text(),
     isOutgoing: boolean().notNull().default(true),
-    categoryId: integer().references(() => categoriesTable.id, {
+    categoryId: text().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
-    subcategoryId: integer().references(() => categoriesTable.id, {
+    subcategoryId: text().references(() => subcategoriesTable.id, {
         onDelete: 'set null',
     }),
     creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
@@ -53,6 +54,10 @@ export const transactionScheduleRelations = relations(
             fields: [transactionSchedulesTable.categoryId],
             references: [categoriesTable.id],
         }),
+        subcategory: one(subcategoriesTable, {
+            fields: [transactionSchedulesTable.subcategoryId],
+            references: [subcategoriesTable.id],
+        }),
         creator: one(usersTable, {
             fields: [transactionSchedulesTable.creatorId],
             references: [usersTable.id],
@@ -60,10 +65,6 @@ export const transactionScheduleRelations = relations(
         group: one(groupsTable, {
             fields: [transactionSchedulesTable.groupId],
             references: [groupsTable.id],
-        }),
-        subcategory: one(categoriesTable, {
-            fields: [transactionSchedulesTable.subcategoryId],
-            references: [categoriesTable.id],
         }),
         transactions: many(transactionsTable),
     }),

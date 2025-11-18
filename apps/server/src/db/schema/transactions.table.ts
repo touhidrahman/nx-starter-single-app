@@ -1,18 +1,12 @@
 import { relations } from 'drizzle-orm'
-import {
-    boolean,
-    decimal,
-    integer,
-    pgTable,
-    text,
-    timestamp,
-} from 'drizzle-orm/pg-core'
+import { boolean, decimal, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
 import { balanceTransfersTable } from './balance-transfers.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
+import { subcategoriesTable } from './subcategories.table'
 import { transactionSchedulesTable } from './transaction-schedules.table'
 import { usersTable } from './users.table'
 
@@ -25,10 +19,10 @@ export const transactionsTable = pgTable('transactions', {
     title: text(),
     note: text(),
     isOutgoing: boolean().notNull().default(true),
-    categoryId: integer().references(() => categoriesTable.id, {
+    categoryId: text().references(() => categoriesTable.id, {
         onDelete: 'set null',
     }),
-    subcategoryId: integer().references(() => categoriesTable.id, {
+    subcategoryId: text().references(() => subcategoriesTable.id, {
         onDelete: 'set null',
     }),
     committedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -64,6 +58,10 @@ export const transactionsRelations = relations(
             fields: [transactionsTable.categoryId],
             references: [categoriesTable.id],
         }),
+        subcategory: one(subcategoriesTable, {
+            fields: [transactionsTable.subcategoryId],
+            references: [subcategoriesTable.id],
+        }),
         creator: one(usersTable, {
             fields: [transactionsTable.creatorId],
             references: [usersTable.id],
@@ -71,10 +69,6 @@ export const transactionsRelations = relations(
         group: one(groupsTable, {
             fields: [transactionsTable.groupId],
             references: [groupsTable.id],
-        }),
-        subcategory: one(categoriesTable, {
-            fields: [transactionsTable.subcategoryId],
-            references: [categoriesTable.id],
         }),
         scheduledTransaction: one(transactionSchedulesTable, {
             fields: [transactionsTable.scheduledTransactionId],

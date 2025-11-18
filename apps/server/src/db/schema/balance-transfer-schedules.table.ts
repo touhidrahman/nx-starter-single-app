@@ -5,6 +5,7 @@ import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
+import { subcategoriesTable } from './subcategories.table'
 import { usersTable } from './users.table'
 
 export const balanceTransferSchedulesTable = pgTable(
@@ -20,10 +21,10 @@ export const balanceTransferSchedulesTable = pgTable(
         amount: decimal().notNull(),
         title: text(),
         note: text(),
-        categoryId: integer().references(() => categoriesTable.id, {
+        categoryId: text().references(() => categoriesTable.id, {
             onDelete: 'set null',
         }),
-        subcategoryId: integer().references(() => categoriesTable.id, {
+        subcategoryId: text().references(() => categoriesTable.id, {
             onDelete: 'set null',
         }),
         creatorId: text().references(() => usersTable.id, {
@@ -60,13 +61,13 @@ export const balanceTransferSchedulesRelations = relations(
             fields: [balanceTransferSchedulesTable.creatorId],
             references: [usersTable.id],
         }),
+        subcategory: one(subcategoriesTable, {
+            fields: [balanceTransferSchedulesTable.subcategoryId],
+            references: [subcategoriesTable.id],
+        }),
         group: one(groupsTable, {
             fields: [balanceTransferSchedulesTable.groupId],
             references: [groupsTable.id],
-        }),
-        subcategory: one(categoriesTable, {
-            fields: [balanceTransferSchedulesTable.subcategoryId],
-            references: [categoriesTable.id],
         }),
     }),
 )
