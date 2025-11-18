@@ -11,6 +11,9 @@ import { adminCrudRoutes } from './main/admin/crud/admin-crud.routes'
 import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authRoutes } from './main/auth/auth.routes'
+import { categoryCoreRoutes } from './main/category/core/category-core.routes'
+import { categoryCrudRoutes } from './main/category/crud/category-crud.routes'
+import { categoryCustomRoutes } from './main/category/custom/category-custom.routes'
 import { claimV1Routes } from './main/claim/claim.routes'
 import { currencyCoreRoutes } from './main/currency/core/currency-core.routes'
 import { currencyCrudRoutes } from './main/currency/crud/currency-crud.routes'
@@ -24,6 +27,9 @@ import { planV1Routes } from './main/plan/plan.routes'
 import { referralCodeV1Routes } from './main/referral/referral.routes'
 import { roleV1Routes } from './main/role/role.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
+import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
+import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
+import { subcategoryCustomRoutes } from './main/subcategory/custom/subcategory-custom.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
 import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
@@ -45,6 +51,9 @@ const routes = [
     authV1Routes,
     authRoutes,
     claimV1Routes,
+    categoryCoreRoutes,
+    categoryCrudRoutes,
+    categoryCustomRoutes,
     currencyCoreRoutes,
     currencyCrudRoutes,
     dashboardV1Routes,
@@ -59,6 +68,9 @@ const routes = [
     roleV1Routes,
     storageV1Routes,
     subscriptionV1Route,
+    subcategoryCoreRoutes,
+    subcategoryCrudRoutes,
+    subcategoryCustomRoutes,
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionCustomRoutes,
