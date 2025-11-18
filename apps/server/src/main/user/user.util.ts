@@ -1,6 +1,4 @@
-import { User } from './user.schema'
-
-export function passwordRemoved(user: User): User {
+export function passwordRemoved<T extends { password: string }>(user: T): T {
     return { ...user, password: '' }
 }
 

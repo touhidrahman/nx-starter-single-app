@@ -14,9 +14,9 @@ export const zUserLoginResponse = z.object({
     accessToken: z.string(),
     refreshToken: z.string(),
     user: zSelectUser,
-    group: zSelectGroup.optional(),
-    role: zSelectRole.optional(),
-    lastLogin: z.string().optional(),
+    group: zSelectGroup.nullable(),
+    role: zSelectRole.nullable(),
+    lastLogin: z.date().optional(),
 })
 
 export const zRegister = z.object({

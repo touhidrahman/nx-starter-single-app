@@ -2,18 +2,21 @@ import { and, eq } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { groupsTable, membershipsTable } from '../../db/schema'
 import { DateUtil } from '../../utils/date.util'
+import { SelectGroup } from '../group/group.schema'
+import { SelectRole } from '../role/role.schema'
 import { SelectUser } from '../user/core/user-core.model'
 import { UserCrudService } from '../user/crud/user-crud.service'
+import { passwordRemoved } from '../user/user.util'
 import { UserLoginResponse } from './auth.model'
 import { CryptoService } from './crypto.service'
 import { createAccessToken2, createRefreshToken } from './token.util'
 
 export class AuthService extends UserCrudService {
     static async login(
-        email: string,
+        emailOrUsername: string,
         password: string,
     ): Promise<UserLoginResponse> {
-        const user = await AuthService.findOne({ email })
+        const user = await AuthService.findByEmailOrUsername(emailOrUsername)
         if (!user) {
             throw new Error('Invalid email or password')
         }
@@ -62,15 +65,6 @@ export class AuthService extends UserCrudService {
             groupId = res.groupId
         }
 
-        const accessToken = await createAccessToken2({
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            roleId: roleId,
-            groupId: groupId,
-        })
-        const refreshToken = await createRefreshToken(user.id, groupId)
         const role = await db.query.membershipsTable.findFirst({
             with: { role: true },
             where: eq(membershipsTable.roleId, roleId),
@@ -79,12 +73,79 @@ export class AuthService extends UserCrudService {
             where: eq(groupsTable.id, groupId),
         })
 
+        return AuthService.getUserLoginResponse(
+            user,
+            group ?? null,
+            role?.role ?? null,
+        )
+    }
+
+    static async getUserLoginResponseByUserIdAndGroupId(
+        userId: string,
+        groupId: string,
+    ): Promise<UserLoginResponse | null> {
+        const membership = await db.query.membershipsTable.findFirst({
+            where: and(
+                eq(membershipsTable.userId, userId),
+                eq(membershipsTable.groupId, groupId),
+            ),
+            with: { role: true, group: true, user: true },
+        })
+        if (membership) {
+            return AuthService.getUserLoginResponse(
+                membership.user,
+                membership.group,
+                membership.role,
+            )
+        }
+        return null
+    }
+
+    static async getUserLoginResponseByIds(
+        userId: string,
+        groupId: string,
+        roleId: string,
+    ): Promise<UserLoginResponse | null> {
+        const membership = await db.query.membershipsTable.findFirst({
+            where: and(
+                eq(membershipsTable.userId, userId),
+                eq(membershipsTable.groupId, groupId),
+                eq(membershipsTable.roleId, roleId),
+            ),
+            with: { role: true, group: true, user: true },
+        })
+
+        if (membership) {
+            return AuthService.getUserLoginResponse(
+                membership.user,
+                membership.group,
+                membership.role,
+            )
+        }
+        return null
+    }
+
+    static async getUserLoginResponse(
+        user: SelectUser,
+        group: SelectGroup | null,
+        role: SelectRole | null,
+    ): Promise<UserLoginResponse> {
+        const accessToken = await createAccessToken2({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            roleId: role?.id ?? '',
+            groupId: group?.id,
+        })
+        const refreshToken = await createRefreshToken(user.id, group?.id)
+
         return {
             accessToken,
             refreshToken,
-            lastLogin: new Date().toISOString(),
-            user: { ...user, password: '' },
-            role: role?.role,
+            lastLogin: new Date(),
+            user: passwordRemoved(user),
+            role,
             group,
         }
     }

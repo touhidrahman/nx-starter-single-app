@@ -9,6 +9,7 @@ import { accountCrudRoutes } from './main/account/crud/account-crud.routes'
 import { adminCrudRoutes } from './main/admin/crud/admin-crud.routes'
 import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
+import { authRoutes } from './main/auth/auth.routes'
 import { claimV1Routes } from './main/claim/claim.routes'
 import { dashboardV1Routes } from './main/dashboard/dashboard.routes'
 import { databaseBackupV1Routes } from './main/database-backup/database-backup.routes'
@@ -37,6 +38,7 @@ const routes = [
     adminCrudRoutes,
     adminCustomRoutes,
     authV1Routes,
+    authRoutes,
     claimV1Routes,
     dashboardV1Routes,
     databaseBackupV1Routes,

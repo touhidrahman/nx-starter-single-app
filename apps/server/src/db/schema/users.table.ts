@@ -4,6 +4,7 @@ import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { groupsTable } from './groups.table'
 import { invitesTable } from './invites.table'
+import { membershipsTable } from './memberships.table'
 import { referralsTable } from './referral.table'
 
 export const usersTable = pgTable('users', {
@@ -36,4 +37,5 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
         fields: [usersTable.defaultGroupId],
         references: [groupsTable.id],
     }),
+    memberships: many(membershipsTable),
 }))

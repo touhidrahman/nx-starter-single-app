@@ -3,6 +3,7 @@ import { pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { groupsTable } from './groups.table'
+import { membershipsTable } from './memberships.table'
 
 export const rolesTable = pgTable('roles', {
     id: text().primaryKey().$defaultFn(generateId),
@@ -13,9 +14,10 @@ export const rolesTable = pgTable('roles', {
     ...timestampColumns,
 })
 
-export const roleTableRelations = relations(rolesTable, ({ one }) => ({
+export const roleTableRelations = relations(rolesTable, ({ one, many }) => ({
     group: one(groupsTable, {
         fields: [rolesTable.groupId],
         references: [groupsTable.id],
     }),
+    memberships: many(membershipsTable),
 }))
