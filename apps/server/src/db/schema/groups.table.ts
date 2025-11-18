@@ -2,7 +2,7 @@ import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
-import { currencysTable } from './currency.table'
+import { currenciesTable } from './currencies.table'
 import { invitesTable } from './invites.table'
 import { membershipsTable } from './memberships.table'
 import { rolesTable } from './roles.table'
@@ -40,5 +40,5 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
     }),
     transactions: many(transactionsTable),
     memberships: many(membershipsTable),
-    currencies: many(currencysTable),
+    currencies: many(currenciesTable),
 }))

@@ -7,6 +7,12 @@ export const APP_OPENAPI_TAGS = {
     Admin: 'Admin',
     Auth: 'Auth',
     Category: 'Category',
+    Currency: 'Currency',
+    Feedback: 'Feedback',
+    Group: 'Group',
+    Invite: 'Invite',
+    Membership: 'Membership',
+    Role: 'Role',
     Transaction: 'Transaction',
     User: 'User',
 } as const

@@ -12,6 +12,8 @@ import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { authRoutes } from './main/auth/auth.routes'
 import { claimV1Routes } from './main/claim/claim.routes'
+import { currencyCoreRoutes } from './main/currency/core/currency-core.routes'
+import { currencyCrudRoutes } from './main/currency/crud/currency-crud.routes'
 import { dashboardV1Routes } from './main/dashboard/dashboard.routes'
 import { databaseBackupV1Routes } from './main/database-backup/database-backup.routes'
 import { feedbackV1Routes } from './main/feedback/feedback.routes'
@@ -25,6 +27,7 @@ import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
 import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
+import { transactionCustomRoutes } from './main/transaction/custom/transaction-custom.routes'
 import { userCoreRoutes } from './main/user/core/user-core.routes'
 import { userCrudRoutes } from './main/user/crud/user-crud.routes'
 import { userCustomRoutes } from './main/user/custom/user-custom.routes'
@@ -42,6 +45,8 @@ const routes = [
     authV1Routes,
     authRoutes,
     claimV1Routes,
+    currencyCoreRoutes,
+    currencyCrudRoutes,
     dashboardV1Routes,
     databaseBackupV1Routes,
     feedbackV1Routes,
@@ -56,6 +61,7 @@ const routes = [
     subscriptionV1Route,
     transactionCoreRoutes,
     transactionCrudRoutes,
+    transactionCustomRoutes,
     userSettingsV1Routes,
     userCoreRoutes,
     userCrudRoutes,

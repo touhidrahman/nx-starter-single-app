@@ -5,10 +5,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
-import { SEED_DATA_PLANS } from '../../../seed/seed-data'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { seedPlans } from '../../../utils/seed.service'
-import { AccountTypeCrudService } from '../../account-type/crud/account-type-crud.service'
 import { zSelectAdmin } from '../core/admin-core.model'
 import {
     zAdminLoginResponse,
@@ -36,11 +33,7 @@ const RegisterAdmin: AppRouteHandler<typeof RegisterAdminDef> = async (c) => {
     const body = c.req.valid('json')
     const isFirstAdmin = await AdminCustomService.isTableEmpty()
     if (!isFirstAdmin) {
-        await seedPlans(SEED_DATA_PLANS)
-
-        await AccountTypeCrudService.seed()
-        // TODo: insert transaction categories
-        await AdminCustomService.seedDefaultRoles()
+        await AdminCustomService.initialSeed()
     }
     const data = await AdminCustomService.register(body)
 

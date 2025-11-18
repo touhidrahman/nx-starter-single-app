@@ -9,6 +9,7 @@ import {
     createAdminRefreshToken,
 } from '../../auth/token.util'
 import { APP_DEFAULT_ROLES, DEFAULT_PERMISSIONS } from '../../claim/claims'
+import { CurrencyCrudService } from '../../currency/crud/currency-crud.service'
 import { SelectAdmin } from '../core/admin-core.model'
 import { AdminCrudService } from '../crud/admin-crud.service'
 import { AdminLoginResponse, RegisterAdmin } from './admin-custom.model'
@@ -70,11 +71,13 @@ export class AdminCustomService extends AdminCrudService {
         await seedPlans(SEED_DATA_PLANS)
 
         await AccountTypeCrudService.seed()
-        // TODO: transaction categories, subcategories, currency
+        // TODO: transaction categories, subcategories
+        await CurrencyCrudService.seed()
         await AdminCustomService.seedDefaultRoles()
     }
 
-    static async seedDefaultRoles(): Promise<void> {
+    // TODO: move to roles service
+    private static async seedDefaultRoles(): Promise<void> {
         await db.insert(rolesTable).values(
             APP_DEFAULT_ROLES.map((roleId) => ({
                 id: roleId,

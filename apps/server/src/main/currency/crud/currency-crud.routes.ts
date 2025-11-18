@@ -11,50 +11,50 @@ import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
 import {
-    zInsertTransaction,
-    zQueryTransactions,
-    zSelectTransaction,
-    zUpdateTransaction,
-} from '../core/transaction-core.model'
-import { TransactionCrudService } from './transaction-crud.service'
+    zInsertCurrency,
+    zQueryCurrencies,
+    zSelectCurrency,
+    zUpdateCurrency,
+} from '../core/currency-core.model'
+import { CurrencyCrudService } from './currency-crud.service'
 
-const tags = [APP_OPENAPI_TAGS.Transaction]
-const path = '/crud/transactions'
+const tags = [APP_OPENAPI_TAGS.Currency]
+const path = '/crud/currencys'
 
-const GetTransactionListCrudDef = createRoute({
+const GetCurrencyListCrudDef = createRoute({
     path: path,
     tags,
     method: REQ_METHOD.GET,
     middleware: [checkToken] as const,
     request: {
-        query: zQueryTransactions,
+        query: zQueryCurrencies,
     },
     responses: {
-        [OK]: ApiListResponse(z.array(zSelectTransaction), 'Transaction List'),
+        [OK]: ApiListResponse(z.array(zSelectCurrency), 'Currency List'),
     },
 })
 
-const GetTransactionListCrud: AppRouteHandler<
-    typeof GetTransactionListCrudDef
+const GetCurrencyListCrud: AppRouteHandler<
+    typeof GetCurrencyListCrudDef
 > = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
-    const data = await TransactionCrudService.findMany(groupSpecificQuery)
-    const count = await TransactionCrudService.count(groupSpecificQuery)
+    const data = await CurrencyCrudService.findMany(groupSpecificQuery)
+    const count = await CurrencyCrudService.count(groupSpecificQuery)
 
     return c.json(
         {
             data,
             pagination: buildPaginationResponse(query.page, query.size, count),
-            message: 'Transaction list fetched successfully',
+            message: 'Currency list fetched successfully',
             success: true,
         },
         OK,
     )
 }
 
-const GetTransactionCrudDef = createRoute({
+const GetCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
@@ -63,53 +63,50 @@ const GetTransactionCrudDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectCurrency, 'Item'),
     },
 })
 
-const GetTransactionCrud: AppRouteHandler<
-    typeof GetTransactionCrudDef
-> = async (c) => {
+const GetCurrencyCrud: AppRouteHandler<typeof GetCurrencyCrudDef> = async (
+    c,
+) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     if (!groupId) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Currency not found' })
     }
 
-    const existing = await TransactionCrudService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await CurrencyCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Currency not found' })
     }
 
     return c.json(
         {
             data: existing,
-            message: 'Transaction fetched successfully',
+            message: 'Currency fetched successfully',
             success: true,
         },
         OK,
     )
 }
 
-const CreateTransactionCrudDef = createRoute({
+const CreateCurrencyCrudDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.POST,
     middleware: [checkToken] as const,
     request: {
-        body: jsonContent(zInsertTransaction, 'Input'),
+        body: jsonContent(zInsertCurrency, 'Input'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectCurrency, 'Item'),
     },
 })
 
-const CreateTransactionCrud: AppRouteHandler<
-    typeof CreateTransactionCrudDef
+const CreateCurrencyCrud: AppRouteHandler<
+    typeof CreateCurrencyCrudDef
 > = async (c) => {
     const { groupId, sub: creatorId } = c.get(
         'jwtPayload',
@@ -118,11 +115,11 @@ const CreateTransactionCrud: AppRouteHandler<
 
     if (!groupId) {
         throw new HTTPException(FORBIDDEN, {
-            message: 'Transaction could not be created',
+            message: 'Currency could not be created',
         })
     }
 
-    const data = await TransactionCrudService.create({
+    const data = await CurrencyCrudService.create({
         ...input,
         groupId,
         creatorId,
@@ -131,49 +128,46 @@ const CreateTransactionCrud: AppRouteHandler<
     return c.json(
         {
             data,
-            message: 'Transaction created successfully',
+            message: 'Currency created successfully',
             success: true,
         },
         OK,
     )
 }
 
-const UpdateTransactionCrudDef = createRoute({
+const UpdateCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
     middleware: [checkToken] as const,
     request: {
         params: zId,
-        body: jsonContent(zUpdateTransaction, 'Input'),
+        body: jsonContent(zUpdateCurrency, 'Input'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectTransaction, 'Item'),
+        [OK]: ApiResponse(zSelectCurrency, 'Item'),
     },
 })
 
-const UpdateTransactionCrud: AppRouteHandler<
-    typeof UpdateTransactionCrudDef
+const UpdateCurrencyCrud: AppRouteHandler<
+    typeof UpdateCurrencyCrudDef
 > = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     if (!groupId) {
         throw new HTTPException(FORBIDDEN, {
-            message: 'Transaction cannot be updated',
+            message: 'Currency cannot be updated',
         })
     }
 
-    const existing = await TransactionCrudService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await CurrencyCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Currency not found' })
     }
 
     const input = c.req.valid('json')
-    const data = await TransactionCrudService.update(existing.id, {
+    const data = await CurrencyCrudService.update(existing.id, {
         ...input,
         groupId,
     })
@@ -181,14 +175,14 @@ const UpdateTransactionCrud: AppRouteHandler<
     return c.json(
         {
             data,
-            message: 'Transaction updated successfully',
+            message: 'Currency updated successfully',
             success: true,
         },
         OK,
     )
 }
 
-const DeleteTransactionCrudDef = createRoute({
+const DeleteCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
@@ -201,40 +195,37 @@ const DeleteTransactionCrudDef = createRoute({
     },
 })
 
-const DeleteTransactionCrud: AppRouteHandler<
-    typeof DeleteTransactionCrudDef
+const DeleteCurrencyCrud: AppRouteHandler<
+    typeof DeleteCurrencyCrudDef
 > = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     if (!groupId) {
         throw new HTTPException(FORBIDDEN, {
-            message: 'Transaction cannot be deleted',
+            message: 'Currency cannot be deleted',
         })
     }
 
-    const existing = await TransactionCrudService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await CurrencyCrudService.findByIdAndGroupId(id, groupId)
     if (!existing) {
-        throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
+        throw new HTTPException(NOT_FOUND, { message: 'Currency not found' })
     }
-    await TransactionCrudService.delete(existing.id)
+    await CurrencyCrudService.delete(existing.id)
 
     return c.json(
         {
             data: {},
-            message: 'Transaction deleted successfully',
+            message: 'Currency deleted successfully',
             success: true,
         },
         OK,
     )
 }
 
-export const transactionCrudRoutes = createRouter()
-    .openapi(GetTransactionListCrudDef, GetTransactionListCrud)
-    .openapi(CreateTransactionCrudDef, CreateTransactionCrud)
-    .openapi(UpdateTransactionCrudDef, UpdateTransactionCrud)
-    .openapi(DeleteTransactionCrudDef, DeleteTransactionCrud)
-    .openapi(GetTransactionCrudDef, GetTransactionCrud)
+export const currencyCrudRoutes = createRouter()
+    .openapi(GetCurrencyListCrudDef, GetCurrencyListCrud)
+    .openapi(CreateCurrencyCrudDef, CreateCurrencyCrud)
+    .openapi(UpdateCurrencyCrudDef, UpdateCurrencyCrud)
+    .openapi(DeleteCurrencyCrudDef, DeleteCurrencyCrud)
+    .openapi(GetCurrencyCrudDef, GetCurrencyCrud)
