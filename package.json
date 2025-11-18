@@ -162,6 +162,7 @@
         "@nxext/capacitor": "^21.0.0",
         "@nxext/ionic-angular": "^21.0.0",
         "@schematics/angular": "20.3.7",
+        "@spartan-ng/cli": "0.0.1-alpha.560",
         "@swc-node/register": "~1.11.1",
         "@swc/core": "~1.13.5",
         "@swc/helpers": "~0.5.17",

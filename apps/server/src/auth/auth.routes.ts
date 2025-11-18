@@ -11,8 +11,6 @@ import {
 } from './routes/forgot-password'
 import { forgotPINCodeHandler, forgotPINCodeRoute } from './routes/forgot-pin'
 import { groupSwitchHandler, groupSwitchRoute } from './routes/group-switch'
-import { loginHandler, loginRoute } from './routes/login'
-import { registerHandler, registerRoute } from './routes/register'
 import {
     resendVerificationHandler,
     resendVerificationRoute,
@@ -30,9 +28,7 @@ import { verifyEmailHandler, verifyEmailRoute } from './routes/verify-email'
 import { verifyPinHandler, verifyPinRoute } from './routes/verify-pin'
 
 export const authV1Routes = createRouter()
-    .openapi(loginRoute, loginHandler)
     .openapi(getTokenRoute, getTokenRouteHandler)
-    .openapi(registerRoute, registerHandler)
     .openapi(groupSwitchRoute, groupSwitchHandler)
     .openapi(setDefaultGroupRoute, setDefaultGroupHandler)
     .openapi(changePasswordRoute, changePasswordHandler)
