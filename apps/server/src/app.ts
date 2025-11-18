@@ -6,6 +6,7 @@ import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
 import { accountCoreRoutes } from './main/account/core/account-core.routes'
 import { accountCrudRoutes } from './main/account/crud/account-crud.routes'
+import { accountCustomRoutes } from './main/account/custom/account-custom.routes'
 import { accountTypeCoreRoutes } from './main/account-type/core/account-type-core.routes'
 import { adminCrudRoutes } from './main/admin/crud/admin-crud.routes'
 import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
@@ -45,6 +46,7 @@ const routes = [
     coreRoutes,
     accountCoreRoutes,
     accountCrudRoutes,
+    accountCustomRoutes,
     accountTypeCoreRoutes,
     adminCrudRoutes,
     adminCustomRoutes,
