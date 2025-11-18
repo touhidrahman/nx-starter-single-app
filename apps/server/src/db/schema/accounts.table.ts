@@ -11,11 +11,12 @@ import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountTypesTable } from './account-types.table'
 import { groupsTable } from './groups.table'
+import { transactionsTable } from './transactions.table'
 import { usersTable } from './users.table'
 
 export const accountsTable = pgTable('accounts', {
     id: text().primaryKey().$defaultFn(generateId),
-    type: integer()
+    type: text()
         .notNull()
         .references(() => accountTypesTable.id),
     name: text(),
@@ -24,6 +25,8 @@ export const accountsTable = pgTable('accounts', {
     useForNetWorth: boolean().notNull().default(true),
     monthlyBudget: decimal(),
     isPrivate: boolean().notNull().default(false),
+    icon: text(),
+    color: text(),
 
     bankAccountOwnerName: text(),
     bankAccountNumber: text(),
@@ -65,4 +68,9 @@ export const accountsRelations = relations(accountsTable, ({ one, many }) => ({
         fields: [accountsTable.creatorId],
         references: [usersTable.id],
     }),
+    accountType: one(accountTypesTable, {
+        fields: [accountsTable.type],
+        references: [accountTypesTable.id],
+    }),
+    transactions: many(transactionsTable),
 }))

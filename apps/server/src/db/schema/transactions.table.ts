@@ -10,6 +10,7 @@ import {
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
+import { balanceTransfersTable } from './balance-transfers.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
 import { transactionSchedulesTable } from './transaction-schedules.table'
@@ -46,10 +47,18 @@ export const transactionsTable = pgTable('transactions', {
 
 export const transactionsRelations = relations(
     transactionsTable,
-    ({ one, many }) => ({
+    ({ one }) => ({
         account: one(accountsTable, {
             fields: [transactionsTable.accountId],
             references: [accountsTable.id],
+        }),
+        inBalanceTransfer: one(balanceTransfersTable, {
+            fields: [transactionsTable.id],
+            references: [balanceTransfersTable.inTransactionId],
+        }),
+        outBalanceTransfer: one(balanceTransfersTable, {
+            fields: [transactionsTable.id],
+            references: [balanceTransfersTable.outTransactionId],
         }),
         category: one(categoriesTable, {
             fields: [transactionsTable.categoryId],

@@ -1,5 +1,8 @@
 import { db } from '../../../db/db'
 import { rolesTable } from '../../../db/schema'
+import { SEED_DATA_PLANS } from '../../../seed/seed-data'
+import { seedPlans } from '../../../utils/seed.service'
+import { AccountTypeCrudService } from '../../account-type/crud/account-type-crud.service'
 import { CryptoService } from '../../auth/crypto.service'
 import {
     createAdminAccessToken,
@@ -61,6 +64,14 @@ export class AdminCustomService extends AdminCrudService {
             return { ...admin, password: '' }
         }
         throw new Error('Approval failed')
+    }
+
+    static async initialSeed(): Promise<void> {
+        await seedPlans(SEED_DATA_PLANS)
+
+        await AccountTypeCrudService.seed()
+        // TODO: transaction categories, subcategories, currency
+        await AdminCustomService.seedDefaultRoles()
     }
 
     static async seedDefaultRoles(): Promise<void> {

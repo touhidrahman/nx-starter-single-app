@@ -5,18 +5,19 @@ import { DateUtil } from '../../utils/date.util'
 import { SelectGroup } from '../group/group.schema'
 import { SelectRole } from '../role/role.schema'
 import { SelectUser } from '../user/core/user-core.model'
-import { UserCrudService } from '../user/crud/user-crud.service'
+import { UserCustomService } from '../user/custom/user-custom.service'
 import { passwordRemoved } from '../user/user.util'
 import { UserLoginResponse } from './auth.model'
 import { CryptoService } from './crypto.service'
 import { createAccessToken2, createRefreshToken } from './token.util'
 
-export class AuthService extends UserCrudService {
+export class AuthService {
     static async login(
         emailOrUsername: string,
         password: string,
     ): Promise<UserLoginResponse> {
-        const user = await AuthService.findByEmailOrUsername(emailOrUsername)
+        const user =
+            await UserCustomService.findByEmailOrUsername(emailOrUsername)
         if (!user) {
             throw new Error('Invalid email or password')
         }
@@ -164,7 +165,7 @@ export class AuthService extends UserCrudService {
         if (memberships.length > 0) {
             roleId = memberships[0]?.roleId ?? ''
             groupId = memberships[0]?.groupId ?? ''
-            await AuthService.update(user.id, {
+            await UserCustomService.update(user.id, {
                 defaultGroupId: groupId,
             })
         }

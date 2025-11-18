@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm'
 import { AnyPgColumn, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
+import { currencysTable } from './currency.table'
 import { groupsTable } from './groups.table'
 import { invitesTable } from './invites.table'
 import { membershipsTable } from './memberships.table'
@@ -38,4 +39,5 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
         references: [groupsTable.id],
     }),
     memberships: many(membershipsTable),
+    currencies: many(currencysTable),
 }))

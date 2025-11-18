@@ -66,6 +66,13 @@ export const balanceTransfersRelations = relations(
             fields: [balanceTransfersTable.subcategoryId],
             references: [categoriesTable.id],
         }),
-        transactions: many(transactionsTable),
+        outTransaction: one(transactionsTable, {
+            fields: [balanceTransfersTable.outTransactionId],
+            references: [transactionsTable.id],
+        }),
+        inTransaction: one(transactionsTable, {
+            fields: [balanceTransfersTable.inTransactionId],
+            references: [transactionsTable.id],
+        }),
     }),
 )
