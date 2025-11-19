@@ -10,7 +10,6 @@ import { accountCustomRoutes } from './main/account/custom/account-custom.routes
 import { accountTypeCoreRoutes } from './main/account-type/core/account-type-core.routes'
 import { adminCrudRoutes } from './main/admin/crud/admin-crud.routes'
 import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
-import { logsV1Route } from './main/audit-log/audit-log.routes'
 import { auditLogCoreRoutes } from './main/audit-log/core/audit-log-core.routes'
 import { auditLogCrudRoutes } from './main/audit-log/crud/audit-log-crud.routes'
 import { auditLogCustomRoutes } from './main/audit-log/custom/audit-log-custom.routes'
@@ -28,10 +27,11 @@ import { groupsV1Route } from './main/group/group.routes'
 import { inviteCoreRoutes } from './main/invite/core/invite-core.routes'
 import { inviteCrudRoutes } from './main/invite/crud/invite-crud.routes'
 import { inviteCustomRoutes } from './main/invite/custom/invite-custom.routes'
-import { newsTickerV1Routes } from './main/news-ticker/news-ticker.routes'
+import { planCoreRoutes } from './main/plan/core/plan-core.routes'
+import { planCrudRoutes } from './main/plan/crud/plan-crud.routes'
+import { planCustomRoutes } from './main/plan/custom/plan-custom.routes'
 import { planV1Routes } from './main/plan/plan.routes'
 import { referralCodeV1Routes } from './main/referral/referral.routes'
-import { roleV1Routes } from './main/role/role.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
 import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
 import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
@@ -70,14 +70,15 @@ const routes = [
     inviteCoreRoutes,
     inviteCrudRoutes,
     inviteCustomRoutes,
-    logsV1Route,
     auditLogCoreRoutes,
     auditLogCrudRoutes,
     auditLogCustomRoutes,
     newsTickerV1Routes,
     planV1Routes,
+    planCoreRoutes,
+    planCrudRoutes,
+    planCustomRoutes,
     referralCodeV1Routes,
-    roleV1Routes,
     storageV1Routes,
     subscriptionV1Route,
     subcategoryCoreRoutes,
