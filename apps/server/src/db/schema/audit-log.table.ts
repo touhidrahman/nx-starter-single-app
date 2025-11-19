@@ -7,6 +7,7 @@ export const auditLogTable = pgTable('audit_logs', {
     entity: varchar({ length: 100 }).notNull(),
     entityId: varchar({ length: 100 }).notNull(),
     creatorId: varchar({ length: 100 }).notNull(),
+    groupId: varchar({ length: 100 }),
     action: actionStatusEnum().notNull(),
     previousData: jsonb().default({}),
     updatedData: jsonb().default({}),

@@ -11,6 +11,9 @@ import { accountTypeCoreRoutes } from './main/account-type/core/account-type-cor
 import { adminCrudRoutes } from './main/admin/crud/admin-crud.routes'
 import { adminCustomRoutes } from './main/admin/custom/admin-custom.routes'
 import { logsV1Route } from './main/audit-log/audit-log.routes'
+import { auditLogCoreRoutes } from './main/audit-log/core/audit-log-core.routes'
+import { auditLogCrudRoutes } from './main/audit-log/crud/audit-log-crud.routes'
+import { auditLogCustomRoutes } from './main/audit-log/custom/audit-log-custom.routes'
 import { authRoutes } from './main/auth/auth.routes'
 import { categoryCoreRoutes } from './main/category/core/category-core.routes'
 import { categoryCrudRoutes } from './main/category/crud/category-crud.routes'
@@ -64,6 +67,9 @@ const routes = [
     groupsV1Route,
     invitesV1Route,
     logsV1Route,
+    auditLogCoreRoutes,
+    auditLogCrudRoutes,
+    auditLogCustomRoutes,
     newsTickerV1Routes,
     planV1Routes,
     referralCodeV1Routes,

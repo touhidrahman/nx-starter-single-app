@@ -115,6 +115,11 @@ export class TransactionCoreService {
             .where(inArray(transactionsTable.id, ids))
     }
 
+    static async deleteManyByQuery(filters: QueryTransactions): Promise<void> {
+        const conditions = TransactionCoreService.buildWhereConditions(filters)
+        await db.delete(transactionsTable).where(conditions)
+    }
+
     static buildWhereConditions(
         params: QueryTransactions,
     ): SQL<unknown> | undefined {
