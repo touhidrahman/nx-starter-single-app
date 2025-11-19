@@ -4,9 +4,10 @@ import { FORBIDDEN, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
+import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -24,8 +25,8 @@ const path = '/crud/transactions'
 const GetTransactionListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
-    middleware: [checkToken] as const,
+    method: 'get',
+    middleware: [checkToken, checkPermission(['Transaction:Read'])] as const,
     request: {
         query: zQueryTransactions,
     },
@@ -57,8 +58,8 @@ const GetTransactionListCrud: AppRouteHandler<
 const GetTransactionCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
-    middleware: [checkToken] as const,
+    method: 'get',
+    middleware: [checkToken, checkPermission(['Transaction:Read'])] as const,
     request: {
         params: zId,
     },
@@ -98,8 +99,8 @@ const GetTransactionCrud: AppRouteHandler<
 const CreateTransactionCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
-    middleware: [checkToken] as const,
+    method: 'post',
+    middleware: [checkToken, checkPermission(['Transaction:Write'])] as const,
     request: {
         body: jsonContent(zInsertTransaction, 'Input'),
     },
@@ -141,8 +142,8 @@ const CreateTransactionCrud: AppRouteHandler<
 const UpdateTransactionCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
-    middleware: [checkToken] as const,
+    method: 'put',
+    middleware: [checkToken, checkPermission(['Transaction:Write'])] as const,
     request: {
         params: zId,
         body: jsonContent(zUpdateTransaction, 'Input'),
@@ -191,8 +192,8 @@ const UpdateTransactionCrud: AppRouteHandler<
 const DeleteTransactionCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
-    middleware: [checkToken] as const,
+    method: 'delete',
+    middleware: [checkToken, checkPermission(['Transaction:Delete'])] as const,
     request: {
         params: zId,
     },
