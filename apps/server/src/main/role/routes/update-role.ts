@@ -23,7 +23,7 @@ export const updateRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission({ and: ['role:write'] }), isAdmin),
+        some(checkPermission(['role:write']), isAdmin),
     ] as const,
     params: zId,
     request: {

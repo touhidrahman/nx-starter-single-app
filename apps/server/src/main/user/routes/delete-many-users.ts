@@ -12,10 +12,7 @@ export const deleteUsersRoute = createRoute({
     path: '/users/delete',
     method: 'delete',
     tags: ['User'],
-    middleware: [
-        checkToken,
-        checkPermission({ and: ['user:delete'] }),
-    ] as const,
+    middleware: [checkToken, checkPermission(['user:delete'])] as const,
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),

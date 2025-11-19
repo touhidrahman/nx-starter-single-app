@@ -23,7 +23,7 @@ export const createInviteRoute = createRoute({
     tags: ['Invite'],
     middleware: [
         checkToken,
-        some(checkPermission({ and: ['invite:write'] }), isAdmin),
+        some(checkPermission(['invite:write']), isAdmin),
     ] as const,
     request: {
         body: jsonContent(zInsertInvite, 'Invite details'),

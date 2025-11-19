@@ -15,10 +15,7 @@ export const updateUserRoleRoute = createRoute({
     path: '/groups/:id/update-user-role',
     method: 'post',
     tags: ['Group'],
-    middleware: [
-        checkToken,
-        checkPermission({ and: ['role:assign'] }),
-    ] as const,
+    middleware: [checkToken, checkPermission(['role:assign'])] as const,
     request: {
         params: zId,
         body: jsonContent(zUpdateUserRole, 'User ID and Role'),

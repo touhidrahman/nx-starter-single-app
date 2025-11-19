@@ -11,10 +11,7 @@ export const deleteInvitationRoute = createRoute({
     path: '/invites/:id',
     method: 'delete',
     tags: ['Invite'],
-    middleware: [
-        checkToken,
-        checkPermission({ and: ['invite:write'] }),
-    ] as const,
+    middleware: [checkToken, checkPermission(['invite:write'])] as const,
     request: {
         params: z.object({
             id: z.string(),

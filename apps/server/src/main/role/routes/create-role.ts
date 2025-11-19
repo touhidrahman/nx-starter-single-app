@@ -22,7 +22,7 @@ export const createRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission({ and: ['role:write'] }), isAdmin),
+        some(checkPermission(['role:write']), isAdmin),
     ] as const,
     request: {
         body: jsonContent(zInsertRole, 'Role details'),

@@ -18,7 +18,7 @@ export const listRolesRoute = createRoute({
     middleware: [
         checkToken,
         checkGroupId,
-        some(checkPermission({ and: ['role:read'] }), isAdmin),
+        some(checkPermission(['role:read']), isAdmin),
     ] as const,
     responses: {
         [OK]: ApiResponse(z.array(zSelectRole), 'List of Roles'),

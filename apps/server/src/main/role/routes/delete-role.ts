@@ -25,7 +25,7 @@ export const deleteRoleRoute = createRoute({
     tags: ['Role'],
     middleware: [
         checkToken,
-        some(checkPermission({ and: ['role:delete'] }), isAdmin),
+        some(checkPermission(['role:delete']), isAdmin),
     ] as const,
     params: zId,
     responses: {

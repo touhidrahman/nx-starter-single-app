@@ -16,10 +16,7 @@ export const changeUserRoleRoute = createRoute({
     method: 'put',
     tags: ['User'],
     middleware: [
-        every(
-            checkToken,
-            some(isAdmin, checkPermission({ and: ['role:write'] })),
-        ),
+        every(checkToken, some(isAdmin, checkPermission(['role:write']))),
     ] as const,
     request: {
         params: z.object({ id: z.string() }),
