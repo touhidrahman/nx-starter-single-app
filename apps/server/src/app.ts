@@ -30,7 +30,6 @@ import { inviteCustomRoutes } from './main/invite/custom/invite-custom.routes'
 import { planCoreRoutes } from './main/plan/core/plan-core.routes'
 import { planCrudRoutes } from './main/plan/crud/plan-crud.routes'
 import { planCustomRoutes } from './main/plan/custom/plan-custom.routes'
-import { planV1Routes } from './main/plan/plan.routes'
 import { referralCodeV1Routes } from './main/referral/referral.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
 import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
@@ -43,6 +42,9 @@ import { transactionCustomRoutes } from './main/transaction/custom/transaction-c
 import { userCoreRoutes } from './main/user/core/user-core.routes'
 import { userCrudRoutes } from './main/user/crud/user-crud.routes'
 import { userCustomRoutes } from './main/user/custom/user-custom.routes'
+import { userSettingCoreRoutes } from './main/user-settings/core/user-setting-core.routes'
+import { userSettingCrudRoutes } from './main/user-settings/crud/user-setting-crud.routes'
+import { userSettingCustomRoutes } from './main/user-settings/custom/user-setting-custom.routes'
 import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 
 const app = createApp()
@@ -73,8 +75,6 @@ const routes = [
     auditLogCoreRoutes,
     auditLogCrudRoutes,
     auditLogCustomRoutes,
-    newsTickerV1Routes,
-    planV1Routes,
     planCoreRoutes,
     planCrudRoutes,
     planCustomRoutes,
@@ -87,6 +87,9 @@ const routes = [
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionCustomRoutes,
+    userSettingCoreRoutes,
+    userSettingCrudRoutes,
+    userSettingCustomRoutes,
     userSettingsV1Routes,
     userCoreRoutes,
     userCrudRoutes,
