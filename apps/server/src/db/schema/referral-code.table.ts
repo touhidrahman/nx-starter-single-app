@@ -15,7 +15,7 @@ export const referralCodesTable = pgTable('referral_codes', {
         .references(() => groupsTable.id, { onDelete: 'cascade' })
         .notNull(),
     referralCode: text().notNull().unique(),
-    createdAt: timestampColumns.createdAt,
+    ...timestampColumns,
 })
 
 export const referralCodeRelations = relations(

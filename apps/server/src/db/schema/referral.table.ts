@@ -14,7 +14,7 @@ export const referralsTable = pgTable('referrals', {
         onDelete: 'cascade',
     }),
     points: integer().notNull().default(0),
-    createdAt: timestampColumns.createdAt,
+    ...timestampColumns,
 })
 
 export const referralsRelations = relations(referralsTable, ({ one }) => ({

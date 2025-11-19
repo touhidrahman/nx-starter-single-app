@@ -30,7 +30,6 @@ import { inviteCustomRoutes } from './main/invite/custom/invite-custom.routes'
 import { planCoreRoutes } from './main/plan/core/plan-core.routes'
 import { planCrudRoutes } from './main/plan/crud/plan-crud.routes'
 import { planCustomRoutes } from './main/plan/custom/plan-custom.routes'
-import { referralCodeV1Routes } from './main/referral/referral.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
 import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
 import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
@@ -45,7 +44,6 @@ import { userCustomRoutes } from './main/user/custom/user-custom.routes'
 import { userSettingCoreRoutes } from './main/user-settings/core/user-setting-core.routes'
 import { userSettingCrudRoutes } from './main/user-settings/crud/user-setting-crud.routes'
 import { userSettingCustomRoutes } from './main/user-settings/custom/user-setting-custom.routes'
-import { userSettingsV1Routes } from './main/user-settings/user-setting.routes'
 
 const app = createApp()
 
@@ -78,7 +76,6 @@ const routes = [
     planCoreRoutes,
     planCrudRoutes,
     planCustomRoutes,
-    referralCodeV1Routes,
     storageV1Routes,
     subscriptionV1Route,
     subcategoryCoreRoutes,
@@ -90,7 +87,6 @@ const routes = [
     userSettingCoreRoutes,
     userSettingCrudRoutes,
     userSettingCustomRoutes,
-    userSettingsV1Routes,
     userCoreRoutes,
     userCrudRoutes,
     userCustomRoutes,
