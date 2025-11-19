@@ -25,7 +25,9 @@ import { dashboardV1Routes } from './main/dashboard/dashboard.routes'
 import { databaseBackupV1Routes } from './main/database-backup/database-backup.routes'
 import { feedbackV1Routes } from './main/feedback/feedback.routes'
 import { groupsV1Route } from './main/group/group.routes'
-import { invitesV1Route } from './main/invite/invites.routes'
+import { inviteCoreRoutes } from './main/invite/core/invite-core.routes'
+import { inviteCrudRoutes } from './main/invite/crud/invite-crud.routes'
+import { inviteCustomRoutes } from './main/invite/custom/invite-custom.routes'
 import { newsTickerV1Routes } from './main/news-ticker/news-ticker.routes'
 import { planV1Routes } from './main/plan/plan.routes'
 import { referralCodeV1Routes } from './main/referral/referral.routes'
@@ -65,7 +67,9 @@ const routes = [
     databaseBackupV1Routes,
     feedbackV1Routes,
     groupsV1Route,
-    invitesV1Route,
+    inviteCoreRoutes,
+    inviteCrudRoutes,
+    inviteCustomRoutes,
     logsV1Route,
     auditLogCoreRoutes,
     auditLogCrudRoutes,
