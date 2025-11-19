@@ -2,6 +2,7 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
+import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse } from '../../../utils/api-response.util'
@@ -17,7 +18,7 @@ const GetMyRoleListDef = createRoute({
     path: `${path}/my`,
     tags,
     method: REQ_METHOD.GET,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         query: zQueryRoles,
     },

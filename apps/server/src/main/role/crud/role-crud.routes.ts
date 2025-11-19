@@ -4,6 +4,7 @@ import { FORBIDDEN, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
+import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
@@ -25,7 +26,7 @@ const GetRoleListCrudDef = createRoute({
     path: path,
     tags,
     method: REQ_METHOD.GET,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         query: zQueryRoles,
     },
@@ -58,7 +59,7 @@ const GetRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.GET,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         params: zId,
     },
@@ -90,7 +91,7 @@ const CreateRoleCrudDef = createRoute({
     path,
     tags,
     method: REQ_METHOD.POST,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Write'])] as const,
     request: {
         body: jsonContent(zInsertRole, 'Input'),
     },
@@ -128,7 +129,7 @@ const UpdateRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.PUT,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Write'])] as const,
     request: {
         params: zId,
         body: jsonContent(zUpdateRole, 'Input'),
@@ -169,7 +170,7 @@ const DeleteRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: REQ_METHOD.DELETE,
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkPermission(['Role:Delete'])] as const,
     request: {
         params: zId,
     },
