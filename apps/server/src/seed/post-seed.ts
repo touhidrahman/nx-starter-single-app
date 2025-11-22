@@ -5,8 +5,9 @@ import { PlanCustomService } from '../main/plan/custom/plan-custom.service'
 import { zEmpty } from '../models/common.schema'
 import { ApiResponse } from '../utils/api-response.util'
 import { SEED_DATA_PLANS } from './seed-data'
+
 export const postSeedRoute = createRoute({
-    path: '/seed',
+    path: '/core/seed',
     method: 'post',
     tags: ['Core'],
     request: {},

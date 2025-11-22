@@ -8,7 +8,7 @@ const tags = ['Core']
 
 export const healthRoute = createRoute({
     method: 'get',
-    path: '/v1',
+    path: '/',
     tags,
     responses: {
         [OK]: ApiResponse(z.object({ port: z.number() }), 'Server running'),

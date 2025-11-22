@@ -17,7 +17,8 @@ export const subscriptionsTable = pgTable('subscriptions', {
     id: text().primaryKey().$defaultFn(generateId),
     groupId: text()
         .references(() => groupsTable.id, { onDelete: 'cascade' })
-        .notNull(),
+        .notNull()
+        .unique(), // A group can have only one active subscription at a time
     planId: text()
         .references(() => pricingPlanTable.id)
         .notNull(),

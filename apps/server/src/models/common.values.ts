@@ -13,6 +13,7 @@ export const APP_OPENAPI_TAGS = {
     Group: 'Group',
     Invite: 'Invite',
     Membership: 'Membership',
+    Subscription: 'Subscription',
     Referral: 'Referral',
     Role: 'Role',
     Subcategory: 'Subcategory',

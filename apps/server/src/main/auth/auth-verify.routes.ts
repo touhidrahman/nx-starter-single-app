@@ -23,7 +23,7 @@ import { createVerificationToken, decodeVerificationToken } from './token.util'
 const tags = ['Auth']
 
 const VerifyEmailDef = createRoute({
-    path: '/verify-email/:token',
+    path: '/auth/verify-email/:token',
     method: 'post',
     tags,
     request: {

@@ -36,7 +36,9 @@ import { storageV1Routes } from './main/storage/storage.routes'
 import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
 import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
 import { subcategoryCustomRoutes } from './main/subcategory/custom/subcategory-custom.routes'
-import { subscriptionV1Route } from './main/subscription/subscription.routes'
+import { subscriptionCoreRoutes } from './main/subscription/core/subscription-core.routes'
+import { subscriptionCrudRoutes } from './main/subscription/crud/subscription-crud.routes'
+import { subscriptionCustomRoutes } from './main/subscription/custom/subscription-custom.routes'
 import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
 import { transactionCustomRoutes } from './main/transaction/custom/transaction-custom.routes'
@@ -84,7 +86,9 @@ const routes = [
     subcategoryCoreRoutes,
     subcategoryCrudRoutes,
     subcategoryCustomRoutes,
-    subscriptionV1Route,
+    subscriptionCoreRoutes,
+    subscriptionCrudRoutes,
+    subscriptionCustomRoutes,
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionCustomRoutes,
