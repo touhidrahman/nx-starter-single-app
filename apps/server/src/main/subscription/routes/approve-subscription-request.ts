@@ -6,7 +6,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zSelectSubscription } from '../subscription.schema'
 import {
     findSubscriptionById,
@@ -50,15 +49,6 @@ export const approveSubscriptionRequestHandler: AppRouteHandler<
     }
 
     const [res] = await updateSubscriptionStatus(id, body.approved, payload.sub)
-
-    await saveLog(
-        'subscriptions',
-        subscription.id,
-        payload.sub,
-        'update',
-        toJsonSafe(subscription),
-        toJsonSafe(res),
-    )
 
     return c.json(
         {

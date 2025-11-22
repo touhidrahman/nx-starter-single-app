@@ -3,7 +3,7 @@ import { HTTPException } from 'hono/http-exception'
 import { BAD_REQUEST, FORBIDDEN } from 'stoker/http-status-codes'
 import { AccessTokenPayload } from '../main/auth/auth.model'
 import { findAllClaimsList } from '../main/claim/claim.service'
-import { getRolePermissions } from '../main/role/role.service'
+import { RoleCustomService } from '../main/role/custom/role-custom.service'
 
 export const checkPermission = (claims: string[]): MiddlewareHandler => {
     return async (ctx: Context, next: Next) => {
@@ -33,8 +33,9 @@ export const checkPermission = (claims: string[]): MiddlewareHandler => {
             })
         }
 
-        const roleClaims = await getRolePermissions(roleId)
-        if (!roleClaims) {
+        const role = await RoleCustomService.findById(roleId)
+        const rolePermissions = role?.permissions || ([] as string[])
+        if (!rolePermissions) {
             throw new HTTPException(BAD_REQUEST, {
                 message: 'No permission found for logged in user',
             })
@@ -42,7 +43,7 @@ export const checkPermission = (claims: string[]): MiddlewareHandler => {
 
         if (matchedClaims.length > 0) {
             const atLeastOneMatch = matchedClaims.some((claim) =>
-                roleClaims.includes(claim),
+                rolePermissions.includes(claim),
             )
             if (!atLeastOneMatch) {
                 throw new HTTPException(FORBIDDEN, {

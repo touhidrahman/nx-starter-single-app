@@ -5,7 +5,6 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import {
     SelectStorage,
     zInsertStorage,
@@ -60,17 +59,6 @@ export const uploadHandler: AppRouteHandler<typeof uploadRoute> = async (c) => {
             uploadedBy: payload.sub,
         })
         results.push(item)
-    }
-
-    for (const item of results) {
-        await saveLog(
-            'storage',
-            item.id,
-            payload.sub,
-            'create',
-            {},
-            toJsonSafe(item),
-        )
     }
 
     return c.json(

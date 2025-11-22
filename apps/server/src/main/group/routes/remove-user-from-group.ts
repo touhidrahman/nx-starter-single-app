@@ -7,7 +7,6 @@ import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { isGroupOwner } from '../../../middlewares/is-group-owner.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findUserById } from '../../user/user.service'
 import { removeUserFromGroup } from '../group.service'
 
@@ -45,8 +44,6 @@ export const removeUserFromGroupHandler: AppRouteHandler<
     }
 
     await removeUserFromGroup(userId, id)
-
-    await saveLog('user', userId, sub, 'delete', toJsonSafe(user), {})
 
     return c.json(
         {

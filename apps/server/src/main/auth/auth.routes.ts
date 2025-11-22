@@ -4,28 +4,23 @@ import { attemptAsync } from 'es-toolkit'
 import { HTTPException } from 'hono/http-exception'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { isExpiringInDays } from '../../auth/auth.service'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { db } from '../../db/db'
 import { groupsTable, membershipsTable } from '../../db/schema'
+import { sendEmailUsingResend } from '../../email/email.service'
+import env from '../../env'
 import { checkToken } from '../../middlewares/check-token.middleware'
 import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
+import { DateUtil } from '../../utils/date.util'
 import { GroupOwner } from '../claim/claims'
-import { addUserToGroup, findGroupById } from '../group/group.service'
-import {
-    checkGroupLimit,
-    deleteInvitation,
-    findInvitationById,
-} from '../invite/invite.service'
-import { UserCrudService } from '../user/crud/user-crud.service'
+import { buildWelcomeEmailTemplate } from '../email/templates/welcome'
 import { UserCustomService } from '../user/custom/user-custom.service'
 import { zInsertUser } from '../user/user.schema'
-import { setDefaultGroupId } from '../user/user.service'
 import { AuthService } from './auth.service'
-import { zAcceptInvite, zUserLogin, zUserLoginResponse } from './auth.zod'
-import { decodeInvitationToken, decodeRefreshToken } from './token.util'
+import { zUserLogin, zUserLoginResponse } from './auth.zod'
+import { createVerificationToken, decodeRefreshToken } from './token.util'
 
 const tags = ['Auth']
 const path = '/auth'
@@ -127,6 +122,33 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
             role?.role ?? null,
         )
 
+        const email = user.email ?? ''
+        if (email) {
+            const [error, _] = await attemptAsync(async () => {
+                const token = await createVerificationToken(
+                    user.id,
+                    {
+                        unit: 'day',
+                        value: 7,
+                    },
+                    email,
+                )
+                const welcomeEmail = buildWelcomeEmailTemplate({
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email,
+                    verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
+                    groupName: group.name ?? '',
+                })
+
+                return sendEmailUsingResend(
+                    [email],
+                    'Please verify your email',
+                    welcomeEmail,
+                )
+            })
+        }
+
         return c.json(
             {
                 data: data,
@@ -140,6 +162,42 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
             message: (error as Error).message,
         })
     }
+}
+
+const GroupSwitchDef = createRoute({
+    path: `${path}/group-switch/:groupId`,
+    tags,
+    method: REQ_METHOD.POST,
+    middleware: [checkToken] as const,
+    request: {
+        params: z.object({ groupId: z.string() }),
+    },
+    responses: {
+        [OK]: ApiResponse(zUserLoginResponse, 'User logged in successfully'),
+    },
+})
+
+const GroupSwitch: AppRouteHandler<typeof GroupSwitchDef> = async (c) => {
+    const { sub: userId } = await c.get('jwtPayload')
+    const groupId = c.req.param('groupId') ?? ''
+    const data = await AuthService.getUserLoginResponseByUserIdAndGroupId(
+        userId,
+        groupId,
+    )
+    if (!data) {
+        throw new HTTPException(BAD_REQUEST, {
+            message: 'Could not switch organization',
+        })
+    }
+
+    return c.json(
+        {
+            data,
+            message: 'User logged in successfully',
+            success: true,
+        },
+        OK,
+    )
 }
 
 const GetNewTokenDef = createRoute({
@@ -168,7 +226,8 @@ const GetNewToken: AppRouteHandler<typeof GetNewTokenDef> = async (c) => {
     }
 
     const { sub, level, groupId, exp } = decoded
-    const expiresSoon = isExpiringInDays(exp, -1)
+    const now = DateUtil.date()
+    const expiresSoon = exp > DateUtil.addDays(now, -1).getTime()
 
     // if (level === 'admin') {
     //     const admin = await AdminCustomService.findById(sub)
@@ -215,101 +274,8 @@ const GetNewToken: AppRouteHandler<typeof GetNewTokenDef> = async (c) => {
     )
 }
 
-const AcceptInviteDef = createRoute({
-    path: `${path}/accept-invite`,
-    tags,
-    method: REQ_METHOD.POST,
-    request: {
-        body: jsonContentRequired(zAcceptInvite, 'Accept Invite Data'),
-    },
-    responses: {
-        [OK]: ApiResponse(zUserLoginResponse, 'User logged in successfully'),
-    },
-})
-
-const AcceptInvite: AppRouteHandler<typeof AcceptInviteDef> = async (c) => {
-    const payload = c.req.valid('json')
-    const { token, password, firstName, lastName, username } = payload
-
-    const decoded = await decodeInvitationToken(token)
-
-    if (!decoded) {
-        throw new HTTPException(BAD_REQUEST, {
-            message: 'Invalid token!',
-        })
-    }
-
-    const invite = await findInvitationById(decoded.invitationId)
-    if (!invite) {
-        throw new HTTPException(BAD_REQUEST, {
-            message: 'Invitation not found!',
-        })
-    }
-
-    const group = await findGroupById(decoded.organizationId)
-    if (!group) {
-        throw new HTTPException(BAD_REQUEST, {
-            message: 'Organization not found!',
-        })
-    }
-
-    const existsUsername = await UserCustomService.findOne({
-        username: username,
-    })
-    const existsEmail = await UserCustomService.findOne({
-        email: invite.email,
-    })
-    const exists = existsUsername || existsEmail
-    if (exists) {
-        throw new HTTPException(BAD_REQUEST, {
-            message: 'User with the given username or email already exists',
-        })
-    }
-
-    const limitCheck = await checkGroupLimit(decoded.organizationId, {
-        countSource: 'users',
-    })
-
-    if (!limitCheck.canAdd) {
-        throw new HTTPException(BAD_REQUEST, {
-            message: limitCheck.message || 'User limit reached for the group',
-        })
-    }
-
-    const user = await UserCrudService.create({
-        username,
-        password,
-        firstName,
-        lastName,
-        email: invite.email,
-    })
-
-    await addUserToGroup(user.id, decoded.organizationId, decoded.roleId)
-    await setDefaultGroupId(user.id, decoded.organizationId)
-    await deleteInvitation(decoded.invitationId)
-    const role = await db.query.membershipsTable.findFirst({
-        with: { role: true },
-        where: eq(membershipsTable.userId, user.id),
-    })
-
-    const data = await AuthService.getUserLoginResponse(
-        user,
-        group,
-        role?.role ?? null,
-    )
-
-    return c.json(
-        {
-            data,
-            message: 'User registered successfully',
-            success: true,
-        },
-        OK,
-    )
-}
-
 export const authRoutes = createRouter()
     .openapi(LoginUserDef, LoginUser)
     .openapi(RegisterUserDef, RegisterUser)
     .openapi(GetNewTokenDef, GetNewToken)
-    .openapi(AcceptInviteDef, AcceptInvite)
+    .openapi(GroupSwitchDef, GroupSwitch)

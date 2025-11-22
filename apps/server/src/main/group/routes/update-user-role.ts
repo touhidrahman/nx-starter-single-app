@@ -8,7 +8,6 @@ import { checkPermission } from '../../../middlewares/check-permission.middlewar
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zUpdateUserRole } from '../group.schema'
 
 export const updateUserRoleRoute = createRoute({
@@ -46,8 +45,6 @@ export const updateUserRoleHandler: AppRouteHandler<
                 set: { roleId },
             })
             .returning()
-
-        await saveLog('user', userId, sub, 'update', {}, toJsonSafe(data))
 
         return c.json(
             { data: {}, message: 'User role updated', success: true },

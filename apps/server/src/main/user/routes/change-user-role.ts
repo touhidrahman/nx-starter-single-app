@@ -8,7 +8,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { changeUserRole } from '../user.service'
 
 export const changeUserRoleRoute = createRoute({
@@ -50,15 +49,6 @@ export const changeUserRoleHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-
-    await saveLog(
-        'user',
-        userId,
-        sub,
-        'update',
-        {},
-        toJsonSafe(updatedUser ?? {}),
-    )
 
     return c.json(
         {

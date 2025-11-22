@@ -9,7 +9,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findUserById } from '../../user/user.service'
 import {
     FeedbackType,
@@ -95,15 +94,6 @@ export const createFeedbackHandler: AppRouteHandler<
         }
 
         const [newFeedback] = await createFeedback(feedbackData)
-
-        await saveLog(
-            'feedback',
-            newFeedback.id,
-            payload.sub,
-            'create',
-            {},
-            toJsonSafe(newFeedback),
-        )
 
         return c.json(
             {

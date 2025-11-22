@@ -4,7 +4,6 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zInsertInvite, zSelectInvite } from '../../invite/invite.schema'
 import { createInvite } from '../../invite/invite.service'
 
@@ -28,15 +27,6 @@ export const inviteUserHandler: AppRouteHandler<
     const payload = c.get('jwtPayload')
 
     const [invite] = await createInvite(body, payload.userId)
-
-    await saveLog(
-        'invites',
-        invite.id,
-        payload.sub,
-        'create',
-        {},
-        toJsonSafe(invite),
-    )
 
     return c.json({ data: invite, message: 'User invited', success: true }, OK)
 }

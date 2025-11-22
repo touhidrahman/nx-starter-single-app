@@ -13,7 +13,6 @@ import {
     uploadToS3AndGetUrl,
 } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import {
     createStorageRecord,
     deleteStorageItemById,
@@ -98,15 +97,6 @@ export const uploadFileHandler: AppRouteHandler<
             groupId: entityId,
             uploadedBy: payload.sub,
         })
-
-        await saveLog(
-            'storage',
-            doc?.id ?? '',
-            payload.sub,
-            'create',
-            toJsonSafe(item ?? {}),
-            toJsonSafe(doc ?? {}),
-        )
 
         return c.json(
             {

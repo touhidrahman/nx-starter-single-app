@@ -1,6 +1,5 @@
 import { uniq } from 'es-toolkit'
 import { pad } from 'es-toolkit/string'
-import { authV1Routes } from './auth/auth.routes'
 import configureOpenAPI from './core/configure-open-api'
 import { coreRoutes } from './core/core.routes'
 import createApp from './core/create-app'
@@ -55,8 +54,10 @@ const routes = [
     accountTypeCoreRoutes,
     adminCrudRoutes,
     adminCustomRoutes,
-    authV1Routes,
     authRoutes,
+    authVerifyRoutes,
+    authPasswordRoutes,
+    authInviteRoutes,
     claimV1Routes,
     categoryCoreRoutes,
     categoryCrudRoutes,

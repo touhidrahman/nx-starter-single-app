@@ -1,7 +1,8 @@
 import { eq } from 'drizzle-orm'
 import { db } from '../db/db'
 import { pricingPlanTable } from '../db/schema'
-import { InsertPlan } from '../main/plan/plan.schema'
+import { InsertPlan } from '../main/plan/core/plan-core.model'
+import { PlanCustomService } from '../main/plan/custom/plan-custom.service'
 
 export const seedPlans = async (plans: InsertPlan[]) => {
     for (const p of plans) {
@@ -10,15 +11,7 @@ export const seedPlans = async (plans: InsertPlan[]) => {
         })
 
         if (!findPlanByName) {
-            await insertPlan(p)
+            await PlanCustomService.create(p)
         }
     }
-}
-
-export const insertPlan = async (plan: InsertPlan) => {
-    const storageLimit = plan.storageLimit * 1024 * 1000
-    return db
-        .insert(pricingPlanTable)
-        .values({ ...plan, storageLimit })
-        .returning()
 }

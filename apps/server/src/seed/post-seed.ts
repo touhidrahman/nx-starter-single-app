@@ -1,12 +1,10 @@
 import { createRoute } from '@hono/zod-openapi'
 import { CREATED, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../core/core.type'
-import { findPlanByName } from '../main/plan/plan.service'
+import { PlanCustomService } from '../main/plan/custom/plan-custom.service'
 import { zEmpty } from '../models/common.schema'
 import { ApiResponse } from '../utils/api-response.util'
-import { insertPlan } from '../utils/seed.service'
 import { SEED_DATA_PLANS } from './seed-data'
-
 export const postSeedRoute = createRoute({
     path: '/seed',
     method: 'post',
@@ -23,9 +21,11 @@ export const postSeedHandler: AppRouteHandler<typeof postSeedRoute> = async (
 ) => {
     try {
         for (const plan of SEED_DATA_PLANS) {
-            const existingPlan = await findPlanByName(plan.name)
+            const existingPlan = await PlanCustomService.findOne({
+                name: plan.name,
+            })
             if (!existingPlan) {
-                await insertPlan(plan)
+                await PlanCustomService.create(plan)
             }
         }
 

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { SelectGroup, zSelectGroup } from '../group/group.schema'
-import { SelectRole, zSelectRole } from '../role/role.schema'
+import { zSelectGroup } from '../group/group.schema'
+import { zSelectRole } from '../role/core/role-core.model'
 import { zInsertUser, zSelectUser } from '../user/user.schema'
 
 export const zPassword = z.string().min(8).max(64)
@@ -64,16 +64,6 @@ export const zUpdateAuthUser = zInsertUser.omit({
     verified: true,
 })
 
-export interface SMSResponse {
-    success: boolean
-    messageId?: string
-    error?: string
-}
-
-export interface TokenContext {
-    group?: SelectGroup
-    role?: SelectRole
-}
 export const zUserVerificationStatus = z.object({
     exists: z.boolean(),
     isVerified: z.boolean(),

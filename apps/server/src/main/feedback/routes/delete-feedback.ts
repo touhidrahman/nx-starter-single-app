@@ -5,7 +5,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteFeedBack, findFeedbackById } from '../feedback.service'
 
 export const deleteFeedBackRoute = createRoute({
@@ -38,15 +37,6 @@ export const deleteFeedBackHandler: AppRouteHandler<
         }
 
         const [deleted] = await deleteFeedBack(feedbackId)
-
-        await saveLog(
-            'feedbacks',
-            deleted.id,
-            payload.sub,
-            'delete',
-            toJsonSafe(deleted),
-            {},
-        )
 
         return c.json(
             {

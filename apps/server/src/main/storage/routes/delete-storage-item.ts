@@ -6,7 +6,6 @@ import { zEmpty, zId } from '../../../models/common.schema'
 import { deleteS3File } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { getFileNameFromUrl } from '../../../utils/file.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zSelectStorage } from '../storage.schema'
 import { deleteStorageItemById, getStorageItemById } from '../storage.service'
 
@@ -44,8 +43,6 @@ export const deleteStorageItemHandler: AppRouteHandler<
         await deleteS3File(fileKey)
     }
     const res = await deleteStorageItemById(id)
-
-    await saveLog('storage', id, sub, 'delete', toJsonSafe(storage), {})
 
     return c.json(
         { data: storage, message: 'Storage item deleted', success: true },

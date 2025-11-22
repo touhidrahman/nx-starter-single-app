@@ -6,7 +6,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog } from '../../audit-log/audit-log.service'
 import { deleteManySubscriptionsByIds } from '../subscriptions.service'
 
 export const deleteAllSubscriptionRoute = createRoute({
@@ -34,10 +33,6 @@ export const deleteAllSubscriptionHandler: AppRouteHandler<
 
     try {
         await deleteManySubscriptionsByIds(body.ids)
-
-        for (const id of body.ids) {
-            await saveLog('subscriptions', id, payload.sub, 'delete', {}, {})
-        }
     } catch (error) {
         c.var.logger.error((error as Error)?.stack ?? error)
         return c.json(

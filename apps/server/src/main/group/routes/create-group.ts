@@ -9,7 +9,6 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { setDefaultGroupId } from '../../user/user.service'
 import { InsertGroup, zInsertGroup, zSelectGroup } from '../group.schema'
 import { createGroup } from '../group.service'
@@ -45,15 +44,6 @@ export const createGroupHandler: AppRouteHandler<
             BAD_REQUEST,
         )
     }
-
-    await saveLog(
-        'groups',
-        newGroup.id,
-        sub,
-        'create',
-        {},
-        toJsonSafe(newGroup),
-    )
 
     await setDefaultGroupId(sub, newGroup.id)
 

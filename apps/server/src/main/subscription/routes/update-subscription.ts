@@ -11,7 +11,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findGroupById, updateSubscriptionId } from '../../group/group.service'
 import { zUpdateSubscription } from '../subscription.schema'
 import {
@@ -57,14 +56,6 @@ export const updateSubscriptionHandler: AppRouteHandler<
             )
         }
         const [updatedMessage] = await updateSubscriptionById(id, groupId, body)
-        await saveLog(
-            'subscriptions',
-            id,
-            sub,
-            'update',
-            toJsonSafe(subscription),
-            toJsonSafe(updatedMessage),
-        )
 
         const findGroup = await findGroupById(groupId)
         if (!findGroup) {
@@ -80,14 +71,6 @@ export const updateSubscriptionHandler: AppRouteHandler<
         const [updatedGroup] = await updateSubscriptionId(
             groupId,
             updatedMessage.id,
-        )
-        await saveLog(
-            'subscriptions',
-            id,
-            sub,
-            'update',
-            toJsonSafe(findGroup),
-            toJsonSafe(updatedGroup),
         )
         return c.json(
             {

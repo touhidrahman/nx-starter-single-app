@@ -1,4 +1,4 @@
-import { createRoute, z } from '@hono/zod-openapi'
+import { createRoute } from '@hono/zod-openapi'
 import {
     BAD_REQUEST,
     INTERNAL_SERVER_ERROR,
@@ -13,7 +13,7 @@ import {
     uploadToS3AndGetUrl,
 } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
+
 import {
     createStorageRecord,
     deleteStorageItemById,
@@ -93,15 +93,6 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
             entityName: 'user',
             uploadedBy: payload.sub,
         })
-
-        await saveLog(
-            'storage',
-            item?.id ?? '',
-            payload.sub,
-            'update',
-            toJsonSafe(item ?? {}),
-            toJsonSafe(doc ?? {}),
-        )
 
         const [updatedUser] = await updateUserProfilePictureUrl(
             profilePictureUrl,

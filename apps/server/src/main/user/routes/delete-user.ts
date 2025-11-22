@@ -10,7 +10,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import {
     removeGroupOwner,
     resetDefaultGroupId,
@@ -71,8 +70,6 @@ export const deleteUserHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-
-        await saveLog('users', userId, sub, 'delete', toJsonSafe(user), {})
 
         return c.json(
             {

@@ -5,7 +5,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog } from '../../audit-log/audit-log.service'
 import {
     deleteSubscriptionById,
     findSubscriptionById,
@@ -42,8 +41,6 @@ export const deleteSubscriptionHandler: AppRouteHandler<
         }
 
         await deleteSubscriptionById(id)
-
-        await saveLog('subscriptions', id, payload.sub, 'delete', {}, {})
 
         return c.json(
             {

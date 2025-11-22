@@ -5,7 +5,6 @@ import { checkPermission } from '../../../middlewares/check-permission.middlewar
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { deleteUsersByIds } from '../user.service'
 
 export const deleteUsersRoute = createRoute({
@@ -36,7 +35,6 @@ export const deleteUsersHandler: AppRouteHandler<
 
         for (const id of body.ids) {
             const result = await deleteUsersByIds(id)
-            await saveLog('users', id, sub, 'delete', toJsonSafe(result), {})
         }
 
         return c.json(

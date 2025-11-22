@@ -9,7 +9,6 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { findGroupById, updateSubscriptionId } from '../../group/group.service'
 import {
     InsertSubscription,
@@ -89,27 +88,9 @@ export const createSubscriptionsHandler: AppRouteHandler<
         }
         const [subscription] = await createSubscription(newSubscription)
 
-        await saveLog(
-            'subscriptions',
-            subscription.id,
-            sub,
-            'create',
-            {},
-            toJsonSafe(subscription),
-        )
-
         const [updatedGroup] = await updateSubscriptionId(
             groupId,
             subscription.id,
-        )
-
-        await saveLog(
-            'groups',
-            groupId,
-            sub,
-            'update',
-            toJsonSafe(group),
-            toJsonSafe(updatedGroup),
         )
 
         return c.json(

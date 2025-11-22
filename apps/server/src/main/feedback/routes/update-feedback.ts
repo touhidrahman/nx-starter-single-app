@@ -12,7 +12,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zSelectFeedback, zUpdateFeedback } from '../feedback.schema'
 import { findFeedbackById, updateFeedback } from '../feedback.service'
 
@@ -55,15 +54,6 @@ export const updateFeedbackHandler: AppRouteHandler<
         }
 
         const [updatedFeedback] = await updateFeedback(feedbackId, body)
-
-        await saveLog(
-            'feedback',
-            feedbackId,
-            payload.sub,
-            'update',
-            toJsonSafe(existingFeedback),
-            toJsonSafe(updatedFeedback),
-        )
 
         return c.json(
             {

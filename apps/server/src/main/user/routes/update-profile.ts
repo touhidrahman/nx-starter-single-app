@@ -5,7 +5,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
+
 import { zProfile, zSelectUser } from '../user.schema'
 import { updateProfile } from '../user.service'
 import { passwordRemoved } from '../user.util'
@@ -47,15 +47,6 @@ export const updateUserProfileHandler: AppRouteHandler<
     const [updatedUser] = await updateProfile(userId, body, {
         restrictFields: ['email', 'password'],
     })
-
-    await saveLog(
-        'profile',
-        userId,
-        userPayload.sub,
-        'update',
-        {},
-        toJsonSafe(updatedUser ?? {}),
-    )
 
     if (!updatedUser) {
         return c.json(

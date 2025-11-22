@@ -6,7 +6,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { resetDefaultGroupId } from '../../user/user.service'
 import {
     deleteGroupWithOwner,
@@ -54,15 +53,6 @@ export const deleteGroupHandler: AppRouteHandler<
         await resetDefaultGroupId(id)
 
         const data = await deleteGroupWithOwner(id)
-
-        await saveLog(
-            'groups',
-            result.id ?? null,
-            sub,
-            'delete',
-            toJsonSafe(data),
-            {},
-        )
 
         return c.json(
             {

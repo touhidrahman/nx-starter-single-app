@@ -6,7 +6,6 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isGroupOwner } from '../../../middlewares/is-group-owner.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { saveLog, toJsonSafe } from '../../audit-log/audit-log.service'
 import { zSelectGroup, zUpdateGroup } from '../group.schema'
 import { findGroupById, updateGroup } from '../group.service'
 
@@ -40,15 +39,6 @@ export const updateGroupHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-
-    await saveLog(
-        'group',
-        id,
-        sub,
-        'update',
-        toJsonSafe(group ?? {}),
-        toJsonSafe(result),
-    )
 
     return c.json(
         { data: result[0], message: 'Group updated', success: true },

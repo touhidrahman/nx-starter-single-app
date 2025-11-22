@@ -1,15 +1,20 @@
 import { and, eq } from 'drizzle-orm'
+import { BAD_REQUEST, NOT_FOUND } from 'stoker/http-status-codes'
 import { db } from '../../db/db'
 import { groupsTable, membershipsTable } from '../../db/schema'
 import { DateUtil } from '../../utils/date.util'
 import { SelectGroup } from '../group/group.schema'
-import { SelectRole } from '../role/role.schema'
+import { SelectRole } from '../role/core/role-core.model'
 import { SelectUser } from '../user/core/user-core.model'
 import { UserCustomService } from '../user/custom/user-custom.service'
 import { passwordRemoved } from '../user/user.util'
 import { UserLoginResponse } from './auth.model'
 import { CryptoService } from './crypto.service'
-import { createAccessToken2, createRefreshToken } from './token.util'
+import {
+    createAccessToken2,
+    createRefreshToken,
+    createVerificationToken,
+} from './token.util'
 
 export class AuthService {
     static async login(
@@ -149,6 +154,49 @@ export class AuthService {
             role,
             group,
         }
+    }
+
+    static async changePassword(
+        userId: string,
+        currentPassword: string,
+        newPassword: string,
+    ): Promise<SelectUser> {
+        const user = await UserCustomService.findById(userId)
+        if (!user) {
+            throw new Error('User not found', { cause: NOT_FOUND })
+        }
+
+        if (
+            !(await CryptoService.verifyPassword(
+                currentPassword,
+                user.password,
+            ))
+        ) {
+            throw new Error('Current password is incorrect', {
+                cause: BAD_REQUEST,
+            })
+        }
+
+        if (currentPassword === newPassword) {
+            throw new Error(
+                'New password must be different from the current password',
+                { cause: BAD_REQUEST },
+            )
+        }
+
+        const hashedPassword = await CryptoService.hashPassword(newPassword)
+        return UserCustomService.update(user.id, {
+            password: hashedPassword,
+        })
+    }
+
+    static async createForgotPasswordToken(userId: string, identifier: string) {
+        return createVerificationToken(
+            userId,
+            { unit: 'day', value: 3 },
+            identifier,
+            '',
+        )
     }
 
     private static async getFirstMembershipRoleAndGroup(
