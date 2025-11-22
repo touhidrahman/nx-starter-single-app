@@ -12,7 +12,7 @@ import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import { findPlanById } from '../../plan/plan.service'
+import { PlanCustomService } from '../../plan/custom/plan-custom.service'
 import { findGroupById } from '../group.service'
 
 export const addSubscriptionToGroupRoute = createRoute({
@@ -56,7 +56,7 @@ export const addSubscriptionToGroupHandler: AppRouteHandler<
         }
 
         // Find the pricing plan
-        const pricingPlan = await findPlanById(pricingPlanId)
+        const pricingPlan = await PlanCustomService.findById(pricingPlanId)
         if (!pricingPlan) {
             return c.json(
                 { data: {}, success: false, message: 'Pricing plan not found' },

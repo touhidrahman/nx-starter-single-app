@@ -8,15 +8,17 @@ import {
 } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
-import { resendVerificationEmail } from '../../auth/auth.service'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { db } from '../../db/db'
 import { usersTable } from '../../db/schema'
+import { sendEmailUsingResend } from '../../email/email.service'
+import env from '../../env'
 import { zEmpty } from '../../models/common.schema'
 import { ApiResponse } from '../../utils/api-response.util'
+import { buildResendVerificationEmailTemplate } from '../email/templates/resend-email-verification'
 import { UserCustomService } from '../user/custom/user-custom.service'
-import { decodeVerificationToken } from './token.util'
+import { createVerificationToken, decodeVerificationToken } from './token.util'
 
 const tags = ['Auth']
 
@@ -151,11 +153,24 @@ const ResendVerificationEmail: AppRouteHandler<
         }
 
         if (user.email && !user.verifiedAt) {
-            const { error, data } = await resendVerificationEmail(
-                user?.email ?? '',
-                user?.firstName,
-                user?.lastName,
-                user?.id,
+            const token = await createVerificationToken(
+                user.id,
+                {
+                    unit: 'day',
+                    value: 7,
+                },
+                email,
+            )
+            const tpl = await buildResendVerificationEmailTemplate({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
+            })
+            const { data, error } = await sendEmailUsingResend(
+                [email],
+                'Email Verification Link Sent',
+                tpl,
             )
             if (error) {
                 return c.json(

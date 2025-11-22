@@ -13,6 +13,9 @@ import { auditLogCoreRoutes } from './main/audit-log/core/audit-log-core.routes'
 import { auditLogCrudRoutes } from './main/audit-log/crud/audit-log-crud.routes'
 import { auditLogCustomRoutes } from './main/audit-log/custom/audit-log-custom.routes'
 import { authRoutes } from './main/auth/auth.routes'
+import { authInviteRoutes } from './main/auth/auth-invite.routes'
+import { authPasswordRoutes } from './main/auth/auth-password.routes'
+import { authVerifyRoutes } from './main/auth/auth-verify.routes'
 import { categoryCoreRoutes } from './main/category/core/category-core.routes'
 import { categoryCrudRoutes } from './main/category/crud/category-crud.routes'
 import { categoryCustomRoutes } from './main/category/custom/category-custom.routes'
@@ -54,14 +57,17 @@ const routes = [
     accountTypeCoreRoutes,
     adminCrudRoutes,
     adminCustomRoutes,
+    auditLogCoreRoutes,
+    auditLogCrudRoutes,
+    auditLogCustomRoutes,
+    authInviteRoutes,
+    authPasswordRoutes,
     authRoutes,
     authVerifyRoutes,
-    authPasswordRoutes,
-    authInviteRoutes,
-    claimV1Routes,
     categoryCoreRoutes,
     categoryCrudRoutes,
     categoryCustomRoutes,
+    claimV1Routes,
     currencyCoreRoutes,
     currencyCrudRoutes,
     dashboardV1Routes,
@@ -71,26 +77,23 @@ const routes = [
     inviteCoreRoutes,
     inviteCrudRoutes,
     inviteCustomRoutes,
-    auditLogCoreRoutes,
-    auditLogCrudRoutes,
-    auditLogCustomRoutes,
     planCoreRoutes,
     planCrudRoutes,
     planCustomRoutes,
     storageV1Routes,
-    subscriptionV1Route,
     subcategoryCoreRoutes,
     subcategoryCrudRoutes,
     subcategoryCustomRoutes,
+    subscriptionV1Route,
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionCustomRoutes,
-    userSettingCoreRoutes,
-    userSettingCrudRoutes,
-    userSettingCustomRoutes,
     userCoreRoutes,
     userCrudRoutes,
     userCustomRoutes,
+    userSettingCoreRoutes,
+    userSettingCrudRoutes,
+    userSettingCustomRoutes,
 ]
 
 configureOpenAPI(app)
