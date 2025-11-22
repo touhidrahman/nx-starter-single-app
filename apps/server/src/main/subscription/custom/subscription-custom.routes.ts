@@ -9,6 +9,7 @@ import { zId } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
+import { zSelectSubscription } from '../core/subscription-core.model'
 import { zSubscriptionWithPlan } from '../crud/subscription-crud.model'
 import { SubscriptionCustomService } from './subscription-custom.service'
 
@@ -48,7 +49,7 @@ const ApproveSubscriptionDef = createRoute({
     middleware: [checkToken, isAdmin] as const,
     request: { params: zId },
     responses: {
-        [OK]: ApiResponse(zSubscriptionWithPlan, 'Approve subscription'),
+        [OK]: ApiResponse(zSelectSubscription, 'Approve subscription'),
     },
 })
 

@@ -5,7 +5,10 @@ import { AccessTokenPayload } from '../main/auth/auth.model'
 import { findAllClaimsList } from '../main/claim/claim.service'
 import { RoleCustomService } from '../main/role/custom/role-custom.service'
 
-export const checkPermission = (claims: string[]): MiddlewareHandler => {
+export const checkPermission = (
+    claims: string[],
+    matchAll = false,
+): MiddlewareHandler => {
     return async (ctx: Context, next: Next) => {
         const payload = (await ctx.get('jwtPayload')) as AccessTokenPayload
         if (!payload) {
@@ -42,17 +45,30 @@ export const checkPermission = (claims: string[]): MiddlewareHandler => {
         }
 
         if (matchedClaims.length > 0) {
+            if (matchAll) {
+                const allMatch = matchedClaims.every((claim) =>
+                    rolePermissions.includes(claim),
+                )
+                if (!allMatch) {
+                    throw new HTTPException(FORBIDDEN, {
+                        message:
+                            'You do not have all the required permission(s) to perform this action',
+                    })
+                }
+                return await next()
+            }
+
             const atLeastOneMatch = matchedClaims.some((claim) =>
                 rolePermissions.includes(claim),
             )
             if (!atLeastOneMatch) {
                 throw new HTTPException(FORBIDDEN, {
                     message:
-                        'You do not have the required permission(s) to perform this action',
+                        'You do not have the required permission to perform this action',
                 })
             }
         }
 
-        await next()
+        return await next()
     }
 }

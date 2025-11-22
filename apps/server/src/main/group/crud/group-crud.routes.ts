@@ -10,6 +10,7 @@ import { zEmpty, zId } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
+import { UserCustomService } from '../../user/custom/user-custom.service'
 import {
     zInsertGroup,
     zSelectGroup,
@@ -76,12 +77,14 @@ const CreateGroupCrud: AppRouteHandler<typeof CreateGroupCrudDef> = async (
 ) => {
     // Depending on your business rules, you may restrict who can create groups.
     const input = c.req.valid('json')
-    const { groupId: creatorId } = c.get('jwtPayload') as AccessTokenPayload
+    const { sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const data = await GroupCrudService.create({
         ...input,
         creatorId,
     })
+
+    await UserCustomService.update(creatorId, { defaultGroupId: data.id })
 
     return c.json(
         {
