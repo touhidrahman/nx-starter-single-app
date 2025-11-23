@@ -8,14 +8,14 @@ import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import {
     zInsert{{pascalCase moduleName}},
-    zQuery{{pascalCase (pluralize moduleName)}},
+    zQuery{{pluralize (pascalCase moduleName)}},
     zSelect{{pascalCase moduleName}},
     zUpdate{{pascalCase moduleName}},
-} from './{{kebabCase moduleName}}-core.model'
+} from './{{kebabCase moduleName}}.model'
 import { {{pascalCase moduleName}}CoreService } from './{{kebabCase moduleName}}-core.service'
 
 const tags = ['{{pascalCase moduleName}}']
-const path = '/core/{{kebabCase moduleName}}s'
+const path = '/{{pluralize (kebabCase moduleName)}}'
 const middleware = undefined
 
 const Get{{pascalCase moduleName}}ListCoreDef = createRoute({
@@ -24,7 +24,7 @@ const Get{{pascalCase moduleName}}ListCoreDef = createRoute({
     method: 'get',
     middleware,
     request: {
-        query: zQuery{{pascalCase moduleName}}s,
+        query: zQuery{{pluralize (pascalCase moduleName)}},
     },
     responses: {
         [OK]: ApiListResponse(z.array(zSelect{{pascalCase moduleName}}), '{{pascalCase moduleName}} List'),
@@ -222,7 +222,7 @@ const DeleteMany{{pascalCase moduleName}}CoreDef = createRoute({
         body: jsonContent(zIds, '{{pascalCase moduleName}} IDs to delete'),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, '{{pascalCase moduleName}}s deleted successfully'),
+        [OK]: ApiResponse(zEmpty, '{{pluralize (pascalCase moduleName)}} deleted successfully'),
     },
 })
 
@@ -236,7 +236,7 @@ const DeleteMany{{pascalCase moduleName}}Core: AppRouteHandler<
     return c.json(
         {
             data: {},
-            message: '{{pascalCase moduleName}}s deleted successfully',
+            message: '{{pluralize (pascalCase moduleName)}} deleted successfully',
             success: true,
         },
         OK,
@@ -245,8 +245,8 @@ const DeleteMany{{pascalCase moduleName}}Core: AppRouteHandler<
 
 export const {{kebabCase moduleName}}CoreRoutes = createRouter()
     .openapi(Delete{{pascalCase moduleName}}CoreDef, Delete{{pascalCase moduleName}}Core)
-    .openapi(DeleteMany{{pascalCase moduleName}}CoreDef, DeleteMany{{pascalCase moduleName}}Core)
     .openapi(Update{{pascalCase moduleName}}CoreDef, Update{{pascalCase moduleName}}Core)
-    .openapi(Create{{pascalCase moduleName}}CoreDef, Create{{pascalCase moduleName}}Core)
     .openapi(Get{{pascalCase moduleName}}ByIdCoreDef, Get{{pascalCase moduleName}}ByIdCore)
+    .openapi(DeleteMany{{pascalCase moduleName}}CoreDef, DeleteMany{{pascalCase moduleName}}Core)
+    .openapi(Create{{pascalCase moduleName}}CoreDef, Create{{pascalCase moduleName}}Core)
     .openapi(Get{{pascalCase moduleName}}ListCoreDef, Get{{pascalCase moduleName}}ListCore)
