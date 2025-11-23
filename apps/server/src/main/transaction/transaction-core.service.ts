@@ -1,4 +1,4 @@
-import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { and, count, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { transactionsTable } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
@@ -47,21 +47,21 @@ export class TransactionCoreService {
 
     static async exists(id: string): Promise<boolean> {
         const countResult = await db
-            .select({ count: sql<number>`count(${transactionsTable.id})` })
+            .select({ count: count() })
             .from(transactionsTable)
             .where(eq(transactionsTable.id, id))
-        const count = countResult[0]?.count || 0
-        return count > 0
+        const total = countResult[0]?.count || 0
+        return total > 0
     }
 
     static async count(filters: QueryTransactions): Promise<number> {
         const conditions = TransactionCoreService.buildWhereConditions(filters)
 
-        const [{ count }] = await db
-            .select({ count: sql<number>`count(${transactionsTable.id})` })
+        const countResult = await db
+            .select({ count: count() })
             .from(transactionsTable)
             .where(conditions)
-        return count
+        return countResult[0]?.count || 0
     }
 
     static async create(input: InsertTransaction): Promise<SelectTransaction> {

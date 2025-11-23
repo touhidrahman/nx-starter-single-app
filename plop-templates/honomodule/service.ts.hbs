@@ -1,0 +1,11 @@
+import { Select{{pascalCase moduleName}} } from './{{kebabCase moduleName}}.model'
+import { {{pascalCase moduleName}}CoreService } from './{{kebabCase moduleName}}-core.service'
+
+export class {{pascalCase moduleName}}Service extends {{pascalCase moduleName}}CoreService {
+    static async findByIdAndGroupId(
+        id: string,
+        groupId: string,
+    ): Promise<Select{{pascalCase moduleName}} | null> {
+        return {{pascalCase moduleName}}Service.findOne({ id, groupId })
+    }
+}

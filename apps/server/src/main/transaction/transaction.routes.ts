@@ -10,7 +10,7 @@ import { zQueryTransactions, zSelectTransaction } from './transaction.model'
 import { TransactionService } from './transaction.service'
 
 const tags = ['Transaction']
-const path = '/transactions'
+const path = '/transactions/custom'
 
 const GetMyTransactionListDef = createRoute({
     path: `${path}/my`,

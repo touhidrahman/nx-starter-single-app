@@ -39,9 +39,9 @@ import { subcategoryCustomRoutes } from './main/subcategory/custom/subcategory-c
 import { subscriptionCoreRoutes } from './main/subscription/core/subscription-core.routes'
 import { subscriptionCrudRoutes } from './main/subscription/crud/subscription-crud.routes'
 import { subscriptionCustomRoutes } from './main/subscription/custom/subscription-custom.routes'
-import { transactionCoreRoutes } from './main/transaction/core/transaction-core.routes'
-import { transactionCrudRoutes } from './main/transaction/crud/transaction-crud.routes'
-import { transactionCustomRoutes } from './main/transaction/custom/transaction-custom.routes'
+import { transactionRoutes } from './main/transaction/transaction.routes'
+import { transactionCoreRoutes } from './main/transaction/transaction-core.routes'
+import { transactionCrudRoutes } from './main/transaction/transaction-crud.routes'
 import { userCoreRoutes } from './main/user/core/user-core.routes'
 import { userCrudRoutes } from './main/user/crud/user-crud.routes'
 import { userCustomRoutes } from './main/user/custom/user-custom.routes'
@@ -91,7 +91,7 @@ const routes = [
     subscriptionCustomRoutes,
     transactionCoreRoutes,
     transactionCrudRoutes,
-    transactionCustomRoutes,
+    transactionRoutes,
     userCoreRoutes,
     userCrudRoutes,
     userCustomRoutes,

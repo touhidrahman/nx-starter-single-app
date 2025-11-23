@@ -6,7 +6,11 @@ Each resource is broken down into three layers:
 2. **CRUD** - These APIs only include typical CRUD paths and nothing more. May have logic that is required for the buisiness feature.
 3. **Custom** - Every other API that involves an endpoint outside of the typical CRUD paths.
 
-Each type of APIs are prefixed with the layer name, e.g.- `core\users`, `crud\users`, `custom\users`.
+# Scaffold Hono Module
+
+```
+pnpm plop honomodule <<ResourceNameInPascalCase>>
+```
 
 # How to work with Drizzle & Migration for Production environment?
 

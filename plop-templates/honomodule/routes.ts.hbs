@@ -1,0 +1,52 @@
+import { createRoute, z } from '@hono/zod-openapi'
+import { OK } from 'stoker/http-status-codes'
+import { AppRouteHandler } from '../../core/core.type'
+import { createRouter } from '../../core/create-app'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { ApiListResponse } from '../../utils/api-response.util'
+import { buildPaginationResponse } from '../../utils/pagination.util'
+import { AccessTokenPayload } from '../auth/auth.model'
+import { zQuery{{pascalCase (pluralize moduleName)}}, zSelect{{pascalCase moduleName}} } from './{{kebabCase moduleName}}.model'
+import { {{pascalCase moduleName}}Service } from './{{kebabCase moduleName}}.service'
+
+const tags = ['{{pascalCase moduleName}}']
+const path = '/{{kebabCase (pluralize moduleName)}}/custom'
+
+const GetMy{{pascalCase moduleName}}ListDef = createRoute({
+    path: `${path}/my`,
+    tags,
+    method: 'get',
+    middleware: [checkToken] as const,
+    request: {
+        query: zQuery{{pascalCase (pluralize moduleName)}},
+    },
+    responses: {
+        [OK]: ApiListResponse(z.array(zSelect{{pascalCase moduleName}}), '{{pascalCase moduleName}} List'),
+    },
+})
+
+const Get{{pascalCase moduleName}}ListCrud: AppRouteHandler<
+    typeof GetMy{{pascalCase moduleName}}ListDef
+> = async (c) => {
+    const query = c.req.valid('query')
+    const { groupId, sub: creatorId } = c.get(
+        'jwtPayload',
+    ) as AccessTokenPayload
+
+    const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
+    const data = await {{pascalCase moduleName}}Service.findMany(groupAndUserSpecificQuery)
+    const count = await {{pascalCase moduleName}}Service.count(groupAndUserSpecificQuery)
+
+    return c.json(
+        {
+            data,
+            pagination: buildPaginationResponse(query.page, query.size, count),
+            message: '{{pascalCase moduleName}} list fetched successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const {{camelCase moduleName}}Routes = createRouter()
+    .openapi(GetMy{{pascalCase moduleName}}ListDef, Get{{pascalCase moduleName}}ListCrud)

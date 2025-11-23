@@ -1,142 +1,142 @@
-import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
-import { db } from '../../../db/db'
-import { transactionsTable } from '../../../db/schema'
-import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
+import { and, count, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { db } from '../../db/db'
+import { {{camelCase (pluralize moduleName)}}Table } from '../../db/schema'
+import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
 import {
-    InsertTransaction,
-    QueryTransactions,
-    SelectTransaction,
-} from './transaction-core.model'
+    Insert{{pascalCase moduleName}},
+    Query{{pascalCase (pluralize moduleName)}},
+    Select{{pascalCase moduleName}},
+} from './{{kebabCase moduleName}}.model'
 
-export class TransactionCoreService {
+export class {{pascalCase moduleName}}CoreService {
     static async findMany(
-        filters: QueryTransactions,
-    ): Promise<SelectTransaction[]> {
-        const conditions = TransactionCoreService.buildWhereConditions(filters)
+        filters: Query{{pascalCase (pluralize moduleName)}},
+    ): Promise<Select{{pascalCase moduleName}}[]> {
+        const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
-        const transactions = await db
+        const {{camelCase (pluralize moduleName)}} = await db
             .select()
-            .from(transactionsTable)
+            .from({{camelCase (pluralize moduleName)}}Table)
             .where(conditions)
             .offset(offset)
             .limit(size)
-        return transactions
+        return {{camelCase (pluralize moduleName)}}
     }
 
     static async findOne(
-        filters: QueryTransactions,
-    ): Promise<SelectTransaction | null> {
-        const conditions = TransactionCoreService.buildWhereConditions(filters)
-        const transactions = await db
+        filters: Query{{pascalCase (pluralize moduleName)}},
+    ): Promise<Select{{pascalCase moduleName}} | null> {
+        const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
+        const {{camelCase (pluralize moduleName)}} = await db
             .select()
-            .from(transactionsTable)
+            .from({{camelCase (pluralize moduleName)}}Table)
             .where(conditions)
             .limit(1)
-        return transactions[0] ?? null
+        return {{camelCase (pluralize moduleName)}}[0] ?? null
     }
 
-    static async findById(id: string): Promise<SelectTransaction | null> {
-        const transaction = await db
+    static async findById(id: string): Promise<Select{{pascalCase moduleName}} | null> {
+        const {{kebabCase moduleName}} = await db
             .select()
-            .from(transactionsTable)
-            .where(eq(transactionsTable.id, id))
+            .from({{camelCase (pluralize moduleName)}}Table)
+            .where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
             .limit(1)
-        return transaction[0] || null
+        return {{kebabCase moduleName}}[0] || null
     }
 
     static async exists(id: string): Promise<boolean> {
         const countResult = await db
-            .select({ count: sql<number>`count(${transactionsTable.id})` })
-            .from(transactionsTable)
-            .where(eq(transactionsTable.id, id))
-        const count = countResult[0]?.count || 0
-        return count > 0
+            .select({ count: count() })
+            .from({{camelCase (pluralize moduleName)}}Table)
+            .where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
+        const total = countResult[0]?.count || 0
+        return total > 0
     }
 
-    static async count(filters: QueryTransactions): Promise<number> {
-        const conditions = TransactionCoreService.buildWhereConditions(filters)
+    static async count(filters: Query{{pascalCase (pluralize moduleName)}}): Promise<number> {
+        const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
 
-        const [{ count }] = await db
-            .select({ count: sql<number>`count(${transactionsTable.id})` })
-            .from(transactionsTable)
+        const countResult = await db
+            .select({ count: count() })
+            .from({{camelCase (pluralize moduleName)}}Table)
             .where(conditions)
-        return count
+        return countResult[0]?.count || 0
     }
 
-    static async create(input: InsertTransaction): Promise<SelectTransaction> {
-        const [transaction] = await db
-            .insert(transactionsTable)
+    static async create(input: Insert{{pascalCase moduleName}}): Promise<Select{{pascalCase moduleName}}> {
+        const [{{kebabCase moduleName}}] = await db
+            .insert({{camelCase (pluralize moduleName)}}Table)
             .values(input)
             .returning()
-        return transaction
+        return {{kebabCase moduleName}}
     }
 
     static async createMany(
-        inputs: InsertTransaction[],
-    ): Promise<SelectTransaction[]> {
-        const transactions = await db
-            .insert(transactionsTable)
+        inputs: Insert{{pascalCase moduleName}}[],
+    ): Promise<Select{{pascalCase moduleName}}[]> {
+        const {{camelCase (pluralize moduleName)}} = await db
+            .insert({{camelCase (pluralize moduleName)}}Table)
             .values(inputs)
             .returning()
-        return transactions
+        return {{camelCase (pluralize moduleName)}}
     }
 
     static async update(
         id: string,
-        input: Partial<InsertTransaction>,
-    ): Promise<SelectTransaction> {
-        const [transaction] = await db
-            .update(transactionsTable)
+        input: Partial<Insert{{pascalCase moduleName}}>,
+    ): Promise<Select{{pascalCase moduleName}}> {
+        const [{{kebabCase moduleName}}] = await db
+            .update({{camelCase (pluralize moduleName)}}Table)
             .set(input)
-            .where(eq(transactionsTable.id, id))
+            .where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
             .returning()
-        return transaction
+        return {{kebabCase moduleName}}
     }
 
     static async upsert(
         id: string,
-        input: InsertTransaction,
-    ): Promise<SelectTransaction> {
-        const existingTransaction = await TransactionCoreService.findById(id)
-        if (existingTransaction) {
-            return TransactionCoreService.update(id, input)
+        input: Insert{{pascalCase moduleName}},
+    ): Promise<Select{{pascalCase moduleName}}> {
+        const existing{{pascalCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
+        if (existing{{pascalCase moduleName}}) {
+            return {{pascalCase moduleName}}CoreService.update(id, input)
         }
-        return TransactionCoreService.create(input)
+        return {{pascalCase moduleName}}CoreService.create(input)
     }
 
     static async delete(id: string): Promise<void> {
-        await db.delete(transactionsTable).where(eq(transactionsTable.id, id))
+        await db.delete({{camelCase (pluralize moduleName)}}Table).where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
     }
 
     static async deleteMany(ids: string[]): Promise<void> {
         await db
-            .delete(transactionsTable)
-            .where(inArray(transactionsTable.id, ids))
+            .delete({{camelCase (pluralize moduleName)}}Table)
+            .where(inArray({{camelCase (pluralize moduleName)}}Table.id, ids))
     }
 
-    static async deleteManyByQuery(filters: QueryTransactions): Promise<void> {
-        const conditions = TransactionCoreService.buildWhereConditions(filters)
-        await db.delete(transactionsTable).where(conditions)
+    static async deleteManyByQuery(filters: Query{{pascalCase (pluralize moduleName)}}): Promise<void> {
+        const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
+        await db.delete({{camelCase (pluralize moduleName)}}Table).where(conditions)
     }
 
     static buildWhereConditions(
-        params: QueryTransactions,
+        params: Query{{pascalCase (pluralize moduleName)}},
     ): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
-            conditions.push(or(ilike(transactionsTable.title, searchTerm)))
+            conditions.push(or(ilike({{camelCase (pluralize moduleName)}}Table.title, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {
-            conditions.push(inArray(transactionsTable.id, params.ids))
+            conditions.push(inArray({{camelCase (pluralize moduleName)}}Table.id, params.ids))
         }
         if (params.groupId) {
-            conditions.push(eq(transactionsTable.groupId, params.groupId))
+            conditions.push(eq({{camelCase (pluralize moduleName)}}Table.groupId, params.groupId))
         }
         if (params.creatorId) {
-            conditions.push(eq(transactionsTable.creatorId, params.creatorId))
+            conditions.push(eq({{camelCase (pluralize moduleName)}}Table.creatorId, params.creatorId))
         }
         if (conditions.length === 0) {
             return undefined

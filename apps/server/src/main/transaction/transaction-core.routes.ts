@@ -245,8 +245,8 @@ const DeleteManyTransactionCore: AppRouteHandler<
 
 export const transactionCoreRoutes = createRouter()
     .openapi(DeleteTransactionCoreDef, DeleteTransactionCore)
-    .openapi(DeleteManyTransactionCoreDef, DeleteManyTransactionCore)
     .openapi(UpdateTransactionCoreDef, UpdateTransactionCore)
-    .openapi(CreateTransactionCoreDef, CreateTransactionCore)
     .openapi(GetTransactionByIdCoreDef, GetTransactionByIdCore)
+    .openapi(DeleteManyTransactionCoreDef, DeleteManyTransactionCore)
+    .openapi(CreateTransactionCoreDef, CreateTransactionCore)
     .openapi(GetTransactionListCoreDef, GetTransactionListCore)

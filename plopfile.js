@@ -4,13 +4,13 @@ export default function (plop) {
     plop.setHelper('pluralize', (str) => inflection.pluralize(str))
 
     plop.setGenerator('honomodule', {
-        description:
-            'Create a new Hono module for private, protected and custom routes',
+        description: 'Create a new Hono module with common api routes',
         prompts: [
             {
                 type: 'input',
                 name: 'moduleName',
-                message: 'Module name (e.g., user, admin):',
+                message:
+                    'Module name in PascalCase (e.g., User, Transaction, AccountType):',
             },
         ],
         actions: [
@@ -21,8 +21,28 @@ export default function (plop) {
             },
             {
                 type: 'add',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-core.service.ts',
+                templateFile: 'plop-templates/honomodule/core.service.ts.hbs',
+            },
+            {
+                type: 'add',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-crud.routes.ts',
+                templateFile: 'plop-templates/honomodule/crud.routes.ts.hbs',
+            },
+            {
+                type: 'add',
                 path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.model.ts',
-                templateFile: 'plop-templates/honomodule/core.model.ts.hbs',
+                templateFile: 'plop-templates/honomodule/model.ts.hbs',
+            },
+            {
+                type: 'add',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.routes.ts',
+                templateFile: 'plop-templates/honomodule/routes.ts.hbs',
+            },
+            {
+                type: 'add',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.service.ts',
+                templateFile: 'plop-templates/honomodule/service.ts.hbs',
             },
         ],
     })
