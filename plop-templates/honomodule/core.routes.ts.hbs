@@ -1,0 +1,252 @@
+import { createRoute, z } from '@hono/zod-openapi'
+import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { jsonContent } from 'stoker/openapi/helpers'
+import { AppRouteHandler } from '../../core/core.type'
+import { createRouter } from '../../core/create-app'
+import { zEmpty, zId, zIds } from '../../models/common.schema'
+import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
+import { buildPaginationResponse } from '../../utils/pagination.util'
+import {
+    zInsert{{pascalCase moduleName}},
+    zQuery{{pascalCase (pluralize moduleName)}},
+    zSelect{{pascalCase moduleName}},
+    zUpdate{{pascalCase moduleName}},
+} from './{{kebabCase moduleName}}-core.model'
+import { {{pascalCase moduleName}}CoreService } from './{{kebabCase moduleName}}-core.service'
+
+const tags = ['{{pascalCase moduleName}}']
+const path = '/core/{{kebabCase moduleName}}s'
+const middleware = undefined
+
+const Get{{pascalCase moduleName}}ListCoreDef = createRoute({
+    path,
+    tags,
+    method: 'get',
+    middleware,
+    request: {
+        query: zQuery{{pascalCase moduleName}}s,
+    },
+    responses: {
+        [OK]: ApiListResponse(z.array(zSelect{{pascalCase moduleName}}), '{{pascalCase moduleName}} List'),
+    },
+})
+
+const Get{{pascalCase moduleName}}ListCore: AppRouteHandler<
+    typeof Get{{pascalCase moduleName}}ListCoreDef
+> = async (c) => {
+    const query = c.req.valid('query')
+    const data = await {{pascalCase moduleName}}CoreService.findMany(query)
+    const count = await {{pascalCase moduleName}}CoreService.count(query)
+
+    return c.json(
+        {
+            data,
+            pagination: buildPaginationResponse(query.page, query.size, count),
+            message: '{{pascalCase moduleName}} list fetched successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const Get{{pascalCase moduleName}}ByIdCoreDef = createRoute({
+    path: `${path}/:id`,
+    tags,
+    method: 'get',
+    middleware,
+    request: {
+        params: zId,
+    },
+    responses: {
+        [OK]: ApiResponse(zSelect{{pascalCase moduleName}}, '{{pascalCase moduleName}} details'),
+        [NOT_FOUND]: ApiResponse(zEmpty, '{{pascalCase moduleName}} not found'),
+    },
+})
+
+const Get{{pascalCase moduleName}}ByIdCore: AppRouteHandler<
+    typeof Get{{pascalCase moduleName}}ByIdCoreDef
+> = async (c) => {
+    const { id } = c.req.valid('param')
+    const {{kebabCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
+
+    if (!{{kebabCase moduleName}}) {
+        return c.json(
+            {
+                data: {},
+                message: '{{pascalCase moduleName}} not found',
+                success: false,
+            },
+            NOT_FOUND,
+        )
+    }
+
+    return c.json(
+        {
+            data: {{kebabCase moduleName}},
+            message: '{{pascalCase moduleName}} details fetched successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const Create{{pascalCase moduleName}}CoreDef = createRoute({
+    path,
+    tags,
+    method: 'post',
+    middleware,
+    request: {
+        body: jsonContent(zInsert{{pascalCase moduleName}}, '{{pascalCase moduleName}} Create Data'),
+    },
+    responses: {
+        [CREATED]: ApiResponse(
+            zSelect{{pascalCase moduleName}},
+            '{{pascalCase moduleName}} created successfully',
+        ),
+    },
+})
+
+const Create{{pascalCase moduleName}}Core: AppRouteHandler<
+    typeof Create{{pascalCase moduleName}}CoreDef
+> = async (c) => {
+    const body = c.req.valid('json')
+    const new{{pascalCase moduleName}} = await {{pascalCase moduleName}}CoreService.create(body)
+
+    return c.json(
+        {
+            data: new{{pascalCase moduleName}},
+            message: '{{pascalCase moduleName}} created successfully',
+            success: true,
+        },
+        CREATED,
+    )
+}
+
+const Update{{pascalCase moduleName}}CoreDef = createRoute({
+    path: `${path}/:id`,
+    tags,
+    method: 'put',
+    middleware,
+    request: {
+        params: zId,
+        body: jsonContent(zUpdate{{pascalCase moduleName}}, '{{pascalCase moduleName}} Update Data'),
+    },
+    responses: {
+        [OK]: ApiResponse(
+            zSelect{{pascalCase moduleName}},
+            '{{pascalCase moduleName}} updated successfully',
+        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, '{{pascalCase moduleName}} not found'),
+    },
+})
+
+const Update{{pascalCase moduleName}}Core: AppRouteHandler<
+    typeof Update{{pascalCase moduleName}}CoreDef
+> = async (c) => {
+    const { id } = c.req.valid('param')
+    const body = c.req.valid('json')
+    const existing{{pascalCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
+
+    if (!existing{{pascalCase moduleName}}) {
+        return c.json(
+            {
+                data: {},
+                message: '{{pascalCase moduleName}} not found',
+                success: false,
+            },
+            NOT_FOUND,
+        )
+    }
+
+    const updated{{pascalCase moduleName}} = await {{pascalCase moduleName}}CoreService.update(id, body)
+
+    return c.json(
+        {
+            data: updated{{pascalCase moduleName}},
+            message: '{{pascalCase moduleName}} updated successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const Delete{{pascalCase moduleName}}CoreDef = createRoute({
+    path: `${path}/:id`,
+    tags,
+    method: 'delete',
+    middleware,
+    request: {
+        params: zId,
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, '{{pascalCase moduleName}} deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, '{{pascalCase moduleName}} not found'),
+    },
+})
+
+const Delete{{pascalCase moduleName}}Core: AppRouteHandler<
+    typeof Delete{{pascalCase moduleName}}CoreDef
+> = async (c) => {
+    const { id } = c.req.valid('param')
+    const existing{{pascalCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
+
+    if (!existing{{pascalCase moduleName}}) {
+        return c.json(
+            {
+                data: {},
+                message: '{{pascalCase moduleName}} not found',
+                success: false,
+            },
+            NOT_FOUND,
+        )
+    }
+
+    await {{pascalCase moduleName}}CoreService.delete(id)
+
+    return c.json(
+        {
+            data: {},
+            message: '{{pascalCase moduleName}} deleted successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+const DeleteMany{{pascalCase moduleName}}CoreDef = createRoute({
+    path,
+    tags,
+    method: 'delete',
+    middleware,
+    request: {
+        body: jsonContent(zIds, '{{pascalCase moduleName}} IDs to delete'),
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, '{{pascalCase moduleName}}s deleted successfully'),
+    },
+})
+
+const DeleteMany{{pascalCase moduleName}}Core: AppRouteHandler<
+    typeof DeleteMany{{pascalCase moduleName}}CoreDef
+> = async (c) => {
+    const { ids } = c.req.valid('json')
+
+    await {{pascalCase moduleName}}CoreService.deleteMany(ids)
+
+    return c.json(
+        {
+            data: {},
+            message: '{{pascalCase moduleName}}s deleted successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const {{kebabCase moduleName}}CoreRoutes = createRouter()
+    .openapi(Delete{{pascalCase moduleName}}CoreDef, Delete{{pascalCase moduleName}}Core)
+    .openapi(DeleteMany{{pascalCase moduleName}}CoreDef, DeleteMany{{pascalCase moduleName}}Core)
+    .openapi(Update{{pascalCase moduleName}}CoreDef, Update{{pascalCase moduleName}}Core)
+    .openapi(Create{{pascalCase moduleName}}CoreDef, Create{{pascalCase moduleName}}Core)
+    .openapi(Get{{pascalCase moduleName}}ByIdCoreDef, Get{{pascalCase moduleName}}ByIdCore)
+    .openapi(Get{{pascalCase moduleName}}ListCoreDef, Get{{pascalCase moduleName}}ListCore)

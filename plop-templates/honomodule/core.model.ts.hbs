@@ -1,0 +1,21 @@
+import { z } from 'zod'
+import { transactionsTable } from '../../db/schema'
+import { zPagination, zSearch } from '../../models/common.schema'
+import {
+    createInsertSchema,
+    createSelectSchema,
+    createUpdateSchema,
+} from '../../utils/zod.util'
+
+export type Insert{{pascalCase moduleName}} = z.infer<typeof zInsert{{pascalCase moduleName}}>
+export type Select{{pascalCase moduleName}} = z.infer<typeof zSelect{{pascalCase moduleName}}>
+export type Update{{pascalCase moduleName}} = z.infer<typeof zUpdate{{pascalCase moduleName}}>
+export type Query{{pascalCase moduleName}}s = z.infer<typeof zQuery{{pascalCase moduleName}}s>
+
+export const zInsert{{pascalCase moduleName}} = createInsertSchema({{camelCase (pluralize moduleName)}}Table)
+export const zSelect{{pascalCase moduleName}} = createSelectSchema({{camelCase (pluralize moduleName)}}Table)
+export const zUpdate{{pascalCase moduleName}} = createUpdateSchema({{camelCase (pluralize moduleName)}}Table)
+export const zQuery{{pascalCase moduleName}}s = zInsert{{pascalCase moduleName}}
+    .extend(zSearch.shape)
+    .extend(zPagination.shape)
+    .partial()
