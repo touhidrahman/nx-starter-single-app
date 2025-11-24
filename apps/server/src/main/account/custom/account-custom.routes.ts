@@ -11,7 +11,7 @@ import { zQueryAccounts, zSelectAccount } from '../core/account-core.model'
 import { AccountCustomService } from './account-custom.service'
 
 const tags = [APP_OPENAPI_TAGS.Account]
-const path = '/custom/accounts'
+const path = '/accounts/custom'
 
 const GetMyAccountListDef = createRoute({
     path: `${path}/my`,

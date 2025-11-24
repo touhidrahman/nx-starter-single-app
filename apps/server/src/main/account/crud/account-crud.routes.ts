@@ -19,7 +19,7 @@ import {
 import { AccountCrudService } from './account-crud.service'
 
 const tags = [APP_OPENAPI_TAGS.Account]
-const path = '/crud/accounts'
+const path = '/accounts'
 
 const GetAccountListCrudDef = createRoute({
     path: path,

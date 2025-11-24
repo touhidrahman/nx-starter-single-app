@@ -13,8 +13,8 @@ export class AccountTypeCoreService {
         filters: QueryAccountTypes,
     ): Promise<SelectAccountType[]> {
         const conditions = AccountTypeCoreService.buildWhereConditions(filters)
-        const size = filters.size || DEFAULT_PAGE_SIZE
-        const offset = ((filters.page || 1) - 1) * size
+        const size = filters.size ?? DEFAULT_PAGE_SIZE
+        const offset = ((filters.page ?? 1) - 1) * size
         const accountTypes = await db
             .select()
             .from(accountTypesTable)
