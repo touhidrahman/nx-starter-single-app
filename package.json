@@ -2,7 +2,6 @@
     "name": "@repo/source",
     "version": "2.0.1",
     "license": "MIT",
-    "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
         "githook": "pnpx lefthook install",

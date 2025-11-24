@@ -1,6 +1,12 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '../../../db/db'
-import { membershipsTable, rolesTable, usersTable } from '../../../db/schema'
+import {
+    groupsTable,
+    membershipsTable,
+    rolesTable,
+    usersTable,
+} from '../../../db/schema'
+import { SelectGroup } from '../core/group-core.model'
 import { GroupCrudService } from '../crud/group-crud.service'
 import { GroupMember } from './group-custom.model'
 
@@ -89,5 +95,23 @@ export class GroupCustomService extends GroupCrudService {
                     ),
                 )
         }
+    }
+
+    static async findInvolvedGroups(
+        userId: string,
+    ): Promise<(SelectGroup & { membership: 'Owner' | 'Member' })[]> {
+        const result = await db
+            .select()
+            .from(groupsTable)
+            .innerJoin(
+                membershipsTable,
+                eq(groupsTable.id, membershipsTable.groupId),
+            )
+            .where(eq(membershipsTable.userId, userId))
+
+        return result.map(({ groups: group }) => ({
+            ...group,
+            membership: group.creatorId === userId ? 'Owner' : 'Member',
+        }))
     }
 }

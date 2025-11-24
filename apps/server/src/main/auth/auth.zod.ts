@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { zSelectGroup } from '../group/group.schema'
+import { zSelectGroup } from '../group/core/group-core.model'
 import { zSelectRole } from '../role/core/role-core.model'
 import { zInsertUser, zSelectUser } from '../user/user.schema'
 

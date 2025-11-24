@@ -1,5 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
+import { ContentfulStatusCode } from 'hono/utils/http-status'
 import {
     BAD_REQUEST,
     CREATED,
@@ -14,49 +15,49 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
-import { zId, zIds } from '../../../models/common.schema'
+import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
-import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
+import { ApiResponse } from '../../../utils/api-response.util'
 import { DateUtil } from '../../../utils/date.util'
-import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
 import { PlanCustomService } from '../../plan/custom/plan-custom.service'
 import { zInsertSubscription } from '../../subscription/core/subscription-core.model'
 import { zSubscriptionWithPlan } from '../../subscription/crud/subscription-crud.model'
 import { SubscriptionCustomService } from '../../subscription/custom/subscription-custom.service'
-import { zQueryGroups, zSelectGroup } from '../core/group-core.model'
+import { zSelectGroup } from '../core/group-core.model'
 import { zGroupMember } from './group-custom.model'
 import { GroupCustomService } from './group-custom.service'
 
 const tags = [APP_OPENAPI_TAGS.Group]
-const path = '/custom/groups'
+const path = '/groups/custom'
 
 const GetMyGroupListDef = createRoute({
     path: `${path}/my`,
     tags,
     method: REQ_METHOD.GET,
     middleware: [checkToken] as const,
-    request: {
-        query: zQueryGroups,
-    },
     responses: {
-        [OK]: ApiListResponse(z.array(zSelectGroup), 'Group List'),
+        [OK]: ApiResponse(
+            z.array(
+                zSelectGroup.extend({
+                    membership: z.enum(['Owner', 'Member']),
+                }),
+            ),
+            'Group List',
+        ),
     },
 })
 
 const GetGroupListCrud: AppRouteHandler<typeof GetMyGroupListDef> = async (
     c,
 ) => {
-    const query = c.req.valid('query')
-    const { sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
+    const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
 
-    const data = await GroupCustomService.findMany({ ...query, creatorId })
-    const count = await GroupCustomService.count({ ...query, creatorId })
+    const data = await GroupCustomService.findInvolvedGroups(userId)
 
     return c.json(
         {
             data,
-            pagination: buildPaginationResponse(query.page, query.size, count),
             message: 'Group list fetched successfully',
             success: true,
         },
@@ -316,6 +317,59 @@ const UpdateGroupMemberRole: AppRouteHandler<
     )
 }
 
+const LeaveGroupMembershipDef = createRoute({
+    path: `${path}/:id/members/:userId/leave`,
+    tags,
+    method: REQ_METHOD.POST,
+    middleware: [checkToken] as const,
+    request: {
+        params: z.object({
+            id: z.string(),
+            userId: z.string(),
+        }),
+    },
+    responses: {
+        [OK]: ApiResponse(zEmpty, 'Member'),
+    },
+})
+
+const LeaveGroupMembership: AppRouteHandler<
+    typeof LeaveGroupMembershipDef
+> = async (c) => {
+    const params = c.req.valid('param')
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+
+    if (params.id !== groupId || !params.userId) {
+        throw new HTTPException(BAD_REQUEST, {
+            message: 'Group member cannot be accessed',
+        })
+    }
+
+    try {
+        await GroupCustomService.removeUserFromGroup(params.id, params.userId)
+    } catch (error: unknown) {
+        throw new HTTPException(
+            ((error as Error)?.cause as ContentfulStatusCode) ??
+                INTERNAL_SERVER_ERROR,
+            {
+                message:
+                    error instanceof Error
+                        ? error.message
+                        : 'Error leaving group',
+            },
+        )
+    }
+
+    return c.json(
+        {
+            data: {},
+            message: 'Group member updated successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
 export const groupCustomRoutes = createRouter()
     .openapi(GetMyGroupListDef, GetGroupListCrud)
     .openapi(SubscribePlanDef, SubscribePlan)
@@ -323,3 +377,4 @@ export const groupCustomRoutes = createRouter()
     .openapi(AddGroupMembersDef, AddGroupMembers)
     .openapi(RemoveGroupMembersDef, RemoveGroupMembers)
     .openapi(UpdateGroupMemberRoleDef, UpdateGroupMemberRole)
+    .openapi(LeaveGroupMembershipDef, LeaveGroupMembership)

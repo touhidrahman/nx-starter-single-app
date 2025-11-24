@@ -25,7 +25,9 @@ import { currencyCrudRoutes } from './main/currency/crud/currency-crud.routes'
 import { dashboardV1Routes } from './main/dashboard/dashboard.routes'
 import { databaseBackupV1Routes } from './main/database-backup/database-backup.routes'
 import { feedbackV1Routes } from './main/feedback/feedback.routes'
-import { groupsV1Route } from './main/group/group.routes'
+import { groupCoreRoutes } from './main/group/core/group-core.routes'
+import { groupCrudRoutes } from './main/group/crud/group-crud.routes'
+import { groupCustomRoutes } from './main/group/custom/group-custom.routes'
 import { inviteCoreRoutes } from './main/invite/core/invite-core.routes'
 import { inviteCrudRoutes } from './main/invite/crud/invite-crud.routes'
 import { inviteCustomRoutes } from './main/invite/custom/invite-custom.routes'
@@ -75,7 +77,9 @@ const routes = [
     dashboardV1Routes,
     databaseBackupV1Routes,
     feedbackV1Routes,
-    groupsV1Route,
+    groupCoreRoutes,
+    groupCrudRoutes,
+    groupCustomRoutes,
     inviteCoreRoutes,
     inviteCrudRoutes,
     inviteCustomRoutes,

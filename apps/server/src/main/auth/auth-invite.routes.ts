@@ -9,7 +9,7 @@ import { db } from '../../db/db'
 import { membershipsTable } from '../../db/schema'
 import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
-import { addUserToGroup, findGroupById } from '../group/group.service'
+import { GroupCustomService } from '../group/custom/group-custom.service'
 import { InviteCustomService } from '../invite/custom/invite-custom.service'
 import { UserCrudService } from '../user/crud/user-crud.service'
 import { UserCustomService } from '../user/custom/user-custom.service'
@@ -52,7 +52,7 @@ const AcceptInvite: AppRouteHandler<typeof AcceptInviteDef> = async (c) => {
         })
     }
 
-    const group = await findGroupById(decoded.organizationId)
+    const group = await GroupCustomService.findById(decoded.organizationId)
     if (!group) {
         throw new HTTPException(BAD_REQUEST, {
             message: 'Organization not found!',
@@ -80,7 +80,9 @@ const AcceptInvite: AppRouteHandler<typeof AcceptInviteDef> = async (c) => {
         email: invite.email,
     })
 
-    await addUserToGroup(user.id, decoded.organizationId, decoded.roleId)
+    await GroupCustomService.addGroupMembers(decoded.organizationId, [
+        { userId: user.id, roleId: decoded.roleId },
+    ])
     await setDefaultGroupId(user.id, decoded.organizationId)
     await InviteCustomService.delete(decoded.invitationId)
     const role = await db.query.membershipsTable.findFirst({
