@@ -1,5 +1,4 @@
 import { SelectAccount } from '../core/account-core.model'
-import { ACCOUNT_TYPE } from '../crud/account-crud.model'
 import { AccountCrudService } from '../crud/account-crud.service'
 import {
     InsertBankAccount,
@@ -16,7 +15,6 @@ export class AccountCustomService extends AccountCrudService {
     ): Promise<SelectAccount> {
         return AccountCrudService.create({
             ...input,
-            type: ACCOUNT_TYPE.CARD,
         })
     }
 
@@ -25,7 +23,6 @@ export class AccountCustomService extends AccountCrudService {
     ): Promise<SelectAccount> {
         return AccountCrudService.create({
             ...input,
-            type: ACCOUNT_TYPE.BANK,
         })
     }
 
@@ -34,7 +31,6 @@ export class AccountCustomService extends AccountCrudService {
     ): Promise<SelectAccount> {
         return AccountCrudService.create({
             ...input,
-            type: ACCOUNT_TYPE.LOAN,
         })
     }
 

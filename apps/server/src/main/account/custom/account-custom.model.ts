@@ -17,6 +17,7 @@ const zCommonInsertAccount = zInsertAccount
         isPrivate: true,
         groupId: true,
         creatorId: true,
+        type: true,
     })
     .required()
 

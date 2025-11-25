@@ -1,6 +1,12 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
-import { FORBIDDEN, NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { ContentfulStatusCode } from 'hono/utils/http-status'
+import {
+    FORBIDDEN,
+    INTERNAL_SERVER_ERROR,
+    NOT_FOUND,
+    OK,
+} from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
@@ -117,20 +123,33 @@ const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (
         })
     }
 
-    const data = await TransactionService.create({
-        ...input,
-        groupId,
-        creatorId,
-    })
+    try {
+        const data =
+            await TransactionService.createTransactionAndUpdateAccountBalance({
+                ...input,
+                groupId,
+                creatorId,
+            })
 
-    return c.json(
-        {
-            data,
-            message: 'Transaction created successfully',
-            success: true,
-        },
-        OK,
-    )
+        return c.json(
+            {
+                data,
+                message: 'Transaction created successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(
+            error instanceof Error
+                ? (error.cause as ContentfulStatusCode)
+                : INTERNAL_SERVER_ERROR,
+            {
+                message:
+                    (error as Error).message ?? 'Failed to create transaction',
+            },
+        )
+    }
 }
 
 const UpdateTransactionDef = createRoute({

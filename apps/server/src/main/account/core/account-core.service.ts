@@ -1,4 +1,4 @@
-import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { accountsTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
@@ -13,11 +13,17 @@ export class AccountCoreService {
         const conditions = AccountCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
+        const orderBy = AccountCoreService.buildOrderBy(
+            filters.orderBy as keyof SelectAccount,
+            filters.sortOrder ?? 'desc',
+        )
+
         const accounts = await db
             .select()
             .from(accountsTable)
             .where(conditions)
             .offset(offset)
+            .orderBy(orderBy)
             .limit(size)
         return accounts
     }
@@ -98,6 +104,14 @@ export class AccountCoreService {
 
     static async deleteMany(ids: string[]): Promise<void> {
         await db.delete(accountsTable).where(inArray(accountsTable.id, ids))
+    }
+
+    static buildOrderBy(
+        orderByField: keyof SelectAccount,
+        sortOrder: 'asc' | 'desc',
+    ): SQL<unknown> {
+        const orderBy = accountsTable[orderByField] ?? accountsTable.createdAt
+        return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
     static buildWhereConditions(

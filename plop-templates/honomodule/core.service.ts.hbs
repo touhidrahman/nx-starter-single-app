@@ -1,4 +1,4 @@
-import { and, count, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { {{camelCase (pluralize moduleName)}}Table } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
@@ -15,11 +15,17 @@ export class {{pascalCase moduleName}}CoreService {
         const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
+        const orderBy = {{pascalCase moduleName}}CoreService.buildOrderBy(
+            filters.orderBy as keyof Select{{pascalCase moduleName}},
+            filters.sortOrder ?? 'desc',
+        )
+
         const {{camelCase (pluralize moduleName)}} = await db
             .select()
             .from({{camelCase (pluralize moduleName)}}Table)
             .where(conditions)
             .offset(offset)
+            .orderBy(orderBy)
             .limit(size)
         return {{camelCase (pluralize moduleName)}}
     }
@@ -118,6 +124,16 @@ export class {{pascalCase moduleName}}CoreService {
     static async deleteManyByQuery(filters: Query{{pascalCase (pluralize moduleName)}}): Promise<void> {
         const conditions = {{pascalCase moduleName}}CoreService.buildWhereConditions(filters)
         await db.delete({{camelCase (pluralize moduleName)}}Table).where(conditions)
+    }
+
+    static buildOrderBy(
+        orderByField: keyof Select{{pascalCase moduleName}},
+        sortOrder: 'asc' | 'desc',
+    ): SQL<unknown> {
+        const orderBy = {{camelCase (pluralize moduleName)}}Table[orderByField] ?? {{camelCase (pluralize moduleName)}}Table.createdAt
+        return sortOrder === 'asc'
+            ? asc(orderBy)
+            : desc(orderBy)
     }
 
     static buildWhereConditions(
