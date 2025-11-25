@@ -5,7 +5,7 @@ import env from '../env'
 
 const isProduction = env.NODE_ENV === 'production'
 
-export const customLogger = () => {
+export const customPinoLogger = () => {
     return pinoLogger({
         http: {
             reqId: () => crypto.randomUUID(),

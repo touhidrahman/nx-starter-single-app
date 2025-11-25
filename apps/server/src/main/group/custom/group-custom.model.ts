@@ -7,3 +7,9 @@ export const zGroupMember = zSelectUser.extend({
 })
 
 export type GroupMember = z.infer<typeof zGroupMember>
+
+export type Membership = {
+    groupId: string
+    userId: string
+    roleId: string
+}

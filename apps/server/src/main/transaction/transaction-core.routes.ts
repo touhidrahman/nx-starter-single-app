@@ -15,7 +15,7 @@ import {
 import { TransactionCoreService } from './transaction-core.service'
 
 const tags = ['Transaction']
-const path = '/transactions'
+const path = '/core/transactions'
 const middleware = undefined
 
 const GetTransactionListCoreDef = createRoute({

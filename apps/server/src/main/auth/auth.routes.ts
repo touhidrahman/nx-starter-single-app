@@ -16,6 +16,7 @@ import { ApiResponse } from '../../utils/api-response.util'
 import { DateUtil } from '../../utils/date.util'
 import { GroupOwner } from '../claim/claims'
 import { buildWelcomeEmailTemplate } from '../email/templates/welcome'
+import { GroupCustomService } from '../group/custom/group-custom.service'
 import { UserCustomService } from '../user/custom/user-custom.service'
 import { zInsertUser } from '../user/user.schema'
 import { AuthService } from './auth.service'
@@ -94,20 +95,14 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
             })
         }
 
-        const [group] = await db
-            .insert(groupsTable)
-            .values({
-                name: `${user.firstName}'s Group ${user.id?.toUpperCase()}`,
-            })
-            .returning()
-        const [membership] = await db
-            .insert(membershipsTable)
-            .values({
-                userId: user?.id,
-                groupId: group.id,
-                roleId: GroupOwner,
-            })
-            .returning()
+        const group = await GroupCustomService.create({
+            name: `${user.firstName}'s Group ${user.id?.toUpperCase()}`,
+        })
+        const membership = await GroupCustomService.addGroupMember({
+            groupId: group.id,
+            userId: user.id,
+            roleId: GroupOwner,
+        })
         const role = await db.query.membershipsTable.findFirst({
             with: { role: true },
             where: eq(membershipsTable.roleId, membership.roleId ?? ''),

@@ -8,7 +8,7 @@ import {
 } from '../../../db/schema'
 import { SelectGroup } from '../core/group-core.model'
 import { GroupCrudService } from '../crud/group-crud.service'
-import { GroupMember } from './group-custom.model'
+import { GroupMember, Membership } from './group-custom.model'
 
 export class GroupCustomService extends GroupCrudService {
     static async getGroupMembers(groupId: string): Promise<GroupMember[]> {
@@ -64,6 +64,26 @@ export class GroupCustomService extends GroupCrudService {
             ...row.user,
             role: row.role,
         } as GroupMember
+    }
+
+    static async addGroupMember({
+        groupId,
+        userId,
+        roleId,
+    }: Membership): Promise<Membership> {
+        const [result] = await db
+            .insert(membershipsTable)
+            .values({ groupId, userId, roleId })
+            .onConflictDoUpdate({
+                target: [membershipsTable.groupId, membershipsTable.userId],
+                set: { roleId },
+            })
+            .returning()
+
+        return {
+            ...result,
+            roleId: result.roleId !== null ? result.roleId : roleId,
+        }
     }
 
     static async addGroupMembers(

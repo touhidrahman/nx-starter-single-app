@@ -1,3 +1,4 @@
+import { intersection, isSubset } from 'es-toolkit/array'
 import { Context, MiddlewareHandler, Next } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { BAD_REQUEST, FORBIDDEN } from 'stoker/http-status-codes'
@@ -19,11 +20,11 @@ export const checkPermission = (
 
         const allClaims = findAllClaimsList()
         const requiredClaims = claims.map((c) => c.trim().toLowerCase()) || []
-        const matchedClaims = requiredClaims.filter((c) =>
+        const matchedRequiredClaims = requiredClaims.filter((c) =>
             allClaims.includes(c),
         )
 
-        if (matchedClaims.length === 0) {
+        if (matchedRequiredClaims.length === 0) {
             throw new HTTPException(BAD_REQUEST, {
                 message: 'Invalid claim(s) provided',
             })
@@ -37,17 +38,20 @@ export const checkPermission = (
         }
 
         const role = await RoleCustomService.findById(roleId)
-        const rolePermissions = role?.permissions || ([] as string[])
+        const rolePermissions =
+            role?.permissions?.split(',').map((p) => p.trim().toLowerCase()) ||
+            ([] as string[])
         if (!rolePermissions) {
             throw new HTTPException(BAD_REQUEST, {
                 message: 'No permission found for logged in user',
             })
         }
 
-        if (matchedClaims.length > 0) {
+        if (matchedRequiredClaims.length > 0) {
             if (matchAll) {
-                const allMatch = matchedClaims.every((claim) =>
-                    rolePermissions.includes(claim),
+                const allMatch = isSubset(
+                    rolePermissions,
+                    matchedRequiredClaims,
                 )
                 if (!allMatch) {
                     throw new HTTPException(FORBIDDEN, {
@@ -58,10 +62,12 @@ export const checkPermission = (
                 return await next()
             }
 
-            const atLeastOneMatch = matchedClaims.some((claim) =>
-                rolePermissions.includes(claim),
+            const atLeastOneMatch = intersection(
+                rolePermissions,
+                matchedRequiredClaims,
             )
-            if (!atLeastOneMatch) {
+
+            if (atLeastOneMatch.length === 0) {
                 throw new HTTPException(FORBIDDEN, {
                     message:
                         'You do not have the required permission to perform this action',

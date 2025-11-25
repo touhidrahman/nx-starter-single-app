@@ -128,6 +128,9 @@ importers:
       '@ionic/core':
         specifier: ^8.6.2
         version: 8.7.3
+      '@logtape/logtape':
+        specifier: ^1.2.0
+        version: 1.2.0
       '@neondatabase/serverless':
         specifier: ^1.0.2
         version: 1.0.2
@@ -3030,6 +3033,9 @@ packages:
     resolution: {integrity: sha512-IY+r3bxKW6Q6sIPiMC0L533DEfRJSXibjSI3Ft/w9Q8KQBNqEIvUFXt+09wV8S5BRk0a8uSF19YWxuRwEfI90g==}
     cpu: [x64]
     os: [win32]
+
+  '@logtape/logtape@1.2.0':
+    resolution: {integrity: sha512-L7aXBYrxpSUQcsZm/hCuh5REN+dckxmPmH7x7eCROiLAHUSPzc7AhbsxsZLDsXMM4ggtbmS3sUQVa+blfF4sZA==}
 
   '@modelcontextprotocol/sdk@1.17.3':
     resolution: {integrity: sha512-JPwUKWSsbzx+DLFznf/QZ32Qa+ptfbUlHhRLrBQBAFu9iI1iYvizM4p+zhhRDceSsPutXp4z+R/HPVphlIiclg==}
@@ -14592,6 +14598,8 @@ snapshots:
 
   '@lmdb/lmdb-win32-x64@3.4.2':
     optional: true
+
+  '@logtape/logtape@1.2.0': {}
 
   '@modelcontextprotocol/sdk@1.17.3':
     dependencies:
