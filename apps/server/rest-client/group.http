@@ -1,0 +1,4 @@
+
+GET {{BACKEND_URL}}/groups/custom/my
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

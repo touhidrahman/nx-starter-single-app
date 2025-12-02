@@ -148,6 +148,9 @@ export class {{pascalCase moduleName}}CoreService {
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray({{camelCase (pluralize moduleName)}}Table.id, params.ids))
         }
+        if (params.id) {
+            conditions.push(eq({{camelCase (pluralize moduleName)}}Table.id, params.id))
+        }
         if (params.groupId) {
             conditions.push(eq({{camelCase (pluralize moduleName)}}Table.groupId, params.groupId))
         }

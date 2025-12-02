@@ -72,7 +72,7 @@ const GetAccountCrud: AppRouteHandler<typeof GetAccountCrudDef> = async (c) => {
     const id = c.req.valid('param').id
 
     if (!groupId) {
-        throw new HTTPException(NOT_FOUND, { message: 'Account not found' })
+        throw new HTTPException(FORBIDDEN, { message: 'Account not found' })
     }
 
     const existing = await AccountCrudService.findByIdAndGroupId(id, groupId)

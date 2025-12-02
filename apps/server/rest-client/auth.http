@@ -1,7 +1,21 @@
-POST {{host}}/auth/login
+POST {{BACKEND_URL}}/auth/login
 Content-Type: application/json
 
 {
   "username": "touhidrahman",
   "password": "Abcd1234!"
 }
+
+###
+
+POST {{BACKEND_URL}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Touhid",
+  "lastName": "Rahman",
+  "username": "touhidrahman1",
+  "password": "Abcd1234!"
+}
+
+###

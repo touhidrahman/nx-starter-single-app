@@ -1,0 +1,20 @@
+POST {{BACKEND_URL}}/custom/admins/register
+Content-Type: application/json
+
+{
+  "name": "First Admin",
+  "email": "a1@b.com",
+  "password": "Abcd1234!"
+}
+
+###
+
+POST {{BACKEND_URL}}/custom/admins/login
+Content-Type: application/json
+
+{
+  "email": "a1@b.com",
+  "password": "Abcd1234!"
+}
+
+###

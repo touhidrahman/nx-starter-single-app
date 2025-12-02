@@ -1,0 +1,29 @@
+
+POST {{BACKEND_URL}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Chase Sapphire",
+  "type": "CreditCard"
+}
+
+
+GET {{BACKEND_URL}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+###
+@id=207999d46b
+GET {{BACKEND_URL}}/accounts/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+PUT {{BACKEND_URL}}/accounts/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Chase Sapphire"
+}
+###

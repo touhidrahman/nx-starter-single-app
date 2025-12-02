@@ -123,6 +123,9 @@ export class AccountCoreService {
             const searchTerm = `%${params.search.trim()}%`
             conditions.push(or(ilike(accountsTable.name, searchTerm)))
         }
+        if (params.id) {
+            conditions.push(eq(accountsTable.id, params.id))
+        }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(accountsTable.id, params.ids))
         }
