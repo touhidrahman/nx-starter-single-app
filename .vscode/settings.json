@@ -18,5 +18,21 @@
     "nxConsole.nxWorkspacePath": "",
     "cSpell.words": ["requestedsuccessfully"],
     "nxConsole.generateAiAgentRules": true,
-    "postman.settings.dotenv-detection-notification-visibility": false
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "accessToken": "foo",
+            "refreshToken": "bar"
+        },
+        "local": {
+            "host": "http://localhost:3000",
+            "accessToken": "{{$shared accessToken}}",
+            "refreshToken": "{{$shared refreshToken}}"
+        },
+        "production": {
+            "host": "example.com",
+            "accessToken": "{{$shared accessToken}}",
+            "refreshToken": "{{$shared refreshToken}}"
+        }
+    }
 }
