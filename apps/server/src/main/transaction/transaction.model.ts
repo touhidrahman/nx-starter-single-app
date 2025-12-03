@@ -15,7 +15,14 @@ export type QueryTransactions = z.infer<typeof zQueryTransactions>
 export const zInsertTransaction = createInsertSchema(transactionsTable)
 export const zSelectTransaction = createSelectSchema(transactionsTable)
 export const zUpdateTransaction = createUpdateSchema(transactionsTable)
+export const zCustomQueryTransaction = z.object({
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+    month: z.number().min(1).max(12).optional(),
+    year: z.number().min(1970).optional(),
+})
 export const zQueryTransactions = zInsertTransaction
     .extend(zSearch.shape)
     .extend(zPagination.shape)
+    .extend(zCustomQueryTransaction.shape)
     .partial()

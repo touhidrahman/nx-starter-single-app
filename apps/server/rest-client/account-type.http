@@ -1,5 +1,5 @@
 
-POST {{BACKEND_URL}}/accounts
+POST {{BACKEND_URL}}/core/account-types
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
@@ -9,24 +9,21 @@ Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 }
 
 
-GET {{BACKEND_URL}}/accounts
+GET {{BACKEND_URL}}/core/account-types
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 ###
-@id=207999d46b
-GET {{BACKEND_URL}}/accounts/{{id}}
+@id=CreditCard
+GET {{BACKEND_URL}}/core/account-types/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
-PUT {{BACKEND_URL}}/accounts/{{id}}
+PUT {{BACKEND_URL}}/core/account-types/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
-  "name": "Chase Sapphire 3"
+  "sortOrder": 2
 }
 
-GET {{BACKEND_URL}}/accounts/custom/my
-Content-Type: application/json
-Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

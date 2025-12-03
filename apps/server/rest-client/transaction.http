@@ -1,32 +1,33 @@
+@id=753efcae6c
+@accountId=d59d7f428b
 
-POST {{BACKEND_URL}}/accounts
+POST {{BACKEND_URL}}/transactions
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
-  "name": "Chase Sapphire",
-  "type": "CreditCard"
+  "accountId": "{{accountId}}",
+  "amount": "2.19",
+  "title": "Grocery Shopping 3"
 }
 
-
-GET {{BACKEND_URL}}/accounts
+GET {{BACKEND_URL}}/transactions?startDate=2025-12-01&endDate=2025-12-30
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
-###
-@id=207999d46b
-GET {{BACKEND_URL}}/accounts/{{id}}
+
+GET {{BACKEND_URL}}/transactions/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
-PUT {{BACKEND_URL}}/accounts/{{id}}
+PUT {{BACKEND_URL}}/transactions/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
-  "name": "Chase Sapphire 3"
+  "title": "Grocery Shopping Updated"
 }
 
-GET {{BACKEND_URL}}/accounts/custom/my
+GET {{BACKEND_URL}}/transactions/custom/my
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

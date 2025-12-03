@@ -1,4 +1,4 @@
-import { and, count, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { and, count, eq, gte, ilike, inArray, lte, or, SQL } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { transactionsTable } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
@@ -137,6 +137,19 @@ export class TransactionCoreService {
         }
         if (params.creatorId) {
             conditions.push(eq(transactionsTable.creatorId, params.creatorId))
+        }
+        if (params.accountId) {
+            conditions.push(eq(transactionsTable.accountId, params.accountId))
+        }
+        if (params.startDate) {
+            conditions.push(
+                gte(transactionsTable.committedAt, new Date(params.startDate)),
+            )
+        }
+        if (params.endDate) {
+            conditions.push(
+                lte(transactionsTable.committedAt, new Date(params.endDate)),
+            )
         }
         if (conditions.length === 0) {
             return undefined
