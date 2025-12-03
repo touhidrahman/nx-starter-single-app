@@ -184,10 +184,13 @@ const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (
     }
 
     const input = c.req.valid('json')
-    const data = await TransactionService.update(existing.id, {
-        ...input,
-        groupId,
-    })
+    const data = await TransactionService.updateTransactionAndAccountBalance(
+        existing.id,
+        {
+            ...input,
+            groupId,
+        },
+    )
 
     return c.json(
         {
@@ -228,7 +231,10 @@ const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
     if (!existing) {
         throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
     }
-    await TransactionService.delete(existing.id)
+
+    await TransactionService.deleteTransactionAndUpdateAccountBalance(
+        existing.id,
+    )
 
     return c.json(
         {

@@ -1,4 +1,3 @@
-
 POST {{BACKEND_URL}}/accounts
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
@@ -13,8 +12,9 @@ GET {{BACKEND_URL}}/accounts
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
+
 ###
-@id=207999d46b
+@id=d59d7f428b
 GET {{BACKEND_URL}}/accounts/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

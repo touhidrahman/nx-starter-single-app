@@ -132,6 +132,9 @@ export class TransactionCoreService {
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(transactionsTable.id, params.ids))
         }
+        if (params.id) {
+            conditions.push(eq(transactionsTable.id, params.id))
+        }
         if (params.groupId) {
             conditions.push(eq(transactionsTable.groupId, params.groupId))
         }
