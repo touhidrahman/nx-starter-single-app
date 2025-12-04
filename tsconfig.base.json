@@ -1,64 +1,293 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "rootDir": ".",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "esModuleInterop": true,
-        "importHelpers": true,
-        "target": "es2022",
-        "module": "esnext",
-        "lib": ["es2020", "dom"],
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "baseUrl": ".",
-        "paths": {
-            "@repo/common-auth": ["libs/common-auth/src/index.ts"],
-            "@repo/common-components": ["libs/common-components/src/index.ts"],
-            "@repo/common-directives": ["libs/common-directives/src/index.ts"],
-            "@repo/common-models": ["libs/common-models/src/index.ts"],
-            "@repo/common-page-layouts": [
-                "libs/common-page-layouts/src/index.ts"
-            ],
-            "@repo/common-pipes": ["libs/common-pipes/src/index.ts"],
-            "@repo/common-services": ["libs/common-services/src/index.ts"],
-            "@repo/common-util": ["libs/common-util/src/index.ts"],
-            "@repo/native-devices-util": [
-                "libs/native-devices-util/src/index.ts"
-            ],
-            "@repo/permission-request": [
-                "libs/permission-request/src/index.ts"
-            ],
-            "@repo/prime-modules": ["libs/prime-modules/src/index.ts"],
-            "@repo/audit-log": ["libs/audit-log/src/index.ts"],
-            "@repo/auth": ["libs/auth/src/index.ts"],
-            "@repo/backup": ["libs/backup/src/index.ts"],
-            "@repo/clients": ["libs/clients/src/index.ts"],
-            "@repo/common": ["libs/common/src/index.ts"],
-            "@repo/core": ["libs/core/src/index.ts"],
-            "@repo/feedback": ["libs/feedback/src/index.ts"],
-            "@repo/filestore": ["libs/filestore/src/index.ts"],
-            "@repo/group": ["libs/group/src/index.ts"],
-            "@repo/home": ["libs/home/src/index.ts"],
-            "@repo/news-ticker": ["libs/news-ticker/src/index.ts"],
-            "@repo/plan": ["libs/plan/src/index.ts"],
-            "@repo/public-pages": ["libs/public-pages/src/index.ts"],
-            "@repo/referral": ["libs/referral/src/index.ts"],
-            "@repo/role-permission": ["libs/role-permission/src/index.ts"],
-            "@repo/subscription": ["libs/subscription/src/index.ts"],
-            "@repo/user": ["libs/user/src/index.ts"],
-            "@repo/user-setting": ["libs/user-setting/src/index.ts"],
-            "@repo/store": ["libs/store/src/index.ts"],
-            "@repo/web-main": ["libs/web-main/src/index.ts"],
-            "@repo/web-core": ["libs/web-core/src/index.ts"],
-            "@repo/web-ui": ["spartan/src/index.ts"],
-            "@repo/web-pages": ["libs/web-pages/src/index.ts"],
-            "@repo/spartan": ["libs/spartan/src/index.ts"]
-        }
-    },
-    "exclude": ["node_modules", "tmp"]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@repo/common-auth": [
+        "libs/common-auth/src/index.ts"
+      ],
+      "@repo/common-components": [
+        "libs/common-components/src/index.ts"
+      ],
+      "@repo/common-directives": [
+        "libs/common-directives/src/index.ts"
+      ],
+      "@repo/common-models": [
+        "libs/common-models/src/index.ts"
+      ],
+      "@repo/common-page-layouts": [
+        "libs/common-page-layouts/src/index.ts"
+      ],
+      "@repo/common-pipes": [
+        "libs/common-pipes/src/index.ts"
+      ],
+      "@repo/common-services": [
+        "libs/common-services/src/index.ts"
+      ],
+      "@repo/common-util": [
+        "libs/common-util/src/index.ts"
+      ],
+      "@repo/native-devices-util": [
+        "libs/native-devices-util/src/index.ts"
+      ],
+      "@repo/permission-request": [
+        "libs/permission-request/src/index.ts"
+      ],
+      "@repo/prime-modules": [
+        "libs/prime-modules/src/index.ts"
+      ],
+      "@repo/audit-log": [
+        "libs/audit-log/src/index.ts"
+      ],
+      "@repo/auth": [
+        "libs/auth/src/index.ts"
+      ],
+      "@repo/backup": [
+        "libs/backup/src/index.ts"
+      ],
+      "@repo/clients": [
+        "libs/clients/src/index.ts"
+      ],
+      "@repo/common": [
+        "libs/common/src/index.ts"
+      ],
+      "@repo/core": [
+        "libs/core/src/index.ts"
+      ],
+      "@repo/feedback": [
+        "libs/feedback/src/index.ts"
+      ],
+      "@repo/filestore": [
+        "libs/filestore/src/index.ts"
+      ],
+      "@repo/group": [
+        "libs/group/src/index.ts"
+      ],
+      "@repo/home": [
+        "libs/home/src/index.ts"
+      ],
+      "@repo/news-ticker": [
+        "libs/news-ticker/src/index.ts"
+      ],
+      "@repo/plan": [
+        "libs/plan/src/index.ts"
+      ],
+      "@repo/public-pages": [
+        "libs/public-pages/src/index.ts"
+      ],
+      "@repo/referral": [
+        "libs/referral/src/index.ts"
+      ],
+      "@repo/role-permission": [
+        "libs/role-permission/src/index.ts"
+      ],
+      "@repo/subscription": [
+        "libs/subscription/src/index.ts"
+      ],
+      "@repo/user": [
+        "libs/user/src/index.ts"
+      ],
+      "@repo/user-setting": [
+        "libs/user-setting/src/index.ts"
+      ],
+      "@repo/store": [
+        "libs/store/src/index.ts"
+      ],
+      "@repo/web-main": [
+        "libs/web-main/src/index.ts"
+      ],
+      "@repo/web-core": [
+        "libs/web-core/src/index.ts"
+      ],
+      "@repo/web-ui": [
+        "spartan/src/index.ts"
+      ],
+      "@repo/web-pages": [
+        "libs/web-pages/src/index.ts"
+      ],
+      "@repo/spartan": [
+        "libs/spartan/src/index.ts"
+      ],
+      "@spartan-ng/helm/accordion": [
+        "libs/spartan/accordion/src/index.ts"
+      ],
+      "@spartan-ng/helm/alert": [
+        "libs/spartan/alert/src/index.ts"
+      ],
+      "@spartan-ng/helm/alert-dialog": [
+        "libs/spartan/alert-dialog/src/index.ts"
+      ],
+      "@spartan-ng/helm/aspect-ratio": [
+        "libs/spartan/aspect-ratio/src/index.ts"
+      ],
+      "@spartan-ng/helm/autocomplete": [
+        "libs/spartan/autocomplete/src/index.ts"
+      ],
+      "@spartan-ng/helm/avatar": [
+        "libs/spartan/avatar/src/index.ts"
+      ],
+      "@spartan-ng/helm/badge": [
+        "libs/spartan/badge/src/index.ts"
+      ],
+      "@spartan-ng/helm/breadcrumb": [
+        "libs/spartan/breadcrumb/src/index.ts"
+      ],
+      "@spartan-ng/helm/button": [
+        "libs/spartan/button/src/index.ts"
+      ],
+      "@spartan-ng/helm/button-group": [
+        "libs/spartan/button-group/src/index.ts"
+      ],
+      "@spartan-ng/helm/calendar": [
+        "libs/spartan/calendar/src/index.ts"
+      ],
+      "@spartan-ng/helm/card": [
+        "libs/spartan/card/src/index.ts"
+      ],
+      "@spartan-ng/helm/carousel": [
+        "libs/spartan/carousel/src/index.ts"
+      ],
+      "@spartan-ng/helm/checkbox": [
+        "libs/spartan/checkbox/src/index.ts"
+      ],
+      "@spartan-ng/helm/command": [
+        "libs/spartan/command/src/index.ts"
+      ],
+      "@spartan-ng/helm/date-picker": [
+        "libs/spartan/date-picker/src/index.ts"
+      ],
+      "@spartan-ng/helm/dialog": [
+        "libs/spartan/dialog/src/index.ts"
+      ],
+      "@spartan-ng/helm/empty": [
+        "libs/spartan/empty/src/index.ts"
+      ],
+      "@spartan-ng/helm/field": [
+        "libs/spartan/field/src/index.ts"
+      ],
+      "@spartan-ng/helm/form-field": [
+        "libs/spartan/form-field/src/index.ts"
+      ],
+      "@spartan-ng/helm/hover-card": [
+        "libs/spartan/hover-card/src/index.ts"
+      ],
+      "@spartan-ng/helm/icon": [
+        "libs/spartan/icon/src/index.ts"
+      ],
+      "@spartan-ng/helm/input": [
+        "libs/spartan/input/src/index.ts"
+      ],
+      "@spartan-ng/helm/input-group": [
+        "libs/spartan/input-group/src/index.ts"
+      ],
+      "@spartan-ng/helm/input-otp": [
+        "libs/spartan/input-otp/src/index.ts"
+      ],
+      "@spartan-ng/helm/item": [
+        "libs/spartan/item/src/index.ts"
+      ],
+      "@spartan-ng/helm/kbd": [
+        "libs/spartan/kbd/src/index.ts"
+      ],
+      "@spartan-ng/helm/label": [
+        "libs/spartan/label/src/index.ts"
+      ],
+      "@spartan-ng/helm/menu": [
+        "libs/spartan/menu/src/index.ts"
+      ],
+      "@spartan-ng/helm/navigation-menu": [
+        "libs/spartan/navigation-menu/src/index.ts"
+      ],
+      "@spartan-ng/helm/pagination": [
+        "libs/spartan/pagination/src/index.ts"
+      ],
+      "@spartan-ng/helm/popover": [
+        "libs/spartan/popover/src/index.ts"
+      ],
+      "@spartan-ng/helm/progress": [
+        "libs/spartan/progress/src/index.ts"
+      ],
+      "@spartan-ng/helm/radio-group": [
+        "libs/spartan/radio-group/src/index.ts"
+      ],
+      "@spartan-ng/helm/resizable": [
+        "libs/spartan/resizable/src/index.ts"
+      ],
+      "@spartan-ng/helm/scroll-area": [
+        "libs/spartan/scroll-area/src/index.ts"
+      ],
+      "@spartan-ng/helm/select": [
+        "libs/spartan/select/src/index.ts"
+      ],
+      "@spartan-ng/helm/separator": [
+        "libs/spartan/separator/src/index.ts"
+      ],
+      "@spartan-ng/helm/sheet": [
+        "libs/spartan/sheet/src/index.ts"
+      ],
+      "@spartan-ng/helm/sidebar": [
+        "libs/spartan/sidebar/src/index.ts"
+      ],
+      "@spartan-ng/helm/skeleton": [
+        "libs/spartan/skeleton/src/index.ts"
+      ],
+      "@spartan-ng/helm/slider": [
+        "libs/spartan/slider/src/index.ts"
+      ],
+      "@spartan-ng/helm/sonner": [
+        "libs/spartan/sonner/src/index.ts"
+      ],
+      "@spartan-ng/helm/spinner": [
+        "libs/spartan/spinner/src/index.ts"
+      ],
+      "@spartan-ng/helm/switch": [
+        "libs/spartan/switch/src/index.ts"
+      ],
+      "@spartan-ng/helm/table": [
+        "libs/spartan/table/src/index.ts"
+      ],
+      "@spartan-ng/helm/tabs": [
+        "libs/spartan/tabs/src/index.ts"
+      ],
+      "@spartan-ng/helm/textarea": [
+        "libs/spartan/textarea/src/index.ts"
+      ],
+      "@spartan-ng/helm/toggle": [
+        "libs/spartan/toggle/src/index.ts"
+      ],
+      "@spartan-ng/helm/toggle-group": [
+        "libs/spartan/toggle-group/src/index.ts"
+      ],
+      "@spartan-ng/helm/tooltip": [
+        "libs/spartan/tooltip/src/index.ts"
+      ],
+      "@spartan-ng/helm/typography": [
+        "libs/spartan/typography/src/index.ts"
+      ],
+      "@spartan-ng/helm/utils": [
+        "libs/spartan/utils/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

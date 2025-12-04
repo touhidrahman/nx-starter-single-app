@@ -1,3 +1,10 @@
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+
+
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz@0,14..32;1,14..32&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
@@ -9,7 +16,7 @@
 @import "primeicons/primeicons.css";
 
 /* Tailwind Core and Plugins */
-@import "tailwindcss";
+
 @plugin "tailwindcss-primeui";
 @plugin "tailwind-scrollbar";
 
@@ -22,72 +29,148 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-    :root {
-        --color-primary: #005f15;
-        --color-lightGreen: #eaffea;
-        --color-secondaryGreen: #e2ffed;
-        --color-secondary: #4f8851;
+:root {
+--color-primary: #005f15;
+--color-lightGreen: #eaffea;
+--color-secondaryGreen: #e2ffed;
+--color-secondary: #4f8851;
 
-        --color-gray-white-50: #f9fafb;
-        --color-gray-white: #ffffff;
-        --color-gray-white-300: #e5e7eb;
+--color-gray-white-50: #f9fafb;
+--color-gray-white: #ffffff;
+--color-gray-white-300: #e5e7eb;
 
-        --status-bar-height: env(safe-area-inset-top, 0px);
-    }
+--status-bar-height: env(safe-area-inset-top, 0px);
+}
 
-    @theme {
-        --color-primary: #005f15;
-        --color-secondary: #4f8851;
-        --color-lightGreen: #eaffea;
-        --color-secondaryGreen: #e2ffed;
+@theme {
+--color-primary: #005f15;
+--color-secondary: #4f8851;
+--color-lightGreen: #eaffea;
+--color-secondaryGreen: #e2ffed;
 
-        --color-gray-white-50: #f9fafb;
-        --color-gray-white: #ffffff;
-        --color-gray-white-300: #e5e7eb;
+--color-gray-white-50: #f9fafb;
+--color-gray-white: #ffffff;
+--color-gray-white-300: #e5e7eb;
 
-        --status-bar-height: env(safe-area-inset-top, 0px);
-    }
+--status-bar-height: env(safe-area-inset-top, 0px);
+}
 
-    .dark {
-        --color-primary: #3f7057;
-        --color-primary-2: #5d9276;
-        --color-gray-white-1000: #1c1a1a77;
-        --color-gray-white-900: #282828dd;
-        --color-gray-white-800: #202020;
-        --color-gray-white-600: #171717bc;
-        --color-gray-white-150: #eaeaea;
-        --color-gray-white-175: #d1d1d1;
-        --color-gray-white-200: #adadad;
-        --color-gray-white-300: #848484;
-        --color-gray-white-250: #848484c9;
-        --color-gray-white-400: #4b4b4b;
-        --color-gray-white-450: #4b4b4b6d;
-        --color-gray-white-500: #1b1b1b;
-        --color-gray-white-550: #45454546;
-        --color-gray-white-700: #303030;
-    }
+.dark {
+--color-primary: #3f7057;
+--color-primary-2: #5d9276;
+--color-gray-white-1000: #1c1a1a77;
+--color-gray-white-900: #282828dd;
+--color-gray-white-800: #202020;
+--color-gray-white-600: #171717bc;
+--color-gray-white-150: #eaeaea;
+--color-gray-white-175: #d1d1d1;
+--color-gray-white-200: #adadad;
+--color-gray-white-300: #848484;
+--color-gray-white-250: #848484c9;
+--color-gray-white-400: #4b4b4b;
+--color-gray-white-450: #4b4b4b6d;
+--color-gray-white-500: #1b1b1b;
+--color-gray-white-550: #45454546;
+--color-gray-white-700: #303030;
+}
 
-    html,
-    body,
-    * {
-        font-family: "Inter", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-    }
+html,
+body,
+* {
+font-family: "Inter", sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
+}
 
-    .bangla,
-    [lang="bn"],
-    :lang(bn) {
-        font-family: "Hind Siliguri", sans-serif;
-    }
+.bangla,
+[lang="bn"],
+:lang(bn) {
+font-family: "Hind Siliguri", sans-serif;
+}
 }
 
 @keyframes bg-scroll {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: 10000px;
-    }
+0% {
+background-position-x: 0;
+}
+100% {
+background-position-x: 10000px;
+}
+}
+
+@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+
+:root {
+color-scheme: light;
+
+--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+--radius: 0.625rem;
+--background: oklch(1 0 0);
+--foreground: oklch(0.145 0 0);
+--card: oklch(1 0 0);
+--card-foreground: oklch(0.145 0 0);
+--popover: oklch(1 0 0);
+--popover-foreground: oklch(0.145 0 0);
+--primary: oklch(0.205 0 0);
+--primary-foreground: oklch(0.985 0 0);
+--secondary: oklch(0.97 0 0);
+--secondary-foreground: oklch(0.205 0 0);
+--muted: oklch(0.97 0 0);
+--muted-foreground: oklch(0.556 0 0);
+--accent: oklch(0.97 0 0);
+--accent-foreground: oklch(0.205 0 0);
+--destructive: oklch(0.577 0.245 27.325);
+--border: oklch(0.922 0 0);
+--input: oklch(0.922 0 0);
+--ring: oklch(0.708 0 0);
+--sidebar: oklch(0.985 0 0);
+--sidebar-foreground: oklch(0.145 0 0);
+--sidebar-primary: oklch(0.205 0 0);
+--sidebar-primary-foreground: oklch(0.985 0 0);
+--sidebar-accent: oklch(0.97 0 0);
+--sidebar-accent-foreground: oklch(0.205 0 0);
+--sidebar-border: oklch(0.922 0 0);
+--sidebar-ring: oklch(0.708 0 0);
+}
+
+:root.dark {
+color-scheme: dark;
+
+--background: oklch(0.145 0 0);
+--foreground: oklch(0.985 0 0);
+--card: oklch(0.205 0 0);
+--card-foreground: oklch(0.985 0 0);
+--popover: oklch(0.205 0 0);
+--popover-foreground: oklch(0.985 0 0);
+--primary: oklch(0.922 0 0);
+--primary-foreground: oklch(0.205 0 0);
+--secondary: oklch(0.269 0 0);
+--secondary-foreground: oklch(0.985 0 0);
+--muted: oklch(0.269 0 0);
+--muted-foreground: oklch(0.708 0 0);
+--accent: oklch(0.269 0 0);
+--accent-foreground: oklch(0.985 0 0);
+--destructive: oklch(0.704 0.191 22.216);
+--border: oklch(1 0 0 / 10%);
+--input: oklch(1 0 0 / 15%);
+--ring: oklch(0.556 0 0);
+--sidebar: oklch(0.205 0 0);
+--sidebar-foreground: oklch(0.985 0 0);
+--sidebar-primary: oklch(0.985 0 0);
+--sidebar-primary-foreground: oklch(0.205 0 0);
+--sidebar-accent: oklch(0.269 0 0);
+--sidebar-accent-foreground: oklch(0.985 0 0);
+--sidebar-border: oklch(1 0 0 / 10%);
+--sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+* {
+@apply border-border outline-ring/50;
+}
+body {
+@apply bg-background text-foreground;
+}
 }
