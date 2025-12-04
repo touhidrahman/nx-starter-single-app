@@ -1,0 +1,182 @@
+<div class="relative flex w-full flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+    <main class="w-full max-w-2xl">
+        <div [formGroup]="cardForm" class="flex flex-col gap-8">
+            <!-- Page Heading -->
+            <div class="text-center">
+                <h1 hlmH3 class="">Add New Card</h1>
+                <p class="mt-2 text-base text-zinc-500 dark:text-zinc-400">
+                    Securely enter your card details below.
+                </p>
+            </div>
+            <!-- Form Container -->
+            <div class="w-full space-y-6">
+                <!-- Card Name -->
+                <div class="flex flex-col">
+                    <label class="mb-2" hlmLabel
+                        >Card Name <span class="text-destructive">*</span></label
+                    >
+                    <hlm-form-field>
+                        <input
+                            class="w-full"
+                            hlmInput
+                            type="text"
+                            placeholder="e.g., Chase Sapphire"
+                            formControlName="name"
+                        />
+                        <hlm-hint>This is a nick name for your card.</hlm-hint>
+                        <hlm-error>The field is required.</hlm-error>
+                    </hlm-form-field>
+                </div>
+
+                <!-- Card Type -->
+                <div class="flex flex-col">
+                    <label class="mb-2" hlmLabel>Card Type</label>
+                    <hlm-form-field>
+                        <brn-select
+                            formControlName="type"
+                            class="inline-block w-64"
+                            placeholder="Select an option"
+                        >
+                            <hlm-select-trigger class="w-full">
+                                <hlm-select-value />
+                            </hlm-select-trigger>
+                            <hlm-select-content>
+                                <hlm-option value="Credit">Credit</hlm-option>
+                                <hlm-option value="Debit">Debit</hlm-option>
+                            </hlm-select-content>
+                        </brn-select>
+                    </hlm-form-field>
+                </div>
+
+                <!-- Name on Card -->
+                <div class="flex flex-col">
+                    <label class="mb-2" hlmLabel>Name on Card</label>
+                    <hlm-form-field>
+                        <input
+                            formControlName="accountName"
+                            class="w-full"
+                            hlmInput
+                            type="text"
+                            placeholder="e.g., John Doe"
+                        />
+                    </hlm-form-field>
+                </div>
+
+                <!-- Card Number -->
+                <div class="flex flex-col">
+                    <label class="mb-2" hlmLabel>Card Number</label>
+                    <hlm-form-field>
+                        <input
+                            formControlName="accountNumber"
+                            class="w-full"
+                            hlmInput
+                            type="text"
+                            placeholder="XXXX XXXX XXXX XXXX"
+                        />
+                    </hlm-form-field>
+                </div>
+                <!-- Expiry & Current Balance -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div class="flex flex-col">
+                        <label class="mb-2" hlmLabel>Expiry Date</label>
+                        <hlm-form-field>
+                            <input
+                                formControlName="card_expiry"
+                                class="w-full"
+                                hlmInput
+                                type="text"
+                                placeholder="MM/YY"
+                            />
+                        </hlm-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="mb-2" hlmLabel>Current Balance</label>
+                        <hlm-form-field>
+                            <input
+                                formControlName="balance"
+                                class="w-full"
+                                hlmInput
+                                type="number"
+                                placeholder="0.00"
+                            />
+                        </hlm-form-field>
+                    </div>
+                </div>
+                <!-- Dates & Credit Limit -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <div class="flex flex-col">
+                        <label class="mb-2" hlmLabel>Monthly Due Date</label>
+
+                        <hlm-form-field>
+                            <input
+                                formControlName="monthlyDueDate"
+                                class="w-full"
+                                hlmInput
+                                type="number"
+                                placeholder="e.g., 15"
+                            />
+                        </hlm-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="mb-2" hlmLabel>Statement Date</label>
+                        <hlm-form-field>
+                            <input
+                                formControlName="monthlyStatementDate"
+                                class="w-full"
+                                hlmInput
+                                type="number"
+                                placeholder="e.g., 20"
+                            />
+                        </hlm-form-field>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="mb-2" hlmLabel>Credit Limit</label>
+                        <hlm-form-field>
+                            <input
+                                formControlName="card_limit"
+                                class="w-full"
+                                hlmInput
+                                type="number"
+                                placeholder="5000"
+                            />
+                        </hlm-form-field>
+                    </div>
+                </div>
+
+                <!-- Use for Net Worth -->
+                <div class="flex items-center space-x-2">
+                    <input
+                        type="checkbox"
+                        hlmCheckbox
+                        formControlName="useForNetWorth"
+                        id="useForNetWorth"
+                    />
+                    <label
+                        hlmLabel
+                        for="useForNetWorth"
+                        class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                        Use for Net Worth
+                    </label>
+                </div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-4 pt-2">
+                <button
+                    hlmBtn
+                    (click)="saveCard()"
+                    class="flex h-12 w-full items-center justify-center rounded-lg px-6 text-base font-semibold"
+                >
+                    Save Card
+                </button>
+                <button
+                    hlmBtn
+                    variant="ghost"
+                    class="flex w-full items-center justify-center rounded-lg px-6 text-base font-semibold"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </main>
+</div>

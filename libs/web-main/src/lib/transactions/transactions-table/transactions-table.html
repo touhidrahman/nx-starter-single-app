@@ -1,0 +1,36 @@
+<div hlmTableContainer class="min-h-50">
+    <table hlmTable>
+        <thead hlmTHead>
+            <tr hlmTr>
+                <th hlmTh>Transaction ID</th>
+                <th hlmTh>Date</th>
+                <th hlmTh>Description</th>
+                <th hlmTh>Amount</th>
+                <th hlmTh>Category</th>
+                <th hlmTh>Account</th>
+            </tr>
+        </thead>
+        <tbody hlmTbody>
+            @for (t of transactions(); track t.$id) {
+                <tr hlmTr>
+                    <td hlmTd>{{ t.$id }}</td>
+                    <td hlmTd>{{ t.TransactionTime | date: 'mediumDate' }}</td>
+                    <td hlmTd>{{ t.description }}</td>
+                    <td hlmTd>{{ t.amount | currency }}</td>
+                    <td hlmTd>
+                        <span
+                            class="rounded-full px-2 py-0.5 text-xs font-medium"
+                            [ngClass]="{
+                                'bg-green-100 text-green-800': t.direction === 'Incoming',
+                                'bg-red-100 text-red-800': t.direction === 'Outgoing',
+                            }"
+                        >
+                            {{ t.category?.name }}
+                        </span>
+                    </td>
+                    <td hlmTd>{{ t.account.name }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
