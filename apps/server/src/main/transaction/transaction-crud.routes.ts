@@ -12,7 +12,7 @@ import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkPermission } from '../../middlewares/check-permission.middleware'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../models/common.schema'
+import { zId } from '../../models/common.schema'
 import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import { AccessTokenPayload } from '../auth/auth.model'
@@ -211,7 +211,7 @@ const DeleteTransactionDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Item'),
+        [OK]: ApiResponse(zSelectTransaction, 'Item'),
     },
 })
 
@@ -232,18 +232,30 @@ const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
         throw new HTTPException(NOT_FOUND, { message: 'Transaction not found' })
     }
 
-    await TransactionService.deleteTransactionAndUpdateAccountBalance(
-        existing.id,
-    )
+    try {
+        await TransactionService.deleteTransactionAndUpdateAccountBalance(
+            existing.id,
+        )
 
-    return c.json(
-        {
-            data: {},
-            message: 'Transaction deleted successfully',
-            success: true,
-        },
-        OK,
-    )
+        return c.json(
+            {
+                data: existing,
+                message: 'Transaction deleted successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(
+            error instanceof Error
+                ? (error.cause as ContentfulStatusCode)
+                : INTERNAL_SERVER_ERROR,
+            {
+                message:
+                    (error as Error).message ?? 'Failed to delete transaction',
+            },
+        )
+    }
 }
 
 export const transactionCrudRoutes = createRouter()

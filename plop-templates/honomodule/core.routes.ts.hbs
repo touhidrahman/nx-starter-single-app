@@ -179,7 +179,7 @@ const Delete{{pascalCase moduleName}}CoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, '{{pascalCase moduleName}} deleted successfully'),
+        [OK]: ApiResponse(zSelect{{pascalCase moduleName}}, '{{pascalCase moduleName}} deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, '{{pascalCase moduleName}} not found'),
     },
 })
@@ -205,7 +205,7 @@ const Delete{{pascalCase moduleName}}Core: AppRouteHandler<
 
     return c.json(
         {
-            data: {},
+            data: existing{{pascalCase moduleName}},
             message: '{{pascalCase moduleName}} deleted successfully',
             success: true,
         },

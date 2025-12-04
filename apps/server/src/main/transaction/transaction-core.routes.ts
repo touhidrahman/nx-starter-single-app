@@ -179,7 +179,10 @@ const DeleteTransactionCoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Transaction deleted successfully'),
+        [OK]: ApiResponse(
+            zSelectTransaction,
+            'Transaction deleted successfully',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Transaction not found'),
     },
 })
@@ -205,7 +208,7 @@ const DeleteTransactionCore: AppRouteHandler<
 
     return c.json(
         {
-            data: {},
+            data: existingTransaction,
             message: 'Transaction deleted successfully',
             success: true,
         },
