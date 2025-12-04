@@ -55,8 +55,9 @@
             "@repo/store": ["libs/store/src/index.ts"],
             "@repo/web-main": ["libs/web-main/src/index.ts"],
             "@repo/web-core": ["libs/web-core/src/index.ts"],
-            "@repo/web-ui": ["libs/web-ui/src/index.ts"],
-            "@repo/web-pages": ["libs/web-pages/src/index.ts"]
+            "@repo/web-ui": ["spartan/src/index.ts"],
+            "@repo/web-pages": ["libs/web-pages/src/index.ts"],
+            "@repo/spartan": ["libs/spartan/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

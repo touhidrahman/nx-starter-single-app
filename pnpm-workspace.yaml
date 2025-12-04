@@ -1,18 +1,18 @@
 packages:
-    - apps/*
-    - libs/*
-
+    - 'apps/*'
+    - 'libs/*'
+    - 'spartan'
 onlyBuiltDependencies:
     - '@biomejs/biome'
     - '@parcel/watcher'
     - '@swc/core'
     - '@tailwindcss/oxide'
-    - argon2
-    - core-js
-    - esbuild
-    - lefthook
-    - lmdb
-    - msgpackr-extract
-    - nx
-    - sharp
-    - unrs-resolver
+    - 'argon2'
+    - 'core-js'
+    - 'esbuild'
+    - 'lefthook'
+    - 'lmdb'
+    - 'msgpackr-extract'
+    - 'nx'
+    - 'sharp'
+    - 'unrs-resolver'
