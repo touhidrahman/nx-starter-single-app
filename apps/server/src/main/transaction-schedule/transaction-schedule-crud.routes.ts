@@ -12,7 +12,7 @@ import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkPermission } from '../../middlewares/check-permission.middleware'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../models/common.schema'
+import { zId } from '../../models/common.schema'
 import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import { AccessTokenPayload } from '../auth/auth.model'
@@ -49,21 +49,39 @@ const GetTransactionScheduleListDef = createRoute({
 const GetTransactionScheduleList: AppRouteHandler<
     typeof GetTransactionScheduleListDef
 > = async (c) => {
-    const query = c.req.valid('query')
-    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
-    const groupSpecificQuery = { ...query, groupId }
-    const data = await TransactionScheduleService.findMany(groupSpecificQuery)
-    const count = await TransactionScheduleService.count(groupSpecificQuery)
+    try {
+        const query = c.req.valid('query')
+        const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+        const groupSpecificQuery = { ...query, groupId }
+        const data =
+            await TransactionScheduleService.findMany(groupSpecificQuery)
+        const count = await TransactionScheduleService.count(groupSpecificQuery)
 
-    return c.json(
-        {
-            data,
-            pagination: buildPaginationResponse(query.page, query.size, count),
-            message: 'TransactionSchedule list fetched successfully',
-            success: true,
-        },
-        OK,
-    )
+        return c.json(
+            {
+                data,
+                pagination: buildPaginationResponse(
+                    query.page,
+                    query.size,
+                    count,
+                ),
+                message: 'TransactionSchedule list fetched successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(
+            error instanceof Error
+                ? (error.cause as ContentfulStatusCode)
+                : INTERNAL_SERVER_ERROR,
+            {
+                message:
+                    (error as Error).message ??
+                    'Failed to fetch TransactionSchedule list',
+            },
+        )
+    }
 }
 
 const GetTransactionScheduleDef = createRoute({

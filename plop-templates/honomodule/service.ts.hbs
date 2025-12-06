@@ -1,7 +1,21 @@
-import { Select{{pascalCase moduleName}} } from './{{kebabCase moduleName}}.model'
+import { FORBIDDEN } from 'stoker/http-status-codes'
+import {
+    Insert{{pascalCase moduleName}},
+    Query{{pascalCase (pluralize moduleName)}},
+    Select{{pascalCase moduleName}},
+} from './{{kebabCase moduleName}}.model'
 import { {{pascalCase moduleName}}CoreService } from './{{kebabCase moduleName}}-core.service'
 
 export class {{pascalCase moduleName}}Service extends {{pascalCase moduleName}}CoreService {
+    static async findMany(
+        filters: Query{{pascalCase (pluralize moduleName)}},
+    ): Promise<Select{{pascalCase moduleName}}[]> {
+        if (!filters.groupId) {
+            throw new Error('GroupId is required', { cause: FORBIDDEN })
+        }
+        return {{pascalCase moduleName}}CoreService.findMany(filters)
+    }
+
     static async findByIdAndGroupId(
         id: string,
         groupId: string,

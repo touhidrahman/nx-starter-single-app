@@ -38,21 +38,34 @@ const Get{{pascalCase moduleName}}ListDef = createRoute({
 const Get{{pascalCase moduleName}}List: AppRouteHandler<
     typeof Get{{pascalCase moduleName}}ListDef
 > = async (c) => {
-    const query = c.req.valid('query')
-    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
-    const groupSpecificQuery = { ...query, groupId }
-    const data = await {{pascalCase moduleName}}Service.findMany(groupSpecificQuery)
-    const count = await {{pascalCase moduleName}}Service.count(groupSpecificQuery)
+    try {
+        const query = c.req.valid('query')
+        const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+        const groupSpecificQuery = { ...query, groupId }
+        const data = await {{pascalCase moduleName}}Service.findMany(groupSpecificQuery)
+        const count = await {{pascalCase moduleName}}Service.count(groupSpecificQuery)
 
-    return c.json(
-        {
-            data,
-            pagination: buildPaginationResponse(query.page, query.size, count),
-            message: '{{pascalCase moduleName}} list fetched successfully',
-            success: true,
-        },
-        OK,
-    )
+        return c.json(
+            {
+                data,
+                pagination: buildPaginationResponse(query.page, query.size, count),
+                message: '{{pascalCase moduleName}} list fetched successfully',
+                success: true,
+            },
+            OK,
+        )
+    } catch (error) {
+        throw new HTTPException(
+            error instanceof Error
+                ? (error.cause as ContentfulStatusCode)
+                : INTERNAL_SERVER_ERROR,
+            {
+                message:
+                    (error as Error).message ??
+                    'Failed to fetch {{pascalCase moduleName}} list',
+            },
+        )
+    }
 }
 
 const Get{{pascalCase moduleName}}Def = createRoute({
