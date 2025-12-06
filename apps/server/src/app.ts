@@ -16,9 +16,7 @@ import { authRoutes } from './main/auth/auth.routes'
 import { authInviteRoutes } from './main/auth/auth-invite.routes'
 import { authPasswordRoutes } from './main/auth/auth-password.routes'
 import { authVerifyRoutes } from './main/auth/auth-verify.routes'
-import { categoryCoreRoutes } from './main/category/core/category-core.routes'
-import { categoryCrudRoutes } from './main/category/crud/category-crud.routes'
-import { categoryCustomRoutes } from './main/category/custom/category-custom.routes'
+import { categoryRoutes } from './main/category/category.routes'
 import { claimV1Routes } from './main/claim/claim.routes'
 import { currencyCoreRoutes } from './main/currency/core/currency-core.routes'
 import { currencyCrudRoutes } from './main/currency/crud/currency-crud.routes'
@@ -69,9 +67,7 @@ const routes = [
     authPasswordRoutes,
     authRoutes,
     authVerifyRoutes,
-    categoryCoreRoutes,
-    categoryCrudRoutes,
-    categoryCustomRoutes,
+    ...categoryRoutes,
     claimV1Routes,
     currencyCoreRoutes,
     currencyCrudRoutes,

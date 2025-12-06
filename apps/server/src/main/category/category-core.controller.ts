@@ -1,28 +1,27 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { createRouter } from '../../../core/create-app'
-import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
-import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
-import { buildPaginationResponse } from '../../../utils/pagination.util'
+import { AppRouteHandler } from '../../core/core.type'
+import { createRouter } from '../../core/create-app'
+import { zEmpty, zId, zIds } from '../../models/common.schema'
+import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
+import { buildPaginationResponse } from '../../utils/pagination.util'
 import {
     zInsertCategory,
     zQueryCategories,
     zSelectCategory,
     zUpdateCategory,
-} from './category-core.model'
+} from './category.model'
 import { CategoryCoreService } from './category-core.service'
 
-const tags = [APP_OPENAPI_TAGS.Category]
+const tags = ['Category']
 const path = '/core/categories'
-const middleware = undefined // [checkToken, isAdmin]
+const middleware = undefined
 
 const GetCategoryListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryCategories,
@@ -53,7 +52,7 @@ const GetCategoryListCore: AppRouteHandler<
 const GetCategoryByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -94,7 +93,7 @@ const GetCategoryByIdCore: AppRouteHandler<
 const CreateCategoryCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertCategory, 'Category Create Data'),
@@ -126,7 +125,7 @@ const CreateCategoryCore: AppRouteHandler<
 const UpdateCategoryCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -171,13 +170,13 @@ const UpdateCategoryCore: AppRouteHandler<
 const DeleteCategoryCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Category deleted successfully'),
+        [OK]: ApiResponse(zSelectCategory, 'Category deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Category not found'),
     },
 })
@@ -203,7 +202,7 @@ const DeleteCategoryCore: AppRouteHandler<
 
     return c.json(
         {
-            data: {},
+            data: existingCategory,
             message: 'Category deleted successfully',
             success: true,
         },
@@ -214,7 +213,7 @@ const DeleteCategoryCore: AppRouteHandler<
 const DeleteManyCategoryCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Category IDs to delete'),
@@ -243,8 +242,8 @@ const DeleteManyCategoryCore: AppRouteHandler<
 
 export const categoryCoreRoutes = createRouter()
     .openapi(DeleteCategoryCoreDef, DeleteCategoryCore)
-    .openapi(DeleteManyCategoryCoreDef, DeleteManyCategoryCore)
     .openapi(UpdateCategoryCoreDef, UpdateCategoryCore)
-    .openapi(CreateCategoryCoreDef, CreateCategoryCore)
     .openapi(GetCategoryByIdCoreDef, GetCategoryByIdCore)
+    .openapi(DeleteManyCategoryCoreDef, DeleteManyCategoryCore)
+    .openapi(CreateCategoryCoreDef, CreateCategoryCore)
     .openapi(GetCategoryListCoreDef, GetCategoryListCore)

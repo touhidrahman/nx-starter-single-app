@@ -1,23 +1,40 @@
-import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
-import { db } from '../../../db/db'
-import { categoriesTable } from '../../../db/schema'
-import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
+import {
+    and,
+    asc,
+    count,
+    desc,
+    eq,
+    ilike,
+    inArray,
+    or,
+    SQL,
+    sql,
+} from 'drizzle-orm'
+import { db } from '../../db/db'
+import { categoriesTable } from '../../db/schema'
+import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
 import {
     InsertCategory,
     QueryCategories,
     SelectCategory,
-} from './category-core.model'
+} from './category.model'
 
 export class CategoryCoreService {
     static async findMany(filters: QueryCategories): Promise<SelectCategory[]> {
         const conditions = CategoryCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
+        const orderBy = CategoryCoreService.buildOrderBy(
+            filters.orderBy as keyof SelectCategory,
+            filters.sortOrder ?? 'desc',
+        )
+
         const categories = await db
             .select()
             .from(categoriesTable)
             .where(conditions)
             .offset(offset)
+            .orderBy(orderBy)
             .limit(size)
         return categories
     }
@@ -45,21 +62,21 @@ export class CategoryCoreService {
 
     static async exists(id: string): Promise<boolean> {
         const countResult = await db
-            .select({ count: sql<number>`count(${categoriesTable.id})` })
+            .select({ count: count() })
             .from(categoriesTable)
             .where(eq(categoriesTable.id, id))
-        const count = countResult[0]?.count || 0
-        return count > 0
+        const total = countResult[0]?.count || 0
+        return total > 0
     }
 
     static async count(filters: QueryCategories): Promise<number> {
         const conditions = CategoryCoreService.buildWhereConditions(filters)
 
-        const [{ count }] = await db
-            .select({ count: sql<number>`count(${categoriesTable.id})` })
+        const countResult = await db
+            .select({ count: count() })
             .from(categoriesTable)
             .where(conditions)
-        return count
+        return countResult[0]?.count || 0
     }
 
     static async create(input: InsertCategory): Promise<SelectCategory> {
@@ -111,6 +128,20 @@ export class CategoryCoreService {
         await db.delete(categoriesTable).where(inArray(categoriesTable.id, ids))
     }
 
+    static async deleteManyByQuery(filters: QueryCategories): Promise<void> {
+        const conditions = CategoryCoreService.buildWhereConditions(filters)
+        await db.delete(categoriesTable).where(conditions)
+    }
+
+    static buildOrderBy(
+        orderByField: keyof SelectCategory,
+        sortOrder: 'asc' | 'desc',
+    ): SQL<unknown> {
+        const orderBy =
+            categoriesTable[orderByField] ?? categoriesTable.createdAt
+        return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
+    }
+
     static buildWhereConditions(
         params: QueryCategories,
     ): SQL<unknown> | undefined {
@@ -118,10 +149,13 @@ export class CategoryCoreService {
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
-            conditions.push(or(ilike(categoriesTable.name, searchTerm)))
+            conditions.push(or(ilike(categoriesTable.title, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(categoriesTable.id, params.ids))
+        }
+        if (params.id) {
+            conditions.push(eq(categoriesTable.id, params.id))
         }
         if (params.groupId) {
             conditions.push(eq(categoriesTable.groupId, params.groupId))

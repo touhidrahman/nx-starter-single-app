@@ -1,22 +1,21 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
-import { AppRouteHandler } from '../../../core/core.type'
-import { createRouter } from '../../../core/create-app'
-import { checkToken } from '../../../middlewares/check-token.middleware'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
-import { ApiListResponse } from '../../../utils/api-response.util'
-import { buildPaginationResponse } from '../../../utils/pagination.util'
-import { AccessTokenPayload } from '../../auth/auth.model'
-import { zQueryCategories, zSelectCategory } from '../core/category-core.model'
-import { CategoryCustomService } from './category-custom.service'
+import { AppRouteHandler } from '../../core/core.type'
+import { createRouter } from '../../core/create-app'
+import { checkToken } from '../../middlewares/check-token.middleware'
+import { ApiListResponse } from '../../utils/api-response.util'
+import { buildPaginationResponse } from '../../utils/pagination.util'
+import { AccessTokenPayload } from '../auth/auth.model'
+import { zQueryCategories, zSelectCategory } from './category.model'
+import { CategoryService } from './category.service'
 
-const tags = [APP_OPENAPI_TAGS.Category]
-const path = '/custom/categories'
+const tags = ['Category']
+const path = '/categories/custom'
 
 const GetMyCategoryListDef = createRoute({
     path: `${path}/my`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         query: zQueryCategories,
@@ -35,8 +34,8 @@ const GetCategoryListCrud: AppRouteHandler<
     ) as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
-    const data = await CategoryCustomService.findMany(groupAndUserSpecificQuery)
-    const count = await CategoryCustomService.count(groupAndUserSpecificQuery)
+    const data = await CategoryService.findMany(groupAndUserSpecificQuery)
+    const count = await CategoryService.count(groupAndUserSpecificQuery)
 
     return c.json(
         {
