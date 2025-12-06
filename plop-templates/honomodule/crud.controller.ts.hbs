@@ -1,13 +1,14 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
-import { FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { FORBIDDEN, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkPermission } from '../../middlewares/check-permission.middleware'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../models/common.schema'
+import { zId } from '../../models/common.schema'
 import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
+import { throwHttpError } from '../../utils/error.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import { AccessTokenPayload } from '../auth/auth.model'
 import {
@@ -17,7 +18,6 @@ import {
     zUpdate{{pascalCase moduleName}},
 } from './{{kebabCase moduleName}}.model'
 import { {{pascalCase moduleName}}Service } from './{{kebabCase moduleName}}.service'
-import { ContentfulStatusCode } from 'hono/utils/http-status'
 
 const tags = ['{{pascalCase moduleName}}']
 const path = '/{{kebabCase (pluralize moduleName)}}'
@@ -55,16 +55,7 @@ const Get{{pascalCase moduleName}}List: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ??
-                    'Failed to fetch {{pascalCase moduleName}} list',
-            },
-        )
+        throwHttpError(error, 'Failed to fetch {{pascalCase moduleName}} list')
     }
 }
 
@@ -147,15 +138,7 @@ const Create{{pascalCase moduleName}}: AppRouteHandler<typeof Create{{pascalCase
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ?? 'Failed to create {{pascalCase moduleName}}',
-            },
-        )
+        throwHttpError(error, 'Failed to create {{pascalCase moduleName}}')
     }
 
 }
@@ -249,15 +232,7 @@ const Delete{{pascalCase moduleName}}: AppRouteHandler<typeof Delete{{pascalCase
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ?? 'Failed to delete {{pascalCase moduleName}}',
-            },
-        )
+        throwHttpError(error, 'Failed to delete {{pascalCase moduleName}}')
     }
 }
 

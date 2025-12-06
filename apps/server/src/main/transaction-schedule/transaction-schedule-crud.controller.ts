@@ -1,19 +1,15 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
 import { ContentfulStatusCode } from 'hono/utils/http-status'
-import {
-    FORBIDDEN,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    OK,
-} from 'stoker/http-status-codes'
+import { FORBIDDEN, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkPermission } from '../../middlewares/check-permission.middleware'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { zEmpty, zId } from '../../models/common.schema'
+import { zId } from '../../models/common.schema'
 import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
+import { throwHttpError } from '../../utils/error.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import { AccessTokenPayload } from '../auth/auth.model'
 import {
@@ -71,16 +67,7 @@ const GetTransactionScheduleList: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ??
-                    'Failed to fetch TransactionSchedule list',
-            },
-        )
+        throwHttpError(error, 'Failed to fetch TransactionSchedule list')
     }
 }
 
@@ -178,16 +165,7 @@ const CreateTransactionSchedule: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ??
-                    'Failed to create TransactionSchedule',
-            },
-        )
+        throwHttpError(error, 'Failed to create TransactionSchedule')
     }
 }
 
@@ -299,16 +277,7 @@ const DeleteTransactionSchedule: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
-            {
-                message:
-                    (error as Error).message ??
-                    'Failed to delete TransactionSchedule',
-            },
-        )
+        throwHttpError(error, 'Failed to delete TransactionSchedule')
     }
 }
 
