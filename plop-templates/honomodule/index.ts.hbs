@@ -1,0 +1,9 @@
+import { {{camelCase moduleName}}CoreRoutes } from './{{kebabCase moduleName}}-core.routes'
+import { {{camelCase moduleName}}CrudRoutes } from './{{kebabCase moduleName}}-crud.routes'
+import { {{camelCase moduleName}}CustomRoutes } from './{{kebabCase moduleName}}-custom.routes'
+
+export const {{camelCase moduleName}}Routes = [
+    {{camelCase moduleName}}CustomRoutes,
+    {{camelCase moduleName}}CrudRoutes,
+    {{camelCase moduleName}}CoreRoutes,
+]

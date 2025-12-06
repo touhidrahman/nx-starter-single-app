@@ -58,7 +58,7 @@ const GetTransactionScheduleListCrud: AppRouteHandler<
     )
 }
 
-export const transactionScheduleRoutes = createRouter().openapi(
+export const transactionScheduleCustomRoutes = createRouter().openapi(
     GetMyTransactionScheduleListDef,
     GetTransactionScheduleListCrud,
 )

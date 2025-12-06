@@ -31,18 +31,23 @@ export default function (plop) {
             },
             {
                 type: 'add',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-custom.routes.ts',
+                templateFile: 'plop-templates/honomodule/custom.routes.ts.hbs',
+            },
+            {
+                type: 'add',
                 path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.model.ts',
                 templateFile: 'plop-templates/honomodule/model.ts.hbs',
             },
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.routes.ts',
-                templateFile: 'plop-templates/honomodule/routes.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.service.ts',
+                templateFile: 'plop-templates/honomodule/service.ts.hbs',
             },
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.service.ts',
-                templateFile: 'plop-templates/honomodule/service.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/index.ts',
+                templateFile: 'plop-templates/honomodule/index.ts.hbs',
             },
         ],
     })
