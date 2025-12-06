@@ -44,10 +44,7 @@ import { subscriptionCustomRoutes } from './main/subscription/custom/subscriptio
 import { transactionRoutes } from './main/transaction/transaction.routes'
 import { transactionCoreRoutes } from './main/transaction/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/transaction-crud.routes'
-import { allTransactionScheduleRoutes } from './main/transaction-schedule'
-import { transactionScheduleCoreRoutes } from './main/transaction-schedule/transaction-schedule-core.routes'
-import { transactionScheduleCrudRoutes } from './main/transaction-schedule/transaction-schedule-crud.routes'
-import { transactionScheduleRoutes } from './main/transaction-schedule/transaction-schedule-custom.routes'
+import { transactionScheduleRoutes } from './main/transaction-schedule/transaction-schedule.routes'
 import { userCoreRoutes } from './main/user/core/user-core.routes'
 import { userCrudRoutes } from './main/user/crud/user-crud.routes'
 import { userCustomRoutes } from './main/user/custom/user-custom.routes'
@@ -100,10 +97,7 @@ const routes = [
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionRoutes,
-    transactionScheduleCoreRoutes,
-    transactionScheduleCrudRoutes,
-    transactionScheduleRoutes,
-    ...allTransactionScheduleRoutes,
+    ...transactionScheduleRoutes,
     userCoreRoutes,
     userCrudRoutes,
     userCustomRoutes,

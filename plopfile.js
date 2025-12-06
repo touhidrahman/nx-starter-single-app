@@ -16,8 +16,9 @@ export default function (plop) {
         actions: [
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-core.routes.ts',
-                templateFile: 'plop-templates/honomodule/core.routes.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-core.controller.ts',
+                templateFile:
+                    'plop-templates/honomodule/core.controller.ts.hbs',
             },
             {
                 type: 'add',
@@ -26,13 +27,15 @@ export default function (plop) {
             },
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-crud.routes.ts',
-                templateFile: 'plop-templates/honomodule/crud.routes.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-crud.controller.ts',
+                templateFile:
+                    'plop-templates/honomodule/crud.controller.ts.hbs',
             },
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-custom.routes.ts',
-                templateFile: 'plop-templates/honomodule/custom.routes.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-custom.controller.ts',
+                templateFile:
+                    'plop-templates/honomodule/custom.controller.ts.hbs',
             },
             {
                 type: 'add',
@@ -46,8 +49,8 @@ export default function (plop) {
             },
             {
                 type: 'add',
-                path: 'apps/server/src/main/{{dashCase moduleName}}/index.ts',
-                templateFile: 'plop-templates/honomodule/index.ts.hbs',
+                path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}.routes.ts',
+                templateFile: 'plop-templates/honomodule/routes.ts.hbs',
             },
         ],
     })

@@ -48,5 +48,5 @@ const Get{{pascalCase moduleName}}ListCrud: AppRouteHandler<
     )
 }
 
-export const {{camelCase moduleName}}Routes = createRouter()
+export const {{camelCase moduleName}}CustomRoutes = createRouter()
     .openapi(GetMy{{pascalCase moduleName}}ListDef, Get{{pascalCase moduleName}}ListCrud)
