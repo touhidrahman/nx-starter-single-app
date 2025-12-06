@@ -1,12 +1,23 @@
-import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
-import { db } from '../../../db/db'
-import { subcategoriesTable } from '../../../db/schema'
-import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
+import {
+    and,
+    asc,
+    count,
+    desc,
+    eq,
+    ilike,
+    inArray,
+    or,
+    SQL,
+    sql,
+} from 'drizzle-orm'
+import { db } from '../../db/db'
+import { subcategoriesTable } from '../../db/schema'
+import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
 import {
     InsertSubcategory,
     QuerySubcategories,
     SelectSubcategory,
-} from './subcategory-core.model'
+} from './subcategory.model'
 
 export class SubcategoryCoreService {
     static async findMany(
@@ -15,11 +26,17 @@ export class SubcategoryCoreService {
         const conditions = SubcategoryCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
+        const orderBy = SubcategoryCoreService.buildOrderBy(
+            filters.orderBy as keyof SelectSubcategory,
+            filters.sortOrder ?? 'desc',
+        )
+
         const subcategories = await db
             .select()
             .from(subcategoriesTable)
             .where(conditions)
             .offset(offset)
+            .orderBy(orderBy)
             .limit(size)
         return subcategories
     }
@@ -47,21 +64,21 @@ export class SubcategoryCoreService {
 
     static async exists(id: string): Promise<boolean> {
         const countResult = await db
-            .select({ count: sql<number>`count(${subcategoriesTable.id})` })
+            .select({ count: count() })
             .from(subcategoriesTable)
             .where(eq(subcategoriesTable.id, id))
-        const count = countResult[0]?.count || 0
-        return count > 0
+        const total = countResult[0]?.count || 0
+        return total > 0
     }
 
     static async count(filters: QuerySubcategories): Promise<number> {
         const conditions = SubcategoryCoreService.buildWhereConditions(filters)
 
-        const [{ count }] = await db
-            .select({ count: sql<number>`count(${subcategoriesTable.id})` })
+        const countResult = await db
+            .select({ count: count() })
             .from(subcategoriesTable)
             .where(conditions)
-        return count
+        return countResult[0]?.count || 0
     }
 
     static async create(input: InsertSubcategory): Promise<SelectSubcategory> {
@@ -115,6 +132,20 @@ export class SubcategoryCoreService {
             .where(inArray(subcategoriesTable.id, ids))
     }
 
+    static async deleteManyByQuery(filters: QuerySubcategories): Promise<void> {
+        const conditions = SubcategoryCoreService.buildWhereConditions(filters)
+        await db.delete(subcategoriesTable).where(conditions)
+    }
+
+    static buildOrderBy(
+        orderByField: keyof SelectSubcategory,
+        sortOrder: 'asc' | 'desc',
+    ): SQL<unknown> {
+        const orderBy =
+            subcategoriesTable[orderByField] ?? subcategoriesTable.createdAt
+        return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
+    }
+
     static buildWhereConditions(
         params: QuerySubcategories,
     ): SQL<unknown> | undefined {
@@ -122,10 +153,13 @@ export class SubcategoryCoreService {
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
-            conditions.push(or(ilike(subcategoriesTable.name, searchTerm)))
+            conditions.push(or(ilike(subcategoriesTable.title, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(subcategoriesTable.id, params.ids))
+        }
+        if (params.id) {
+            conditions.push(eq(subcategoriesTable.id, params.id))
         }
         if (params.groupId) {
             conditions.push(eq(subcategoriesTable.groupId, params.groupId))

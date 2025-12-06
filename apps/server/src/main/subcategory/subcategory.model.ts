@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { subcategoriesTable } from '../../../db/schema'
-import { zPagination, zSearch } from '../../../models/common.schema'
+import { subcategoriesTable } from '../../db/schema'
+import { zPagination, zSearch } from '../../models/common.schema'
 import {
     createInsertSchema,
     createSelectSchema,
     createUpdateSchema,
-} from '../../../utils/zod.util'
+} from '../../utils/zod.util'
 
 export type InsertSubcategory = z.infer<typeof zInsertSubcategory>
 export type SelectSubcategory = z.infer<typeof zSelectSubcategory>

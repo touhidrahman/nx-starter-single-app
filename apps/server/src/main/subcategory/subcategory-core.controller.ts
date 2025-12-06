@@ -1,28 +1,27 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { CREATED, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { AppRouteHandler } from '../../../core/core.type'
-import { createRouter } from '../../../core/create-app'
-import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
-import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
-import { buildPaginationResponse } from '../../../utils/pagination.util'
+import { AppRouteHandler } from '../../core/core.type'
+import { createRouter } from '../../core/create-app'
+import { zEmpty, zId, zIds } from '../../models/common.schema'
+import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
+import { buildPaginationResponse } from '../../utils/pagination.util'
 import {
     zInsertSubcategory,
     zQuerySubcategories,
     zSelectSubcategory,
     zUpdateSubcategory,
-} from './subcategory-core.model'
+} from './subcategory.model'
 import { SubcategoryCoreService } from './subcategory-core.service'
 
-const tags = [APP_OPENAPI_TAGS.Subcategory]
+const tags = ['Subcategory']
 const path = '/core/subcategories'
-const middleware = undefined // [checkToken, isAdmin]
+const middleware = undefined
 
 const GetSubcategoryListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQuerySubcategories,
@@ -53,7 +52,7 @@ const GetSubcategoryListCore: AppRouteHandler<
 const GetSubcategoryByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -94,7 +93,7 @@ const GetSubcategoryByIdCore: AppRouteHandler<
 const CreateSubcategoryCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertSubcategory, 'Subcategory Create Data'),
@@ -126,7 +125,7 @@ const CreateSubcategoryCore: AppRouteHandler<
 const UpdateSubcategoryCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -174,13 +173,16 @@ const UpdateSubcategoryCore: AppRouteHandler<
 const DeleteSubcategoryCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Subcategory deleted successfully'),
+        [OK]: ApiResponse(
+            zSelectSubcategory,
+            'Subcategory deleted successfully',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subcategory not found'),
     },
 })
@@ -206,7 +208,7 @@ const DeleteSubcategoryCore: AppRouteHandler<
 
     return c.json(
         {
-            data: {},
+            data: existingSubcategory,
             message: 'Subcategory deleted successfully',
             success: true,
         },
@@ -217,7 +219,7 @@ const DeleteSubcategoryCore: AppRouteHandler<
 const DeleteManySubcategoryCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Subcategory IDs to delete'),
@@ -246,8 +248,8 @@ const DeleteManySubcategoryCore: AppRouteHandler<
 
 export const subcategoryCoreRoutes = createRouter()
     .openapi(DeleteSubcategoryCoreDef, DeleteSubcategoryCore)
-    .openapi(DeleteManySubcategoryCoreDef, DeleteManySubcategoryCore)
     .openapi(UpdateSubcategoryCoreDef, UpdateSubcategoryCore)
-    .openapi(CreateSubcategoryCoreDef, CreateSubcategoryCore)
     .openapi(GetSubcategoryByIdCoreDef, GetSubcategoryByIdCore)
+    .openapi(DeleteManySubcategoryCoreDef, DeleteManySubcategoryCore)
+    .openapi(CreateSubcategoryCoreDef, CreateSubcategoryCore)
     .openapi(GetSubcategoryListCoreDef, GetSubcategoryListCore)

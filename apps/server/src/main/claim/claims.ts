@@ -30,6 +30,44 @@ export const DEFAULT_PERMISSIONS: PermissionSeedItem[] = [
     },
 
     {
+        id: 'Category:Read',
+        section: 'Category',
+        description: 'Read category details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+    {
+        id: 'Category:Write',
+        section: 'Category',
+        description: 'Write category details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+    {
+        id: 'Category:Delete',
+        section: 'Category',
+        description: 'Delete category details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+
+    {
+        id: 'Subcategory:Read',
+        section: 'Subcategory',
+        description: 'Read Subcategory details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+    {
+        id: 'Subcategory:Write',
+        section: 'Subcategory',
+        description: 'Write Subcategory details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+    {
+        id: 'Subcategory:Delete',
+        section: 'Subcategory',
+        description: 'Delete Subcategory details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+
+    {
         id: 'Transaction:Write',
         section: 'Transaction',
         description: 'Create or update a new transaction entry',

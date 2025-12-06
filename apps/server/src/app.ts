@@ -33,9 +33,7 @@ import { planCoreRoutes } from './main/plan/core/plan-core.routes'
 import { planCrudRoutes } from './main/plan/crud/plan-crud.routes'
 import { planCustomRoutes } from './main/plan/custom/plan-custom.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
-import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
-import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
-import { subcategoryCustomRoutes } from './main/subcategory/custom/subcategory-custom.routes'
+import { subcategoryRoutes } from './main/subcategory/subcategory.routes'
 import { subscriptionCoreRoutes } from './main/subscription/core/subscription-core.routes'
 import { subscriptionCrudRoutes } from './main/subscription/crud/subscription-crud.routes'
 import { subscriptionCustomRoutes } from './main/subscription/custom/subscription-custom.routes'
@@ -68,8 +66,8 @@ const routes = [
     authRoutes,
     authVerifyRoutes,
     ...categoryRoutes,
-    claimV1Routes,
     currencyCoreRoutes,
+    claimV1Routes,
     currencyCrudRoutes,
     dashboardV1Routes,
     databaseBackupV1Routes,
@@ -84,9 +82,7 @@ const routes = [
     planCrudRoutes,
     planCustomRoutes,
     storageV1Routes,
-    subcategoryCoreRoutes,
-    subcategoryCrudRoutes,
-    subcategoryCustomRoutes,
+    ...subcategoryRoutes,
     subscriptionCoreRoutes,
     subscriptionCrudRoutes,
     subscriptionCustomRoutes,

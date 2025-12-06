@@ -137,8 +137,7 @@ export class CategoryCoreService {
         orderByField: keyof SelectCategory,
         sortOrder: 'asc' | 'desc',
     ): SQL<unknown> {
-        const orderBy =
-            categoriesTable[orderByField] ?? categoriesTable.createdAt
+        const orderBy = categoriesTable[orderByField] ?? categoriesTable.name
         return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
@@ -149,7 +148,7 @@ export class CategoryCoreService {
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
-            conditions.push(or(ilike(categoriesTable.title, searchTerm)))
+            conditions.push(or(ilike(categoriesTable.name, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(categoriesTable.id, params.ids))
