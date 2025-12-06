@@ -67,9 +67,9 @@ const Get{{pascalCase moduleName}}ByIdCore: AppRouteHandler<
     typeof Get{{pascalCase moduleName}}ByIdCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const {{kebabCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
+    const {{camelCase moduleName}} = await {{pascalCase moduleName}}CoreService.findById(id)
 
-    if (!{{kebabCase moduleName}}) {
+    if (!{{camelCase moduleName}}) {
         return c.json(
             {
                 data: {},
@@ -82,7 +82,7 @@ const Get{{pascalCase moduleName}}ByIdCore: AppRouteHandler<
 
     return c.json(
         {
-            data: {{kebabCase moduleName}},
+            data: {{camelCase moduleName}},
             message: '{{pascalCase moduleName}} details fetched successfully',
             success: true,
         },
@@ -243,7 +243,7 @@ const DeleteMany{{pascalCase moduleName}}Core: AppRouteHandler<
     )
 }
 
-export const {{kebabCase moduleName}}CoreRoutes = createRouter()
+export const {{camelCase moduleName}}CoreRoutes = createRouter()
     .openapi(Delete{{pascalCase moduleName}}CoreDef, Delete{{pascalCase moduleName}}Core)
     .openapi(Update{{pascalCase moduleName}}CoreDef, Update{{pascalCase moduleName}}Core)
     .openapi(Get{{pascalCase moduleName}}ByIdCoreDef, Get{{pascalCase moduleName}}ByIdCore)

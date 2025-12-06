@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { {{camelCase (pluralize moduleName)}}Table } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
@@ -43,12 +43,12 @@ export class {{pascalCase moduleName}}CoreService {
     }
 
     static async findById(id: string): Promise<Select{{pascalCase moduleName}} | null> {
-        const {{kebabCase moduleName}} = await db
+        const {{camelCase moduleName}} = await db
             .select()
             .from({{camelCase (pluralize moduleName)}}Table)
             .where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
             .limit(1)
-        return {{kebabCase moduleName}}[0] || null
+        return {{camelCase moduleName}}[0] || null
     }
 
     static async exists(id: string): Promise<boolean> {
@@ -71,11 +71,11 @@ export class {{pascalCase moduleName}}CoreService {
     }
 
     static async create(input: Insert{{pascalCase moduleName}}): Promise<Select{{pascalCase moduleName}}> {
-        const [{{kebabCase moduleName}}] = await db
+        const [{{camelCase moduleName}}] = await db
             .insert({{camelCase (pluralize moduleName)}}Table)
             .values(input)
             .returning()
-        return {{kebabCase moduleName}}
+        return {{camelCase moduleName}}
     }
 
     static async createMany(
@@ -92,12 +92,12 @@ export class {{pascalCase moduleName}}CoreService {
         id: string,
         input: Partial<Insert{{pascalCase moduleName}}>,
     ): Promise<Select{{pascalCase moduleName}}> {
-        const [{{kebabCase moduleName}}] = await db
+        const [{{camelCase moduleName}}] = await db
             .update({{camelCase (pluralize moduleName)}}Table)
             .set(input)
             .where(eq({{camelCase (pluralize moduleName)}}Table.id, id))
             .returning()
-        return {{kebabCase moduleName}}
+        return {{camelCase moduleName}}
     }
 
     static async upsert(
