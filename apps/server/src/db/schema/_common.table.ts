@@ -27,6 +27,13 @@ export const fileTypeEnum = pgEnum('fileType', [
     'audio',
 ])
 
+export const occuranceFrequencyEnum = pgEnum('occurance_frequency_enum', [
+    'Daily',
+    'Weekly',
+    'Monthly',
+    'Yearly',
+])
+
 export const timestampColumns = {
     createdAt: timestamp({ withTimezone: true }).defaultNow(),
     updatedAt: timestamp({ withTimezone: true }).$onUpdate(() => new Date()),

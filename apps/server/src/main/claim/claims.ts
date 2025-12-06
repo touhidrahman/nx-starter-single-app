@@ -49,6 +49,25 @@ export const DEFAULT_PERMISSIONS: PermissionSeedItem[] = [
     },
 
     {
+        id: 'TransactionSchedule:Write',
+        section: 'Transaction',
+        description: 'Create or update a new transaction entry',
+        forRoles: [GroupOwner],
+    },
+    {
+        id: 'TransactionSchedule:Delete',
+        section: 'Transaction',
+        description: 'Delete a transaction entry',
+        forRoles: [GroupOwner],
+    },
+    {
+        id: 'TransactionSchedule:Read',
+        section: 'Transaction',
+        description: 'Read transaction details',
+        forRoles: [GroupOwner, GroupMember],
+    },
+
+    {
         id: 'Invite:Write',
         section: 'User',
         description: 'Invite user to Organization, revoke invite',
