@@ -1,12 +1,17 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { OK } from 'stoker/http-status-codes'
+import { HTTPException } from 'hono/http-exception'
+import { FORBIDDEN, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { ApiListResponse } from '../../utils/api-response.util'
+import { ApiListResponse, ApiResponse } from '../../utils/api-response.util'
 import { buildPaginationResponse } from '../../utils/pagination.util'
 import { AccessTokenPayload } from '../auth/auth.model'
-import { zQueryCategories, zSelectCategory } from './category.model'
+import {
+    zQueryCategories,
+    zSelectCategory,
+    zSelectCategoryWithSubcategories,
+} from './category.model'
 import { CategoryService } from './category.service'
 
 const tags = ['Category']
@@ -44,7 +49,39 @@ const GetCategoryListCrud: AppRouteHandler<typeof GetMyCategoryListDef> = async 
     )
 }
 
-export const categoryCustomRoutes = createRouter().openapi(
-    GetMyCategoryListDef,
-    GetCategoryListCrud,
-)
+const GetCategoryWithSubcategoriesDef = createRoute({
+    path: `${path}/:id/with-subcategories`,
+    tags,
+    method: 'get',
+    middleware: [checkToken] as const,
+    request: {},
+    responses: {
+        [OK]: ApiResponse(zSelectCategoryWithSubcategories, 'Category with Subcategories'),
+    },
+})
+
+const GetCategoryWithSubcategories: AppRouteHandler<
+    typeof GetCategoryWithSubcategoriesDef
+> = async (c) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    const { id } = c.req.param()
+
+    if (!groupId) throw new HTTPException(FORBIDDEN, { message: 'GroupId is required' })
+
+    const data = await CategoryService.findOneWithSubcategories(id, groupId)
+
+    if (!data) throw new HTTPException(FORBIDDEN, { message: 'Category not found' })
+
+    return c.json(
+        {
+            data,
+            message: 'Category fetched successfully',
+            success: true,
+        },
+        OK,
+    )
+}
+
+export const categoryCustomRoutes = createRouter()
+    .openapi(GetMyCategoryListDef, GetCategoryListCrud)
+    .openapi(GetCategoryWithSubcategoriesDef, GetCategoryWithSubcategories)

@@ -12,8 +12,8 @@ import { {{pascalCase moduleName}}Service } from './{{kebabCase moduleName}}.ser
 const tags = ['{{pascalCase moduleName}}']
 const path = '/{{kebabCase (pluralize moduleName)}}/custom'
 
-const GetMy{{pascalCase moduleName}}ListDef = createRoute({
-    path: `${path}/my`,
+const Get{{pascalCase moduleName}}{{pascalCase routeName}}Def = createRoute({
+    path: `${path}/{{kebabCase routeName}}`,
     tags,
     method: 'get',
     middleware: [checkToken] as const,
@@ -25,8 +25,8 @@ const GetMy{{pascalCase moduleName}}ListDef = createRoute({
     },
 })
 
-const GetMy{{pascalCase moduleName}}List: AppRouteHandler<
-    typeof GetMy{{pascalCase moduleName}}ListDef
+const Get{{pascalCase moduleName}}{{pascalCase routeName}}: AppRouteHandler<
+    typeof Get{{pascalCase moduleName}}{{pascalCase routeName}}Def
 > = async (c) => {
     const query = c.req.valid('query')
     const { groupId, sub: creatorId } = c.get(
@@ -48,5 +48,5 @@ const GetMy{{pascalCase moduleName}}List: AppRouteHandler<
     )
 }
 
-export const {{camelCase moduleName}}CustomRoutes = createRouter()
-    .openapi(GetMy{{pascalCase moduleName}}ListDef, GetMy{{pascalCase moduleName}}List)
+export const {{camelCase moduleName}}{{pascalCase routeName}}Routes = createRouter()
+    .openapi(Get{{pascalCase moduleName}}{{pascalCase routeName}}Def, Get{{pascalCase moduleName}}{{pascalCase routeName}})

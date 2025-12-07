@@ -38,13 +38,11 @@ export const checkPermission = (claims: string[], matchAll = false): MiddlewareH
             })
         }
 
-        console.log('TCL: | checkPermission | requiredClaims:', requiredClaims)
         if (requiredClaims.length > 0) {
             if (matchAll) {
                 // each claim must be available in role permission with `|1` status (= enabled)
                 const allMatch = requiredClaims.every((claim) => {
                     const permission = rolePermissions.find((rp) => isPermissionEnabled(claim, rp))
-                    console.log('TCL: | checkPermission | permission:', permission)
                     return permission !== undefined
                 })
                 if (!allMatch) {
@@ -58,7 +56,6 @@ export const checkPermission = (claims: string[], matchAll = false): MiddlewareH
 
             const atLeastOneMatch = requiredClaims.some((claim) => {
                 const permission = rolePermissions.find((rp) => isPermissionEnabled(claim, rp))
-                console.log('TCL: | checkPermission | permission:', permission)
                 return permission !== undefined
             })
 

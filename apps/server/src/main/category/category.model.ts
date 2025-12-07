@@ -15,3 +15,9 @@ export const zQueryCategories = zInsertCategory
     .extend(zSearch.shape)
     .extend(zPagination.shape)
     .partial()
+
+export const zSelectCategoryWithSubcategories = zSelectCategory.extend({
+    subcategories: z.array(zSelectCategory),
+})
+
+export type SelectCategoryWithSubcategories = z.infer<typeof zSelectCategoryWithSubcategories>

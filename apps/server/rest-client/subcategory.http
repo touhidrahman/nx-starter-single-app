@@ -1,5 +1,6 @@
-@resource=categories
+@resource=subcategories
 @deleteId=b96dd738f1
+@categoryId=8599a1a688
 @id=8599a1a688
 
 ###
@@ -25,8 +26,9 @@ Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
-  "name": "Grocery",
-  "color": "red"
+  "name": "Shopping",
+  "color": "red",
+  "categoryId": "{{categoryId}}"
 }
 
 
@@ -61,11 +63,5 @@ Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 ###
 GET {{BACKEND_URL}}/{{resource}}/custom/my
-Content-Type: application/json
-Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
-
-
-###
-GET {{BACKEND_URL}}/{{resource}}/custom/{{id}}/with-subcategories
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
