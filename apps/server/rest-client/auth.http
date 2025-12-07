@@ -1,8 +1,11 @@
+@username=touhidrahman3
+
+###
 POST {{BACKEND_URL}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "touhidrahman",
+  "username": "{{username}}",
   "password": "Abcd1234!"
 }
 
@@ -14,7 +17,7 @@ Content-Type: application/json
 {
   "firstName": "Touhid",
   "lastName": "Rahman",
-  "username": "touhidrahman1",
+  "username": "{{username}}",
   "password": "Abcd1234!"
 }
 

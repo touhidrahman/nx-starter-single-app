@@ -1,22 +1,20 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { eq } from 'drizzle-orm'
 import { attemptAsync } from 'es-toolkit'
 import { HTTPException } from 'hono/http-exception'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
-import { db } from '../../db/db'
-import { groupsTable, membershipsTable } from '../../db/schema'
 import { sendEmailUsingResend } from '../../email/email.service'
 import env from '../../env'
 import { checkToken } from '../../middlewares/check-token.middleware'
 import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
 import { DateUtil } from '../../utils/date.util'
-import { GroupOwner } from '../claim/claims'
 import { buildWelcomeEmailTemplate } from '../email/templates/welcome'
 import { GroupCustomService } from '../group/custom/group-custom.service'
+import { PermissionService } from '../permission/permission.service'
+import { RoleCustomService } from '../role/custom/role-custom.service'
 import { UserCustomService } from '../user/custom/user-custom.service'
 import { zInsertUser } from '../user/user.schema'
 import { AuthService } from './auth.service'
@@ -98,24 +96,22 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
         const group = await GroupCustomService.create({
             name: `${user.firstName}'s Group ${user.id?.toUpperCase()}`,
         })
-        const membership = await GroupCustomService.addGroupMember({
+        const role = await RoleCustomService.create({
+            groupId: group.id,
+            name: 'Owner',
+            description: 'Owner role with all permissions',
+            permissions: PermissionService.getOwnerDefaultPermissions().join(','),
+        })
+        await GroupCustomService.addGroupMember({
             groupId: group.id,
             userId: user.id,
-            roleId: GroupOwner,
-        })
-        const role = await db.query.membershipsTable.findFirst({
-            with: { role: true },
-            where: eq(membershipsTable.roleId, membership.roleId ?? ''),
+            roleId: role.id,
         })
         await UserCustomService.update(user.id, {
             defaultGroupId: group.id,
         })
 
-        const data = await AuthService.getUserLoginResponse(
-            user,
-            group,
-            role?.role ?? null,
-        )
+        const data = await AuthService.getUserLoginResponse(user, group, role)
 
         const email = user.email ?? ''
         if (email) {
@@ -136,11 +132,7 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
                     groupName: group.name ?? '',
                 })
 
-                return sendEmailUsingResend(
-                    [email],
-                    'Please verify your email',
-                    welcomeEmail,
-                )
+                return sendEmailUsingResend([email], 'Please verify your email', welcomeEmail)
             })
         }
 
@@ -175,10 +167,7 @@ const GroupSwitchDef = createRoute({
 const GroupSwitch: AppRouteHandler<typeof GroupSwitchDef> = async (c) => {
     const { sub: userId } = await c.get('jwtPayload')
     const groupId = c.req.param('groupId') ?? ''
-    const data = await AuthService.getUserLoginResponseByUserIdAndGroupId(
-        userId,
-        groupId,
-    )
+    const data = await AuthService.getUserLoginResponseByUserIdAndGroupId(userId, groupId)
     if (!data) {
         throw new HTTPException(BAD_REQUEST, {
             message: 'Could not switch organization',
@@ -201,10 +190,7 @@ const GetNewTokenDef = createRoute({
     method: REQ_METHOD.POST,
     middleware: [checkToken] as const,
     request: {
-        body: jsonContentRequired(
-            z.object({ refreshToken: z.string() }),
-            'Refresh token',
-        ),
+        body: jsonContentRequired(z.object({ refreshToken: z.string() }), 'Refresh token'),
     },
     responses: {
         [OK]: ApiResponse(zUserLoginResponse, 'User logged in successfully'),
@@ -241,10 +227,7 @@ const GetNewToken: AppRouteHandler<typeof GetNewTokenDef> = async (c) => {
     //     userData = buildAdminPayload(admin)
     // }
 
-    const data = await AuthService.getUserLoginResponseByUserIdAndGroupId(
-        sub,
-        groupId,
-    )
+    const data = await AuthService.getUserLoginResponseByUserIdAndGroupId(sub, groupId)
 
     if (!data) {
         throw new HTTPException(BAD_REQUEST, {
@@ -259,8 +242,7 @@ const GetNewToken: AppRouteHandler<typeof GetNewTokenDef> = async (c) => {
             data: {
                 ...data,
                 // send the old refresh token if not expiring soon
-                refreshToken:
-                    refreshToken === null ? data?.refreshToken : refreshToken,
+                refreshToken: refreshToken === null ? data?.refreshToken : refreshToken,
             },
             message: 'New token generated',
             success: true,
