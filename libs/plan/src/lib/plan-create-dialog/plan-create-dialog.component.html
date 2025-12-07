@@ -39,18 +39,13 @@
         <div class="col-span-12 md:col-span-4">
             <div class="flex w-full flex-col gap-2">
                 <label>Discount Period Start</label>
-                <p-datePicker
-                    appendTo="body"
-                    class=""
-                    formControlName="discountPeriodStart" />
+                <p-datePicker appendTo="body" class="" formControlName="discountPeriodStart" />
             </div>
         </div>
         <div class="col-span-12 md:col-span-8">
             <div class="flex flex-col gap-2">
                 <label>Discount Period End</label>
-                <p-datePicker
-                    appendTo="body"
-                    formControlName="discountPeriodEnd" />
+                <p-datePicker appendTo="body" formControlName="discountPeriodEnd" />
             </div>
         </div>
 
@@ -78,9 +73,7 @@
         </div>
         <div class="col-span-12">
             <div class="flex flex-col gap-2">
-                <label class="required">
-                    Maximum causelist enrollment number
-                </label>
+                <label class="required"> Maximum causelist enrollment number </label>
                 <p-inputnumber formControlName="maxCauselistEnrollment" />
             </div>
         </div>
@@ -125,17 +118,11 @@
         <div class="col-span-12 md:col-span-12">
             <div class="flex items-center gap-3">
                 <div class="field-checkbox">
-                    <p-radiobutton
-                        inputId="active"
-                        [value]="true"
-                        formControlName="isActive" />
+                    <p-radiobutton inputId="active" [value]="true" formControlName="isActive" />
                     <label class="ml-2">Active Plan</label>
                 </div>
                 <div class="field-checkbox">
-                    <p-radiobutton
-                        inputId="inactive"
-                        [value]="false"
-                        formControlName="isActive" />
+                    <p-radiobutton inputId="inactive" [value]="false" formControlName="isActive" />
                     <label class="ml-2">Inactive Plan</label>
                 </div>
             </div>

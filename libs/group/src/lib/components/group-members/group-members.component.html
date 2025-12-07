@@ -1,6 +1,5 @@
 @let state = loggedInGroupStateService.selectAll() | async;
-@let adminGroupMemberState =
-    adminGroupManagementStateService.selectAll() | async;
+@let adminGroupMemberState = adminGroupManagementStateService.selectAll() | async;
 @let users = state?.users ?? [];
 @let adminGroupMembers = adminGroupMemberState?.users ?? [];
 @let isLoading = state?.loading || adminGroupMemberState?.loading;
@@ -62,9 +61,7 @@
                                         styleClass="flex items-center"
                                         icon="pi pi-arrow-right-arrow-left"
                                         (onClick)="assignRole(data)"
-                                        [disabled]="
-                                            data.roleName === 'Owner'
-                                        " />
+                                        [disabled]="data.roleName === 'Owner'" />
                                     <p-button
                                         size="small"
                                         tooltipPosition="top"
@@ -76,12 +73,8 @@
                                         [rounded]="true"
                                         severity="danger"
                                         [outlined]="true"
-                                        (onClick)="
-                                            onOpenGroupMemberRemoveDialog(data)
-                                        "
-                                        [disabled]="
-                                            data.roleName === 'Owner'
-                                        " />
+                                        (onClick)="onOpenGroupMemberRemoveDialog(data)"
+                                        [disabled]="data.roleName === 'Owner'" />
                                 }
                                 @if (isAdmin()) {
                                     <p-button
@@ -152,12 +145,8 @@
                                         [rounded]="true"
                                         severity="danger"
                                         [outlined]="true"
-                                        (onClick)="
-                                            onOpenGroupMemberRemoveDialog(user)
-                                        "
-                                        [disabled]="
-                                            user.roleName === 'Owner'
-                                        " />
+                                        (onClick)="onOpenGroupMemberRemoveDialog(user)"
+                                        [disabled]="user.roleName === 'Owner'" />
                                 }
                                 @if (isAdmin()) {
                                     <p-button
@@ -181,8 +170,7 @@
                                 <i
                                     class="pi pi-envelope secondary-text-2 mt-0.5 text-[15px] text-gray-500"></i>
                                 <div>
-                                    <p
-                                        class="secondary-text-2 text-xs font-medium text-gray-500">
+                                    <p class="secondary-text-2 text-xs font-medium text-gray-500">
                                         Email
                                     </p>
                                     <p
@@ -195,15 +183,12 @@
                                 <i
                                     class="pi pi-calendar secondary-text-2 mt-[3px] text-base text-gray-500"></i>
                                 <div>
-                                    <p
-                                        class="secondary-text-2 text-xs font-medium text-gray-500">
+                                    <p class="secondary-text-2 text-xs font-medium text-gray-500">
                                         Join Date
                                     </p>
                                     <p
                                         class="secondary-text text-sm font-medium break-all text-gray-800/80">
-                                        {{
-                                            user.createdAt | date: 'dd/MM/yyyy'
-                                        }}
+                                        {{ user.createdAt | date: 'dd/MM/yyyy' }}
                                     </p>
                                 </div>
                             </div>

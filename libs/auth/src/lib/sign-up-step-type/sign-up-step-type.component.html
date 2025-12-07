@@ -1,7 +1,5 @@
 <div class="col-span-12">
-    <h2 class="mb-4 text-center text-xl font-bold text-gray-800">
-        Select Registration Type
-    </h2>
+    <h2 class="mb-4 text-center text-xl font-bold text-gray-800">Select Registration Type</h2>
 </div>
 
 <div [formGroup]="registerFormService.form">
@@ -11,8 +9,8 @@
                 <div
                     class="max-w-sm cursor-pointer rounded-xl border-2 p-2 transition-all hover:border-green-400 hover:shadow-md"
                     [ngClass]="
-                        registerFormService.form.get('organization.groupType')
-                            ?.value === groupType.value
+                        registerFormService.form.get('organization.groupType')?.value ===
+                        groupType.value
                             ? 'border-green-500 bg-gray-50 text-green-800 shadow-sm'
                             : 'border-gray-200 bg-white text-gray-700'
                     "
@@ -33,10 +31,8 @@
         </div>
 
         @if (
-            registerFormService.form.get('organization.groupType')?.value ===
-                'client' ||
-            registerFormService.form.get('organization.groupType')?.value ===
-                'vendor'
+            registerFormService.form.get('organization.groupType')?.value === 'client' ||
+            registerFormService.form.get('organization.groupType')?.value === 'vendor'
         ) {
             <div class="flex justify-end pt-6">
                 <p-button

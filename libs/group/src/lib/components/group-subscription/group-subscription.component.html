@@ -19,8 +19,7 @@
 
         <!-- Subscription Status -->
         @if (subscription) {
-            <div
-                class="w-full rounded-md border border-gray-300 bg-green-50 p-4 lg:w-1/3">
+            <div class="w-full rounded-md border border-gray-300 bg-green-50 p-4 lg:w-1/3">
                 <div>
                     <div class="mb-1 flex items-center justify-between">
                         <h1
@@ -42,14 +41,9 @@
                         <div class="flex items-start gap-3">
                             <i class="pi pi-tag mt-1 text-gray-500"></i>
                             <div>
-                                <p class="text-sm font-medium text-gray-500">
-                                    Subscription Type
-                                </p>
+                                <p class="text-sm font-medium text-gray-500">Subscription Type</p>
                                 <p class="-mt-1 font-bold break-words">
-                                    {{
-                                        subscription.subscriptionType
-                                            | titlecase
-                                    }}
+                                    {{ subscription.subscriptionType | titlecase }}
                                 </p>
                             </div>
                         </div>
@@ -57,47 +51,29 @@
                         <div class="flex items-start gap-3">
                             <i class="pi pi-folder-open mt-1 text-gray-500"></i>
                             <div>
-                                <p class="text-sm font-medium text-gray-500">
-                                    Storage Used
-                                </p>
+                                <p class="text-sm font-medium text-gray-500">Storage Used</p>
                                 <p class="-mt-1 font-bold break-words">
-                                    {{
-                                        formatStorage(
-                                            subscription.usedStorage ?? 0
-                                        )
-                                    }}
+                                    {{ formatStorage(subscription.usedStorage ?? 0) }}
                                 </p>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <i
-                                class="pi pi-calendar-clock mt-1 text-gray-500"></i>
+                            <i class="pi pi-calendar-clock mt-1 text-gray-500"></i>
                             <div>
-                                <p class="text-sm font-medium text-gray-500">
-                                    Start Date
-                                </p>
+                                <p class="text-sm font-medium text-gray-500">Start Date</p>
                                 <p class="-mt-1 font-bold break-words">
-                                    {{
-                                        subscription.startDate
-                                            | date: 'mediumDate'
-                                    }}
+                                    {{ subscription.startDate | date: 'mediumDate' }}
                                 </p>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <i
-                                class="pi pi-calendar-clock mt-1 text-gray-500"></i>
+                            <i class="pi pi-calendar-clock mt-1 text-gray-500"></i>
                             <div>
-                                <p class="text-sm font-medium text-gray-500">
-                                    End Date
-                                </p>
+                                <p class="text-sm font-medium text-gray-500">End Date</p>
                                 <p class="-mt-1 font-bold break-words">
-                                    {{
-                                        subscription.endDate
-                                            | date: 'mediumDate'
-                                    }}
+                                    {{ subscription.endDate | date: 'mediumDate' }}
                                 </p>
                             </div>
                         </div>

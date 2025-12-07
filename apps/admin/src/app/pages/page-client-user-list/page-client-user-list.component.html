@@ -30,7 +30,6 @@
 <div class="mt-6">
     @let clients = clientListStateService.select('clients') | async;
     <p-card>
-        <lib-client-list-table
-            [clients]="clients || []"></lib-client-list-table>
+        <lib-client-list-table [clients]="clients || []"></lib-client-list-table>
     </p-card>
 </div>

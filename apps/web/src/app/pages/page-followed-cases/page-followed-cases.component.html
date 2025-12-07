@@ -21,24 +21,19 @@
                             {{ case.caseTitle }}
                         </h1>
                         @if (case?.caseType) {
-                            <h1
-                                class="text-md font-semibold text-gray-600 capitalize">
+                            <h1 class="text-md font-semibold text-gray-600 capitalize">
                                 <app-case-type-badge
-                                    [caseType]="
-                                        case.caseType
-                                    "></app-case-type-badge>
+                                    [caseType]="case.caseType"></app-case-type-badge>
                             </h1>
                         }
                     </div>
 
                     @if (case?.court) {
-                        <div
-                            class="mt-2 items-center font-medium md:text-lg lg:flex">
+                        <div class="mt-2 items-center font-medium md:text-lg lg:flex">
                             <h1 class="bangla secondary-text text-gray-700/75">
                                 {{ case?.court?.nameBn || 'N/A' }}
                             </h1>
-                            <div
-                                class="mx-2 hidden h-4 w-px bg-gray-400 lg:block"></div>
+                            <div class="mx-2 hidden h-4 w-px bg-gray-400 lg:block"></div>
                             <h1 class="secondary-text text-gray-700/75">
                                 {{ case?.court?.nameEn }}
                             </h1>
@@ -58,5 +53,4 @@
         <lib-no-data [noDataMessage]="'No followed cases found'" />
     }
 </div>
-<app-pending-follow-request-case
-    [isApproved]="false"></app-pending-follow-request-case>
+<app-pending-follow-request-case [isApproved]="false"></app-pending-follow-request-case>

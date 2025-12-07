@@ -6,14 +6,9 @@
     @if (messages().length) {
         @for (caseGroup of messages(); track caseGroup.caseId) {
             <p-accordion-panel [value]="caseGroup.caseName">
-                <p-accordion-header>
-                    Case Title: {{ caseGroup.caseName }}
-                </p-accordion-header>
+                <p-accordion-header> Case Title: {{ caseGroup.caseName }} </p-accordion-header>
                 <p-accordion-content>
-                    @for (
-                        history of caseGroup.histories;
-                        track history.historyId
-                    ) {
+                    @for (history of caseGroup.histories; track history.historyId) {
                         <div class="history-section">
                             <div class="table-container">
                                 <p-table
@@ -29,22 +24,17 @@
                                     <ng-template pTemplate="body" let-log>
                                         <tr>
                                             <td>
-                                                {{
-                                                    log.content ?? 'No content'
-                                                }}
+                                                {{ log.content ?? 'No content' }}
                                             </td>
                                             <td>
                                                 {{
                                                     log.createdAt
-                                                        ? (log.createdAt
-                                                          | date: 'short')
+                                                        ? (log.createdAt | date: 'short')
                                                         : 'No date'
                                                 }}
                                             </td>
                                             <td>
-                                                {{
-                                                    log.isMail ? 'Email' : 'Sms'
-                                                }}
+                                                {{ log.isMail ? 'Email' : 'Sms' }}
                                             </td>
                                         </tr>
                                     </ng-template>

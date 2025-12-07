@@ -42,8 +42,7 @@
                     &times;
                 </button>
 
-                <app-public-lawyer-filter
-                    [closeDrawer]="closeFilterModal.bind(this)" />
+                <app-public-lawyer-filter [closeDrawer]="closeFilterModal.bind(this)" />
             </div>
         </div>
     }
@@ -54,9 +53,7 @@
 
 @if (loading) {
     <div class="flex items-center justify-center py-8">
-        <i
-            class="pi pi-spin pi-spinner"
-            style="font-size: 2rem; color: green"></i>
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
     </div>
 } @else if (state?.lawyers?.length) {
     <p-card>
@@ -95,12 +92,9 @@
                         <span
                             class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap"
                             [ngClass]="{
-                                'bg-red-100 text-red-800':
-                                    lawyer.status === 'hidden',
-                                'bg-pink-100 text-pink-800':
-                                    lawyer.status === 'pending',
-                                'bg-emerald-100 text-emerald-800':
-                                    lawyer.status === 'approved',
+                                'bg-red-100 text-red-800': lawyer.status === 'hidden',
+                                'bg-pink-100 text-pink-800': lawyer.status === 'pending',
+                                'bg-emerald-100 text-emerald-800': lawyer.status === 'approved',
                             }">
                             {{ lawyer.status | uppercase }}
                         </span>

@@ -6,26 +6,15 @@
     } @else {
         <div class="mb-4 flex justify-center">
             @if (isVerified) {
-                <img
-                    class="h-56 w-56"
-                    src="/assets/images/successfull.png"
-                    alt="Success" />
+                <img class="h-56 w-56" src="/assets/images/successfull.png" alt="Success" />
             } @else if (alreadyVerified) {
-                <img
-                    class="h-56 w-60"
-                    src="/assets/images/warning.webp"
-                    alt="Unsuccess" />
+                <img class="h-56 w-60" src="/assets/images/warning.webp" alt="Unsuccess" />
             } @else {
-                <img
-                    class="h-56 w-56"
-                    src="/assets/images/unnsuccess.png"
-                    alt="Unsuccess" />
+                <img class="h-56 w-56" src="/assets/images/unnsuccess.png" alt="Unsuccess" />
             }
         </div>
 
-        <h2 class="mb-2 text-2xl font-bold">
-            {{ isVerified ? 'Successful' : 'Unsuccessful' }}!
-        </h2>
+        <h2 class="mb-2 text-2xl font-bold">{{ isVerified ? 'Successful' : 'Unsuccessful' }}!</h2>
 
         <p class="mb-6 text-gray-700">
             @if (isVerified) {
@@ -33,8 +22,7 @@
             } @else if (alreadyVerified) {
                 Your account is already verified.
             } @else {
-                Sorry! Couldn't verify account. Your token is expired or already
-                verified!.
+                Sorry! Couldn't verify account. Your token is expired or already verified!.
             }
         </p>
 

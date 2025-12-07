@@ -37,9 +37,7 @@
             <p class="text-xs text-red-700">Last name is required</p>
         }
 
-        <label for="email1" class="text-900 mb-2 block font-medium"
-            >Email</label
-        >
+        <label for="email1" class="text-900 mb-2 block font-medium">Email</label>
         <input
             id="email1"
             type="text"
@@ -57,9 +55,7 @@
             <p class="text-xs text-red-700">Valid email is required</p>
         }
 
-        <label for="password1" class="text-900 mb-2 block font-medium"
-            >Password</label
-        >
+        <label for="password1" class="text-900 mb-2 block font-medium">Password</label>
         <input
             id="password1"
             type="password"
@@ -92,9 +88,7 @@
             class="mb-3 w-full" />
         <div>
             @if (
-                signUpForm
-                    .get('confirmPassword')
-                    ?.hasError('passwordNotMatched') &&
+                signUpForm.get('confirmPassword')?.hasError('passwordNotMatched') &&
                 signUpForm.get('confirmPassword')?.touched &&
                 signUpForm.get('confirmPassword')?.dirty
             ) {

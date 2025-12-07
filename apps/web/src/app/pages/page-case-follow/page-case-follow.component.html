@@ -1,7 +1,6 @@
 <div class="mx-auto mt-12 mb-16 max-w-full px-4 lg:mt-18 lg:px-0">
     @if (caseData(); as case) {
-        <div
-            class="flex flex-col items-center justify-center gap-10 lg:flex-row lg:gap-16">
+        <div class="flex flex-col items-center justify-center gap-10 lg:flex-row lg:gap-16">
             <img
                 src="/assets/images/team-select.png"
                 class="faq-icon w-3/4 max-w-xs lg:max-w-sm"
@@ -12,22 +11,17 @@
                 </h1>
                 <div class="rounded-md bg-gray-100 p-4 shadow-sm">
                     <ul class="space-y-3 text-base lg:text-lg">
-                        <li
-                            class="p-text-secondary text-left text-xl font-semibold lg:text-2xl">
+                        <li class="p-text-secondary text-left text-xl font-semibold lg:text-2xl">
                             {{ case.caseTitle }}
                         </li>
                         <li class="p-text-secondary">
                             <div class="flex gap-4">
                                 <div>
-                                    <span class="block text-gray-600"
-                                        >Case No:</span
-                                    >
+                                    <span class="block text-gray-600">Case No:</span>
                                     {{ case.number }}
                                 </div>
                                 <div class="capitalize">
-                                    <span class="block text-gray-600"
-                                        >Type:</span
-                                    >
+                                    <span class="block text-gray-600">Type:</span>
                                     {{ case.caseType }}
                                 </div>
                             </div>
@@ -46,9 +40,7 @@
 
                         @if (case.policeStationName) {
                             <li>
-                                <span class="block text-gray-600"
-                                    >Police Station:</span
-                                >
+                                <span class="block text-gray-600">Police Station:</span>
                                 {{ case.policeStationName }}
                             </li>
                         }
@@ -62,16 +54,14 @@
                         }
 
                         <li>
-                            <span class="block text-gray-600"
-                                >Filing Date:</span
-                            >
+                            <span class="block text-gray-600">Filing Date:</span>
                             {{ case.filingDate | date }}
                         </li>
 
                         <li>
                             <p class="mt-2 text-left font-semibold">
-                                Want to stay updated on this case? Click
-                                'Follow' to track your case!
+                                Want to stay updated on this case? Click 'Follow' to track your
+                                case!
                             </p>
                         </li>
                     </ul>

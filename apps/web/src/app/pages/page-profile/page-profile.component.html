@@ -6,8 +6,7 @@
 } @else {
     <div class="flex gap-6 pb-10">
         <div>
-            @let profilePhoto =
-                profileStateService.select('profilePhotoUrl') | async;
+            @let profilePhoto = profileStateService.select('profilePhotoUrl') | async;
             <div class="profile relative">
                 @if (profile) {
                     <p-avatar
@@ -24,13 +23,11 @@
                 }
 
                 @if (user?.verified === true) {
-                    <div
-                        class="badge-position bg-green secondary-text text-white">
+                    <div class="badge-position bg-green secondary-text text-white">
                         <i class="pi pi-verified red text-sm"></i>
                     </div>
                 } @else if (user?.verified === false) {
-                    <div
-                        class="badge-position secondary-text bg-red-800 text-white">
+                    <div class="badge-position secondary-text bg-red-800 text-white">
                         <i class="pi pi-times text-sm"></i>
                     </div>
                 }
@@ -54,8 +51,7 @@
 
             <span
                 class="secondary-text bg-gray-white-700 flex items-center rounded-sm bg-blue-100 px-2 py-0.5 text-sm font-medium text-blue-800">
-                <i class="pi pi-envelope secondary-text mr-2 text-sm"></i
-                >{{ user?.email }}
+                <i class="pi pi-envelope secondary-text mr-2 text-sm"></i>{{ user?.email }}
             </span>
         </div>
     </div>

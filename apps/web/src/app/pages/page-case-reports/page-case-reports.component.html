@@ -3,8 +3,7 @@
 </div>
 @let cases = caseListStateService.select('cases') | async;
 
-<div
-    class="my-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+<div class="my-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
     <div>
         <p-button
             styleClass="bg-green3"
@@ -26,11 +25,7 @@
                     field="caseTitle"
                     styleClass="search-field" />
             </form>
-            <p-button
-                variant="outlined"
-                styleClass="btn-search"
-                size="large"
-                icon="pi pi-search" />
+            <p-button variant="outlined" styleClass="btn-search" size="large" icon="pi pi-search" />
         </div>
         <p-button icon="pi pi-filter" label="Filters" styleClass="btn-filter" />
     </div>

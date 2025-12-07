@@ -80,9 +80,7 @@
 
     @if (loading) {
         <div class="flex items-center justify-center py-8">
-            <i
-                class="pi pi-spin pi-spinner"
-                style="font-size: 2rem; color: green"></i>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
         </div>
     } @else {
         @if (caseStateService.select('case') | async; as case) {
@@ -93,11 +91,9 @@
             <lib-no-data noDataMessage="No data found" />
         }
 
-        <div
-            class="mt-4 h-[1px] w-full bg-gray-200 dark:bg-[var(--color-gray-white-400)]"></div>
+        <div class="mt-4 h-[1px] w-full bg-gray-200 dark:bg-[var(--color-gray-white-400)]"></div>
 
-        <div
-            class="bg-color-container grid gap-4 rounded-2xl p-2 md:p-4 lg:grid-cols-[14rem_1fr]">
+        <div class="bg-color-container grid gap-4 rounded-2xl p-2 md:p-4 lg:grid-cols-[14rem_1fr]">
             <!-- Mobile Grid Menu -->
             <div class="my-4 lg:hidden">
                 <div class="grid grid-cols-4 gap-2">
@@ -111,20 +107,15 @@
                                 'bg-color-main secondary-text bg-gray-50 text-gray-600 hover:bg-green-50':
                                     selectedItem?.path !== item.path,
                             }">
-                            <i
-                                [class]="item.icon ?? 'pi pi-circle'"
-                                class="text-base"></i>
-                            <span class="mt-1 truncate font-semibold">{{
-                                item.title
-                            }}</span>
+                            <i [class]="item.icon ?? 'pi pi-circle'" class="text-base"></i>
+                            <span class="mt-1 truncate font-semibold">{{ item.title }}</span>
                         </button>
                     }
                 </div>
             </div>
 
             <!-- Sidebar (Only on Large Screens) -->
-            <div
-                class="border-gray hidden w-54 border-r border-gray-100 pr-4 lg:block">
+            <div class="border-gray hidden w-54 border-r border-gray-100 pr-4 lg:block">
                 <!-- <h1 class="text-gray-700/80 mb-2 ml-2 text-2xl font-semibold">
                 Case Overview
             </h1> -->
@@ -139,9 +130,7 @@
                                     [class]="item.icon ?? 'pi pi-circle'"
                                     class="secondary-text ml-1 text-xl text-gray-600"
                                     routerLinkActive="shadow-sm text-white"></i>
-                                <span class="font-medium">{{
-                                    item.title
-                                }}</span>
+                                <span class="font-medium">{{ item.title }}</span>
                             </a>
                         </li>
                     }

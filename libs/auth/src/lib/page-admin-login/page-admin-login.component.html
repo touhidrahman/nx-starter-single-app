@@ -7,8 +7,7 @@
         </div>
 
         @if (errors.length) {
-            <div
-                class="mb-4 rounded border-red-800 bg-red-100 p-4 text-red-800">
+            <div class="mb-4 rounded border-red-800 bg-red-100 p-4 text-red-800">
                 @for (error of errors; track $index) {
                     <p class="text-sm">{{ error }}</p>
                 }
@@ -16,9 +15,7 @@
         }
 
         <form (ngSubmit)="submit()" [formGroup]="loginFormService.form">
-            <label for="identifier" class="text-900 mb-2 block font-medium"
-                >Email</label
-            >
+            <label for="identifier" class="text-900 mb-2 block font-medium">Email</label>
             <input
                 id="identifier"
                 type="text"
@@ -34,9 +31,7 @@
                 <p class="text-xs text-red-700">Valid email required</p>
             }
 
-            <label for="password" class="text-900 mb-2 block font-medium"
-                >Password</label
-            >
+            <label for="password" class="text-900 mb-2 block font-medium">Password</label>
             <p-password
                 formControlName="password"
                 [toggleMask]="true"

@@ -11,8 +11,7 @@
             (searchSubmit)="onSearch($event)"
             (searchCleared)="onClearSearch()">
         </app-search-input>
-        <span
-            class="rounded-sm bg-purple-100 px-2.5 py-0.5 text-base font-medium text-purple-800"
+        <span class="rounded-sm bg-purple-100 px-2.5 py-0.5 text-base font-medium text-purple-800"
             >Total Users: {{ state?.totalItems }}</span
         >
         <app-admin-user-filter></app-admin-user-filter>
@@ -22,9 +21,7 @@
         <p-card>
             @if (loading) {
                 <div class="flex items-center justify-center py-8">
-                    <i
-                        class="pi pi-spin pi-spinner"
-                        style="font-size: 2rem; color: green"></i>
+                    <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
                 </div>
             } @else if (allUsers?.length) {
                 <p-table
@@ -63,15 +60,9 @@
                                 <th class="px-4 py-2 text-sm md:text-base">
                                     {{ col.label }}
 
-                                    @if (
-                                        col.value === 'createdAt' ||
-                                        col.value === 'lastLogin'
-                                    ) {
+                                    @if (col.value === 'createdAt' || col.value === 'lastLogin') {
                                         <span [pSortableColumn]="col.value">
-                                            <p-sortIcon
-                                                [field]="
-                                                    col.value
-                                                "></p-sortIcon>
+                                            <p-sortIcon [field]="col.value"></p-sortIcon>
                                         </span>
                                     }
                                 </th>
@@ -88,37 +79,23 @@
                                             {{ user.groupName | titlecase }}
                                         }
                                         @case ('name') {
-                                            {{
-                                                user.firstName +
-                                                    ' ' +
-                                                    user.lastName | titlecase
-                                            }}
+                                            {{ user.firstName + ' ' + user.lastName | titlecase }}
                                         }
                                         @case ('username') {
                                             {{ user.username }}
                                         }
                                         @case ('lastLogin') {
                                             <span class="text-sm">
-                                                {{
-                                                    user.lastLogin
-                                                        | date: 'short'
-                                                }}</span
+                                                {{ user.lastLogin | date: 'short' }}</span
                                             >
                                         }
                                         @case ('createdAt') {
                                             <span class="text-sm">
-                                                {{
-                                                    user.createdAt
-                                                        | date: 'short'
-                                                }}</span
+                                                {{ user.createdAt | date: 'short' }}</span
                                             >
                                         }
                                         @case ('contact') {
-                                            {{
-                                                user.email
-                                                    ? user.email
-                                                    : user.phone
-                                            }}
+                                            {{ user.email ? user.email : user.phone }}
                                         }
                                         @case ('address') {
                                             {{ user.city | titlecase }}
@@ -127,16 +104,10 @@
                                             <span
                                                 class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap uppercase"
                                                 [ngClass]="{
-                                                    'bg-red-100 text-red-800':
-                                                        !user.verified,
-                                                    'bg-purple-100 text-purple-800':
-                                                        user.verified,
+                                                    'bg-red-100 text-red-800': !user.verified,
+                                                    'bg-purple-100 text-purple-800': user.verified,
                                                 }">
-                                                {{
-                                                    user.verified
-                                                        ? 'Verified'
-                                                        : 'Unverified'
-                                                }}
+                                                {{ user.verified ? 'Verified' : 'Unverified' }}
                                             </span>
                                         }
                                         @case ('status') {
@@ -144,41 +115,31 @@
                                                 class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap"
                                                 [ngClass]="{
                                                     'bg-red-100 text-red-800':
-                                                        user.status ===
-                                                        'banned',
+                                                        user.status === 'banned',
                                                     'bg-pink-100 text-pink-800':
-                                                        user.status ===
-                                                        'inactive',
+                                                        user.status === 'inactive',
                                                     'bg-emerald-100 text-emerald-800':
-                                                        user.status ===
-                                                        'active',
+                                                        user.status === 'active',
                                                 }">
                                                 {{ user.status | uppercase }}
                                             </span>
                                         }
                                         @case ('actions') {
-                                            <div
-                                                class="flex space-x-1 whitespace-nowrap">
+                                            <div class="flex space-x-1 whitespace-nowrap">
                                                 <p-button
                                                     severity="success"
                                                     rounded="true"
                                                     size="small"
                                                     text="true"
                                                     icon="pi pi-pen-to-square"
-                                                    (click)="
-                                                        openEditUserDialog(user)
-                                                    " />
+                                                    (click)="openEditUserDialog(user)" />
                                                 <p-button
                                                     severity="danger"
                                                     rounded="true"
                                                     size="small"
                                                     text="true"
                                                     icon="pi pi-trash"
-                                                    (click)="
-                                                        openUserDeleteModal(
-                                                            user
-                                                        )
-                                                    " />
+                                                    (click)="openUserDeleteModal(user)" />
                                             </div>
                                         }
                                     }

@@ -1,7 +1,5 @@
 <section>
-    <h1 class="text-4xl font-semibold">
-        {{ title() ? 'Update' : 'Create' }} New News
-    </h1>
+    <h1 class="text-4xl font-semibold">{{ title() ? 'Update' : 'Create' }} New News</h1>
 
     <div class="my-5">
         <form>
@@ -11,11 +9,7 @@
             </div>
             <div class="mb-3 space-y-2">
                 <label>Blog Description</label>
-                <textarea
-                    rows="5"
-                    cols="30"
-                    pTextarea
-                    class="w-full"></textarea>
+                <textarea rows="5" cols="30" pTextarea class="w-full"></textarea>
             </div>
 
             <div class="mb-8 w-40">
@@ -31,9 +25,7 @@
             </div>
 
             <div>
-                <p-button class="font-bold">{{
-                    title() ? 'Update' : 'Save'
-                }}</p-button>
+                <p-button class="font-bold">{{ title() ? 'Update' : 'Save' }}</p-button>
             </div>
         </form>
     </div>

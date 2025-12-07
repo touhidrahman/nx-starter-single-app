@@ -4,9 +4,7 @@
     <div class="relative">
         @let allPlans = planStateService.select('plans') | async;
         <div class="mb-4 flex items-center justify-between">
-            <h3 class="primary-text pb-2 text-2xl font-bold text-gray-800">
-                All Plans
-            </h3>
+            <h3 class="primary-text pb-2 text-2xl font-bold text-gray-800">All Plans</h3>
             <div class="flex justify-center">
                 <p-selectbutton
                     [options]="stateOptions"

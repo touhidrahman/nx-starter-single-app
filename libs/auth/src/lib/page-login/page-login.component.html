@@ -1,16 +1,12 @@
-<div
-    class="animated-green-bg flex min-h-dvh items-center justify-center overflow-y-auto px-4">
-    <p-card
-        class="mx-4 w-full max-w-xl rounded-xl bg-white py-6 md:mx-auto xl:min-w-xl">
+<div class="animated-green-bg flex min-h-dvh items-center justify-center overflow-y-auto px-4">
+    <p-card class="mx-4 w-full max-w-xl rounded-xl bg-white py-6 md:mx-auto xl:min-w-xl">
         <div class="mb-3 text-center">
             <div
                 class="mb-2 bg-gradient-to-r from-green-500 via-emerald-500 to-green-800 bg-clip-text text-4xl font-extrabold text-transparent">
                 Welcome Back
             </div>
 
-            <span class="text-600 line-height-3 font-medium"
-                >Don't have an account?</span
-            >
+            <span class="text-600 line-height-3 font-medium">Don't have an account?</span>
             <a
                 [routerLink]="['/signup']"
                 class="ml-2 cursor-pointer font-medium text-green-500 no-underline"
@@ -27,9 +23,7 @@
         </div>
 
         <form (ngSubmit)="submit()" [formGroup]="loginFormService.form">
-            <label for="email1" class="text-900 mb-2 block font-medium">
-                Email/Phone
-            </label>
+            <label for="email1" class="text-900 mb-2 block font-medium"> Email/Phone </label>
             <p-iconfield>
                 <input
                     id="email1"
@@ -47,21 +41,14 @@
             </p-iconfield>
             <app-user-verification-button
                 [shouldShowVerifyButton]="shouldShowVerifyButton()"
-                [isLoading]="
-                    userVerificationStatusCheckService.isSendingVerification()
-                "
+                [isLoading]="userVerificationStatusCheckService.isSendingVerification()"
                 [isEmail]="userVerificationStatusCheckService.isEmail()"
                 (userVerify)="userVerify()" />
-            @if (
-                loginFormService.emailControl?.invalid &&
-                loginFormService.emailControl?.touched
-            ) {
+            @if (loginFormService.emailControl?.invalid && loginFormService.emailControl?.touched) {
                 <p class="text-xs text-red-700">Valid email is required</p>
             }
 
-            <label for="password1" class="text-900 mb-2 block font-medium"
-                >Password</label
-            >
+            <label for="password1" class="text-900 mb-2 block font-medium">Password</label>
             <p-password
                 formControlName="password"
                 class="mb-3 w-full"

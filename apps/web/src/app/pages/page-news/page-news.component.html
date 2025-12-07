@@ -20,15 +20,12 @@
     </section>
 
     <section>
-        <div
-            class="grid grid-cols-1 gap-6 py-20 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
+        <div class="grid grid-cols-1 gap-6 py-20 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
             <div class="col-span-5">
-                <div
-                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
                     @for (i of generalNews; track i; let index = $index) {
                         <div class="!rounded-full">
-                            <p-card
-                                class="mx-auto max-w-sm !rounded-full shadow-xl">
+                            <p-card class="mx-auto max-w-sm !rounded-full shadow-xl">
                                 <ng-template pTemplate="header">
                                     <img
                                         [src]="i.image"
@@ -46,9 +43,7 @@
                                 <ng-template pTemplate="content">
                                     <p class="!text-lg">
                                         {{ i.description }}
-                                        <span class="text-blue6d pt-1.5"
-                                            >Read more...</span
-                                        >
+                                        <span class="text-blue6d pt-1.5">Read more...</span>
                                     </p>
                                 </ng-template>
                             </p-card>
@@ -64,10 +59,7 @@
 
                 @for (i of topNews; track $index) {
                     <div class="flex items-center justify-start gap-3">
-                        <img
-                            [src]="i.image"
-                            alt=""
-                            class="h-20 w-24 rounded-xl" />
+                        <img [src]="i.image" alt="" class="h-20 w-24 rounded-xl" />
 
                         <div>
                             <p class="text-gray59 text-xs">{{ i.date }}</p>

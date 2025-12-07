@@ -22,8 +22,7 @@
         @let newsTicker = newsTickerStateService.select('newsTickers') | async;
 
         @if (user && isNewsTickerVisible()) {
-            <div
-                class="hidden items-center rounded-sm px-2 py-[2px] text-gray-400 xl:flex">
+            <div class="hidden items-center rounded-sm px-2 py-[2px] text-gray-400 xl:flex">
                 <app-news-ticker-carousel
                     class=""
                     [newsTicker]="newsTicker ?? []"
@@ -54,9 +53,7 @@
                                     {{ organization()?.name | textSlice: 40 }}
                                 </div>
                             </div>
-                            <i
-                                class="pi pi-chevron-down ml-2 text-xs"
-                                #orgChevron></i>
+                            <i class="pi pi-chevron-down ml-2 text-xs" #orgChevron></i>
                         </div>
                     </div>
 
@@ -65,22 +62,15 @@
                         <div
                             #orgDropdown
                             class="bg-gray-white-700 absolute top-12 left-4 z-10 flex w-72 flex-col rounded-md bg-white shadow-md">
-                            @let groupData =
-                                userGroupStateService.selectAll() | async;
+                            @let groupData = userGroupStateService.selectAll() | async;
                             @if (groupData?.loading) {
-                                <span class="secondary-text block px-1 py-1"
-                                    >Loading...</span
-                                >
+                                <span class="secondary-text block px-1 py-1">Loading...</span>
                             } @else {
-                                @for (
-                                    group of groupData?.groups;
-                                    track $index
-                                ) {
+                                @for (group of groupData?.groups; track $index) {
                                     <button
                                         [disabled]="
                                             isLoading() ||
-                                            this.authStateService.getGroupId() ===
-                                                group.id
+                                            this.authStateService.getGroupId() === group.id
                                         "
                                         (click)="onSwitchGroup(group.id)"
                                         class="secondary-text org-button flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700">
@@ -88,12 +78,8 @@
                                             <i
                                                 class="pi pi-spinner pi-spin secondary-text font-medium text-gray-700"></i>
                                         }
-                                        @if (
-                                            this.authStateService.getGroupId() ===
-                                            group.id
-                                        ) {
-                                            <i
-                                                class="pi pi-check-circle check-icon"></i>
+                                        @if (this.authStateService.getGroupId() === group.id) {
+                                            <i class="pi pi-check-circle check-icon"></i>
                                         }
                                         <span class="font-semibold">{{
                                             group.name | textSlice: 35
@@ -103,8 +89,7 @@
                                         @if (groupData?.hasVendorGroup) {
                                             <div
                                                 class="max-w-fit rounded-full border border-orange-100 bg-orange-50 px-2">
-                                                <h1
-                                                    class="text-xs font-bold text-orange-800">
+                                                <h1 class="text-xs font-bold text-orange-800">
                                                     Lawyer/law firm
                                                 </h1>
                                             </div>
@@ -124,8 +109,7 @@
                                     <button
                                         (click)="onNavigate('/create-profile')"
                                         class="org-button flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700 hover:bg-slate-200">
-                                        <span
-                                            class="pi pi-plus secondary-text font-medium"></span>
+                                        <span class="pi pi-plus secondary-text font-medium"></span>
                                         <span class="secondary-text text-sm"
                                             >Create organization</span
                                         >
@@ -135,8 +119,7 @@
                                     <button
                                         (click)="onNavigate('/create-profile')"
                                         class="flex w-full cursor-pointer items-center justify-start gap-2 px-3 py-2 text-gray-700 hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
-                                        <span
-                                            class="pi pi-plus secondary-text font-medium"></span>
+                                        <span class="pi pi-plus secondary-text font-medium"></span>
                                         <span class="secondary-text text-sm"
                                             >Create Client Organization</span
                                         >
@@ -160,9 +143,7 @@
 
             <div>
                 @let totalPermission =
-                    permissionRequestsListStateService.select(
-                        'totalUnreadRequests'
-                    ) | async;
+                    permissionRequestsListStateService.select('totalUnreadRequests') | async;
 
                 @if ((totalPermission ?? 0) >= 1) {
                     <p-overlay-badge
@@ -186,8 +167,7 @@
                 }
             </div>
 
-            @let profilePhoto =
-                profileStateService.select('profilePhotoUrl') | async;
+            @let profilePhoto = profileStateService.select('profilePhotoUrl') | async;
             <div (click)="onViewDropDown()">
                 <user-login-status
                     [user]="user?.firstName + ' ' + user?.lastName"
@@ -206,11 +186,8 @@
                         {{ profile?.firstName }}
                         {{ profile?.lastName }}
                     </span>
-                    <span
-                        class="text-green1g -mt-1 block text-xs font-semibold">
-                        <i
-                            style="font-size: 0.7rem"
-                            class="pi pi-building mr-1"></i
+                    <span class="text-green1g -mt-1 block text-xs font-semibold">
+                        <i style="font-size: 0.7rem" class="pi pi-building mr-1"></i
                         >{{ organization()?.name | textSlice: 40 }}
                     </span>
                 </span>
@@ -220,8 +197,7 @@
                 <button
                     class="secondary-text flex cursor-pointer items-center justify-start gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]"
                     (click)="onNavigate('/profile')">
-                    <i
-                        class="pi pi-user secondary-text font-medium text-black"></i>
+                    <i class="pi pi-user secondary-text font-medium text-black"></i>
                     Profile
                 </button>
 
@@ -230,8 +206,7 @@
                         class="group flex cursor-pointer items-center justify-between gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]"
                         (click)="onUpgradeSubscription(subscriptionPlanId())">
                         <div class="secondary-text flex items-center gap-2">
-                            <i
-                                class="pi pi-briefcase secondary-text font-medium text-black"></i>
+                            <i class="pi pi-briefcase secondary-text font-medium text-black"></i>
                             <p>Subscription</p>
                         </div>
 
@@ -244,8 +219,7 @@
                 <button
                     (click)="onNavigate('/dashboard/settings')"
                     class="secondary-text flex cursor-pointer items-center justify-start gap-2 px-3 py-2 leading-relaxed transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
-                    <i
-                        class="pi pi-cog secondary-text font-medium text-black"></i>
+                    <i class="pi pi-cog secondary-text font-medium text-black"></i>
                     Settings
                 </button>
 
@@ -253,8 +227,7 @@
 
                 @if (groupType() === 'vendor') {
                     <div class="px-3 py-3">
-                        <p
-                            class="secondary-text mb-2 text-sm font-medium text-gray-800">
+                        <p class="secondary-text mb-2 text-sm font-medium text-gray-800">
                             Are you a lawyer?
                             {{ user?.groupType }}
                         </p>
@@ -289,20 +262,15 @@
                     </button>
 
                     @let groupData = userGroupStateService.selectAll() | async;
-                    <div
-                        class="mt-0 h-0 overflow-hidden transition-all duration-400"
-                        #moreOptions>
+                    <div class="mt-0 h-0 overflow-hidden transition-all duration-400" #moreOptions>
                         @if (groupData?.loading) {
-                            <span class="secondary-text block px-3"
-                                >Loading...</span
-                            >
+                            <span class="secondary-text block px-3">Loading...</span>
                         } @else {
                             @for (group of groupData?.groups; track $index) {
                                 <button
                                     [disabled]="
                                         isLoading() ||
-                                        this.authStateService.getGroupId() ===
-                                            group.id
+                                        this.authStateService.getGroupId() === group.id
                                     "
                                     (click)="onSwitchGroup(group.id)"
                                     class="secondary-text flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
@@ -315,10 +283,7 @@
                                     }
 
                                     {{ group.name | textSlice: 20 }}
-                                    @if (
-                                        this.authStateService.getGroupId() ===
-                                        group.id
-                                    ) {
+                                    @if (this.authStateService.getGroupId() === group.id) {
                                         <i
                                             class="pi pi-check-circle text-green3 secondary-text m-0 text-xs"></i>
                                     }
@@ -328,22 +293,16 @@
                                 <button
                                     (click)="onNavigate('/create-profile')"
                                     class="flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
-                                    <span
-                                        class="pi pi-plus secondary-text font-medium"></span>
-                                    <span class="secondary-text">
-                                        Create organization</span
-                                    >
+                                    <span class="pi pi-plus secondary-text font-medium"></span>
+                                    <span class="secondary-text"> Create organization</span>
                                 </button>
                             }
                             @if (!groupData?.hasClientGroup) {
                                 <button
                                     (click)="onNavigate('/create-profile')"
                                     class="flex w-full items-center justify-start gap-2 pr-3 pl-4 leading-loose text-gray-700 transition-all hover:bg-slate-200 dark:hover:bg-[var(--color-gray-white-800)]">
-                                    <span
-                                        class="secondary-text pi pi-plus font-medium"></span>
-                                    <span class="secondary-text">
-                                        Create Client</span
-                                    >
+                                    <span class="secondary-text pi pi-plus font-medium"></span>
+                                    <span class="secondary-text"> Create Client</span>
                                 </button>
                             }
                         }

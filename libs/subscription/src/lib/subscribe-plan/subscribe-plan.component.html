@@ -5,28 +5,20 @@
         </div>
         <div class="col-span-12 lg:col-span-8">
             <div class="mb-4">
-                <h6 class="primary-text mb-3 text-2xl font-semibold">
-                    Review plan details
-                </h6>
+                <h6 class="primary-text mb-3 text-2xl font-semibold">Review plan details</h6>
                 <ul>
                     <li class="secondary-text flex justify-between">
                         Package price :
                         <span>
                             {{
-                                isYearly() === 'yearly'
-                                    ? plan()?.yearlyPrice
-                                    : plan()?.monthlyPrice
+                                isYearly() === 'yearly' ? plan()?.yearlyPrice : plan()?.monthlyPrice
                             }}
                             BDT</span
                         >
                     </li>
                     <li class="secondary-text flex justify-between">
                         Package Type :
-                        <span>
-                            {{
-                                isYearly() === 'yearly' ? 'Yearly' : 'Monthly'
-                            }}</span
-                        >
+                        <span> {{ isYearly() === 'yearly' ? 'Yearly' : 'Monthly' }}</span>
                     </li>
                 </ul>
                 <div class="mt-4 text-center">
@@ -37,14 +29,12 @@
                     >
                 </div>
             </div>
-            <app-subscription-form-user
-                [subscribePlan]="plan()"
-                [subscriptionTypes]="isYearly()" />
+            <app-subscription-form-user [subscribePlan]="plan()" [subscriptionTypes]="isYearly()" />
             <div class="mt-4 text-center">
                 <span
                     class="payment-system secondary-text rounded-sm bg-green-100 px-2.5 py-0.5 text-base font-normal text-green-800">
-                    Please Manually pay the amount to bKash number, And send
-                    payment's Phone number and tarnation ID.
+                    Please Manually pay the amount to bKash number, And send payment's Phone number
+                    and tarnation ID.
                 </span>
             </div>
         </div>

@@ -2,9 +2,7 @@
     <p>
         Are you sure you want to active new
         <strong>
-            {{ config.data.planName ?? '' }} ({{
-                config.data.subscriptionType ?? ''
-            }})
+            {{ config.data.planName ?? '' }} ({{ config.data.subscriptionType ?? '' }})
         </strong>
         package for <strong>{{ config.data.groupName ?? '' }}</strong
         >?
@@ -13,11 +11,7 @@
 <app-math-verification (verified)="onVerified($event)" />
 
 <div class="mt-4 flex justify-end gap-3">
-    <p-button
-        label="Cancel"
-        size="small"
-        severity="secondary"
-        (click)="onCloseModal()" />
+    <p-button label="Cancel" size="small" severity="secondary" (click)="onCloseModal()" />
 
     <p-button
         [disabled]="!isMathVerified()"

@@ -102,14 +102,12 @@
                     <div class="relative top-0 z-50 px-8 py-2">
                         <div class="flex items-center justify-between py-5">
                             <div>
-                                <h4
-                                    class="text-3xl leading-loose font-semibold text-white">
+                                <h4 class="text-3xl leading-loose font-semibold text-white">
                                     Understanding Intellectual Property Law
                                 </h4>
                                 <p class="text-graye0 text-xl">
-                                    An in-depth look at the different types of
-                                    intellectual property and how they can
-                                    protect your creations.
+                                    An in-depth look at the different types of intellectual property
+                                    and how they can protect your creations.
                                 </p>
                             </div>
 
@@ -130,8 +128,7 @@
                         <div class="flex items-center justify-between py-5">
                             <div
                                 class="flex flex-col items-center justify-start gap-4 sm:flex-row sm:gap-4 md:gap-4 lg:gap-8 xl:gap-10">
-                                <div
-                                    class="flex items-center justify-start gap-2">
+                                <div class="flex items-center justify-start gap-2">
                                     <img
                                         src="https://cdn3.vectorstock.com/i/1000x1000/50/27/lawyer-icon-male-user-person-profile-avatar-vector-20905027.jpg"
                                         alt=""
@@ -139,8 +136,7 @@
                                     <p class="text-xl text-white">John Doe</p>
                                 </div>
 
-                                <div
-                                    class="flex items-center justify-start gap-2">
+                                <div class="flex items-center justify-start gap-2">
                                     <span
                                         class="border-graye0 inline-block rounded-full border p-2">
                                         <svg
@@ -154,9 +150,7 @@
                                                 fill="#E0E0E0" />
                                         </svg>
                                     </span>
-                                    <p class="text-xl text-white">
-                                        Oct 25, 2924
-                                    </p>
+                                    <p class="text-xl text-white">Oct 25, 2924</p>
                                 </div>
                             </div>
 
@@ -189,9 +183,7 @@
                     <div class="mb-2 flex items-center justify-between gap-3">
                         <p-tablist class="border-b-2">
                             @for (tab of tabTags; track $index) {
-                                <p-tab [value]="$index" class="">{{
-                                    tab
-                                }}</p-tab>
+                                <p-tab [value]="$index" class="">{{ tab }}</p-tab>
                             }
                             <!-- <div>
                                 <span class="text-gray47 text-xl">
@@ -208,8 +200,7 @@
                                 </span>
                             </div>  -->
                         </p-tablist>
-                        <div
-                            class="hidden items-center justify-center gap-2.5 md:flex">
+                        <div class="hidden items-center justify-center gap-2.5 md:flex">
                             <input
                                 class="hidden h-11 w-72 rounded-xl bg-white px-3 shadow-sm shadow-black/20 lg:inline-block"
                                 pInputText
@@ -235,25 +226,18 @@
                     <p-tabpanels class="!bg-inherit !px-0 !pt-5">
                         @for (tab of tabTags; track $index) {
                             <p-tabpanel [value]="$index">
-                                <div
-                                    class="grid gap-5 md:grid-cols-8 lg:grid-cols-12">
+                                <div class="grid gap-5 md:grid-cols-8 lg:grid-cols-12">
                                     @for (i of data; track $index) {
                                         @if (i.tabTag.includes(tab)) {
-                                            <div
-                                                class="col-span-4 rounded-md bg-white shadow-md">
+                                            <div class="col-span-4 rounded-md bg-white shadow-md">
                                                 <img
                                                     [src]="i.image"
                                                     alt=""
                                                     class="h-56 w-full rounded-2xl p-3" />
                                                 <div class="p-4">
-                                                    <div
-                                                        class="flex justify-start gap-2">
-                                                        @for (
-                                                            tag of i.tags;
-                                                            track $index
-                                                        ) {
-                                                            <div
-                                                                class="flex justify-start gap-2">
+                                                    <div class="flex justify-start gap-2">
+                                                        @for (tag of i.tags; track $index) {
+                                                            <div class="flex justify-start gap-2">
                                                                 <span
                                                                     class="border-gray59 text-gray59 inline-block rounded-full border px-4 text-sm"
                                                                     >{{ tag }}
@@ -272,23 +256,18 @@
                                                             {{ i.description }}
                                                         </p>
                                                     </div>
-                                                    <div
-                                                        class="flex items-center justify-between">
+                                                    <div class="flex items-center justify-between">
                                                         <div
                                                             class="flex items-center justify-start gap-4">
                                                             <div
                                                                 class="flex items-center justify-start gap-2.5">
                                                                 <img
-                                                                    [src]="
-                                                                        i.avatorImage
-                                                                    "
+                                                                    [src]="i.avatorImage"
                                                                     alt=""
                                                                     class="h-9 w-9 rounded-full" />
                                                                 <span
                                                                     class="text-gray59 text-xs font-semibold"
-                                                                    >{{
-                                                                        i.name
-                                                                    }}</span
+                                                                    >{{ i.name }}</span
                                                                 >
                                                             </div>
                                                             <div
@@ -308,9 +287,7 @@
                                                                 </span>
                                                                 <span
                                                                     class="text-gray59 text-xs font-semibold"
-                                                                    >{{
-                                                                        i.date
-                                                                    }}</span
+                                                                    >{{ i.date }}</span
                                                                 >
                                                             </div>
                                                         </div>

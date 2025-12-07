@@ -60,20 +60,14 @@
                 <div class="m-0 w-56 p-0">
                     <button
                         class="flex w-full items-center justify-between px-3 leading-relaxed transition-all hover:bg-slate-200"
-                        (click)="
-                            headerUtilService.toggleMoreOptions(
-                                moreOptions,
-                                chevron
-                            )
-                        ">
+                        (click)="headerUtilService.toggleMoreOptions(moreOptions, chevron)">
                         <span class="flex items-center justify-start gap-2">
                             <span>
                                 <!-- <lucide-icon
                                     name="headset"
                                     hlmMenuIcon
                                     class="m-0" /> -->
-                                <span
-                                    class="pi pi-headphones font-medium text-black"></span>
+                                <span class="pi pi-headphones font-medium text-black"></span>
                             </span>
                             <span>Support</span>
                         </span>
@@ -82,20 +76,16 @@
                             #chevron></span>
                     </button>
 
-                    <div
-                        class="mt-3 h-0 overflow-hidden transition-all duration-400"
-                        #moreOptions>
+                    <div class="mt-3 h-0 overflow-hidden transition-all duration-400" #moreOptions>
                         <button
                             class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
-                            <span
-                                class="pi pi-envelope font-medium text-black"></span>
+                            <span class="pi pi-envelope font-medium text-black"></span>
                             <span>Email</span>
                         </button>
 
                         <button
                             class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
-                            <span
-                                class="pi pi-comment font-medium text-black"></span>
+                            <span class="pi pi-comment font-medium text-black"></span>
                             <span>Message</span>
                         </button>
                         <button

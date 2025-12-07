@@ -7,8 +7,7 @@
         <app-client-case-details [caseId]="id ?? ''"></app-client-case-details>
 
         <!-- Sidebar (Only on Large Screens) -->
-        <div
-            class="bg-gray-white-400 my-6 mt-4 h-[1px] w-full bg-gray-200"></div>
+        <div class="bg-gray-white-400 my-6 mt-4 h-[1px] w-full bg-gray-200"></div>
 
         <div class="mt-4 grid gap-4 lg:grid-cols-[14rem_1fr]">
             <!-- Mobile Grid Menu -->
@@ -27,16 +26,14 @@
                             <i
                                 [class]="item.icon ?? 'pi pi-circle'"
                                 class="secondary-text text-base"></i>
-                            <span
-                                class="secondary-text mt-1 truncate font-semibold"
-                                >{{ item.title }}</span
-                            >
+                            <span class="secondary-text mt-1 truncate font-semibold">{{
+                                item.title
+                            }}</span>
                         </button>
                     }
                 </div>
             </div>
-            <div
-                class="border-gray hidden w-54 border-r border-gray-100 pr-4 lg:block">
+            <div class="border-gray hidden w-54 border-r border-gray-100 pr-4 lg:block">
                 <ul>
                     @for (item of caseDetailsRoutesData; track item.path) {
                         <li>
@@ -48,9 +45,7 @@
                                     [class]="item.icon ?? 'pi pi-circle'"
                                     class="secondary-text ml-1 text-xl text-gray-600"
                                     routerLinkActive="shadow-sm text-white"></i>
-                                <span class="secondary-text font-medium">{{
-                                    item.title
-                                }}</span>
+                                <span class="secondary-text font-medium">{{ item.title }}</span>
                             </a>
                         </li>
                     }

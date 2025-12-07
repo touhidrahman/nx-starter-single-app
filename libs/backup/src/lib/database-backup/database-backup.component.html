@@ -1,9 +1,7 @@
 <div class="items-container mt-4 hidden lg:block">
     @if (isLoading()) {
         <div class="flex items-center justify-center py-8">
-            <i
-                class="pi pi-spin pi-spinner"
-                style="font-size: 2rem; color: green"></i>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
         </div>
     } @else if (databaseBackups().length) {
         <p-table

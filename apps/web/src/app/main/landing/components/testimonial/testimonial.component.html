@@ -1,8 +1,6 @@
 <section class="relative py-12">
     <app-section-title>
-        <span class="text-gray3e title text-xl sm:text-2xl"
-            >What people say</span
-        >
+        <span class="text-gray3e title text-xl sm:text-2xl">What people say</span>
         <svg
             class="title-icon"
             width="22"
@@ -34,9 +32,7 @@
             <ng-template let-testimonial pTemplate="item">
                 <div
                     class="border-surface-200 bg-greenSecondary m-2 flex flex-col items-center justify-center rounded-xl border p-6">
-                    <div class="mb-4 text-lg italic">
-                        “{{ testimonial.speech }}”
-                    </div>
+                    <div class="mb-4 text-lg italic">“{{ testimonial.speech }}”</div>
                     <div class="mt-6 flex items-center">
                         <img
                             [src]="testimonial.image"

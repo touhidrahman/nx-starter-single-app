@@ -79,29 +79,20 @@
             class="flex h-full flex-col rounded-xl border border-gray-200"
             [ngClass]="plans.length > 1 ? 'lg:col-span-1' : 'lg:col-span-3'">
             <div class="flex flex-1 flex-col justify-between">
-                <h3
-                    class="primary-text px-4 py-4 text-2xl font-bold tracking-wide text-gray-600">
+                <h3 class="primary-text px-4 py-4 text-2xl font-bold tracking-wide text-gray-600">
                     {{ item.name }}
                 </h3>
                 <div class="mb-4 px-4 pt-4">
                     <div
                         class="secondary-text flex items-baseline text-3xl font-extrabold text-emerald-700">
                         @if (isYearly() === 'yearly') {
-                            {{
-                                item.yearlyPrice
-                                    | currency: '৳' : 'symbol' : '1.0-0'
-                            }}
-                            <span
-                                class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
+                            {{ item.yearlyPrice | currency: '৳' : 'symbol' : '1.0-0' }}
+                            <span class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
                                 >/year</span
                             >
                         } @else {
-                            {{
-                                item.monthlyPrice
-                                    | currency: '৳' : 'symbol' : '1.0-0'
-                            }}
-                            <span
-                                class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
+                            {{ item.monthlyPrice | currency: '৳' : 'symbol' : '1.0-0' }}
+                            <span class="secondary-text-2 ml-2 text-lg font-medium text-gray-600"
                                 >/month</span
                             >
                         }
@@ -112,9 +103,7 @@
                 </div>
                 <div class="px-4 pb-4">
                     <p-button
-                        [label]="
-                            plans.length > 1 ? 'Select Plan' : 'Get Started'
-                        "
+                        [label]="plans.length > 1 ? 'Select Plan' : 'Get Started'"
                         styleClass="bg-primary border-0 w-full"
                         [disabled]="currentPlan()?.name == item.name"
                         (click)="changePlan(item)" />
@@ -126,24 +115,17 @@
                 <ul role="list" class="space-y-2 text-base">
                     @for (activeFeature of item.activeFeatures; track $index) {
                         <li class="flex items-center">
-                            <i
-                                class="pi pi-check-circle secondary-text text-green-500"></i>
-                            <p
-                                class="secondary-text ml-2 text-sm text-gray-600">
+                            <i class="pi pi-check-circle secondary-text text-green-500"></i>
+                            <p class="secondary-text ml-2 text-sm text-gray-600">
                                 {{ activeFeature }}
                             </p>
                         </li>
                     }
 
-                    @for (
-                        inactiveFeature of item.inactiveFeatures;
-                        track $index
-                    ) {
+                    @for (inactiveFeature of item.inactiveFeatures; track $index) {
                         <li class="flex items-center">
-                            <i
-                                class="pi pi-ban secondary-text-2 text-red-400"></i>
-                            <p
-                                class="secondary-text-2 ml-2 text-sm text-gray-600 line-through">
+                            <i class="pi pi-ban secondary-text-2 text-red-400"></i>
+                            <p class="secondary-text-2 ml-2 text-sm text-gray-600 line-through">
                                 {{ inactiveFeature }}
                             </p>
                         </li>

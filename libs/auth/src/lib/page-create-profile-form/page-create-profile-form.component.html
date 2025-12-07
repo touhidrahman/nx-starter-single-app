@@ -36,8 +36,7 @@
             </h2>
 
             @if (error.length) {
-                <div
-                    class="mb-2 rounded border-2 border-red-700 bg-red-200 p-4">
+                <div class="mb-2 rounded border-2 border-red-700 bg-red-200 p-4">
                     <div class="text-sm text-red-700">{{ error }}</div>
                 </div>
             }
@@ -45,8 +44,7 @@
             <form [formGroup]="groupFormService.form">
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-12">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
+                        <label class="mb-2 block text-sm font-medium text-gray-700"
                             >Organization Name</label
                         >
                         <input
@@ -56,8 +54,7 @@
                             required />
                     </div>
                     <div class="col-span-12">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
+                        <label class="mb-2 block text-sm font-medium text-gray-700"
                             >Organization Email</label
                         >
                         <input
@@ -67,48 +64,35 @@
                             required />
                     </div>
                     <div class="col-span-12">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
-                            >Address</label
-                        >
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Address</label>
                         <input
                             type="text"
                             class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
                             formControlName="address" />
                     </div>
                     <div class="col-span-12 md:col-span-6">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
-                            >Phone</label
-                        >
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Phone</label>
                         <input
                             type="text"
                             class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
                             formControlName="phone" />
                     </div>
                     <div class="col-span-12 md:col-span-6">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
-                            >City</label
-                        >
+                        <label class="mb-2 block text-sm font-medium text-gray-700">City</label>
                         <input
                             type="text"
                             class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
                             formControlName="city" />
                     </div>
                     <div class="col-span-12 md:col-span-6">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
-                            >Country</label
-                        >
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Country</label>
                         <input
                             type="text"
                             class="bg-color-main w-full rounded-lg border border-gray-200 px-4 py-2 shadow-sm focus:ring focus:ring-blue-300 focus:outline-none dark:border-none"
                             formControlName="country" />
                     </div>
                     <div class="col-span-12 md:col-span-6">
-                        <label
-                            class="mb-2 block text-sm font-medium text-gray-700"
+                        <label class="mb-2 block text-sm font-medium text-gray-700"
                             >Post code</label
                         >
                         <input

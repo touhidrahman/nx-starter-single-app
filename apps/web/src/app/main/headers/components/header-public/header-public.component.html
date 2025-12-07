@@ -1,8 +1,6 @@
 <nav
     class="header-class sticky top-0 z-[100] w-full overflow-x-clip bg-white pb-2 text-neutral-800 transition-all duration-300"
-    [class]="
-        scrollService.isScrolled() ? 'bg-color-header bg-white shadow-md' : ''
-    "
+    [class]="scrollService.isScrolled() ? 'bg-color-header bg-white shadow-md' : ''"
     role="navigation"
     aria-label="Main Navigation">
     <div class="mx-4 flex items-center justify-between py-2 md:mx-16">
@@ -15,9 +13,7 @@
                     aria-label="Toggle main menu">
                     <i
                         class="pi text-2xl"
-                        [ngClass]="
-                            headerService.menuOpen() ? 'pi-times' : 'pi-bars'
-                        "></i>
+                        [ngClass]="headerService.menuOpen() ? 'pi-times' : 'pi-bars'"></i>
                 </button>
             }
 
@@ -36,14 +32,11 @@
 
         <!-- Center Navigation -->
         @if (headerService.isHomePage()) {
-            <div
-                class="order-2 hidden items-center justify-between md:flex md:gap-5 lg:gap-10">
+            <div class="order-2 hidden items-center justify-between md:flex md:gap-5 lg:gap-10">
                 @for (link of headerRoutesData; track link.id) {
                     <a
                         class="relative block cursor-pointer text-lg text-gray-700 after:absolute after:bottom-[-6px] after:left-0 after:h-[4px] after:w-0 after:bg-[#16a34a] after:transition-all after:duration-500 after:ease-linear after:[clip-path:polygon(0_0,calc(100%-2px)_0,100%_100%,0_100%)] hover:after:w-[85%]"
-                        [class.active-link]="
-                            scrollService.activeSection() === link.id
-                        "
+                        [class.active-link]="scrollService.activeSection() === link.id"
                         (click)="navigateToFragment(link.id)"
                         title="{{ link.title }} section link">
                         {{ link.title }}
@@ -54,8 +47,7 @@
 
         <!-- Right Section -->
         @let user = headerAuthService.auth.select('user') | async;
-        @let profilePhoto =
-            profileStateService.select('profilePhotoUrl') | async;
+        @let profilePhoto = profileStateService.select('profilePhotoUrl') | async;
 
         <div class="order-3 flex items-center gap-4">
             @if (headerAuthService.auth.isLoggedIn()) {
@@ -78,9 +70,7 @@
                         <user-login-status
                             [user]="user?.firstName + ' ' + user?.lastName"
                             [profilePhoto]="profilePhoto ?? ''"
-                            [userEmail]="
-                                headerAuthService.auth.getUserEmail() ?? ''
-                            " />
+                            [userEmail]="headerAuthService.auth.getUserEmail() ?? ''" />
                     </div>
                 </div>
             } @else {
@@ -122,12 +112,8 @@
             @for (link of headerRoutesData; track link.id) {
                 <a
                     class="hover:text-green block cursor-pointer text-lg font-medium"
-                    [class.text-green-600]="
-                        scrollService.activeSection() === link.id
-                    "
-                    [class.font-semibold]="
-                        scrollService.activeSection() === link.id
-                    "
+                    [class.text-green-600]="scrollService.activeSection() === link.id"
+                    [class.font-semibold]="scrollService.activeSection() === link.id"
                     (click)="navigateToFragment(link.id)"
                     title="{{ link.title }} section link">
                     {{ link.title }}

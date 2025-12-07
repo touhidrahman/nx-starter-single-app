@@ -8,9 +8,7 @@
             </h5>
             <p-tag severity="success" [value]="group.status" />
             <p-button
-                [icon]="
-                    !editMode() ? 'pi pi-pen-to-square' : 'pi pi-angle-left'
-                "
+                [icon]="!editMode() ? 'pi pi-pen-to-square' : 'pi pi-angle-left'"
                 severity="secondary"
                 rounded="true"
                 (onClick)="editMode.set(!editMode())">

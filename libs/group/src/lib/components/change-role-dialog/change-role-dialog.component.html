@@ -1,7 +1,5 @@
 <div class="grid">
-    <label for="role" class="w-24 pb-2 pl-[2px] font-semibold">
-        Select Role
-    </label>
+    <label for="role" class="w-24 pb-2 pl-[2px] font-semibold"> Select Role </label>
 
     <p-select
         class="mt-2 w-full"
@@ -21,13 +19,11 @@
                     <span class="block truncate whitespace-normal">
                         {{ option.label }}
                         @if (option.isDefaultRole) {
-                            <i
-                                class="pi pi-star-fill text-xs text-[#f97316]"></i>
+                            <i class="pi pi-star-fill text-xs text-[#f97316]"></i>
                         }
                     </span>
                     @if (option.isDefaultRole) {
-                        <span
-                            class="block truncate text-xs whitespace-normal text-gray-500">
+                        <span class="block truncate text-xs whitespace-normal text-gray-500">
                             Default role, cannot be modified
                         </span>
                     }
@@ -47,8 +43,7 @@
 </div>
 
 <div class="mt-4 flex justify-end gap-2">
-    <p-button (click)="closeDialog()" label="Cancel" severity="secondary">
-    </p-button>
+    <p-button (click)="closeDialog()" label="Cancel" severity="secondary"> </p-button>
     <p-button
         (click)="saveRole()"
         styleClass="bg-green3"

@@ -1,17 +1,13 @@
-@let permissionRequests =
-    permissionRequestsListStateService.select('permissionRequests') | async;
+@let permissionRequests = permissionRequestsListStateService.select('permissionRequests') | async;
 @let isLoading = permissionRequestsListStateService.select('loading') | async;
 
 @if (isLoading) {
     <div class="flex items-center justify-center py-8">
-        <i
-            class="pi pi-spin pi-spinner"
-            style="font-size: 2rem; color: green"></i>
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
     </div>
 } @else if (permissionRequests && permissionRequests.length > 0) {
     <div class="h-56 overflow-y-scroll">
-        <ul
-            class="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900">
+        <ul class="rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900">
             @for (permission of permissionRequests; track $index) {
                 <li
                     class="flex w-full items-center justify-between rounded-t-lg border-b border-gray-200 px-4 py-2"
@@ -19,17 +15,14 @@
                     <p>
                         <span class="inline-block text-sm">
                             {{ permission.user }} has requested
-                            <b class="font-extrabold">
-                                {{ permission.claim }}</b
-                            >
+                            <b class="font-extrabold"> {{ permission.claim }}</b>
                             permission for
                             <b class="font-extrabold"> {{ permission.role }}</b>
                             role.
                         </span>
-                        <span
-                            class="inline-block text-sm font-light text-gray-500"
-                            >If approved, the permission will be applied to all
-                            the users of {{ permission.role }}.
+                        <span class="inline-block text-sm font-light text-gray-500"
+                            >If approved, the permission will be applied to all the users of
+                            {{ permission.role }}.
                         </span>
                     </p>
                     <div class="flex items-center gap-4">
