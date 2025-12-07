@@ -24,10 +24,7 @@ export class ProfileApiService {
     uploadProfilePic(file: File) {
         const formData = new FormData()
         formData.append('file', file)
-        return this.http.post<ApiResponse<User>>(
-            `${this.apiUrl}/upload-profile-picture`,
-            formData,
-        )
+        return this.http.post<ApiResponse<User>>(`${this.apiUrl}/upload-profile-picture`, formData)
     }
 
     deleteProfilePic(): Observable<ApiResponse<User>> {

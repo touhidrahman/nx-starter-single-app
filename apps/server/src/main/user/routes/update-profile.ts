@@ -25,9 +25,9 @@ export const updateUserProfileRoute = createRoute({
     },
 })
 
-export const updateUserProfileHandler: AppRouteHandler<
-    typeof updateUserProfileRoute
-> = async (c) => {
+export const updateUserProfileHandler: AppRouteHandler<typeof updateUserProfileRoute> = async (
+    c,
+) => {
     const body = c.req.valid('json')
     const userPayload = await c.get('jwtPayload')
     const userId = userPayload?.sub
@@ -49,10 +49,7 @@ export const updateUserProfileHandler: AppRouteHandler<
     })
 
     if (!updatedUser) {
-        return c.json(
-            { success: false, message: 'User not found', data: {} },
-            NOT_FOUND,
-        )
+        return c.json({ success: false, message: 'User not found', data: {} }, NOT_FOUND)
     }
 
     return c.json(

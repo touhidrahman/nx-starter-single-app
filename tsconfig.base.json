@@ -21,18 +21,12 @@
             "@repo/common-components": ["libs/common-components/src/index.ts"],
             "@repo/common-directives": ["libs/common-directives/src/index.ts"],
             "@repo/common-models": ["libs/common-models/src/index.ts"],
-            "@repo/common-page-layouts": [
-                "libs/common-page-layouts/src/index.ts"
-            ],
+            "@repo/common-page-layouts": ["libs/common-page-layouts/src/index.ts"],
             "@repo/common-pipes": ["libs/common-pipes/src/index.ts"],
             "@repo/common-services": ["libs/common-services/src/index.ts"],
             "@repo/common-util": ["libs/common-util/src/index.ts"],
-            "@repo/native-devices-util": [
-                "libs/native-devices-util/src/index.ts"
-            ],
-            "@repo/permission-request": [
-                "libs/permission-request/src/index.ts"
-            ],
+            "@repo/native-devices-util": ["libs/native-devices-util/src/index.ts"],
+            "@repo/permission-request": ["libs/permission-request/src/index.ts"],
             "@repo/prime-modules": ["libs/prime-modules/src/index.ts"],
             "@repo/audit-log": ["libs/audit-log/src/index.ts"],
             "@repo/auth": ["libs/auth/src/index.ts"],

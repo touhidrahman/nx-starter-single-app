@@ -37,9 +37,7 @@ const SuccessEmailContent = (_props: SuccessEmailTemplateProps) => {
     `
 }
 
-export function buildSuccessEmailTemplate(
-    props: SuccessEmailTemplateProps,
-): string {
+export function buildSuccessEmailTemplate(props: SuccessEmailTemplateProps): string {
     return new EmailTemplateBuilder<SuccessEmailTemplateProps>()
         .setBodyTemplate(SuccessEmailContent(props))
         .build(props)

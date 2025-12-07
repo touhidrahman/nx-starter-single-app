@@ -15,9 +15,7 @@ export class StateSubject<T> extends BehaviorSubject<T> {
     }
 
     get value$(): Observable<T> {
-        return super
-            .asObservable()
-            .pipe(distinctUntilChanged((a, b) => isEqual(a, b)))
+        return super.asObservable().pipe(distinctUntilChanged((a, b) => isEqual(a, b)))
     }
 
     update(value: T): void {

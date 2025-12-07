@@ -1,11 +1,7 @@
 import { z } from 'zod'
 import { accountTypesTable } from '../../../db/schema'
 import { zPagination, zSearch } from '../../../models/common.schema'
-import {
-    createInsertSchema,
-    createSelectSchema,
-    createUpdateSchema,
-} from '../../../utils/zod.util'
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from '../../../utils/zod.util'
 
 export type InsertAccountType = z.infer<typeof zInsertAccountType>
 export type SelectAccountType = z.infer<typeof zSelectAccountType>

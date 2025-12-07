@@ -15,19 +15,14 @@ export class UserCrudService extends UserCoreService {
         return UserCoreService.create(value)
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertUser>,
-    ): Promise<SelectUser> {
+    static async update(id: string, input: Partial<InsertUser>): Promise<SelectUser> {
         if (input.password) {
             input.password = await CryptoService.hashPassword(input.password)
         }
         return UserCoreService.update(id, input)
     }
 
-    static async findByEmailOrUsername(
-        emailOrUsername: string,
-    ): Promise<SelectUser | null> {
+    static async findByEmailOrUsername(emailOrUsername: string): Promise<SelectUser | null> {
         const res = await db.query.usersTable.findFirst({
             where: or(
                 eq(lower(usersTable.email), emailOrUsername.toLowerCase()),

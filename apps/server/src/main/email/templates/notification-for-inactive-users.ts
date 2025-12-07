@@ -70,9 +70,7 @@ const InactiveUsersEmailContent = (_props: InactiveUsersEmailTemplateProps) => `
 </tr>
 `
 
-export function buildEmailTemplateForInactiveUsers(
-    props: InactiveUsersEmailTemplateProps,
-) {
+export function buildEmailTemplateForInactiveUsers(props: InactiveUsersEmailTemplateProps) {
     return new EmailTemplateBuilder<InactiveUsersEmailTemplateProps>()
         .setBodyTemplate(InactiveUsersEmailContent(props))
         .build(props)

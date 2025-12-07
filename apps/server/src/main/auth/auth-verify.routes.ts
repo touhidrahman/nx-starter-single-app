@@ -1,11 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import { and, eq } from 'drizzle-orm'
-import {
-    BAD_REQUEST,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    OK,
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../core/core.type'
@@ -53,12 +48,7 @@ const VerifyEmail: AppRouteHandler<typeof VerifyEmailDef> = async (c) => {
         const [existingUser] = await db
             .select()
             .from(usersTable)
-            .where(
-                and(
-                    eq(usersTable.id, decoded.userId),
-                    eq(usersTable.email, decoded.email),
-                ),
-            )
+            .where(and(eq(usersTable.id, decoded.userId), eq(usersTable.email, decoded.email)))
             .limit(1)
 
         if (!existingUser) {
@@ -86,12 +76,7 @@ const VerifyEmail: AppRouteHandler<typeof VerifyEmailDef> = async (c) => {
         const [user] = await db
             .update(usersTable)
             .set({ verifiedAt: new Date() })
-            .where(
-                and(
-                    eq(usersTable.id, decoded.userId),
-                    eq(usersTable.email, decoded.email),
-                ),
-            )
+            .where(and(eq(usersTable.id, decoded.userId), eq(usersTable.email, decoded.email)))
             .returning()
 
         return c.json(
@@ -103,10 +88,7 @@ const VerifyEmail: AppRouteHandler<typeof VerifyEmailDef> = async (c) => {
             OK,
         )
     } catch (error) {
-        return c.json(
-            { message: 'Invalid token', success: false, data: {} },
-            BAD_REQUEST,
-        )
+        return c.json({ message: 'Invalid token', success: false, data: {} }, BAD_REQUEST)
     }
 }
 
@@ -126,16 +108,11 @@ const ResendVerificationEmailDef = createRoute({
         [OK]: ApiResponse(zEmpty, 'Verification mail sent successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Email already verified'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Unverified user not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmpty,
-            'Failed to send verification mail',
-        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Failed to send verification mail'),
     },
 })
 
-const ResendVerificationEmail: AppRouteHandler<
-    typeof ResendVerificationEmailDef
-> = async (c) => {
+const ResendVerificationEmail: AppRouteHandler<typeof ResendVerificationEmailDef> = async (c) => {
     try {
         const { email } = c.req.valid('json')
         const trimEmail = email.trim()

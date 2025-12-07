@@ -1,15 +1,4 @@
-import {
-    and,
-    asc,
-    count,
-    desc,
-    eq,
-    ilike,
-    inArray,
-    or,
-    SQL,
-    sql,
-} from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { transactionSchedulesTable } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
@@ -23,8 +12,7 @@ export class TransactionScheduleCoreService {
     static async findMany(
         filters: QueryTransactionSchedules,
     ): Promise<SelectTransactionSchedule[]> {
-        const conditions =
-            TransactionScheduleCoreService.buildWhereConditions(filters)
+        const conditions = TransactionScheduleCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
         const orderBy = TransactionScheduleCoreService.buildOrderBy(
@@ -45,8 +33,7 @@ export class TransactionScheduleCoreService {
     static async findOne(
         filters: QueryTransactionSchedules,
     ): Promise<SelectTransactionSchedule | null> {
-        const conditions =
-            TransactionScheduleCoreService.buildWhereConditions(filters)
+        const conditions = TransactionScheduleCoreService.buildWhereConditions(filters)
         const transactionSchedules = await db
             .select()
             .from(transactionSchedulesTable)
@@ -55,9 +42,7 @@ export class TransactionScheduleCoreService {
         return transactionSchedules[0] ?? null
     }
 
-    static async findById(
-        id: string,
-    ): Promise<SelectTransactionSchedule | null> {
+    static async findById(id: string): Promise<SelectTransactionSchedule | null> {
         const transactionSchedule = await db
             .select()
             .from(transactionSchedulesTable)
@@ -76,8 +61,7 @@ export class TransactionScheduleCoreService {
     }
 
     static async count(filters: QueryTransactionSchedules): Promise<number> {
-        const conditions =
-            TransactionScheduleCoreService.buildWhereConditions(filters)
+        const conditions = TransactionScheduleCoreService.buildWhereConditions(filters)
 
         const countResult = await db
             .select({ count: count() })
@@ -86,9 +70,7 @@ export class TransactionScheduleCoreService {
         return countResult[0]?.count || 0
     }
 
-    static async create(
-        input: InsertTransactionSchedule,
-    ): Promise<SelectTransactionSchedule> {
+    static async create(input: InsertTransactionSchedule): Promise<SelectTransactionSchedule> {
         const [transactionSchedule] = await db
             .insert(transactionSchedulesTable)
             .values(input)
@@ -122,8 +104,7 @@ export class TransactionScheduleCoreService {
         id: string,
         input: InsertTransactionSchedule,
     ): Promise<SelectTransactionSchedule> {
-        const existingTransactionSchedule =
-            await TransactionScheduleCoreService.findById(id)
+        const existingTransactionSchedule = await TransactionScheduleCoreService.findById(id)
         if (existingTransactionSchedule) {
             return TransactionScheduleCoreService.update(id, input)
         }
@@ -131,22 +112,15 @@ export class TransactionScheduleCoreService {
     }
 
     static async delete(id: string): Promise<void> {
-        await db
-            .delete(transactionSchedulesTable)
-            .where(eq(transactionSchedulesTable.id, id))
+        await db.delete(transactionSchedulesTable).where(eq(transactionSchedulesTable.id, id))
     }
 
     static async deleteMany(ids: string[]): Promise<void> {
-        await db
-            .delete(transactionSchedulesTable)
-            .where(inArray(transactionSchedulesTable.id, ids))
+        await db.delete(transactionSchedulesTable).where(inArray(transactionSchedulesTable.id, ids))
     }
 
-    static async deleteManyByQuery(
-        filters: QueryTransactionSchedules,
-    ): Promise<void> {
-        const conditions =
-            TransactionScheduleCoreService.buildWhereConditions(filters)
+    static async deleteManyByQuery(filters: QueryTransactionSchedules): Promise<void> {
+        const conditions = TransactionScheduleCoreService.buildWhereConditions(filters)
         await db.delete(transactionSchedulesTable).where(conditions)
     }
 
@@ -155,21 +129,16 @@ export class TransactionScheduleCoreService {
         sortOrder: 'asc' | 'desc',
     ): SQL<unknown> {
         const orderBy =
-            transactionSchedulesTable[orderByField] ??
-            transactionSchedulesTable.createdAt
+            transactionSchedulesTable[orderByField] ?? transactionSchedulesTable.createdAt
         return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
-    static buildWhereConditions(
-        params: QueryTransactionSchedules,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryTransactionSchedules): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
-            conditions.push(
-                or(ilike(transactionSchedulesTable.title, searchTerm)),
-            )
+            conditions.push(or(ilike(transactionSchedulesTable.title, searchTerm)))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(transactionSchedulesTable.id, params.ids))
@@ -178,14 +147,10 @@ export class TransactionScheduleCoreService {
             conditions.push(eq(transactionSchedulesTable.id, params.id))
         }
         if (params.groupId) {
-            conditions.push(
-                eq(transactionSchedulesTable.groupId, params.groupId),
-            )
+            conditions.push(eq(transactionSchedulesTable.groupId, params.groupId))
         }
         if (params.creatorId) {
-            conditions.push(
-                eq(transactionSchedulesTable.creatorId, params.creatorId),
-            )
+            conditions.push(eq(transactionSchedulesTable.creatorId, params.creatorId))
         }
         if (conditions.length === 0) {
             return undefined

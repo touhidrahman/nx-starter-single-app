@@ -47,11 +47,7 @@ export class NewPasswordFormService {
         const password = control.get('password')
         const confirmPassword = control.get('confirmPassword')
 
-        if (
-            password &&
-            confirmPassword &&
-            password.value !== confirmPassword.value
-        ) {
+        if (password && confirmPassword && password.value !== confirmPassword.value) {
             confirmPassword.setErrors({ passwordMismatch: true })
             return { passwordMismatch: true }
         }

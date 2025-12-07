@@ -13,11 +13,7 @@ import { DialogService } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-page-news-ticker',
-    imports: [
-        PrimeModules,
-        NewsTickerTableComponent,
-        NewsTickerFilterComponent,
-    ],
+    imports: [PrimeModules, NewsTickerTableComponent, NewsTickerFilterComponent],
     templateUrl: './page-news-ticker.component.html',
     styleUrl: './page-news-ticker.component.scss',
     providers: [NewsTickersListStateService],

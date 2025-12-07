@@ -10,12 +10,7 @@ import { PrimeModules } from '@repo/prime-modules'
 
 @Component({
     selector: 'app-organization-content',
-    imports: [
-        ...PrimeModules,
-        AsyncPipe,
-        OrganizationHeaderComponent,
-        GroupMembersComponent,
-    ],
+    imports: [...PrimeModules, AsyncPipe, OrganizationHeaderComponent, GroupMembersComponent],
     templateUrl: './organization-content.component.html',
     styleUrl: './organization-content.component.scss',
 })

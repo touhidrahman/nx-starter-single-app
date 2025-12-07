@@ -16,19 +16,13 @@ export class BackButtonService implements OnDestroy {
     private rootRoutes = ['/', '/dashboard/home']
 
     async initialize() {
-        if (
-            !Capacitor.isNativePlatform() ||
-            Capacitor.getPlatform() !== 'android'
-        ) {
+        if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== 'android') {
             return
         }
 
-        this.listener = await App.addListener(
-            'backButton',
-            async ({ canGoBack }) => {
-                await this.handleBackButton(canGoBack)
-            },
-        )
+        this.listener = await App.addListener('backButton', async ({ canGoBack }) => {
+            await this.handleBackButton(canGoBack)
+        })
     }
 
     private async handleBackButton(canGoBack: boolean) {

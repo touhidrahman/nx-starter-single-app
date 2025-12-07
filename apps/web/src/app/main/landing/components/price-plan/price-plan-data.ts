@@ -12,8 +12,7 @@ export const pricePlan: PricePlan[] = [
         id: 1,
         title: 'Essential Counsel',
         price: 1000,
-        description:
-            'Start with this packages while you learn more About our services',
+        description: 'Start with this packages while you learn more About our services',
 
         features: [
             'Legal consultation (30 min per month)',
@@ -28,8 +27,7 @@ export const pricePlan: PricePlan[] = [
         isPopular: true,
         title: 'Professional Counsel',
         price: 1500,
-        description:
-            'Start with this packages while you learn more About our services',
+        description: 'Start with this packages while you learn more About our services',
 
         features: [
             'Legal consultation: 1 hour per month',
@@ -43,8 +41,7 @@ export const pricePlan: PricePlan[] = [
         id: 3,
         title: 'Ultimate Counsel',
         price: 2000,
-        description:
-            'Start with this packages while you learn more About our services',
+        description: 'Start with this packages while you learn more About our services',
 
         features: [
             'Legal consultation: 2 hours per month',

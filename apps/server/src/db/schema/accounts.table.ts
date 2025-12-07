@@ -1,11 +1,4 @@
-import {
-    boolean,
-    date,
-    decimal,
-    integer,
-    pgTable,
-    text,
-} from 'drizzle-orm/pg-core'
+import { boolean, date, decimal, integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm/relations'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'

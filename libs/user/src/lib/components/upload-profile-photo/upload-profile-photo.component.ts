@@ -55,9 +55,7 @@ export class UploadProfilePhotoComponent {
             },
             error: (err) => {
                 this.isLoading = false
-                this.alertService.error(
-                    err.error?.message || 'Failed to upload profile photo',
-                )
+                this.alertService.error(err.error?.message || 'Failed to upload profile photo')
             },
         })
     }
@@ -66,15 +64,11 @@ export class UploadProfilePhotoComponent {
         this.profileApiService.updateProfile({ profilePhoto: url }).subscribe({
             next: () => {
                 this.profileStateService.setProfilePhotoUrl(url)
-                this.alertService.success(
-                    'Profile picture updated successfully',
-                )
+                this.alertService.success('Profile picture updated successfully')
                 this.ref?.close()
             },
             error: (err) => {
-                this.alertService.error(
-                    err.error?.message || 'Failed to set profile photo',
-                )
+                this.alertService.error(err.error?.message || 'Failed to set profile photo')
             },
             complete: () => {
                 this.isLoading = false

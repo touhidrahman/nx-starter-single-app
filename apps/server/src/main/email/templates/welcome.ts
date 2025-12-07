@@ -36,9 +36,7 @@ const WelcomeEmailContent = (_props: WelcomeEmailTemplateProps) => `
   </tr>
 `
 
-export function buildWelcomeEmailTemplate(
-    props: WelcomeEmailTemplateProps,
-): string {
+export function buildWelcomeEmailTemplate(props: WelcomeEmailTemplateProps): string {
     return new EmailTemplateBuilder<WelcomeEmailTemplateProps>()
         .setBodyTemplate(WelcomeEmailContent(props))
         .build(props)

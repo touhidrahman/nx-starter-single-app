@@ -8,9 +8,6 @@ export const accountTypesTable = pgTable('account_types', {
     sortOrder: integer().notNull().default(0),
 })
 
-export const accountTypeRelations = relations(
-    accountTypesTable,
-    ({ many }) => ({
-        accounts: many(accountsTable),
-    }),
-)
+export const accountTypeRelations = relations(accountTypesTable, ({ many }) => ({
+    accounts: many(accountsTable),
+}))

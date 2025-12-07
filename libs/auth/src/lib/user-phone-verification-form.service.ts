@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import {
-    AbstractControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    Validators,
-} from '@angular/forms'
+import { AbstractControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 import { UserPhoneVerification } from './user-phone-verification.model'
 
 @Injectable()
@@ -19,12 +14,7 @@ export class UserPhoneVerificationFormService {
         const form = this.fb.group({
             verificationCode: [
                 '',
-                [
-                    required,
-                    minLength(6),
-                    maxLength(6),
-                    pattern(this.codePattern),
-                ],
+                [required, minLength(6), maxLength(6), pattern(this.codePattern)],
             ],
             phone: ['', [pattern(this.phonePattern)]],
         })

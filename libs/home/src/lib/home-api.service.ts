@@ -16,8 +16,6 @@ export class HomeApiService extends ApiService<HomeData, HomeData> {
     }
 
     getDashboardData(): Observable<ApiResponse<HomeData>> {
-        return this.http.get<ApiResponse<HomeData>>(
-            `${this.apiUrl}/total-counts`,
-        )
+        return this.http.get<ApiResponse<HomeData>>(`${this.apiUrl}/total-counts`)
     }
 }

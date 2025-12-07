@@ -20,10 +20,7 @@ export class NewsTickerAddModalComponent implements OnInit {
     private alertService = inject(AlertService)
     private ref = inject(DynamicDialogRef)
 
-    config =
-        inject<DynamicDialogConfig<NewsTickerFormDialogData>>(
-            DynamicDialogConfig,
-        )
+    config = inject<DynamicDialogConfig<NewsTickerFormDialogData>>(DynamicDialogConfig)
 
     newsTickerFormService = inject(NewsTickerFormService)
 

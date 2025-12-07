@@ -34,13 +34,7 @@ export class PageCourtComponent implements OnInit {
     }
 
     showCreateDialog() {
-        this.openDialog(
-            CreateCourtFormComponent,
-            'Add Court',
-            'create',
-            '50vw',
-            'center',
-        )
+        this.openDialog(CreateCourtFormComponent, 'Add Court', 'create', '50vw', 'center')
     }
     //TODO: for excel file
     // showUploadDialog() {
@@ -67,9 +61,7 @@ export class PageCourtComponent implements OnInit {
     meilisearchIndex() {
         this.courtApiService.indexCourtsToMeilisearch().subscribe({
             next: (result) => {
-                this.alertService.success(
-                    result?.message || 'Courts indexed successfully',
-                )
+                this.alertService.success(result?.message || 'Courts indexed successfully')
             },
             error: (error) => {
                 this.alertService.error(error?.message || 'Indexing failed')

@@ -26,12 +26,7 @@ export class DisplayIdleService {
             const isPinSet = userSettings.isPinCodeSet
             const isPinEnabled = userSettings.settings.isPinEnabled === 'true'
 
-            if (
-                Capacitor.isNativePlatform() &&
-                isPinEnabled &&
-                isLoggedIn &&
-                isPinSet
-            ) {
+            if (Capacitor.isNativePlatform() && isPinEnabled && isLoggedIn && isPinSet) {
                 this.checkDeviceDisplayState()
                 this.checkDisplayIdle()
             } else {

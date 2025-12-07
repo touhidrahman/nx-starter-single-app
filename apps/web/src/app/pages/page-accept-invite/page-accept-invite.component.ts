@@ -32,10 +32,7 @@ export class PageAcceptInviteComponent implements OnInit {
         const token = this.activatedRoute.snapshot.queryParams['token']
         this.invitationToken.set(token)
         if (token) {
-            const decoded =
-                this.jwtService.getUnexpiredDecoded<InvitationTokenPayload>(
-                    token,
-                )
+            const decoded = this.jwtService.getUnexpiredDecoded<InvitationTokenPayload>(token)
             if (decoded) {
                 // logout existing user first
                 if (this.authStateService.isLoggedIn()) {
@@ -57,30 +54,24 @@ export class PageAcceptInviteComponent implements OnInit {
     acceptInvite() {
         this.isLoading.set(true)
 
-        this.invitationApiService
-            .acceptInvite(this.invitationToken())
-            .subscribe({
-                next: (
-                    data: ApiResponse<{ redirect: boolean; url: string }>,
-                ) => {
-                    this.isLoading.set(false)
-                    if (data.data?.url === '/signup') {
-                        this.router.navigate(['/signup'], {
-                            queryParams: { token: this.invitationToken() },
-                        })
-                    } else if (data.data?.url === '/login') {
-                        this.router.navigate(['/login'])
-                    } else {
-                        this.alertService.success(
-                            data?.message || 'Invitation accepted successfully',
-                        )
-                        this.router.navigateByUrl('/login')
-                    }
-                },
-                error: (error) => {
-                    this.alertService.error(error.err.message)
-                    this.isLoading.set(false)
-                },
-            })
+        this.invitationApiService.acceptInvite(this.invitationToken()).subscribe({
+            next: (data: ApiResponse<{ redirect: boolean; url: string }>) => {
+                this.isLoading.set(false)
+                if (data.data?.url === '/signup') {
+                    this.router.navigate(['/signup'], {
+                        queryParams: { token: this.invitationToken() },
+                    })
+                } else if (data.data?.url === '/login') {
+                    this.router.navigate(['/login'])
+                } else {
+                    this.alertService.success(data?.message || 'Invitation accepted successfully')
+                    this.router.navigateByUrl('/login')
+                }
+            },
+            error: (error) => {
+                this.alertService.error(error.err.message)
+                this.isLoading.set(false)
+            },
+        })
     }
 }

@@ -15,9 +15,7 @@ import { SubscriptionRequestStateService } from '../subscription-request-state.s
 })
 export class SubscriptionRequestApproveModalComponent {
     private ref = inject(DynamicDialogRef)
-    private subscriptionRequestStateService = inject(
-        SubscriptionRequestStateService,
-    )
+    private subscriptionRequestStateService = inject(SubscriptionRequestStateService)
     private alertService = inject(AlertService)
     readonly config = inject(DynamicDialogConfig)
 
@@ -29,10 +27,7 @@ export class SubscriptionRequestApproveModalComponent {
     onApproveSubscriptionRequest() {
         this.isLoading.set(true)
         this.subscriptionRequestStateService
-            .updateSubscriptionRequest(
-                this.config.data.id,
-                this.config.data.groupId,
-            )
+            .updateSubscriptionRequest(this.config.data.id, this.config.data.groupId)
             .subscribe({
                 next: (res) => {
                     this.isLoading.set(false)

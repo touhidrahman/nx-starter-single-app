@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertInvite,
-    zQueryInvites,
-    zSelectInvite,
-    zUpdateInvite,
-} from './invite-core.model'
+import { zInsertInvite, zQueryInvites, zSelectInvite, zUpdateInvite } from './invite-core.model'
 import { InviteCoreService } from './invite-core.service'
 
 const tags = ['Invites']
@@ -32,9 +27,7 @@ const GetInviteListCoreDef = createRoute({
     },
 })
 
-const GetInviteListCore: AppRouteHandler<typeof GetInviteListCoreDef> = async (
-    c,
-) => {
+const GetInviteListCore: AppRouteHandler<typeof GetInviteListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await InviteCoreService.findMany(query)
     const count = await InviteCoreService.count(query)
@@ -64,9 +57,7 @@ const GetInviteByIdCoreDef = createRoute({
     },
 })
 
-const GetInviteByIdCore: AppRouteHandler<typeof GetInviteByIdCoreDef> = async (
-    c,
-) => {
+const GetInviteByIdCore: AppRouteHandler<typeof GetInviteByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const invite = await InviteCoreService.findById(id)
 
@@ -104,9 +95,7 @@ const CreateInviteCoreDef = createRoute({
     },
 })
 
-const CreateInviteCore: AppRouteHandler<typeof CreateInviteCoreDef> = async (
-    c,
-) => {
+const CreateInviteCore: AppRouteHandler<typeof CreateInviteCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newInvite = await InviteCoreService.create(body)
 
@@ -135,9 +124,7 @@ const UpdateInviteCoreDef = createRoute({
     },
 })
 
-const UpdateInviteCore: AppRouteHandler<typeof UpdateInviteCoreDef> = async (
-    c,
-) => {
+const UpdateInviteCore: AppRouteHandler<typeof UpdateInviteCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingInvite = await InviteCoreService.findById(id)
@@ -179,9 +166,7 @@ const DeleteInviteCoreDef = createRoute({
     },
 })
 
-const DeleteInviteCore: AppRouteHandler<typeof DeleteInviteCoreDef> = async (
-    c,
-) => {
+const DeleteInviteCore: AppRouteHandler<typeof DeleteInviteCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingInvite = await InviteCoreService.findById(id)
 
@@ -221,9 +206,7 @@ const DeleteManyInviteCoreDef = createRoute({
     },
 })
 
-const DeleteManyInviteCore: AppRouteHandler<
-    typeof DeleteManyInviteCoreDef
-> = async (c) => {
+const DeleteManyInviteCore: AppRouteHandler<typeof DeleteManyInviteCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await InviteCoreService.deleteMany(ids)

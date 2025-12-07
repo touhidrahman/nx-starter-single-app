@@ -17,9 +17,7 @@ export const postSeedRoute = createRoute({
     },
 })
 
-export const postSeedHandler: AppRouteHandler<typeof postSeedRoute> = async (
-    c,
-) => {
+export const postSeedHandler: AppRouteHandler<typeof postSeedRoute> = async (c) => {
     try {
         for (const plan of SEED_DATA_PLANS) {
             const existingPlan = await PlanCustomService.findOne({

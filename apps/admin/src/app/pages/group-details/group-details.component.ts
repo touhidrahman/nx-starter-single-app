@@ -51,20 +51,17 @@ export class GroupDetailsComponent {
     }
 
     openGroupDeleteModal(group: Group) {
-        const deleteRef = this.dialogService.open(
-            GroupDeleteConfirmModalComponent,
-            {
-                header: 'Delete Group',
-                width: '50%',
-                breakpoints: {
-                    '960px': '75vw',
-                    '640px': '95vw',
-                },
-                modal: true,
-                closable: true,
-                data: group,
+        const deleteRef = this.dialogService.open(GroupDeleteConfirmModalComponent, {
+            header: 'Delete Group',
+            width: '50%',
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '95vw',
             },
-        )
+            modal: true,
+            closable: true,
+            data: group,
+        })
 
         deleteRef?.onClose.subscribe((res) => {
             if (res) {

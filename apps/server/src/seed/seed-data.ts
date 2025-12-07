@@ -3,8 +3,7 @@ import { InsertPlan } from '../main/plan/plan.schema'
 export const SEED_DATA_PLANS: InsertPlan[] = [
     {
         name: 'Free',
-        description:
-            'Good for individual. Always free. No credit card required.',
+        description: 'Good for individual. Always free. No credit card required.',
         monthlyPrice: 0,
         yearlyPrice: 0,
         storageLimit: 500,
@@ -46,10 +45,7 @@ export const SEED_DATA_PLANS: InsertPlan[] = [
             'Unlimited events',
             'Let clients follow their cases',
         ],
-        inactiveFeatures: [
-            'AI summary of case history',
-            'Communication with clients',
-        ],
+        inactiveFeatures: ['AI summary of case history', 'Communication with clients'],
         trialPeriodDays: 0,
         isActive: true,
         currency: 'BDT',

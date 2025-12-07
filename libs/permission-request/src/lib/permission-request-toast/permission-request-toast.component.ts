@@ -4,10 +4,7 @@ import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 import { AuthStateService } from '@repo/auth'
 import { MessageService } from 'primeng/api'
-import {
-    PermissionRequest,
-    PermissionRequestDto,
-} from '../permission-request.model'
+import { PermissionRequest, PermissionRequestDto } from '../permission-request.model'
 import { PermissionRequestApiService } from '../permission-request-api.service'
 
 @Component({

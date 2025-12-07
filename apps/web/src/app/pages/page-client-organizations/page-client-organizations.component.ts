@@ -39,20 +39,16 @@ export class PageClientOrganizationsComponent implements OnInit {
     }
 
     onToggleGroup(groupName: string) {
-        this.expandedGroupName.set(
-            this.expandedGroupName() === groupName ? null : groupName,
-        )
+        this.expandedGroupName.set(this.expandedGroupName() === groupName ? null : groupName)
     }
 
     private getFollowCasesFilteredByGroup() {
         this.isLoading.set(true)
-        this.caseFollowRequestApiService
-            .getAllFollowedCasesGroupedByOrganization()
-            .subscribe({
-                next: (res: ApiResponse<CaseListForFollower[]>) => {
-                    this.isLoading.set(false)
-                    this.groupCases.set(res.data)
-                },
-            })
+        this.caseFollowRequestApiService.getAllFollowedCasesGroupedByOrganization().subscribe({
+            next: (res: ApiResponse<CaseListForFollower[]>) => {
+                this.isLoading.set(false)
+                this.groupCases.set(res.data)
+            },
+        })
     }
 }

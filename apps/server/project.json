@@ -18,10 +18,7 @@
                 "bundle": false,
                 "main": "apps/server/src/index.ts",
                 "tsConfig": "apps/server/tsconfig.app.json",
-                "assets": [
-                    "apps/server/src/assets",
-                    "apps/server/drizzle.config.ts"
-                ],
+                "assets": ["apps/server/src/assets", "apps/server/drizzle.config.ts"],
                 "generatePackageJson": true,
                 "sourcemap": "linked",
                 "metafile": true,

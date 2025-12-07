@@ -60,9 +60,7 @@ export class EmailTemplateBuilder<TProps> {
 
     private replacePlaceholders(body: string, props: TProps): string {
         let html = body
-        for (const [key, value] of Object.entries(
-            props as Record<string, any>,
-        )) {
+        for (const [key, value] of Object.entries(props as Record<string, any>)) {
             if (value) {
                 html = html.replaceAll(`{{${key}}}`, value)
             }

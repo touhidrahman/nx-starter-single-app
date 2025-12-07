@@ -1,28 +1,11 @@
-import {
-    and,
-    asc,
-    count,
-    desc,
-    eq,
-    ilike,
-    inArray,
-    or,
-    SQL,
-    sql,
-} from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { subcategoriesTable } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
-import {
-    InsertSubcategory,
-    QuerySubcategories,
-    SelectSubcategory,
-} from './subcategory.model'
+import { InsertSubcategory, QuerySubcategories, SelectSubcategory } from './subcategory.model'
 
 export class SubcategoryCoreService {
-    static async findMany(
-        filters: QuerySubcategories,
-    ): Promise<SelectSubcategory[]> {
+    static async findMany(filters: QuerySubcategories): Promise<SelectSubcategory[]> {
         const conditions = SubcategoryCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
@@ -41,15 +24,9 @@ export class SubcategoryCoreService {
         return subcategories
     }
 
-    static async findOne(
-        filters: QuerySubcategories,
-    ): Promise<SelectSubcategory | null> {
+    static async findOne(filters: QuerySubcategories): Promise<SelectSubcategory | null> {
         const conditions = SubcategoryCoreService.buildWhereConditions(filters)
-        const subcategories = await db
-            .select()
-            .from(subcategoriesTable)
-            .where(conditions)
-            .limit(1)
+        const subcategories = await db.select().from(subcategoriesTable).where(conditions).limit(1)
         return subcategories[0] ?? null
     }
 
@@ -82,27 +59,16 @@ export class SubcategoryCoreService {
     }
 
     static async create(input: InsertSubcategory): Promise<SelectSubcategory> {
-        const [subcategory] = await db
-            .insert(subcategoriesTable)
-            .values(input)
-            .returning()
+        const [subcategory] = await db.insert(subcategoriesTable).values(input).returning()
         return subcategory
     }
 
-    static async createMany(
-        inputs: InsertSubcategory[],
-    ): Promise<SelectSubcategory[]> {
-        const subcategories = await db
-            .insert(subcategoriesTable)
-            .values(inputs)
-            .returning()
+    static async createMany(inputs: InsertSubcategory[]): Promise<SelectSubcategory[]> {
+        const subcategories = await db.insert(subcategoriesTable).values(inputs).returning()
         return subcategories
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertSubcategory>,
-    ): Promise<SelectSubcategory> {
+    static async update(id: string, input: Partial<InsertSubcategory>): Promise<SelectSubcategory> {
         const [subcategory] = await db
             .update(subcategoriesTable)
             .set(input)
@@ -111,10 +77,7 @@ export class SubcategoryCoreService {
         return subcategory
     }
 
-    static async upsert(
-        id: string,
-        input: InsertSubcategory,
-    ): Promise<SelectSubcategory> {
+    static async upsert(id: string, input: InsertSubcategory): Promise<SelectSubcategory> {
         const existingSubcategory = await SubcategoryCoreService.findById(id)
         if (existingSubcategory) {
             return SubcategoryCoreService.update(id, input)
@@ -127,9 +90,7 @@ export class SubcategoryCoreService {
     }
 
     static async deleteMany(ids: string[]): Promise<void> {
-        await db
-            .delete(subcategoriesTable)
-            .where(inArray(subcategoriesTable.id, ids))
+        await db.delete(subcategoriesTable).where(inArray(subcategoriesTable.id, ids))
     }
 
     static async deleteManyByQuery(filters: QuerySubcategories): Promise<void> {
@@ -141,14 +102,11 @@ export class SubcategoryCoreService {
         orderByField: keyof SelectSubcategory,
         sortOrder: 'asc' | 'desc',
     ): SQL<unknown> {
-        const orderBy =
-            subcategoriesTable[orderByField] ?? subcategoriesTable.createdAt
+        const orderBy = subcategoriesTable[orderByField] ?? subcategoriesTable.createdAt
         return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
-    static buildWhereConditions(
-        params: QuerySubcategories,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QuerySubcategories): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

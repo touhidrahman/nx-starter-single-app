@@ -12,9 +12,7 @@ export const profileRoutes: ProfileRoutes = {
         path: 'profile',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-profile/page-profile.component').then(
-                (m) => m.PageProfileComponent,
-            ),
+            import('../page-profile/page-profile.component').then((m) => m.PageProfileComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     lawyerProfile: {

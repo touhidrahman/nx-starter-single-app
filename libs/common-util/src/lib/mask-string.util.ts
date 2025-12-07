@@ -5,11 +5,7 @@
  * @param visibleCharsTail The number of visible characters at the end.
  * @returns The masked string.
  */
-export function maskString(
-    input: string,
-    visibleCharsHead: number,
-    visibleCharsTail: number,
-) {
+export function maskString(input: string, visibleCharsHead: number, visibleCharsTail: number) {
     if (!input) return ''
 
     const visibleLength = visibleCharsHead + visibleCharsTail

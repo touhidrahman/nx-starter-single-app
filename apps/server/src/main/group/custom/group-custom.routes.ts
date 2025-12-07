@@ -48,9 +48,7 @@ const GetMyGroupListDef = createRoute({
     },
 })
 
-const GetGroupListCrud: AppRouteHandler<typeof GetMyGroupListDef> = async (
-    c,
-) => {
+const GetGroupListCrud: AppRouteHandler<typeof GetMyGroupListDef> = async (c) => {
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
 
     const data = await GroupCustomService.findInvolvedGroups(userId)
@@ -79,16 +77,11 @@ const SubscribePlanDef = createRoute({
         body: jsonContent(zInsertSubscription, 'Input'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSubscriptionWithPlan,
-            'Subscription successfull',
-        ),
+        [CREATED]: ApiResponse(zSubscriptionWithPlan, 'Subscription successfull'),
     },
 })
 
-export const SubscribePlan: AppRouteHandler<typeof SubscribePlanDef> = async (
-    c,
-) => {
+export const SubscribePlan: AppRouteHandler<typeof SubscribePlanDef> = async (c) => {
     const groupId = c.req.param('id')
     const planId = c.req.param('planId')
     const body = c.req.valid('json')
@@ -145,10 +138,7 @@ const GetGroupMembersDef = createRoute({
     path: `${path}/:id/members`,
     tags,
     method: REQ_METHOD.GET,
-    middleware: [
-        checkToken,
-        checkPermission(['Group:Read', 'User:Read'], true),
-    ] as const,
+    middleware: [checkToken, checkPermission(['Group:Read', 'User:Read'], true)] as const,
     request: {
         params: zId,
     },
@@ -157,9 +147,7 @@ const GetGroupMembersDef = createRoute({
     },
 })
 
-const GetGroupMembers: AppRouteHandler<typeof GetGroupMembersDef> = async (
-    c,
-) => {
+const GetGroupMembers: AppRouteHandler<typeof GetGroupMembersDef> = async (c) => {
     const params = c.req.valid('param')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -188,19 +176,14 @@ const AddGroupMembersDef = createRoute({
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         params: zId,
-        body: jsonContent(
-            z.array(z.object({ userId: z.string(), roleId: z.string() })),
-            'Members',
-        ),
+        body: jsonContent(z.array(z.object({ userId: z.string(), roleId: z.string() })), 'Members'),
     },
     responses: {
         [OK]: ApiResponse(z.array(zGroupMember), 'Member List'),
     },
 })
 
-const AddGroupMembers: AppRouteHandler<typeof AddGroupMembersDef> = async (
-    c,
-) => {
+const AddGroupMembers: AppRouteHandler<typeof AddGroupMembersDef> = async (c) => {
     const params = c.req.valid('param')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -238,9 +221,7 @@ const RemoveGroupMembersDef = createRoute({
     },
 })
 
-const RemoveGroupMembers: AppRouteHandler<
-    typeof RemoveGroupMembersDef
-> = async (c) => {
+const RemoveGroupMembers: AppRouteHandler<typeof RemoveGroupMembersDef> = async (c) => {
     const params = c.req.valid('param')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -281,9 +262,7 @@ const UpdateGroupMemberRoleDef = createRoute({
     },
 })
 
-const UpdateGroupMemberRole: AppRouteHandler<
-    typeof UpdateGroupMemberRoleDef
-> = async (c) => {
+const UpdateGroupMemberRole: AppRouteHandler<typeof UpdateGroupMemberRoleDef> = async (c) => {
     const params = c.req.valid('param')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -296,10 +275,7 @@ const UpdateGroupMemberRole: AppRouteHandler<
     await GroupCustomService.addGroupMembers(params.id, [
         { userId: params.userId, roleId: params.roleId },
     ])
-    const data = await GroupCustomService.getGroupMember(
-        params.id,
-        params.userId,
-    )
+    const data = await GroupCustomService.getGroupMember(params.id, params.userId)
 
     if (!data) {
         throw new HTTPException(NOT_FOUND, {
@@ -333,9 +309,7 @@ const LeaveGroupMembershipDef = createRoute({
     },
 })
 
-const LeaveGroupMembership: AppRouteHandler<
-    typeof LeaveGroupMembershipDef
-> = async (c) => {
+const LeaveGroupMembership: AppRouteHandler<typeof LeaveGroupMembershipDef> = async (c) => {
     const params = c.req.valid('param')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -349,13 +323,9 @@ const LeaveGroupMembership: AppRouteHandler<
         await GroupCustomService.removeUserFromGroup(params.id, params.userId)
     } catch (error: unknown) {
         throw new HTTPException(
-            ((error as Error)?.cause as ContentfulStatusCode) ??
-                INTERNAL_SERVER_ERROR,
+            ((error as Error)?.cause as ContentfulStatusCode) ?? INTERNAL_SERVER_ERROR,
             {
-                message:
-                    error instanceof Error
-                        ? error.message
-                        : 'Error leaving group',
+                message: error instanceof Error ? error.message : 'Error leaving group',
             },
         )
     }

@@ -16,8 +16,6 @@ export class AdminHomeApiService extends ApiService<BalanceData, BalanceData> {
     }
 
     getSmsBalanceData(): Observable<ApiResponse<BalanceData>> {
-        return this.http.get<ApiResponse<BalanceData>>(
-            `${this.apiUrl}/sms/balance`,
-        )
+        return this.http.get<ApiResponse<BalanceData>>(`${this.apiUrl}/sms/balance`)
     }
 }

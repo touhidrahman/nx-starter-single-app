@@ -2,11 +2,7 @@ import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { currenciesTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
-import {
-    InsertCurrency,
-    QueryCurrencies,
-    SelectCurrency,
-} from './currency-core.model'
+import { InsertCurrency, QueryCurrencies, SelectCurrency } from './currency-core.model'
 
 export class CurrencyCoreService {
     static async findMany(filters: QueryCurrencies): Promise<SelectCurrency[]> {
@@ -22,15 +18,9 @@ export class CurrencyCoreService {
         return currencies
     }
 
-    static async findOne(
-        filters: QueryCurrencies,
-    ): Promise<SelectCurrency | null> {
+    static async findOne(filters: QueryCurrencies): Promise<SelectCurrency | null> {
         const conditions = CurrencyCoreService.buildWhereConditions(filters)
-        const currencies = await db
-            .select()
-            .from(currenciesTable)
-            .where(conditions)
-            .limit(1)
+        const currencies = await db.select().from(currenciesTable).where(conditions).limit(1)
         return currencies[0] ?? null
     }
 
@@ -63,27 +53,16 @@ export class CurrencyCoreService {
     }
 
     static async create(input: InsertCurrency): Promise<SelectCurrency> {
-        const [currency] = await db
-            .insert(currenciesTable)
-            .values(input)
-            .returning()
+        const [currency] = await db.insert(currenciesTable).values(input).returning()
         return currency
     }
 
-    static async createMany(
-        inputs: InsertCurrency[],
-    ): Promise<SelectCurrency[]> {
-        const currencies = await db
-            .insert(currenciesTable)
-            .values(inputs)
-            .returning()
+    static async createMany(inputs: InsertCurrency[]): Promise<SelectCurrency[]> {
+        const currencies = await db.insert(currenciesTable).values(inputs).returning()
         return currencies
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertCurrency>,
-    ): Promise<SelectCurrency> {
+    static async update(id: string, input: Partial<InsertCurrency>): Promise<SelectCurrency> {
         const [currency] = await db
             .update(currenciesTable)
             .set(input)
@@ -92,10 +71,7 @@ export class CurrencyCoreService {
         return currency
     }
 
-    static async upsert(
-        id: string,
-        input: InsertCurrency,
-    ): Promise<SelectCurrency> {
+    static async upsert(id: string, input: InsertCurrency): Promise<SelectCurrency> {
         const existingCurrency = await CurrencyCoreService.findById(id)
         if (existingCurrency) {
             return CurrencyCoreService.update(id, input)
@@ -111,18 +87,13 @@ export class CurrencyCoreService {
         await db.delete(currenciesTable).where(inArray(currenciesTable.id, ids))
     }
 
-    static buildWhereConditions(
-        params: QueryCurrencies,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryCurrencies): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
             conditions.push(
-                or(
-                    ilike(currenciesTable.name, searchTerm),
-                    ilike(currenciesTable.id, searchTerm),
-                ),
+                or(ilike(currenciesTable.name, searchTerm), ilike(currenciesTable.id, searchTerm)),
             )
         }
         if (params.ids && params.ids.length > 0) {

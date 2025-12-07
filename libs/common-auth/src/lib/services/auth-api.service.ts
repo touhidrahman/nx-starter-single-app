@@ -22,23 +22,14 @@ export class AuthApiService<TUser, TSignupResponse> {
     }
 
     isSuperAdmin(userId: string): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/${userId}/is-admin`,
-            {},
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/${userId}/is-admin`, {})
     }
 
-    login(
-        identifier: string,
-        password: string,
-    ): Observable<ApiResponse<LoginResponse>> {
-        return this.http.post<ApiResponse<LoginResponse>>(
-            `${this.authApiUrl}/login`,
-            {
-                identifier,
-                password,
-            },
-        )
+    login(identifier: string, password: string): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(`${this.authApiUrl}/login`, {
+            identifier,
+            password,
+        })
     }
 
     switchOrg(groupId: string): Observable<ApiResponse<LoginResponse>> {
@@ -49,28 +40,17 @@ export class AuthApiService<TUser, TSignupResponse> {
     }
 
     register(input: SignupForm): Observable<ApiResponse<TSignupResponse>> {
-        return this.http.post<ApiResponse<TSignupResponse>>(
-            `${this.authApiUrl}/register`,
-            input,
-        )
+        return this.http.post<ApiResponse<TSignupResponse>>(`${this.authApiUrl}/register`, input)
     }
 
     adminRegister(input: SignupInput): Observable<ApiResponse<TUser>> {
-        return this.http.post<ApiResponse<TUser>>(
-            `${this.authApiUrl}/admin/register`,
-            input,
-        )
+        return this.http.post<ApiResponse<TUser>>(`${this.authApiUrl}/admin/register`, input)
     }
 
-    refreshAccessToken(
-        refreshToken: string,
-    ): Observable<ApiResponse<LoginResponse>> {
-        return this.http.post<ApiResponse<LoginResponse>>(
-            `${this.authApiUrl}/token`,
-            {
-                refreshToken,
-            },
-        )
+    refreshAccessToken(refreshToken: string): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(`${this.authApiUrl}/token`, {
+            refreshToken,
+        })
     }
 
     changePassword(
@@ -79,24 +59,18 @@ export class AuthApiService<TUser, TSignupResponse> {
         password: string,
         // passwordConfirmation?: string,
     ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/change-password`,
-            {
-                userId,
-                password,
-                currentPassword,
-                // passwordConfirmation,
-            },
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/change-password`, {
+            userId,
+            password,
+            currentPassword,
+            // passwordConfirmation,
+        })
     }
 
-    forgotPassword(
-        identifier: string,
-    ): Observable<ApiResponse<ForgotPassword>> {
-        return this.http.post<ApiResponse<ForgotPassword>>(
-            `${this.authApiUrl}/forgot-password`,
-            { identifier },
-        )
+    forgotPassword(identifier: string): Observable<ApiResponse<ForgotPassword>> {
+        return this.http.post<ApiResponse<ForgotPassword>>(`${this.authApiUrl}/forgot-password`, {
+            identifier,
+        })
     }
 
     resetPassword(
@@ -106,10 +80,12 @@ export class AuthApiService<TUser, TSignupResponse> {
         code: string,
         password: string,
     ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/reset-password/${token}`,
-            { email, phone, code, password },
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/reset-password/${token}`, {
+            email,
+            phone,
+            code,
+            password,
+        })
     }
 
     verifyEmail(token: string): Observable<ApiResponse<{ id: string }>> {
@@ -139,19 +115,14 @@ export class AuthApiService<TUser, TSignupResponse> {
         )
     }
 
-    resendVerification(
-        identifier: string,
-    ): Observable<ApiResponse<resendVerification>> {
+    resendVerification(identifier: string): Observable<ApiResponse<resendVerification>> {
         return this.http.post<ApiResponse<resendVerification>>(
             `${this.authApiUrl}/resend-verification`,
             { identifier },
         )
     }
 
-    createGroup(
-        input: Partial<GroupInput>,
-        type: GroupType,
-    ): Observable<ApiResponse<Group>> {
+    createGroup(input: Partial<GroupInput>, type: GroupType): Observable<ApiResponse<Group>> {
         return this.http.post<ApiResponse<Group>>(
             `${this.authApiUrl}/create-profile/${type}`,
             input,

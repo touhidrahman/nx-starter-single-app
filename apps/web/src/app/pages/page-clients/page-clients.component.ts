@@ -1,10 +1,5 @@
 import { Component, inject, input } from '@angular/core'
-import {
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms'
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {
     ClientFormDialogResult,
     ClientListStateService,
@@ -12,20 +7,12 @@ import {
     CreateClientFormComponent,
 } from '@repo/clients'
 import { PrimeModules } from '@repo/prime-modules'
-import {
-    AutoCompleteCompleteEvent,
-    AutoCompleteSelectEvent,
-} from 'primeng/autocomplete'
+import { AutoCompleteCompleteEvent, AutoCompleteSelectEvent } from 'primeng/autocomplete'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-page-clients',
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        PrimeModules,
-        ClientListTableComponent,
-    ],
+    imports: [FormsModule, ReactiveFormsModule, PrimeModules, ClientListTableComponent],
     templateUrl: './page-clients.component.html',
     styleUrl: './page-clients.component.scss',
     providers: [ClientListStateService, DynamicDialogRef, DialogService],

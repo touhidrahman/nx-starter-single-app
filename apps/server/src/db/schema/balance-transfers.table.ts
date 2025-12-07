@@ -40,40 +40,37 @@ export const balanceTransfersTable = pgTable('balance_transfers', {
     ...timestampColumns,
 })
 
-export const balanceTransfersRelations = relations(
-    balanceTransfersTable,
-    ({ one, many }) => ({
-        fromAccount: one(accountsTable, {
-            fields: [balanceTransfersTable.fromAccountId],
-            references: [accountsTable.id],
-        }),
-        toAccount: one(accountsTable, {
-            fields: [balanceTransfersTable.toAccountId],
-            references: [accountsTable.id],
-        }),
-        category: one(categoriesTable, {
-            fields: [balanceTransfersTable.categoryId],
-            references: [categoriesTable.id],
-        }),
-        subcategory: one(subcategoriesTable, {
-            fields: [balanceTransfersTable.subcategoryId],
-            references: [subcategoriesTable.id],
-        }),
-        creator: one(usersTable, {
-            fields: [balanceTransfersTable.creatorId],
-            references: [usersTable.id],
-        }),
-        group: one(groupsTable, {
-            fields: [balanceTransfersTable.groupId],
-            references: [groupsTable.id],
-        }),
-        outTransaction: one(transactionsTable, {
-            fields: [balanceTransfersTable.outTransactionId],
-            references: [transactionsTable.id],
-        }),
-        inTransaction: one(transactionsTable, {
-            fields: [balanceTransfersTable.inTransactionId],
-            references: [transactionsTable.id],
-        }),
+export const balanceTransfersRelations = relations(balanceTransfersTable, ({ one, many }) => ({
+    fromAccount: one(accountsTable, {
+        fields: [balanceTransfersTable.fromAccountId],
+        references: [accountsTable.id],
     }),
-)
+    toAccount: one(accountsTable, {
+        fields: [balanceTransfersTable.toAccountId],
+        references: [accountsTable.id],
+    }),
+    category: one(categoriesTable, {
+        fields: [balanceTransfersTable.categoryId],
+        references: [categoriesTable.id],
+    }),
+    subcategory: one(subcategoriesTable, {
+        fields: [balanceTransfersTable.subcategoryId],
+        references: [subcategoriesTable.id],
+    }),
+    creator: one(usersTable, {
+        fields: [balanceTransfersTable.creatorId],
+        references: [usersTable.id],
+    }),
+    group: one(groupsTable, {
+        fields: [balanceTransfersTable.groupId],
+        references: [groupsTable.id],
+    }),
+    outTransaction: one(transactionsTable, {
+        fields: [balanceTransfersTable.outTransactionId],
+        references: [transactionsTable.id],
+    }),
+    inTransaction: one(transactionsTable, {
+        fields: [balanceTransfersTable.inTransactionId],
+        references: [transactionsTable.id],
+    }),
+}))

@@ -32,9 +32,7 @@ const GetAuditLogListCoreDef = createRoute({
     },
 })
 
-const GetAuditLogListCore: AppRouteHandler<
-    typeof GetAuditLogListCoreDef
-> = async (c) => {
+const GetAuditLogListCore: AppRouteHandler<typeof GetAuditLogListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await AuditLogCoreService.findMany(query)
     const count = await AuditLogCoreService.count(query)
@@ -64,9 +62,7 @@ const GetAuditLogByIdCoreDef = createRoute({
     },
 })
 
-const GetAuditLogByIdCore: AppRouteHandler<
-    typeof GetAuditLogByIdCoreDef
-> = async (c) => {
+const GetAuditLogByIdCore: AppRouteHandler<typeof GetAuditLogByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const auditLog = await AuditLogCoreService.findById(id)
 
@@ -100,16 +96,11 @@ const CreateAuditLogCoreDef = createRoute({
         body: jsonContent(zInsertAuditLog, 'AuditLog Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectAuditLog,
-            'AuditLog created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectAuditLog, 'AuditLog created successfully'),
     },
 })
 
-const CreateAuditLogCore: AppRouteHandler<
-    typeof CreateAuditLogCoreDef
-> = async (c) => {
+const CreateAuditLogCore: AppRouteHandler<typeof CreateAuditLogCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newAuditLog = await AuditLogCoreService.create(body)
 
@@ -138,9 +129,7 @@ const UpdateAuditLogCoreDef = createRoute({
     },
 })
 
-const UpdateAuditLogCore: AppRouteHandler<
-    typeof UpdateAuditLogCoreDef
-> = async (c) => {
+const UpdateAuditLogCore: AppRouteHandler<typeof UpdateAuditLogCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingAuditLog = await AuditLogCoreService.findById(id)
@@ -182,9 +171,7 @@ const DeleteAuditLogCoreDef = createRoute({
     },
 })
 
-const DeleteAuditLogCore: AppRouteHandler<
-    typeof DeleteAuditLogCoreDef
-> = async (c) => {
+const DeleteAuditLogCore: AppRouteHandler<typeof DeleteAuditLogCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingAuditLog = await AuditLogCoreService.findById(id)
 
@@ -224,9 +211,7 @@ const DeleteManyAuditLogCoreDef = createRoute({
     },
 })
 
-const DeleteManyAuditLogCore: AppRouteHandler<
-    typeof DeleteManyAuditLogCoreDef
-> = async (c) => {
+const DeleteManyAuditLogCore: AppRouteHandler<typeof DeleteManyAuditLogCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await AuditLogCoreService.deleteMany(ids)

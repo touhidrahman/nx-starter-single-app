@@ -21,18 +21,13 @@ export const getStorageItemRoute = createRoute({
     },
 })
 
-export const getStorageItemHandler: AppRouteHandler<
-    typeof getStorageItemRoute
-> = async (c) => {
+export const getStorageItemHandler: AppRouteHandler<typeof getStorageItemRoute> = async (c) => {
     const id = c.req.param('id')
 
     const storage = await getStorageItemById(id)
 
     if (!storage) {
-        return c.json(
-            { data: {}, message: 'Storage not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Storage not found', success: false }, NOT_FOUND)
     }
 
     return c.json({ data: storage, message: 'Storage item', success: true }, OK)

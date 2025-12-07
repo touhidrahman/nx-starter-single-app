@@ -6,24 +6,17 @@ import { SubscriptionCoreService } from '../core/subscription-core.service'
 import { SubscriptionWithPlan } from './subscription-crud.model'
 
 export class SubscriptionCrudService extends SubscriptionCoreService {
-    static async findByGroupId(
-        groupId: string,
-    ): Promise<SubscriptionWithPlan | null> {
+    static async findByGroupId(groupId: string): Promise<SubscriptionWithPlan | null> {
         return SubscriptionCrudService.findOne({ groupId })
     }
 
-    static async findOne(
-        filters: QuerySubscriptions,
-    ): Promise<SubscriptionWithPlan | null> {
+    static async findOne(filters: QuerySubscriptions): Promise<SubscriptionWithPlan | null> {
         const conditions = SubscriptionCoreService.buildWhereConditions(filters)
         const [result] = await db
             .select({ subscriptionsTable, pricingPlanTable })
             .from(subscriptionsTable)
             .where(conditions)
-            .leftJoin(
-                pricingPlanTable,
-                eq(subscriptionsTable.planId, pricingPlanTable.id),
-            )
+            .leftJoin(pricingPlanTable, eq(subscriptionsTable.planId, pricingPlanTable.id))
             .limit(1)
         if (!result) return null
 
@@ -38,10 +31,7 @@ export class SubscriptionCrudService extends SubscriptionCoreService {
             .select({ subscriptionsTable, pricingPlanTable })
             .from(subscriptionsTable)
             .where(eq(subscriptionsTable.id, id))
-            .leftJoin(
-                pricingPlanTable,
-                eq(subscriptionsTable.planId, pricingPlanTable.id),
-            )
+            .leftJoin(pricingPlanTable, eq(subscriptionsTable.planId, pricingPlanTable.id))
             .limit(1)
         if (!result) return null
 

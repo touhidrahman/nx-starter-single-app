@@ -11,9 +11,7 @@ export const homeRoutes: HomeRoutes = {
         path: 'dashboard/home',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-home/page-home.component').then(
-                (m) => m.PageHomeComponent,
-            ),
+            import('../page-home/page-home.component').then((m) => m.PageHomeComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 }

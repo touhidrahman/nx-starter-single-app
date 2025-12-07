@@ -35,9 +35,7 @@ const GetCategoryListDef = createRoute({
     },
 })
 
-const GetCategoryList: AppRouteHandler<typeof GetCategoryListDef> = async (
-    c,
-) => {
+const GetCategoryList: AppRouteHandler<typeof GetCategoryListDef> = async (c) => {
     try {
         const query = c.req.valid('query')
         const { groupId } = c.get('jwtPayload') as AccessTokenPayload
@@ -48,11 +46,7 @@ const GetCategoryList: AppRouteHandler<typeof GetCategoryListDef> = async (
         return c.json(
             {
                 data,
-                pagination: buildPaginationResponse(
-                    query.page,
-                    query.size,
-                    count,
-                ),
+                pagination: buildPaginationResponse(query.page, query.size, count),
                 message: 'Category list fetched successfully',
                 success: true,
             },
@@ -113,9 +107,7 @@ const CreateCategoryDef = createRoute({
 })
 
 const CreateCategory: AppRouteHandler<typeof CreateCategoryDef> = async (c) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {

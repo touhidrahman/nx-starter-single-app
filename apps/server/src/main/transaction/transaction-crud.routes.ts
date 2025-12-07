@@ -1,12 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
 import { ContentfulStatusCode } from 'hono/utils/http-status'
-import {
-    FORBIDDEN,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    OK,
-} from 'stoker/http-status-codes'
+import { FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
@@ -40,9 +35,7 @@ const GetTransactionListDef = createRoute({
     },
 })
 
-const GetTransactionList: AppRouteHandler<
-    typeof GetTransactionListDef
-> = async (c) => {
+const GetTransactionList: AppRouteHandler<typeof GetTransactionListDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -109,12 +102,8 @@ const CreateTransactionDef = createRoute({
     },
 })
 
-const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (
-    c,
-) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (c) => {
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {
@@ -124,12 +113,11 @@ const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (
     }
 
     try {
-        const data =
-            await TransactionService.createTransactionAndUpdateAccountBalance({
-                ...input,
-                groupId,
-                creatorId,
-            })
+        const data = await TransactionService.createTransactionAndUpdateAccountBalance({
+            ...input,
+            groupId,
+            creatorId,
+        })
 
         return c.json(
             {
@@ -141,12 +129,9 @@ const CreateTransaction: AppRouteHandler<typeof CreateTransactionDef> = async (
         )
     } catch (error) {
         throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
+            error instanceof Error ? (error.cause as ContentfulStatusCode) : INTERNAL_SERVER_ERROR,
             {
-                message:
-                    (error as Error).message ?? 'Failed to create transaction',
+                message: (error as Error).message ?? 'Failed to create transaction',
             },
         )
     }
@@ -166,9 +151,7 @@ const UpdateTransactionDef = createRoute({
     },
 })
 
-const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (
-    c,
-) => {
+const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -184,13 +167,10 @@ const UpdateTransaction: AppRouteHandler<typeof UpdateTransactionDef> = async (
     }
 
     const input = c.req.valid('json')
-    const data = await TransactionService.updateTransactionAndAccountBalance(
-        existing.id,
-        {
-            ...input,
-            groupId,
-        },
-    )
+    const data = await TransactionService.updateTransactionAndAccountBalance(existing.id, {
+        ...input,
+        groupId,
+    })
 
     return c.json(
         {
@@ -215,9 +195,7 @@ const DeleteTransactionDef = createRoute({
     },
 })
 
-const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
-    c,
-) => {
+const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -233,9 +211,7 @@ const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
     }
 
     try {
-        await TransactionService.deleteTransactionAndUpdateAccountBalance(
-            existing.id,
-        )
+        await TransactionService.deleteTransactionAndUpdateAccountBalance(existing.id)
 
         return c.json(
             {
@@ -247,12 +223,9 @@ const DeleteTransaction: AppRouteHandler<typeof DeleteTransactionDef> = async (
         )
     } catch (error) {
         throw new HTTPException(
-            error instanceof Error
-                ? (error.cause as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR,
+            error instanceof Error ? (error.cause as ContentfulStatusCode) : INTERNAL_SERVER_ERROR,
             {
-                message:
-                    (error as Error).message ?? 'Failed to delete transaction',
+                message: (error as Error).message ?? 'Failed to delete transaction',
             },
         )
     }

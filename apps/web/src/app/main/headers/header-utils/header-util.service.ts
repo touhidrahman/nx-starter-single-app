@@ -10,10 +10,7 @@ export class HeaderUtilService {
         ;(event.target as HTMLElement).style.display = 'none'
     }
 
-    toggleMoreOptions(
-        moreOptionWrapper: HTMLDivElement,
-        chevron: HTMLSpanElement,
-    ) {
+    toggleMoreOptions(moreOptionWrapper: HTMLDivElement, chevron: HTMLSpanElement) {
         moreOptionWrapper.classList.toggle('h-24')
         moreOptionWrapper.classList.toggle('h-0')
         chevron.classList.toggle('rotate-90')

@@ -39,9 +39,7 @@ export class PermissionRequestsListStateService extends SimpleStore<permissionRe
     replacePermissionRequest(data: PermissionRequest) {
         const { permissionRequests } = this.getState()
         this.setState({
-            permissionRequests: permissionRequests.map((c) =>
-                c.id === data.id ? data : c,
-            ),
+            permissionRequests: permissionRequests.map((c) => (c.id === data.id ? data : c)),
         })
     }
 
@@ -52,18 +50,12 @@ export class PermissionRequestsListStateService extends SimpleStore<permissionRe
         return this.permissionRequestApiService.update(id, data).pipe(
             tap((value) => {
                 if (value.data) {
-                    this.updatePermissionRequestState(
-                        id,
-                        value.data,
-                        permissionRequests,
-                    )
+                    this.updatePermissionRequestState(id, value.data, permissionRequests)
                 }
             }),
             catchError(() => {
                 this.setState({ error: true })
-                return throwError(
-                    () => new Error('Failed to update news ticker'),
-                )
+                return throwError(() => new Error('Failed to update news ticker'))
             }),
             finalize(() => this.setState({ loading: false })),
         )
@@ -90,23 +82,19 @@ export class PermissionRequestsListStateService extends SimpleStore<permissionRe
     approvePermissionRequest(id: string) {
         this.setState({ loading: true })
 
-        return this.permissionRequestApiService
-            .approvePermissionRequest(id)
-            .pipe(
-                tap((value) => {
-                    if (value.data) {
-                        this.removePermissionRequestFromState(value.data.id)
-                        this.updateTotalUnreadRequests()
-                    }
-                }),
-                catchError(() => {
-                    this.setState({ error: true })
-                    return throwError(
-                        () => new Error('Failed to approve news ticker'),
-                    )
-                }),
-                finalize(() => this.setState({ loading: false })),
-            )
+        return this.permissionRequestApiService.approvePermissionRequest(id).pipe(
+            tap((value) => {
+                if (value.data) {
+                    this.removePermissionRequestFromState(value.data.id)
+                    this.updateTotalUnreadRequests()
+                }
+            }),
+            catchError(() => {
+                this.setState({ error: true })
+                return throwError(() => new Error('Failed to approve news ticker'))
+            }),
+            finalize(() => this.setState({ loading: false })),
+        )
     }
 
     deletePermissionRequest(id: string) {
@@ -116,9 +104,7 @@ export class PermissionRequestsListStateService extends SimpleStore<permissionRe
             tap(() => this.removePermissionRequestFromState(id)),
             catchError(() => {
                 this.setState({ error: true })
-                return throwError(
-                    () => new Error('Failed to delete news ticker'),
-                )
+                return throwError(() => new Error('Failed to delete news ticker'))
             }),
             finalize(() => this.setState({ loading: false })),
         )
@@ -126,35 +112,29 @@ export class PermissionRequestsListStateService extends SimpleStore<permissionRe
 
     pushPermissionRequest(permissionRequest: PermissionRequest) {
         this.setState({
-            permissionRequests: [
-                ...this.getState().permissionRequests,
-                permissionRequest,
-            ],
+            permissionRequests: [...this.getState().permissionRequests, permissionRequest],
         })
     }
 
     private continueLoadingPermissionRequests() {
-        this.permissionRequestApiService
-            .find({ isRead: false, isApproved: false })
-            .subscribe({
-                next: ({ data }) => {
-                    this.setState({
-                        loading: false,
-                        permissionRequests: data,
-                        totalUnreadRequests: data.length,
-                    })
-                },
-                error: () => {
-                    this.setState({ loading: false, error: true })
-                },
-            })
+        this.permissionRequestApiService.find({ isRead: false, isApproved: false }).subscribe({
+            next: ({ data }) => {
+                this.setState({
+                    loading: false,
+                    permissionRequests: data,
+                    totalUnreadRequests: data.length,
+                })
+            },
+            error: () => {
+                this.setState({ loading: false, error: true })
+            },
+        })
     }
 
     private removePermissionRequestFromState(id: string) {
-        const updatedPermissionRequests =
-            this.getState().permissionRequests.filter(
-                (permissionRequest) => permissionRequest.id !== id,
-            )
+        const updatedPermissionRequests = this.getState().permissionRequests.filter(
+            (permissionRequest) => permissionRequest.id !== id,
+        )
         this.setState({ permissionRequests: updatedPermissionRequests })
     }
 

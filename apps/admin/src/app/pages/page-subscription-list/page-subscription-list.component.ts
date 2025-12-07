@@ -2,10 +2,7 @@ import { AsyncPipe, CommonModule, DatePipe } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
 import { NoDataComponent } from '@repo/common-components'
 import { PrimeModules } from '@repo/prime-modules'
-import {
-    SubscriptionFilterComponent,
-    SubscriptionStateService,
-} from '@repo/subscription'
+import { SubscriptionFilterComponent, SubscriptionStateService } from '@repo/subscription'
 import { TablePageEvent } from 'primeng/table'
 
 @Component({

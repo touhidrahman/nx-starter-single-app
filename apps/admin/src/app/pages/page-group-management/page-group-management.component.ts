@@ -1,9 +1,4 @@
-import {
-    AsyncPipe,
-    CommonModule,
-    TitleCasePipe,
-    UpperCasePipe,
-} from '@angular/common'
+import { AsyncPipe, CommonModule, TitleCasePipe, UpperCasePipe } from '@angular/common'
 import { Component, computed, inject, OnInit, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
@@ -85,17 +80,11 @@ export class PageGroupManagementComponent implements OnInit {
     }
     search = signal<string>('')
 
-    readonly groupTableHeaders = signal<LabelValuePair<string>[]>(
-        this.GROUP_TABLE_COLUMN_HEADERS,
-    )
+    readonly groupTableHeaders = signal<LabelValuePair<string>[]>(this.GROUP_TABLE_COLUMN_HEADERS)
 
-    readonly selectedColumns = signal<LabelValuePair<string>[]>(
-        this.GROUP_TABLE_COLUMN_HEADERS,
-    )
+    readonly selectedColumns = signal<LabelValuePair<string>[]>(this.GROUP_TABLE_COLUMN_HEADERS)
 
-    readonly selectedFields = computed(() =>
-        this.selectedColumns().map((c) => c.value),
-    )
+    readonly selectedFields = computed(() => this.selectedColumns().map((c) => c.value))
 
     ngOnInit(): void {
         this.groupListStateService.init()
@@ -113,9 +102,7 @@ export class PageGroupManagementComponent implements OnInit {
 
     selectColumnsByFields(values: string[]): void {
         this.selectedColumns.set(
-            this.groupTableHeaders().filter((col) =>
-                values.includes(col.value),
-            ),
+            this.groupTableHeaders().filter((col) => values.includes(col.value)),
         )
     }
 
@@ -157,9 +144,7 @@ export class PageGroupManagementComponent implements OnInit {
     }
 
     get sortOrderNumber(): number {
-        return this.groupListStateService.getState().orderBy === OrderBy.Asc
-            ? 1
-            : -1
+        return this.groupListStateService.getState().orderBy === OrderBy.Asc ? 1 : -1
     }
 
     onSortByOrder(event: SortEvent) {
@@ -181,17 +166,12 @@ export class PageGroupManagementComponent implements OnInit {
 
     updateStatus() {
         this.groupApiService
-            .updateGroupStatus(
-                this.selectedId() ?? '',
-                this.selectedValue() ?? GroupStatus.pending,
-            )
+            .updateGroupStatus(this.selectedId() ?? '', this.selectedValue() ?? GroupStatus.pending)
             .subscribe({
                 next: (res) => {
                     if (res.data) {
                         this.visible.set(false)
-                        this.alertService.success(
-                            'Group status updated successfully.',
-                        )
+                        this.alertService.success('Group status updated successfully.')
                         this.groupListStateService.replaceGroup(res.data)
                     }
                 },

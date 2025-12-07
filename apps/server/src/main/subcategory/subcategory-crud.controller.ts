@@ -35,9 +35,7 @@ const GetSubcategoryListDef = createRoute({
     },
 })
 
-const GetSubcategoryList: AppRouteHandler<
-    typeof GetSubcategoryListDef
-> = async (c) => {
+const GetSubcategoryList: AppRouteHandler<typeof GetSubcategoryListDef> = async (c) => {
     try {
         const query = c.req.valid('query')
         const { groupId } = c.get('jwtPayload') as AccessTokenPayload
@@ -48,11 +46,7 @@ const GetSubcategoryList: AppRouteHandler<
         return c.json(
             {
                 data,
-                pagination: buildPaginationResponse(
-                    query.page,
-                    query.size,
-                    count,
-                ),
+                pagination: buildPaginationResponse(query.page, query.size, count),
                 message: 'Subcategory list fetched successfully',
                 success: true,
             },
@@ -112,12 +106,8 @@ const CreateSubcategoryDef = createRoute({
     },
 })
 
-const CreateSubcategory: AppRouteHandler<typeof CreateSubcategoryDef> = async (
-    c,
-) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateSubcategory: AppRouteHandler<typeof CreateSubcategoryDef> = async (c) => {
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {
@@ -160,9 +150,7 @@ const UpdateSubcategoryDef = createRoute({
     },
 })
 
-const UpdateSubcategory: AppRouteHandler<typeof UpdateSubcategoryDef> = async (
-    c,
-) => {
+const UpdateSubcategory: AppRouteHandler<typeof UpdateSubcategoryDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -206,9 +194,7 @@ const DeleteSubcategoryDef = createRoute({
     },
 })
 
-const DeleteSubcategory: AppRouteHandler<typeof DeleteSubcategoryDef> = async (
-    c,
-) => {
+const DeleteSubcategory: AppRouteHandler<typeof DeleteSubcategoryDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 

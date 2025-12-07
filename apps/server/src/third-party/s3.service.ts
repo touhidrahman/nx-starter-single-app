@@ -75,8 +75,7 @@ export const getS3File = async (key: string) => {
         Bucket: env.S3_BUCKET,
         Key: key,
     })
-    const { Body, ContentType, ContentLength } =
-        await appS3Client.send(readCommand)
+    const { Body, ContentType, ContentLength } = await appS3Client.send(readCommand)
 
     return { Body, ContentType, ContentLength }
 }

@@ -1,13 +1,5 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    computed,
-    ElementRef,
-    input,
-    output,
-    signal,
-    viewChild,
-} from '@angular/core'
+import { Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core'
 import { PrimeModules } from '@repo/prime-modules'
 
 @Component({
@@ -61,9 +53,7 @@ export class SearchInputComponent {
     searchBox = viewChild<ElementRef<HTMLInputElement>>('searchBox')
     search = signal('')
 
-    showClearButton = computed(
-        () => this.clearable() && this.search().length > 0,
-    )
+    showClearButton = computed(() => this.clearable() && this.search().length > 0)
 
     isDisabled = computed(() => !this.search().trim())
 

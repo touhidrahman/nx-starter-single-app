@@ -1,13 +1,5 @@
 import { z } from '@hono/zod-openapi'
-import {
-    ZodAny,
-    ZodArray,
-    ZodBoolean,
-    ZodNumber,
-    ZodObject,
-    ZodOptional,
-    ZodString,
-} from 'zod'
+import { ZodAny, ZodArray, ZodBoolean, ZodNumber, ZodObject, ZodOptional, ZodString } from 'zod'
 
 export type ZodSchema = ZodObject<any> | ZodArray<ZodObject<any>>
 

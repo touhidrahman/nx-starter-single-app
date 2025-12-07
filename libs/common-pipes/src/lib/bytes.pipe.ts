@@ -16,12 +16,7 @@ export class BytesPipe implements PipeTransform {
         TB: { max: Number.MAX_SAFE_INTEGER, prev: 'GB' },
     }
 
-    transform(
-        input: number,
-        decimal = 0,
-        from: ByteUnit = 'B',
-        to?: ByteUnit,
-    ): any {
+    transform(input: number, decimal = 0, from: ByteUnit = 'B', to?: ByteUnit): any {
         if (input > Number.MAX_SAFE_INTEGER || decimal < 0) {
             return input
         }
@@ -36,9 +31,7 @@ export class BytesPipe implements PipeTransform {
         if (to) {
             const format = BytesPipe.formats[to]
 
-            const result = BytesPipe.calculateResult(format, bytes).toFixed(
-                decimal,
-            )
+            const result = BytesPipe.calculateResult(format, bytes).toFixed(decimal)
 
             return BytesPipe.formatResult(result, to)
         }
@@ -47,10 +40,7 @@ export class BytesPipe implements PipeTransform {
             if (BytesPipe.formats[key]) {
                 const format = BytesPipe.formats[key]
                 if (bytes < format.max) {
-                    const result = BytesPipe.calculateResult(
-                        format,
-                        bytes,
-                    ).toFixed(decimal)
+                    const result = BytesPipe.calculateResult(format, bytes).toFixed(decimal)
 
                     return BytesPipe.formatResult(result, key)
                 }
@@ -62,10 +52,7 @@ export class BytesPipe implements PipeTransform {
         return `${result} ${unit}`
     }
 
-    static calculateResult(
-        format: { max: number; prev?: ByteUnit },
-        bytes: number,
-    ) {
+    static calculateResult(format: { max: number; prev?: ByteUnit }, bytes: number) {
         const prev = format.prev ? BytesPipe.formats[format.prev] : undefined
         return prev ? bytes / prev.max : bytes
     }

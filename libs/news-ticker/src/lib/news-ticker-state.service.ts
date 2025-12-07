@@ -66,9 +66,7 @@ export class NewsTickersListStateService extends SimpleStore<NewsTickerListState
             }),
             catchError(() => {
                 this.setState({ error: true })
-                return throwError(
-                    () => new Error('Failed to update news ticker'),
-                )
+                return throwError(() => new Error('Failed to update news ticker'))
             }),
             finalize(() => this.setState({ loading: false })),
         )
@@ -81,9 +79,7 @@ export class NewsTickersListStateService extends SimpleStore<NewsTickerListState
             tap(() => this.removeNewsTickerFromState(id)),
             catchError(() => {
                 this.setState({ error: true })
-                return throwError(
-                    () => new Error('Failed to delete news ticker'),
-                )
+                return throwError(() => new Error('Failed to delete news ticker'))
             }),
             finalize(() => this.setState({ loading: false })),
         )
@@ -134,10 +130,7 @@ export class NewsTickersListStateService extends SimpleStore<NewsTickerListState
         currentTickers: NewsTicker[],
     ) {
         this.setState({
-            newsTickers: [
-                ...currentTickers.filter((c) => c.id !== id),
-                updatedTicker,
-            ],
+            newsTickers: [...currentTickers.filter((c) => c.id !== id), updatedTicker],
         })
     }
 }

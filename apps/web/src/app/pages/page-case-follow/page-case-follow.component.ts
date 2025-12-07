@@ -48,16 +48,14 @@ export class PageCaseFollowComponent {
             })
             return
         }
-        this.caseFollowRequestApiService
-            .sendRequestToFollow(caseData.id)
-            .subscribe({
-                next: (_res) => {
-                    this.alertService.success('Follow request sent')
-                    this.router.navigate(['/dashboard/home/client'])
-                },
-                error: (err) => {
-                    this.alertService.error(err.error.message)
-                },
-            })
+        this.caseFollowRequestApiService.sendRequestToFollow(caseData.id).subscribe({
+            next: (_res) => {
+                this.alertService.success('Follow request sent')
+                this.router.navigate(['/dashboard/home/client'])
+            },
+            error: (err) => {
+                this.alertService.error(err.error.message)
+            },
+        })
     }
 }

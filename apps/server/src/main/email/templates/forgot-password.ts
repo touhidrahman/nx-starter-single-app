@@ -6,9 +6,7 @@ export interface ForgotPasswordEmailTemplateProps {
     resetPasswordUrl: string
 }
 
-const ForgotPasswordEmailContent = (
-    _props: ForgotPasswordEmailTemplateProps,
-) => `
+const ForgotPasswordEmailContent = (_props: ForgotPasswordEmailTemplateProps) => `
   <tr>
     <td style="padding: 30px 40px; text-align: left;">
       <h1 style="margin-top: 0; font-size: 24px; color: #333333;">Hi {{firstName}} {{lastName}},</h1>
@@ -39,9 +37,7 @@ const ForgotPasswordEmailContent = (
   </tr>
 `
 
-export function buildForgotPasswordEmailTemplate(
-    props: ForgotPasswordEmailTemplateProps,
-): string {
+export function buildForgotPasswordEmailTemplate(props: ForgotPasswordEmailTemplateProps): string {
     return new EmailTemplateBuilder<ForgotPasswordEmailTemplateProps>()
         .setBodyTemplate(ForgotPasswordEmailContent(props))
         .build(props)

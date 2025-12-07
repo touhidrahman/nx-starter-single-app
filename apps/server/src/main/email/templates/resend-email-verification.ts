@@ -7,9 +7,7 @@ export interface ResendVerificationTemplateProps {
     verificationUrl: string
 }
 
-const ResendVerificationEmailContent = (
-    _props: ResendVerificationTemplateProps,
-) => `
+const ResendVerificationEmailContent = (_props: ResendVerificationTemplateProps) => `
   <tr>
     <td style="padding: 30px 40px; text-align: center;">
       <h1 style="margin: 0; font-size: 24px; color: #333333;">Welcome, {{firstName}} {{lastName}}!</h1>

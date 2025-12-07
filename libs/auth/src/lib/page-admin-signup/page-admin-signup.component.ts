@@ -1,11 +1,7 @@
 import { Component, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import {
-    AdminRegisterFormService,
-    AdminSignupInput,
-    JwtService,
-} from '@repo/common-auth'
+import { AdminRegisterFormService, AdminSignupInput, JwtService } from '@repo/common-auth'
 import { PrimeModules } from '@repo/prime-modules'
 import { AdminAuthStateService } from '../admin-auth-state.service'
 
@@ -52,8 +48,7 @@ export class PageAdminSignupComponent {
             return
         }
 
-        const adminSignupInput: AdminSignupInput =
-            this.adminRegisterFormService.getValue()
+        const adminSignupInput: AdminSignupInput = this.adminRegisterFormService.getValue()
 
         this.authStateService.register(adminSignupInput).subscribe({
             next: () => {

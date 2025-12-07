@@ -9,16 +9,14 @@ export default function (plop) {
             {
                 type: 'input',
                 name: 'moduleName',
-                message:
-                    'Module name in PascalCase (e.g., User, Transaction, AccountType):',
+                message: 'Module name in PascalCase (e.g., User, Transaction, AccountType):',
             },
         ],
         actions: [
             {
                 type: 'add',
                 path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-core.controller.ts',
-                templateFile:
-                    'plop-templates/honomodule/core.controller.ts.hbs',
+                templateFile: 'plop-templates/honomodule/core.controller.ts.hbs',
             },
             {
                 type: 'add',
@@ -28,14 +26,12 @@ export default function (plop) {
             {
                 type: 'add',
                 path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-crud.controller.ts',
-                templateFile:
-                    'plop-templates/honomodule/crud.controller.ts.hbs',
+                templateFile: 'plop-templates/honomodule/crud.controller.ts.hbs',
             },
             {
                 type: 'add',
                 path: 'apps/server/src/main/{{dashCase moduleName}}/{{dashCase moduleName}}-custom.controller.ts',
-                templateFile:
-                    'plop-templates/honomodule/custom.controller.ts.hbs',
+                templateFile: 'plop-templates/honomodule/custom.controller.ts.hbs',
             },
             {
                 type: 'add',

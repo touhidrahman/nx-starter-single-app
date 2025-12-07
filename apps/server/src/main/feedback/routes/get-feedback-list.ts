@@ -26,9 +26,7 @@ export const getFeedbacksRoute = createRoute({
     },
 })
 
-export const getFeedbacksHandler: AppRouteHandler<
-    typeof getFeedbacksRoute
-> = async (c) => {
+export const getFeedbacksHandler: AppRouteHandler<typeof getFeedbacksRoute> = async (c) => {
     try {
         const { search, page, size, orderBy } = c.req.query()
 

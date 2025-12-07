@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertUser,
-    zQueryUsers,
-    zSelectUser,
-    zUpdateUser,
-} from './user-core.model'
+import { zInsertUser, zQueryUsers, zSelectUser, zUpdateUser } from './user-core.model'
 import { UserCoreService } from './user-core.service'
 
 const tags = [APP_OPENAPI_TAGS.User]
@@ -32,9 +27,7 @@ const GetUserListCoreDef = createRoute({
     },
 })
 
-const GetUserListCore: AppRouteHandler<typeof GetUserListCoreDef> = async (
-    c,
-) => {
+const GetUserListCore: AppRouteHandler<typeof GetUserListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await UserCoreService.findMany(query)
     const count = await UserCoreService.count(query)
@@ -64,9 +57,7 @@ const GetUserByIdCoreDef = createRoute({
     },
 })
 
-const GetUserByIdCore: AppRouteHandler<typeof GetUserByIdCoreDef> = async (
-    c,
-) => {
+const GetUserByIdCore: AppRouteHandler<typeof GetUserByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const user = await UserCoreService.findById(id)
 
@@ -215,9 +206,7 @@ const DeleteManyUserCoreDef = createRoute({
     },
 })
 
-const DeleteManyUserCore: AppRouteHandler<
-    typeof DeleteManyUserCoreDef
-> = async (c) => {
+const DeleteManyUserCore: AppRouteHandler<typeof DeleteManyUserCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await UserCoreService.deleteMany(ids)

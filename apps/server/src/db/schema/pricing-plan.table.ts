@@ -1,12 +1,5 @@
 import { relations } from 'drizzle-orm'
-import {
-    bigint,
-    boolean,
-    date,
-    integer,
-    pgTable,
-    text,
-} from 'drizzle-orm/pg-core'
+import { bigint, boolean, date, integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { subscriptionsTable } from './subscriptions.table'

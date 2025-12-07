@@ -43,9 +43,7 @@ export class UserDeleteConfirmModalComponent {
                 this.ref?.close(res.data)
             },
             error: (err) => {
-                this.alertService.error(
-                    err.error.message || 'Failed to delete user',
-                )
+                this.alertService.error(err.error.message || 'Failed to delete user')
             },
         })
     }

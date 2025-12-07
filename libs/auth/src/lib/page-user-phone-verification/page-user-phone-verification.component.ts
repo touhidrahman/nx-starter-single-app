@@ -51,16 +51,13 @@ export class PageUserPhoneVerificationComponent implements OnInit {
             .verifyPhone({
                 ...phoneVerificationData,
                 token: this.activatedRoute.snapshot.paramMap.get('token') ?? '',
-                verificationCode:
-                    +this.verifyUserForm.get('verificationCode')?.value,
+                verificationCode: +this.verifyUserForm.get('verificationCode')?.value,
             })
             .subscribe({
                 next: () => {
                     this.isLoading.set(false)
                     this.isError.set(false)
-                    this.alertService.success(
-                        'Phone number verified successfully.',
-                    )
+                    this.alertService.success('Phone number verified successfully.')
                     this.verifyUserForm.reset()
                     this.router.navigate(['/login'])
                 },

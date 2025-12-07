@@ -1,10 +1,5 @@
 import { Route } from '@angular/router'
-import {
-    authGuard,
-    groupOwnerGuard,
-    groupTypeGuard,
-    permissionGuard,
-} from '@repo/auth'
+import { authGuard, groupOwnerGuard, groupTypeGuard, permissionGuard } from '@repo/auth'
 import { PageLayout, setLayout } from '@repo/common-page-layouts'
 
 export type OrganizationRoutes = {
@@ -34,9 +29,7 @@ export const organizationRoutes: OrganizationRoutes = {
             },
             {
                 path: 'invitations',
-                canActivate: [
-                    permissionGuard(['invite:write'], { showError: true }),
-                ],
+                canActivate: [permissionGuard(['invite:write'], { showError: true })],
                 loadComponent: () =>
                     import(
                         '../../main/organization-permission/invitations/invitations-content.component'
@@ -44,21 +37,13 @@ export const organizationRoutes: OrganizationRoutes = {
             },
             {
                 path: 'permission',
-                canActivate: [
-                    groupOwnerGuard,
-                    permissionGuard(['role:read'], { showError: true }),
-                ],
+                canActivate: [groupOwnerGuard, permissionGuard(['role:read'], { showError: true })],
                 loadComponent: () =>
-                    import('@repo/group').then(
-                        (m) => m.PermissionsContentComponent,
-                    ),
+                    import('@repo/group').then((m) => m.PermissionsContentComponent),
             },
             {
                 path: 'subscriptions-usages',
-                canActivate: [
-                    groupOwnerGuard,
-                    groupTypeGuard({ redirectTo: ['/'] }),
-                ],
+                canActivate: [groupOwnerGuard, groupTypeGuard({ redirectTo: ['/'] })],
                 loadComponent: () =>
                     import(
                         '../../pages/page-subscription-usages/page-subscription-usages.component'
@@ -67,14 +52,9 @@ export const organizationRoutes: OrganizationRoutes = {
 
             {
                 path: 'subscribe-plan/:id',
-                canActivate: [
-                    groupOwnerGuard,
-                    groupTypeGuard({ redirectTo: ['/'] }),
-                ],
+                canActivate: [groupOwnerGuard, groupTypeGuard({ redirectTo: ['/'] })],
                 loadComponent: () =>
-                    import('@repo/subscription').then(
-                        (m) => m.SubscribePlanComponent,
-                    ),
+                    import('@repo/subscription').then((m) => m.SubscribePlanComponent),
             },
         ],
     },
@@ -82,27 +62,25 @@ export const organizationRoutes: OrganizationRoutes = {
         path: 'team',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../../pages/page-team/page-team.component').then(
-                (m) => m.PageTeamComponent,
-            ),
+            import('../../pages/page-team/page-team.component').then((m) => m.PageTeamComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     lawyerTeam: {
         path: 'lawyer-team',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import(
-                '../../pages/page-lawyer-team/page-lawyer-team.component'
-            ).then((m) => m.PageLawyerTeamComponent),
+            import('../../pages/page-lawyer-team/page-lawyer-team.component').then(
+                (m) => m.PageLawyerTeamComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Cta) },
     },
     clientTeam: {
         path: 'client-team',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import(
-                '../../pages/page-client-team/page-client-team.component'
-            ).then((m) => m.PageClientTeamComponent),
+            import('../../pages/page-client-team/page-client-team.component').then(
+                (m) => m.PageClientTeamComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Cta) },
     },
     followedOrganizations: {

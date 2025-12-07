@@ -31,9 +31,7 @@ const GetTransactionListCoreDef = createRoute({
     },
 })
 
-const GetTransactionListCore: AppRouteHandler<
-    typeof GetTransactionListCoreDef
-> = async (c) => {
+const GetTransactionListCore: AppRouteHandler<typeof GetTransactionListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await TransactionCoreService.findMany(query)
     const count = await TransactionCoreService.count(query)
@@ -63,9 +61,7 @@ const GetTransactionByIdCoreDef = createRoute({
     },
 })
 
-const GetTransactionByIdCore: AppRouteHandler<
-    typeof GetTransactionByIdCoreDef
-> = async (c) => {
+const GetTransactionByIdCore: AppRouteHandler<typeof GetTransactionByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const transaction = await TransactionCoreService.findById(id)
 
@@ -99,16 +95,11 @@ const CreateTransactionCoreDef = createRoute({
         body: jsonContent(zInsertTransaction, 'Transaction Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectTransaction,
-            'Transaction created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectTransaction, 'Transaction created successfully'),
     },
 })
 
-const CreateTransactionCore: AppRouteHandler<
-    typeof CreateTransactionCoreDef
-> = async (c) => {
+const CreateTransactionCore: AppRouteHandler<typeof CreateTransactionCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newTransaction = await TransactionCoreService.create(body)
 
@@ -132,17 +123,12 @@ const UpdateTransactionCoreDef = createRoute({
         body: jsonContent(zUpdateTransaction, 'Transaction Update Data'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransaction,
-            'Transaction updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectTransaction, 'Transaction updated successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Transaction not found'),
     },
 })
 
-const UpdateTransactionCore: AppRouteHandler<
-    typeof UpdateTransactionCoreDef
-> = async (c) => {
+const UpdateTransactionCore: AppRouteHandler<typeof UpdateTransactionCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingTransaction = await TransactionCoreService.findById(id)
@@ -179,17 +165,12 @@ const DeleteTransactionCoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransaction,
-            'Transaction deleted successfully',
-        ),
+        [OK]: ApiResponse(zSelectTransaction, 'Transaction deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Transaction not found'),
     },
 })
 
-const DeleteTransactionCore: AppRouteHandler<
-    typeof DeleteTransactionCoreDef
-> = async (c) => {
+const DeleteTransactionCore: AppRouteHandler<typeof DeleteTransactionCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingTransaction = await TransactionCoreService.findById(id)
 
@@ -229,9 +210,9 @@ const DeleteManyTransactionCoreDef = createRoute({
     },
 })
 
-const DeleteManyTransactionCore: AppRouteHandler<
-    typeof DeleteManyTransactionCoreDef
-> = async (c) => {
+const DeleteManyTransactionCore: AppRouteHandler<typeof DeleteManyTransactionCoreDef> = async (
+    c,
+) => {
     const { ids } = c.req.valid('json')
 
     await TransactionCoreService.deleteMany(ids)

@@ -1,11 +1,6 @@
 import { isPlatformBrowser } from '@angular/common'
 import { inject, isSignal, PLATFORM_ID } from '@angular/core'
-import {
-    patchState,
-    signalStoreFeature,
-    withMethods,
-    withState,
-} from '@ngrx/signals'
+import { patchState, signalStoreFeature, withMethods, withState } from '@ngrx/signals'
 
 export const withLocalStorageSync = (storageKey: string) =>
     signalStoreFeature(
@@ -16,18 +11,13 @@ export const withLocalStorageSync = (storageKey: string) =>
                 saveToLocalStorage() {
                     const stateValue: Record<string, unknown> = {}
                     for (const key in state as Record<string, unknown>) {
-                        const sliceSignal = (<Record<string, unknown>>state)[
-                            key
-                        ]
+                        const sliceSignal = (<Record<string, unknown>>state)[key]
                         if (isSignal(sliceSignal)) {
                             stateValue[key] = sliceSignal()
                         }
                     }
 
-                    window.localStorage.setItem(
-                        storageKey,
-                        JSON.stringify(stateValue),
-                    )
+                    window.localStorage.setItem(storageKey, JSON.stringify(stateValue))
                 },
                 loadFromLocalStorage(): boolean {
                     if (!isBrowser) {

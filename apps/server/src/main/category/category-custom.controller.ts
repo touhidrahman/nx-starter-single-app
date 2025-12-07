@@ -25,13 +25,9 @@ const GetMyCategoryListDef = createRoute({
     },
 })
 
-const GetCategoryListCrud: AppRouteHandler<
-    typeof GetMyCategoryListDef
-> = async (c) => {
+const GetCategoryListCrud: AppRouteHandler<typeof GetMyCategoryListDef> = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
     const data = await CategoryService.findMany(groupAndUserSpecificQuery)

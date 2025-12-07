@@ -72,17 +72,13 @@ const InactiveStatusEmailContent = (_props: StatusEmailTemplateProps) => `
   </tr>
 `
 
-export function buildActiveStatusEmailTemplate(
-    props: StatusEmailTemplateProps,
-): string {
+export function buildActiveStatusEmailTemplate(props: StatusEmailTemplateProps): string {
     return new EmailTemplateBuilder<StatusEmailTemplateProps>()
         .setBodyTemplate(ActiveStatusEmailContent(props))
         .build(props)
 }
 
-export function buildInactiveStatusEmailTemplate(
-    props: StatusEmailTemplateProps,
-): string {
+export function buildInactiveStatusEmailTemplate(props: StatusEmailTemplateProps): string {
     return new EmailTemplateBuilder<StatusEmailTemplateProps>()
         .setBodyTemplate(InactiveStatusEmailContent(props))
         .build(props)

@@ -11,11 +11,7 @@ import {
     InviteMemberDialogComponent,
     LoggedInGroupStateService,
 } from '@repo/group'
-import {
-    User,
-    UserDeleteConfirmModalComponent,
-    UserListStateService,
-} from '@repo/user'
+import { User, UserDeleteConfirmModalComponent, UserListStateService } from '@repo/user'
 import { DialogService } from 'primeng/dynamicdialog'
 
 @Component({
@@ -31,9 +27,7 @@ export class GroupMembersComponent implements OnInit {
     private route = inject(ActivatedRoute)
     private userListStateService = inject(UserListStateService)
     protected loggedInGroupStateService = inject(LoggedInGroupStateService)
-    protected adminGroupManagementStateService = inject(
-        AdminGroupManagementStateService,
-    )
+    protected adminGroupManagementStateService = inject(AdminGroupManagementStateService)
 
     groupId = signal<string | null>('')
     isAdmin = signal<boolean>(false)
@@ -106,20 +100,17 @@ export class GroupMembersComponent implements OnInit {
     }
 
     openUserDeleteModal(user: User) {
-        const deleteRef = this.dialogService.open(
-            UserDeleteConfirmModalComponent,
-            {
-                header: 'Delete User Permanently',
-                width: '50%',
-                breakpoints: {
-                    '960px': '75vw',
-                    '640px': '95vw',
-                },
-                modal: true,
-                closable: true,
-                data: user,
+        const deleteRef = this.dialogService.open(UserDeleteConfirmModalComponent, {
+            header: 'Delete User Permanently',
+            width: '50%',
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '95vw',
             },
-        )
+            modal: true,
+            closable: true,
+            data: user,
+        })
 
         deleteRef?.onClose.subscribe((res) => {
             if (res) {
@@ -134,9 +125,7 @@ export class GroupMembersComponent implements OnInit {
         this.loggedInGroupStateService.removeUserFromGroup(userId)
 
         const adminState = this.adminGroupManagementStateService.getState()
-        const updatedAdminUsers = adminState.users.filter(
-            (u) => u.id !== userId,
-        )
+        const updatedAdminUsers = adminState.users.filter((u) => u.id !== userId)
 
         this.adminGroupManagementStateService.setState({
             ...adminState,

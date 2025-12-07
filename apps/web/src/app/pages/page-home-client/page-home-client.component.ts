@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import {
-    ClientUpcomingCasesComponent,
-    FollowedCasesStateService,
-} from '@repo/case'
+import { ClientUpcomingCasesComponent, FollowedCasesStateService } from '@repo/case'
 import { PrimeModules } from '@repo/prime-modules'
 import { ProfileStateService } from '@repo/user'
 

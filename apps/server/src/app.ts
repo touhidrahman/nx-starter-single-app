@@ -102,9 +102,7 @@ configureOpenAPI(app)
 
 const paths = []
 for (const route of routes) {
-    paths.push(
-        ...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)),
-    )
+    paths.push(...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)))
     app.route('/', route)
 }
 console.log('Registered routes:\n')

@@ -31,9 +31,7 @@ export class PageSubscriptionComponent implements OnInit {
 
     getFeatures(features: string | undefined): string[] {
         if (features) {
-            return features
-                .split(',')
-                .map((feature) => feature.replace(/['"]/g, '').trim())
+            return features.split(',').map((feature) => feature.replace(/['"]/g, '').trim())
         }
         return []
     }
@@ -43,9 +41,7 @@ export class PageSubscriptionComponent implements OnInit {
     }
 
     getPrice(monthlyPrice: number, yearlyPrice: number): number {
-        return this.planPriceType === SubscriptionType.MONTHLY
-            ? monthlyPrice
-            : yearlyPrice
+        return this.planPriceType === SubscriptionType.MONTHLY ? monthlyPrice : yearlyPrice
     }
 
     onSubscribe(planId: string) {
@@ -65,10 +61,7 @@ export class PageSubscriptionComponent implements OnInit {
             groupId: this.groupId(),
             userId: this.userId(),
         }
-        this.localStorageService.setItem(
-            'subscribedPlan',
-            JSON.stringify(subscribedPlan),
-        )
+        this.localStorageService.setItem('subscribedPlan', JSON.stringify(subscribedPlan))
         this.router.navigate(['/payment'])
     }
 

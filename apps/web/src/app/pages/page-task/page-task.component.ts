@@ -7,12 +7,7 @@ import { TaskTableComponent } from '../../main/task/components/task-table/task-t
 
 @Component({
     selector: 'app-page-task',
-    imports: [
-        CommonModule,
-        PrimeModules,
-        TaskTableComponent,
-        TaskFilterComponent,
-    ],
+    imports: [CommonModule, PrimeModules, TaskTableComponent, TaskFilterComponent],
     templateUrl: './page-task.component.html',
     styleUrl: './page-task.component.scss',
     providers: [TaskListStateService],

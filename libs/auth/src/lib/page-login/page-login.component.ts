@@ -31,9 +31,7 @@ export class PageLoginComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute)
     private router = inject(Router)
     private returnUrl = ''
-    userVerificationStatusCheckService = inject(
-        UserVerificationStatusCheckService,
-    )
+    userVerificationStatusCheckService = inject(UserVerificationStatusCheckService)
     private alertService = inject(AlertService)
     private readonly location = inject(WA_LOCATION)
     loginFormService = inject(LoginFormService)
@@ -42,12 +40,9 @@ export class PageLoginComponent implements OnInit {
     errors = signal<string>('')
 
     ngOnInit(): void {
-        this.returnUrl =
-            this.activatedRoute.snapshot.queryParams['returnUrl'] ??
-            '/dashboard/home'
+        this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/dashboard/home'
 
-        if (this.authStateService.isLoggedIn())
-            this.router.navigateByUrl(this.returnUrl)
+        if (this.authStateService.isLoggedIn()) this.router.navigateByUrl(this.returnUrl)
         this.userVerificationStatusCheckService.initLogin()
 
         if (this.authStateService.isLoggedIn()) {
@@ -69,22 +64,18 @@ export class PageLoginComponent implements OnInit {
     }
 
     userVerify() {
-        const value = this.loginFormService.form
-            .get('identifier')
-            ?.value?.trim()
+        const value = this.loginFormService.form.get('identifier')?.value?.trim()
         if (value) {
-            this.userVerificationStatusCheckService
-                .resendVerification(value)
-                .subscribe({
-                    error: (err) => {
-                        const errorMessage =
-                            err.error?.message ||
-                            err.message ||
-                            'Failed to send verification mail / code. Please try again.'
+            this.userVerificationStatusCheckService.resendVerification(value).subscribe({
+                error: (err) => {
+                    const errorMessage =
+                        err.error?.message ||
+                        err.message ||
+                        'Failed to send verification mail / code. Please try again.'
 
-                        this.alertService.error(errorMessage)
-                    },
-                })
+                    this.alertService.error(errorMessage)
+                },
+            })
         }
     }
 
@@ -111,9 +102,7 @@ export class PageLoginComponent implements OnInit {
                     return
                 }
                 const errorMessage =
-                    err.error?.message ||
-                    err.message ||
-                    'Login failed. Please try again.'
+                    err.error?.message || err.message || 'Login failed. Please try again.'
 
                 this.errors.set(errorMessage)
             },

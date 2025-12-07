@@ -1,19 +1,11 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import {
-    INTERNAL_SERVER_ERROR,
-    NO_CONTENT,
-    NOT_FOUND,
-    OK,
-} from 'stoker/http-status-codes'
+import { INTERNAL_SERVER_ERROR, NO_CONTENT, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { isAdmin } from '../../../middlewares/is-admin.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { ApiResponse } from '../../../utils/api-response.util'
-import {
-    removeGroupOwner,
-    resetDefaultGroupId,
-} from '../../group/group.service'
+import { removeGroupOwner, resetDefaultGroupId } from '../../group/group.service'
 import { zSelectUser } from '../user.schema'
 import {
     deleteUser,
@@ -38,19 +30,14 @@ export const deleteUserRoute = createRoute({
     },
 })
 
-export const deleteUserHandler: AppRouteHandler<
-    typeof deleteUserRoute
-> = async (c) => {
+export const deleteUserHandler: AppRouteHandler<typeof deleteUserRoute> = async (c) => {
     const { sub } = c.get('jwtPayload')
     const userId = c.req.param('id')
     const user = await findUserById(userId)
 
     try {
         if (!user) {
-            return c.json(
-                { data: {}, success: false, message: 'User not found' },
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, success: false, message: 'User not found' }, NOT_FOUND)
         }
 
         const userGroups = await findGroupsOwnedByUser(user.id)
@@ -65,10 +52,7 @@ export const deleteUserHandler: AppRouteHandler<
         const deletedUser = await deleteUser(userId)
 
         if (!deletedUser) {
-            return c.json(
-                { data: {}, success: false, message: 'User not found' },
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, success: false, message: 'User not found' }, NOT_FOUND)
         }
 
         return c.json(

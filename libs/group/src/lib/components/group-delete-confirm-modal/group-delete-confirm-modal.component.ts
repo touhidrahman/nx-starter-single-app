@@ -31,8 +31,7 @@ export class GroupDeleteConfirmModalComponent {
             event,
             title: 'Delete Group',
             message: `Are you sure you want to delete ${this.config.data.id}?`,
-            confirmAction: () =>
-                this.onDeleteGroup(this.config.data.id as string),
+            confirmAction: () => this.onDeleteGroup(this.config.data.id as string),
         }
 
         this.alertService.confirm(confirmDialogData)

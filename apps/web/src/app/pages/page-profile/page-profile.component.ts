@@ -34,12 +34,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
     ],
     templateUrl: './page-profile.component.html',
     styleUrl: './page-profile.component.scss',
-    providers: [
-        ChangePasswordFormService,
-        UserFormService,
-        DialogService,
-        DynamicDialogRef,
-    ],
+    providers: [ChangePasswordFormService, UserFormService, DialogService, DynamicDialogRef],
 })
 export class PageProfileComponent implements OnInit {
     private alertService = inject(AlertService)

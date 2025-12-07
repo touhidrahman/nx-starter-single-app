@@ -16,8 +16,7 @@ import { ForgotPasswordFormService } from '../forgot-password-form.service'
     providers: [ForgotPasswordFormService],
 })
 export class PageForgotPasswordComponent {
-    private authApiService =
-        inject<AuthApiService<unknown, unknown>>(AuthApiService)
+    private authApiService = inject<AuthApiService<unknown, unknown>>(AuthApiService)
     private alertService = inject(AlertService)
     private forgotPasswordFormService = inject(ForgotPasswordFormService)
     private router = inject(Router)
@@ -50,14 +49,11 @@ export class PageForgotPasswordComponent {
                         this.isLoading.set(false)
                         this.forgotPasswordForm.reset()
                         if (response.data.isPhone) {
-                            this.router.navigate(
-                                [`new-password/${response.data.token}`],
-                                {
-                                    queryParams: {
-                                        isPhone: response.data.isPhone,
-                                    },
+                            this.router.navigate([`new-password/${response.data.token}`], {
+                                queryParams: {
+                                    isPhone: response.data.isPhone,
                                 },
-                            )
+                            })
                         } else {
                             this.router.navigate(['/verification-email-sent'], {
                                 queryParams: { isReset: true },

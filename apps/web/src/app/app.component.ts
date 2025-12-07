@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
-import {
-    ActivatedRoute,
-    NavigationEnd,
-    Router,
-    RouterModule,
-} from '@angular/router'
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router'
 import { App } from '@capacitor/app'
 import { AuthStateService } from '@repo/auth'
 import { TokenSharingService } from '@repo/common-auth'
@@ -106,14 +101,12 @@ export class AppComponent implements OnInit {
     }
 
     private loadUserTheme() {
-        this.userSettingsApiService
-            .getUsersSettingsByUserId()
-            .subscribe((res) => {
-                const settings = res.data?.settings
-                if (settings) {
-                    const isDark = settings['theme'] === 'dark'
-                    this.themeService.setTheme(isDark)
-                }
-            })
+        this.userSettingsApiService.getUsersSettingsByUserId().subscribe((res) => {
+            const settings = res.data?.settings
+            if (settings) {
+                const isDark = settings['theme'] === 'dark'
+                this.themeService.setTheme(isDark)
+            }
+        })
     }
 }

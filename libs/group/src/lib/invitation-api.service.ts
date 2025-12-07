@@ -1,9 +1,4 @@
-import {
-    HttpClient,
-    HttpErrorResponse,
-    HttpParams,
-    HttpResponse,
-} from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http'
 import { Inject, Injectable, inject } from '@angular/core'
 import { ApiResponse, OrderBy } from '@repo/common-models'
 import { ApiService } from '@repo/common-services'
@@ -14,10 +9,7 @@ import { Invitation, InvitationDto } from './invitation.model'
 @Injectable({
     providedIn: 'root',
 })
-export class InvitationApiService extends ApiService<
-    Invitation,
-    InvitationDto
-> {
+export class InvitationApiService extends ApiService<Invitation, InvitationDto> {
     constructor(
         @Inject(APP_ENVIRONMENT)
         private env: AppEnvironmentConfig,
@@ -25,9 +17,7 @@ export class InvitationApiService extends ApiService<
         super(inject(HttpClient), `${env.apiUrl}/v1/invites`)
     }
 
-    acceptInvite(
-        token: string,
-    ): Observable<ApiResponse<{ redirect: boolean; url: string }>> {
+    acceptInvite(token: string): Observable<ApiResponse<{ redirect: boolean; url: string }>> {
         return this.http
             .post<ApiResponse<{ redirect: boolean; url: string }>>(
                 `${this.apiUrl}/accept`,
@@ -38,18 +28,12 @@ export class InvitationApiService extends ApiService<
                 },
             )
             .pipe(
-                map(
-                    (
-                        response: HttpResponse<
-                            ApiResponse<{ redirect: boolean; url: string }>
-                        >,
-                    ) => {
-                        if (response.status === 302 || response.ok) {
-                            return response.body!
-                        }
-                        throw new Error('Unexpected response status')
-                    },
-                ),
+                map((response: HttpResponse<ApiResponse<{ redirect: boolean; url: string }>>) => {
+                    if (response.status === 302 || response.ok) {
+                        return response.body!
+                    }
+                    throw new Error('Unexpected response status')
+                }),
                 catchError((error: HttpErrorResponse) => {
                     if (error.error) {
                         return of(

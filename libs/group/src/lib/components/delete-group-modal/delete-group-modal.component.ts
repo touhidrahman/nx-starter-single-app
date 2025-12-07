@@ -41,9 +41,7 @@ export class DeleteGroupModalComponent {
         this.groupStateService.deleteGroup(id).subscribe({
             next: () => {
                 this.ref?.close()
-                this.alertService.success(
-                    'Group deleted successfully including everything!',
-                )
+                this.alertService.success('Group deleted successfully including everything!')
             },
             error: (err) => {
                 this.alertService.error(err.message)

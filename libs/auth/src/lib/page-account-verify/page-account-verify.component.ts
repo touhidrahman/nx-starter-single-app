@@ -40,9 +40,7 @@ export class PageAccountVerifyComponent implements OnInit {
             },
             error: (_error) => {
                 this.isLoading = false
-                this.alertService.error(
-                    'An error occurred during verification.',
-                )
+                this.alertService.error('An error occurred during verification.')
             },
         })
     }

@@ -1,11 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import {
-    AuthApiService,
-    JwtService,
-    NewPasswordFormService,
-} from '@repo/common-auth'
+import { AuthApiService, JwtService, NewPasswordFormService } from '@repo/common-auth'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 
@@ -91,9 +87,7 @@ export class NewPasswordComponent implements OnInit {
                 error: (err) => {
                     this.isLoading.set(false)
                     const errorMessage =
-                        err.error?.message ||
-                        err.message ||
-                        'Failed to reset password.'
+                        err.error?.message || err.message || 'Failed to reset password.'
                     this.errors.set(errorMessage)
                     this.alertService.error('Failed to reset password.')
                 },

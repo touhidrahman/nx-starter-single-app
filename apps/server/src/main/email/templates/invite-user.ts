@@ -36,9 +36,7 @@ const InviteUserEmailContent = (_props: InviteUserEmailTemplateProps) => `
   </tr>
 `
 
-export function buildInviteUserEmailTemplate(
-    props: InviteUserEmailTemplateProps,
-): string {
+export function buildInviteUserEmailTemplate(props: InviteUserEmailTemplateProps): string {
     return new EmailTemplateBuilder<InviteUserEmailTemplateProps>()
         .setBodyTemplate(InviteUserEmailContent(props))
         .build(props)

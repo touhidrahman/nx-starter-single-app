@@ -35,13 +35,9 @@ const GetAuditLogListCrudDef = createRoute({
     },
 })
 
-const GetAuditLogListCrud: AppRouteHandler<
-    typeof GetAuditLogListCrudDef
-> = async (c) => {
+const GetAuditLogListCrud: AppRouteHandler<typeof GetAuditLogListCrudDef> = async (c) => {
     const query = c.req.valid('query')
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
     const creatorSpecificQuery = { ...query, creatorId, groupId }
     const data = await AuditLogCrudService.findMany(creatorSpecificQuery)
     const count = await AuditLogCrudService.count(creatorSpecificQuery)
@@ -70,12 +66,8 @@ const GetAuditLogCrudDef = createRoute({
     },
 })
 
-const GetAuditLogCrud: AppRouteHandler<typeof GetAuditLogCrudDef> = async (
-    c,
-) => {
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const GetAuditLogCrud: AppRouteHandler<typeof GetAuditLogCrudDef> = async (c) => {
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     const existing = await AuditLogCrudService.findById(id)
@@ -106,12 +98,8 @@ const CreateAuditLogCrudDef = createRoute({
     },
 })
 
-const CreateAuditLogCrud: AppRouteHandler<
-    typeof CreateAuditLogCrudDef
-> = async (c) => {
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateAuditLogCrud: AppRouteHandler<typeof CreateAuditLogCrudDef> = async (c) => {
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     const data = await AuditLogCrudService.create({
@@ -144,12 +132,8 @@ const UpdateAuditLogCrudDef = createRoute({
     },
 })
 
-const UpdateAuditLogCrud: AppRouteHandler<
-    typeof UpdateAuditLogCrudDef
-> = async (c) => {
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const UpdateAuditLogCrud: AppRouteHandler<typeof UpdateAuditLogCrudDef> = async (c) => {
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     const existing = await AuditLogCrudService.findById(id)
@@ -188,12 +172,8 @@ const DeleteAuditLogCrudDef = createRoute({
     },
 })
 
-const DeleteAuditLogCrud: AppRouteHandler<
-    typeof DeleteAuditLogCrudDef
-> = async (c) => {
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const DeleteAuditLogCrud: AppRouteHandler<typeof DeleteAuditLogCrudDef> = async (c) => {
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
     const existing = await AuditLogCrudService.findById(id)

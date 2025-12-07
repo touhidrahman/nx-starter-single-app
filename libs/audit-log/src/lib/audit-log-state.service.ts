@@ -1,14 +1,6 @@
 import { Injectable, inject } from '@angular/core'
 import { SimpleStore } from '@repo/store'
-import {
-    catchError,
-    combineLatest,
-    debounceTime,
-    finalize,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs'
+import { catchError, combineLatest, debounceTime, finalize, switchMap, tap, throwError } from 'rxjs'
 import { Action, AuditLog } from './audit-log.model'
 import { AuditLogApiService } from './audit-log-api.service'
 
@@ -65,8 +57,8 @@ export class AuditLogStateService extends SimpleStore<AuditLogsState> {
             .pipe(
                 debounceTime(300),
                 tap(() => this.setState({ loading: true })),
-                switchMap(
-                    ([
+                switchMap(([search, entityId, creatorId, action, page, size, orderBy]) => {
+                    return this.auditLogApiService.getAllAuditLogs({
                         search,
                         entityId,
                         creatorId,
@@ -74,18 +66,8 @@ export class AuditLogStateService extends SimpleStore<AuditLogsState> {
                         page,
                         size,
                         orderBy,
-                    ]) => {
-                        return this.auditLogApiService.getAllAuditLogs({
-                            search,
-                            entityId,
-                            creatorId,
-                            action,
-                            page,
-                            size,
-                            orderBy,
-                        })
-                    },
-                ),
+                    })
+                }),
             )
             .subscribe({
                 next: ({ data, pagination }) => {
@@ -116,9 +98,7 @@ export class AuditLogStateService extends SimpleStore<AuditLogsState> {
     }
 
     private removeAuditLogFromState(id: string) {
-        const updatedAuditLogs = this.getState().auditLogs.filter(
-            (logs) => logs.id !== id,
-        )
+        const updatedAuditLogs = this.getState().auditLogs.filter((logs) => logs.id !== id)
         this.setState({ auditLogs: updatedAuditLogs })
     }
 }

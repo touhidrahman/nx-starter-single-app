@@ -20,20 +20,12 @@ export class RoleCoreService {
 
     static async findOne(filters: QueryRoles): Promise<SelectRole | null> {
         const conditions = RoleCoreService.buildWhereConditions(filters)
-        const roles = await db
-            .select()
-            .from(rolesTable)
-            .where(conditions)
-            .limit(1)
+        const roles = await db.select().from(rolesTable).where(conditions).limit(1)
         return roles[0] ?? null
     }
 
     static async findById(id: string): Promise<SelectRole | null> {
-        const role = await db
-            .select()
-            .from(rolesTable)
-            .where(eq(rolesTable.id, id))
-            .limit(1)
+        const role = await db.select().from(rolesTable).where(eq(rolesTable.id, id)).limit(1)
         return role[0] || null
     }
 
@@ -66,10 +58,7 @@ export class RoleCoreService {
         return roles
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertRole>,
-    ): Promise<SelectRole> {
+    static async update(id: string, input: Partial<InsertRole>): Promise<SelectRole> {
         const [role] = await db
             .update(rolesTable)
             .set(input)
@@ -100,10 +89,7 @@ export class RoleCoreService {
         if (params.search) {
             const searchTerm = `%${params.search.trim()}%`
             conditions.push(
-                or(
-                    ilike(rolesTable.name, searchTerm),
-                    ilike(rolesTable.description, searchTerm),
-                ),
+                or(ilike(rolesTable.name, searchTerm), ilike(rolesTable.description, searchTerm)),
             )
         }
         if (params.ids && params.ids.length > 0) {

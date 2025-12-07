@@ -1,11 +1,7 @@
 import { Component, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
-import {
-    AdminRegisterFormService,
-    AdminSignupInput,
-    JwtService,
-} from '@repo/common-auth'
+import { AdminRegisterFormService, AdminSignupInput, JwtService } from '@repo/common-auth'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 import { AdminAuthStateService } from 'libs/auth/src/lib/admin-auth-state.service'
@@ -56,8 +52,7 @@ export class AdminAddDialogComponent {
             return
         }
 
-        const adminSignupInput: AdminSignupInput =
-            this.adminRegisterFormService.getValue()
+        const adminSignupInput: AdminSignupInput = this.adminRegisterFormService.getValue()
 
         this.authStateService.register(adminSignupInput).subscribe({
             next: (res) => {

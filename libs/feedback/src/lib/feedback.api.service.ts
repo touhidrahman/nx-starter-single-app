@@ -24,10 +24,7 @@ export class FeedbackApiService extends ApiService<Feedback, FeedbackDto> {
         return this.http.post<ApiResponse<Feedback>>(this.baseUrl, formData)
     }
 
-    updateFeedback(
-        id: string,
-        payload: { status: string },
-    ): Observable<ApiResponse<Feedback>> {
+    updateFeedback(id: string, payload: { status: string }): Observable<ApiResponse<Feedback>> {
         return this.http.patch<ApiResponse<Feedback>>(
             `${this.env.apiUrl}/v1/feedback/${id}`,
             payload,

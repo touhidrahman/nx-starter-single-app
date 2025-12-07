@@ -24,8 +24,7 @@ export class PageAdminLoginComponent implements OnInit {
     returnUrl = ''
 
     ngOnInit(): void {
-        this.returnUrl =
-            this.route.snapshot.queryParams['returnUrl'] || '/dashboard-home'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard-home'
         if (this.adminAuthState.isLoggedIn()) {
             this.router.navigateByUrl(this.returnUrl)
         }

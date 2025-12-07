@@ -100,9 +100,7 @@ export class FeedbacksListStateService extends SimpleStore<FeedbacksListState> {
 
     replaceFeedback(feedback: Feedback) {
         this.setState({
-            feedbacks: this.getState().feedbacks.map((b) =>
-                b.id === feedback.id ? feedback : b,
-            ),
+            feedbacks: this.getState().feedbacks.map((b) => (b.id === feedback.id ? feedback : b)),
         })
     }
 
@@ -126,9 +124,7 @@ export class FeedbacksListStateService extends SimpleStore<FeedbacksListState> {
     }
 
     getStatusLabel(statusValue: FeedbackStatus): string {
-        const status = this.statusOptions.find(
-            (opt) => opt.value === statusValue,
-        )
+        const status = this.statusOptions.find((opt) => opt.value === statusValue)
         return status ? status.label : String(statusValue)
     }
 

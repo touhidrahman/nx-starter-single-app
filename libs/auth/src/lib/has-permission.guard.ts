@@ -1,9 +1,5 @@
 import { inject } from '@angular/core'
-import {
-    ActivatedRouteSnapshot,
-    CanActivateFn,
-    RouterStateSnapshot,
-} from '@angular/router'
+import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router'
 import { AlertService } from '@repo/common-services'
 import { MessageService } from 'primeng/api'
 import { AuthStateService } from './auth-state.service'
@@ -53,9 +49,7 @@ export const permissionGuard = (
             return false
         }
 
-        const hasPermission = requiredPermissions.some((perm) =>
-            userPermissions.includes(perm),
-        )
+        const hasPermission = requiredPermissions.some((perm) => userPermissions.includes(perm))
 
         if (!hasPermission) {
             if (config?.showError) {

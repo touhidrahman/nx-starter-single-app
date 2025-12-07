@@ -7,11 +7,7 @@ import { zEmpty } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectAdmin } from '../core/admin-core.model'
-import {
-    zAdminLoginResponse,
-    zLoginAdmin,
-    zRegisterAdmin,
-} from './admin-custom.model'
+import { zAdminLoginResponse, zLoginAdmin, zRegisterAdmin } from './admin-custom.model'
 import { AdminCustomService } from './admin-custom.service'
 
 const tags = [APP_OPENAPI_TAGS.Admin]

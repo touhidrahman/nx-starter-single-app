@@ -36,10 +36,7 @@ export class AuditLogApiService extends ApiService<AuditLog, AuditLogDto> {
                 params = params.set('creatorId', filterOptions.creatorId)
             }
             if (filterOptions.action !== null) {
-                params = params.set(
-                    'action',
-                    filterOptions.action.name.toString(),
-                )
+                params = params.set('action', filterOptions.action.name.toString())
             }
             if (filterOptions.entityId) {
                 params = params.set('entityId', filterOptions.entityId)

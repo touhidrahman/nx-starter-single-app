@@ -27,10 +27,7 @@ const GetTransactionScheduleListCoreDef = createRoute({
         query: zQueryTransactionSchedules,
     },
     responses: {
-        [OK]: ApiListResponse(
-            z.array(zSelectTransactionSchedule),
-            'TransactionSchedule List',
-        ),
+        [OK]: ApiListResponse(z.array(zSelectTransactionSchedule), 'TransactionSchedule List'),
     },
 })
 
@@ -61,10 +58,7 @@ const GetTransactionScheduleByIdCoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransactionSchedule,
-            'TransactionSchedule details',
-        ),
+        [OK]: ApiResponse(zSelectTransactionSchedule, 'TransactionSchedule details'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'TransactionSchedule not found'),
     },
 })
@@ -73,8 +67,7 @@ const GetTransactionScheduleByIdCore: AppRouteHandler<
     typeof GetTransactionScheduleByIdCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const transactionSchedule =
-        await TransactionScheduleCoreService.findById(id)
+    const transactionSchedule = await TransactionScheduleCoreService.findById(id)
 
     if (!transactionSchedule) {
         return c.json(
@@ -103,10 +96,7 @@ const CreateTransactionScheduleCoreDef = createRoute({
     method: 'post',
     middleware,
     request: {
-        body: jsonContent(
-            zInsertTransactionSchedule,
-            'TransactionSchedule Create Data',
-        ),
+        body: jsonContent(zInsertTransactionSchedule, 'TransactionSchedule Create Data'),
     },
     responses: {
         [CREATED]: ApiResponse(
@@ -120,8 +110,7 @@ const CreateTransactionScheduleCore: AppRouteHandler<
     typeof CreateTransactionScheduleCoreDef
 > = async (c) => {
     const body = c.req.valid('json')
-    const newTransactionSchedule =
-        await TransactionScheduleCoreService.create(body)
+    const newTransactionSchedule = await TransactionScheduleCoreService.create(body)
 
     return c.json(
         {
@@ -140,16 +129,10 @@ const UpdateTransactionScheduleCoreDef = createRoute({
     middleware,
     request: {
         params: zId,
-        body: jsonContent(
-            zUpdateTransactionSchedule,
-            'TransactionSchedule Update Data',
-        ),
+        body: jsonContent(zUpdateTransactionSchedule, 'TransactionSchedule Update Data'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransactionSchedule,
-            'TransactionSchedule updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectTransactionSchedule, 'TransactionSchedule updated successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'TransactionSchedule not found'),
     },
 })
@@ -159,8 +142,7 @@ const UpdateTransactionScheduleCore: AppRouteHandler<
 > = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
-    const existingTransactionSchedule =
-        await TransactionScheduleCoreService.findById(id)
+    const existingTransactionSchedule = await TransactionScheduleCoreService.findById(id)
 
     if (!existingTransactionSchedule) {
         return c.json(
@@ -173,8 +155,7 @@ const UpdateTransactionScheduleCore: AppRouteHandler<
         )
     }
 
-    const updatedTransactionSchedule =
-        await TransactionScheduleCoreService.update(id, body)
+    const updatedTransactionSchedule = await TransactionScheduleCoreService.update(id, body)
 
     return c.json(
         {
@@ -195,10 +176,7 @@ const DeleteTransactionScheduleCoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransactionSchedule,
-            'TransactionSchedule deleted successfully',
-        ),
+        [OK]: ApiResponse(zSelectTransactionSchedule, 'TransactionSchedule deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'TransactionSchedule not found'),
     },
 })
@@ -207,8 +185,7 @@ const DeleteTransactionScheduleCore: AppRouteHandler<
     typeof DeleteTransactionScheduleCoreDef
 > = async (c) => {
     const { id } = c.req.valid('param')
-    const existingTransactionSchedule =
-        await TransactionScheduleCoreService.findById(id)
+    const existingTransactionSchedule = await TransactionScheduleCoreService.findById(id)
 
     if (!existingTransactionSchedule) {
         return c.json(
@@ -267,9 +244,6 @@ export const transactionScheduleCoreRoutes = createRouter()
     .openapi(DeleteTransactionScheduleCoreDef, DeleteTransactionScheduleCore)
     .openapi(UpdateTransactionScheduleCoreDef, UpdateTransactionScheduleCore)
     .openapi(GetTransactionScheduleByIdCoreDef, GetTransactionScheduleByIdCore)
-    .openapi(
-        DeleteManyTransactionScheduleCoreDef,
-        DeleteManyTransactionScheduleCore,
-    )
+    .openapi(DeleteManyTransactionScheduleCoreDef, DeleteManyTransactionScheduleCore)
     .openapi(CreateTransactionScheduleCoreDef, CreateTransactionScheduleCore)
     .openapi(GetTransactionScheduleListCoreDef, GetTransactionScheduleListCore)

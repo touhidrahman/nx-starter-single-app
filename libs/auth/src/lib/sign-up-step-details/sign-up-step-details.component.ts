@@ -26,9 +26,7 @@ import { UserVerificationStatusCheckService } from '../user-verification-status-
 export class SignupStepDetailsComponent implements OnInit {
     private alertService = inject(AlertService)
     private activatedRoute = inject(ActivatedRoute)
-    protected userVerificationStatusCheckService = inject(
-        UserVerificationStatusCheckService,
-    )
+    protected userVerificationStatusCheckService = inject(UserVerificationStatusCheckService)
     protected registerFormService = inject(RegisterFormService)
 
     registrationBy = input.required<any[]>()
@@ -54,10 +52,7 @@ export class SignupStepDetailsComponent implements OnInit {
 
     onFieldBlur(field: 'email' | 'phone') {
         const control = this.registerFormService.form.get(field)
-        this.userVerificationStatusCheckService.onSignupFieldBlur(
-            field,
-            control,
-        )
+        this.userVerificationStatusCheckService.onSignupFieldBlur(field, control)
     }
 
     userVerify() {
@@ -65,17 +60,15 @@ export class SignupStepDetailsComponent implements OnInit {
         const phone = this.registerFormService.form.get('phone')?.value?.trim()
         const value = email || phone
         if (value) {
-            this.userVerificationStatusCheckService
-                .resendVerification(value)
-                .subscribe({
-                    error: (err) => {
-                        const errorMessage =
-                            err.error?.message ||
-                            err.message ||
-                            'Failed to send verification mail / code. Please try again.'
-                        this.alertService.error(errorMessage)
-                    },
-                })
+            this.userVerificationStatusCheckService.resendVerification(value).subscribe({
+                error: (err) => {
+                    const errorMessage =
+                        err.error?.message ||
+                        err.message ||
+                        'Failed to send verification mail / code. Please try again.'
+                    this.alertService.error(errorMessage)
+                },
+            })
         }
     }
 
@@ -88,11 +81,8 @@ export class SignupStepDetailsComponent implements OnInit {
     }
 
     private checkReferralCodeInQueryParam() {
-        const referralCode =
-            this.activatedRoute.snapshot.queryParams['referralCode']
-        const groupTypeControl = this.registerFormService.form.get(
-            'organization.groupType',
-        )
+        const referralCode = this.activatedRoute.snapshot.queryParams['referralCode']
+        const groupTypeControl = this.registerFormService.form.get('organization.groupType')
 
         if (groupTypeControl?.value === 'vendor') {
             this.applyReferralCode(referralCode)

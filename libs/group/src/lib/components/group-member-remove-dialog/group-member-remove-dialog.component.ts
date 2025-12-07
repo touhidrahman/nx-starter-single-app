@@ -31,16 +31,13 @@ export class GroupMemberRemoveDialogComponent {
         this.isLoading.set(true)
         this.groupApiService
             .removeUserFromOrganization(
-                this.authStateService.getGroupId() ??
-                    this.config?.data?.groupId,
+                this.authStateService.getGroupId() ?? this.config?.data?.groupId,
                 this.config?.data?.user.id,
             )
             .subscribe({
                 next: (res: ApiResponse<unknown>) => {
                     this.isLoading.set(false)
-                    this.loggedInGroupStateService.removeUserFromGroup(
-                        res.data as string,
-                    )
+                    this.loggedInGroupStateService.removeUserFromGroup(res.data as string)
                     this.alertService.success('Member removed successfully.')
                     this.ref?.close()
                 },

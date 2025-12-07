@@ -126,30 +126,13 @@ export class UserListStateService extends SimpleStore<UserListState> {
             .pipe(
                 debounceTime(300),
                 tap(() => this.setState({ loading: true })),
-                switchMap(
-                    ([
-                        sortDirection,
-                        sortField,
-                        search,
-                        searchField,
-                        _page,
-                        _size,
-                    ]) => {
-                        return this.select('loadedUsers').pipe(
-                            map((data) =>
-                                this.sortResults(
-                                    data,
-                                    sortField,
-                                    sortDirection,
-                                ),
-                            ),
-                            map((data) =>
-                                this.filterResults(data, searchField),
-                            ),
-                            map((data) => this.searchInResults(data, search)),
-                        )
-                    },
-                ),
+                switchMap(([sortDirection, sortField, search, searchField, _page, _size]) => {
+                    return this.select('loadedUsers').pipe(
+                        map((data) => this.sortResults(data, sortField, sortDirection)),
+                        map((data) => this.filterResults(data, searchField)),
+                        map((data) => this.searchInResults(data, search)),
+                    )
+                }),
             )
             .subscribe({
                 next: (users) => {
@@ -158,11 +141,7 @@ export class UserListStateService extends SimpleStore<UserListState> {
             })
     }
 
-    private sortResults(
-        users: User[],
-        sortField: keyof User | '',
-        sortDirection: -1 | 0 | 1,
-    ) {
+    private sortResults(users: User[], sortField: keyof User | '', sortDirection: -1 | 0 | 1) {
         if (!sortField) return users
 
         return users.sort((a, b) => {
@@ -204,10 +183,7 @@ export class UserListStateService extends SimpleStore<UserListState> {
         })
     }
 
-    private filterResults(
-        data: User[],
-        searchField: { [Key: string]: string } | null,
-    ) {
+    private filterResults(data: User[], searchField: { [Key: string]: string } | null) {
         if (!searchField || !Object.keys(data).length) return data
 
         return data.filter((obj) => {
@@ -235,9 +211,7 @@ export class UserListStateService extends SimpleStore<UserListState> {
 
     replaceUser(data: User) {
         this.setState({
-            users: this.getState().users.map((user) =>
-                user.id === data.id ? data : user,
-            ),
+            users: this.getState().users.map((user) => (user.id === data.id ? data : user)),
         })
     }
 }

@@ -34,9 +34,7 @@ const GetCurrencyListCrudDef = createRoute({
     },
 })
 
-const GetCurrencyListCrud: AppRouteHandler<
-    typeof GetCurrencyListCrudDef
-> = async (c) => {
+const GetCurrencyListCrud: AppRouteHandler<typeof GetCurrencyListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -67,9 +65,7 @@ const GetCurrencyCrudDef = createRoute({
     },
 })
 
-const GetCurrencyCrud: AppRouteHandler<typeof GetCurrencyCrudDef> = async (
-    c,
-) => {
+const GetCurrencyCrud: AppRouteHandler<typeof GetCurrencyCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -105,12 +101,8 @@ const CreateCurrencyCrudDef = createRoute({
     },
 })
 
-const CreateCurrencyCrud: AppRouteHandler<
-    typeof CreateCurrencyCrudDef
-> = async (c) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateCurrencyCrud: AppRouteHandler<typeof CreateCurrencyCrudDef> = async (c) => {
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {
@@ -149,9 +141,7 @@ const UpdateCurrencyCrudDef = createRoute({
     },
 })
 
-const UpdateCurrencyCrud: AppRouteHandler<
-    typeof UpdateCurrencyCrudDef
-> = async (c) => {
+const UpdateCurrencyCrud: AppRouteHandler<typeof UpdateCurrencyCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -195,9 +185,7 @@ const DeleteCurrencyCrudDef = createRoute({
     },
 })
 
-const DeleteCurrencyCrud: AppRouteHandler<
-    typeof DeleteCurrencyCrudDef
-> = async (c) => {
+const DeleteCurrencyCrud: AppRouteHandler<typeof DeleteCurrencyCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 

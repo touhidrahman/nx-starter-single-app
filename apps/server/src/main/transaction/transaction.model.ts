@@ -1,11 +1,7 @@
 import { z } from 'zod'
 import { transactionsTable } from '../../db/schema'
 import { zPagination, zSearch } from '../../models/common.schema'
-import {
-    createInsertSchema,
-    createSelectSchema,
-    createUpdateSchema,
-} from '../../utils/zod.util'
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from '../../utils/zod.util'
 
 export type InsertTransaction = z.infer<typeof zInsertTransaction>
 export type SelectTransaction = z.infer<typeof zSelectTransaction>

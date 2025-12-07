@@ -31,9 +31,7 @@ const GetSubcategoryListCoreDef = createRoute({
     },
 })
 
-const GetSubcategoryListCore: AppRouteHandler<
-    typeof GetSubcategoryListCoreDef
-> = async (c) => {
+const GetSubcategoryListCore: AppRouteHandler<typeof GetSubcategoryListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await SubcategoryCoreService.findMany(query)
     const count = await SubcategoryCoreService.count(query)
@@ -63,9 +61,7 @@ const GetSubcategoryByIdCoreDef = createRoute({
     },
 })
 
-const GetSubcategoryByIdCore: AppRouteHandler<
-    typeof GetSubcategoryByIdCoreDef
-> = async (c) => {
+const GetSubcategoryByIdCore: AppRouteHandler<typeof GetSubcategoryByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const subcategory = await SubcategoryCoreService.findById(id)
 
@@ -99,16 +95,11 @@ const CreateSubcategoryCoreDef = createRoute({
         body: jsonContent(zInsertSubcategory, 'Subcategory Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectSubcategory,
-            'Subcategory created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectSubcategory, 'Subcategory created successfully'),
     },
 })
 
-const CreateSubcategoryCore: AppRouteHandler<
-    typeof CreateSubcategoryCoreDef
-> = async (c) => {
+const CreateSubcategoryCore: AppRouteHandler<typeof CreateSubcategoryCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newSubcategory = await SubcategoryCoreService.create(body)
 
@@ -132,17 +123,12 @@ const UpdateSubcategoryCoreDef = createRoute({
         body: jsonContent(zUpdateSubcategory, 'Subcategory Update Data'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectSubcategory,
-            'Subcategory updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectSubcategory, 'Subcategory updated successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subcategory not found'),
     },
 })
 
-const UpdateSubcategoryCore: AppRouteHandler<
-    typeof UpdateSubcategoryCoreDef
-> = async (c) => {
+const UpdateSubcategoryCore: AppRouteHandler<typeof UpdateSubcategoryCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingSubcategory = await SubcategoryCoreService.findById(id)
@@ -179,17 +165,12 @@ const DeleteSubcategoryCoreDef = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectSubcategory,
-            'Subcategory deleted successfully',
-        ),
+        [OK]: ApiResponse(zSelectSubcategory, 'Subcategory deleted successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subcategory not found'),
     },
 })
 
-const DeleteSubcategoryCore: AppRouteHandler<
-    typeof DeleteSubcategoryCoreDef
-> = async (c) => {
+const DeleteSubcategoryCore: AppRouteHandler<typeof DeleteSubcategoryCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingSubcategory = await SubcategoryCoreService.findById(id)
 
@@ -229,9 +210,9 @@ const DeleteManySubcategoryCoreDef = createRoute({
     },
 })
 
-const DeleteManySubcategoryCore: AppRouteHandler<
-    typeof DeleteManySubcategoryCoreDef
-> = async (c) => {
+const DeleteManySubcategoryCore: AppRouteHandler<typeof DeleteManySubcategoryCoreDef> = async (
+    c,
+) => {
     const { ids } = c.req.valid('json')
 
     await SubcategoryCoreService.deleteMany(ids)

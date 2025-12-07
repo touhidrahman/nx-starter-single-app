@@ -4,10 +4,7 @@ import { toZonedTime } from 'date-fns-tz'
 
 @Pipe({ name: 'utcDate' })
 export class UtcDatePipe implements PipeTransform {
-    transform(
-        value: Date | string | number | null | undefined,
-        formatStr = 'mediumDate',
-    ): string {
+    transform(value: Date | string | number | null | undefined, formatStr = 'mediumDate'): string {
         if (!value) return ''
 
         const date = new Date(value)

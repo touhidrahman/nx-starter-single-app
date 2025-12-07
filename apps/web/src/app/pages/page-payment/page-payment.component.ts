@@ -1,11 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { AlertService, LocalStorageService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
-import {
-    SubscriptionStatus,
-    SubscriptionsApiService,
-    SubscriptionType,
-} from '@repo/subscription'
+import { SubscriptionStatus, SubscriptionsApiService, SubscriptionType } from '@repo/subscription'
 
 //! TODO : move type file
 
@@ -62,8 +58,7 @@ export class PagePaymentComponent implements OnInit {
     }
 
     private getPlanDetails(): void {
-        const subscribedPlan =
-            this.localStorageService.getItem('subscribedPlan')
+        const subscribedPlan = this.localStorageService.getItem('subscribedPlan')
         if (subscribedPlan) {
             this.subscribedPlan = JSON.parse(subscribedPlan) as SubscribedPlan
         }

@@ -33,9 +33,7 @@ const GetReferralListCoreDef = createRoute({
     },
 })
 
-const GetReferralListCore: AppRouteHandler<
-    typeof GetReferralListCoreDef
-> = async (c) => {
+const GetReferralListCore: AppRouteHandler<typeof GetReferralListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await ReferralCoreService.findMany(query)
     const count = await ReferralCoreService.count(query)
@@ -65,9 +63,7 @@ const GetReferralByIdCoreDef = createRoute({
     },
 })
 
-const GetReferralByIdCore: AppRouteHandler<
-    typeof GetReferralByIdCoreDef
-> = async (c) => {
+const GetReferralByIdCore: AppRouteHandler<typeof GetReferralByIdCoreDef> = async (c) => {
     const id = c.req.valid('param').id
     const data = await ReferralCoreService.findById(id)
 
@@ -91,16 +87,11 @@ const PostReferralCoreDef = createRoute({
     },
 })
 
-const PostReferralCore: AppRouteHandler<typeof PostReferralCoreDef> = async (
-    c,
-) => {
+const PostReferralCore: AppRouteHandler<typeof PostReferralCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const data = await ReferralCoreService.create(body)
 
-    return c.json(
-        { data, message: 'Referral created successfully', success: true },
-        CREATED,
-    )
+    return c.json({ data, message: 'Referral created successfully', success: true }, CREATED)
 }
 
 const PutReferralCoreDef = createRoute({
@@ -118,9 +109,7 @@ const PutReferralCoreDef = createRoute({
     },
 })
 
-const PutReferralCore: AppRouteHandler<typeof PutReferralCoreDef> = async (
-    c,
-) => {
+const PutReferralCore: AppRouteHandler<typeof PutReferralCoreDef> = async (c) => {
     const id = c.req.valid('param').id
     const body = c.req.valid('json')
 
@@ -131,10 +120,7 @@ const PutReferralCore: AppRouteHandler<typeof PutReferralCoreDef> = async (
 
     const data = await ReferralCoreService.update(id, body)
 
-    return c.json(
-        { data, message: 'Referral updated successfully', success: true },
-        OK,
-    )
+    return c.json({ data, message: 'Referral updated successfully', success: true }, OK)
 }
 
 const DeleteReferralCoreDef = createRoute({
@@ -151,9 +137,7 @@ const DeleteReferralCoreDef = createRoute({
     },
 })
 
-const DeleteReferralCore: AppRouteHandler<
-    typeof DeleteReferralCoreDef
-> = async (c) => {
+const DeleteReferralCore: AppRouteHandler<typeof DeleteReferralCoreDef> = async (c) => {
     const id = c.req.valid('param').id
 
     const existing = await ReferralCoreService.exists(id)
@@ -163,10 +147,7 @@ const DeleteReferralCore: AppRouteHandler<
 
     await ReferralCoreService.delete(id)
 
-    return c.json(
-        { data: {}, message: 'Referral deleted successfully', success: true },
-        OK,
-    )
+    return c.json({ data: {}, message: 'Referral deleted successfully', success: true }, OK)
 }
 
 export const referralCoreRoutes = createRouter()

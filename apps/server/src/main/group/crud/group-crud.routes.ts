@@ -11,11 +11,7 @@ import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
 import { UserCustomService } from '../../user/custom/user-custom.service'
-import {
-    zInsertGroup,
-    zSelectGroup,
-    zUpdateGroup,
-} from '../core/group-core.model'
+import { zInsertGroup, zSelectGroup, zUpdateGroup } from '../core/group-core.model'
 import { GroupCrudService } from './group-crud.service'
 
 const tags = [APP_OPENAPI_TAGS.Group]
@@ -72,9 +68,7 @@ const CreateGroupCrudDef = createRoute({
     },
 })
 
-const CreateGroupCrud: AppRouteHandler<typeof CreateGroupCrudDef> = async (
-    c,
-) => {
+const CreateGroupCrud: AppRouteHandler<typeof CreateGroupCrudDef> = async (c) => {
     // Depending on your business rules, you may restrict who can create groups.
     const input = c.req.valid('json')
     const { sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
@@ -110,9 +104,7 @@ const UpdateGroupCrudDef = createRoute({
     },
 })
 
-const UpdateGroupCrud: AppRouteHandler<typeof UpdateGroupCrudDef> = async (
-    c,
-) => {
+const UpdateGroupCrud: AppRouteHandler<typeof UpdateGroupCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -155,9 +147,7 @@ const DeleteGroupCrudDef = createRoute({
     },
 })
 
-const DeleteGroupCrud: AppRouteHandler<typeof DeleteGroupCrudDef> = async (
-    c,
-) => {
+const DeleteGroupCrud: AppRouteHandler<typeof DeleteGroupCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 

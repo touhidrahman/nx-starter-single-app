@@ -25,10 +25,7 @@ import {
 } from '@angular/router'
 import { provideServiceWorker } from '@angular/service-worker'
 import { FullCalendarModule } from '@fullcalendar/angular'
-import {
-    IonicRouteStrategy,
-    provideIonicAngular,
-} from '@ionic/angular/standalone'
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone'
 import { NgIconsModule, provideNgIconsConfig } from '@ng-icons/core'
 import {
     heroArrowPath,

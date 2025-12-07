@@ -27,13 +27,10 @@ export class SubscriptionFormUserComponent implements OnInit {
     isError = signal<boolean>(false)
 
     ngOnInit(): void {
-        const subscriptionTypeControl =
-            this.subscriptionFormService.controls('subscriptionType')
+        const subscriptionTypeControl = this.subscriptionFormService.controls('subscriptionType')
 
         if (subscriptionTypeControl) {
-            subscriptionTypeControl.setValue(
-                this.subscriptionTypes() ?? 'monthly',
-            )
+            subscriptionTypeControl.setValue(this.subscriptionTypes() ?? 'monthly')
             subscriptionTypeControl.disable()
         }
     }
@@ -49,20 +46,18 @@ export class SubscriptionFormUserComponent implements OnInit {
             status: 'pending',
             groupId: this.authStateService.getGroupId(),
         }
-        this.subscriptionApiService
-            .createSubscriptionsRequest(subscriptionDetails)
-            .subscribe({
-                next: () => {
-                    this.isLoading.set(false)
-                    this.alertService.success('Subscription request sent!')
-                    this.subscriptionFormService.form.reset()
-                    this.isError.set(false)
-                },
-                error: (error) => {
-                    this.isLoading.set(false)
-                    this.alertService.error(error.error.message)
-                    this.isError.set(true)
-                },
-            })
+        this.subscriptionApiService.createSubscriptionsRequest(subscriptionDetails).subscribe({
+            next: () => {
+                this.isLoading.set(false)
+                this.alertService.success('Subscription request sent!')
+                this.subscriptionFormService.form.reset()
+                this.isError.set(false)
+            },
+            error: (error) => {
+                this.isLoading.set(false)
+                this.alertService.error(error.error.message)
+                this.isError.set(true)
+            },
+        })
     }
 }

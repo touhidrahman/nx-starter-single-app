@@ -18,9 +18,7 @@ export class RoleApiService extends ApiService<Role, RoleDto> {
         super(inject(HttpClient), `${env.apiUrl}/v1/roles`)
     }
 
-    override find(params: {
-        groupId: string
-    }): Observable<ApiResponse<Role[]>> {
+    override find(params: { groupId: string }): Observable<ApiResponse<Role[]>> {
         return super.find(params)
     }
 }

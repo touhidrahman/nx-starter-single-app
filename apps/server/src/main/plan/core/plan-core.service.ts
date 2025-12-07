@@ -20,11 +20,7 @@ export class PlanCoreService {
 
     static async findOne(filters: QueryPlans): Promise<SelectPlan | null> {
         const conditions = PlanCoreService.buildWhereConditions(filters)
-        const plans = await db
-            .select()
-            .from(pricingPlanTable)
-            .where(conditions)
-            .limit(1)
+        const plans = await db.select().from(pricingPlanTable).where(conditions).limit(1)
         return plans[0] ?? null
     }
 
@@ -57,25 +53,16 @@ export class PlanCoreService {
     }
 
     static async create(input: InsertPlan): Promise<SelectPlan> {
-        const [plan] = await db
-            .insert(pricingPlanTable)
-            .values(input)
-            .returning()
+        const [plan] = await db.insert(pricingPlanTable).values(input).returning()
         return plan
     }
 
     static async createMany(inputs: InsertPlan[]): Promise<SelectPlan[]> {
-        const plans = await db
-            .insert(pricingPlanTable)
-            .values(inputs)
-            .returning()
+        const plans = await db.insert(pricingPlanTable).values(inputs).returning()
         return plans
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertPlan>,
-    ): Promise<SelectPlan> {
+    static async update(id: string, input: Partial<InsertPlan>): Promise<SelectPlan> {
         const [plan] = await db
             .update(pricingPlanTable)
             .set(input)
@@ -97,9 +84,7 @@ export class PlanCoreService {
     }
 
     static async deleteMany(ids: string[]): Promise<void> {
-        await db
-            .delete(pricingPlanTable)
-            .where(inArray(pricingPlanTable.id, ids))
+        await db.delete(pricingPlanTable).where(inArray(pricingPlanTable.id, ids))
     }
 
     static buildWhereConditions(params: QueryPlans): SQL<unknown> | undefined {

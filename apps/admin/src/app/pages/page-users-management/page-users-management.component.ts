@@ -41,12 +41,8 @@ export class PageUsersManagementComponent implements OnInit {
 
     readonly cols = signal<LabelValuePair<string>[]>(USER_TABLE_COLUMN_HEADERS)
 
-    readonly selectedColumns = signal<LabelValuePair<string>[]>(
-        USER_TABLE_COLUMN_HEADERS,
-    )
-    readonly selectedFields = computed(() =>
-        this.selectedColumns().map((c) => c.value),
-    )
+    readonly selectedColumns = signal<LabelValuePair<string>[]>(USER_TABLE_COLUMN_HEADERS)
+    readonly selectedFields = computed(() => this.selectedColumns().map((c) => c.value))
 
     ngOnInit(): void {
         this.userListStateService.init()
@@ -62,26 +58,21 @@ export class PageUsersManagementComponent implements OnInit {
     }
 
     selectColumnsByFields(values: string[]): void {
-        this.selectedColumns.set(
-            this.cols().filter((col) => values.includes(col.value)),
-        )
+        this.selectedColumns.set(this.cols().filter((col) => values.includes(col.value)))
     }
 
     openUserDeleteModal(user: User) {
-        const deleteRef = this.dialogService.open(
-            UserDeleteConfirmModalComponent,
-            {
-                header: 'Delete User',
-                width: '50%',
-                breakpoints: {
-                    '960px': '75vw',
-                    '640px': '95vw',
-                },
-                modal: true,
-                closable: true,
-                data: user,
+        const deleteRef = this.dialogService.open(UserDeleteConfirmModalComponent, {
+            header: 'Delete User',
+            width: '50%',
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '95vw',
             },
-        )
+            modal: true,
+            closable: true,
+            data: user,
+        })
 
         deleteRef?.onClose.subscribe((res) => {
             if (res) {

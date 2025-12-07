@@ -24,9 +24,9 @@ export const getUsersByGroupIdRoute = createRoute({
     },
 })
 
-export const getUsersByGroupIdHandler: AppRouteHandler<
-    typeof getUsersByGroupIdRoute
-> = async (c) => {
+export const getUsersByGroupIdHandler: AppRouteHandler<typeof getUsersByGroupIdRoute> = async (
+    c,
+) => {
     //! TODO: check here valid user or not
     const groupId = c.req.param('id')
 

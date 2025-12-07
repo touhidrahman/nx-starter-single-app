@@ -1,9 +1,5 @@
 import { FORBIDDEN } from 'stoker/http-status-codes'
-import {
-    InsertCategory,
-    QueryCategories,
-    SelectCategory,
-} from './category.model'
+import { InsertCategory, QueryCategories, SelectCategory } from './category.model'
 import { CategoryCoreService } from './category-core.service'
 
 export class CategoryService extends CategoryCoreService {
@@ -14,10 +10,7 @@ export class CategoryService extends CategoryCoreService {
         return CategoryCoreService.findMany(filters)
     }
 
-    static async findByIdAndGroupId(
-        id: string,
-        groupId: string,
-    ): Promise<SelectCategory | null> {
+    static async findByIdAndGroupId(id: string, groupId: string): Promise<SelectCategory | null> {
         return CategoryService.findOne({ id, groupId })
     }
 }

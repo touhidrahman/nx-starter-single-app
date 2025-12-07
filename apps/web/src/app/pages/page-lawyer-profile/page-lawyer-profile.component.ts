@@ -1,20 +1,9 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    ElementRef,
-    inject,
-    OnInit,
-    signal,
-    ViewChild,
-} from '@angular/core'
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { ApiResponse, LabelValuePair } from '@repo/common-models'
-import {
-    AlertService,
-    GoogleMapService,
-    ThemeService,
-} from '@repo/common-services'
+import { AlertService, GoogleMapService, ThemeService } from '@repo/common-services'
 import {
     DISTRICTS,
     Lawyer,
@@ -29,12 +18,7 @@ import { PrimeModules } from '@repo/prime-modules'
 @Component({
     selector: 'app-page-lawyer-profile',
     standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        PrimeModules,
-        CommonModule,
-        GoogleMapsModule,
-    ],
+    imports: [ReactiveFormsModule, PrimeModules, CommonModule, GoogleMapsModule],
     templateUrl: './page-lawyer-profile.component.html',
     styleUrl: './page-lawyer-profile.component.css',
     providers: [LawyerFormService],
@@ -137,12 +121,8 @@ export class PageLawyerProfileComponent implements OnInit {
                     formValues.practiceStartYear instanceof Date
                         ? formValues.practiceStartYear.getFullYear()
                         : Number(formValues.practiceStartYear),
-                latitude: formValues.latitude
-                    ? Number(formValues.latitude)
-                    : null,
-                longitude: formValues.longitude
-                    ? Number(formValues.longitude)
-                    : null,
+                latitude: formValues.latitude ? Number(formValues.latitude) : null,
+                longitude: formValues.longitude ? Number(formValues.longitude) : null,
             }
 
             this.create(convertedValue)
@@ -181,18 +161,15 @@ export class PageLawyerProfileComponent implements OnInit {
         if (!this.addressInput || !this.isMapReady()) {
             return
         }
-        this.autocomplete = new google.maps.places.Autocomplete(
-            this.addressInput.nativeElement,
-            {
-                types: ['address'],
-                componentRestrictions: { country: ['bd'] },
-                bounds: new google.maps.LatLngBounds(
-                    this.googleMapService.mapCenter(),
-                    this.googleMapService.mapCenter(),
-                ),
-                strictBounds: false,
-            },
-        )
+        this.autocomplete = new google.maps.places.Autocomplete(this.addressInput.nativeElement, {
+            types: ['address'],
+            componentRestrictions: { country: ['bd'] },
+            bounds: new google.maps.LatLngBounds(
+                this.googleMapService.mapCenter(),
+                this.googleMapService.mapCenter(),
+            ),
+            strictBounds: false,
+        })
 
         this.autocomplete.addListener('place_changed', () => {
             this.onPlaceSelected()

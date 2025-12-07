@@ -1,11 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    OnInit,
-    signal,
-} from '@angular/core'
+import { Component, ElementRef, HostListener, inject, OnInit, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { PrimeModules } from '@repo/prime-modules'
 import { Action } from '../audit-log.model'
@@ -25,11 +18,7 @@ export class AuditLogFilterComponent implements OnInit {
     // selectedAction!: Action | null
     // actions: Action[] | undefined
     selectedAction = signal<Action | null>(null)
-    actions = signal<Action[]>([
-        { name: 'create' },
-        { name: 'update' },
-        { name: 'delete' },
-    ])
+    actions = signal<Action[]>([{ name: 'create' }, { name: 'update' }, { name: 'delete' }])
 
     ngOnInit() {
         // this.actions = [
@@ -76,9 +65,7 @@ export class AuditLogFilterComponent implements OnInit {
 
     @HostListener('document:click', ['$event'])
     onOutsideClick(event: MouseEvent) {
-        const clickedInside = this.elementRef.nativeElement.contains(
-            event.target,
-        )
+        const clickedInside = this.elementRef.nativeElement.contains(event.target)
         if (!clickedInside) {
             this.closeFilter()
         }

@@ -26,9 +26,7 @@ export class InviteMemberDialogComponent {
     private loggedInGroupStateService = inject(LoggedInGroupStateService)
     readonly invitationFormService = inject(InvitationFormService)
     private ref = inject(DynamicDialogRef)
-    private adminGroupManagementStateService = inject(
-        AdminGroupManagementStateService,
-    )
+    private adminGroupManagementStateService = inject(AdminGroupManagementStateService)
     private config = inject(DynamicDialogConfig)
 
     roleList: LabelValuePair<string>[] = []
@@ -46,8 +44,7 @@ export class InviteMemberDialogComponent {
     }
 
     onSubmit(event: Event) {
-        const groupId =
-            this.authStateService.getGroupId() || this.config.data.groupId
+        const groupId = this.authStateService.getGroupId() || this.config.data.groupId
         event?.preventDefault()
         this.isLoading.set(true)
         const formValue = this.invitationFormService.getValue()

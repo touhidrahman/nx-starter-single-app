@@ -18,8 +18,7 @@ import { PlanFormService } from '../plan-form.service'
 export class PlanCreateDialogComponent implements OnInit {
     private planApiService = inject(PlanApiService)
     private alertService = inject(AlertService)
-    config =
-        inject<DynamicDialogConfig<PlanFormDialogData>>(DynamicDialogConfig)
+    config = inject<DynamicDialogConfig<PlanFormDialogData>>(DynamicDialogConfig)
     private ref = inject(DynamicDialogRef)
 
     planFromService = inject(PlanFormService)
@@ -43,9 +42,7 @@ export class PlanCreateDialogComponent implements OnInit {
         event?.preventDefault()
         const formValue = this.planFromService.getValue()
 
-        const normalizeFeatures = (
-            value: string | string[] | null,
-        ): string[] | null => {
+        const normalizeFeatures = (value: string | string[] | null): string[] | null => {
             if (!value) return null
             if (Array.isArray(value)) {
                 const cleaned = value.map((f) => f.trim()).filter((f) => f)

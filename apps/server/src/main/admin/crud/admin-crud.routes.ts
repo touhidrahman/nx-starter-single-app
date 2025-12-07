@@ -10,12 +10,7 @@ import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { CryptoService } from '../../auth/crypto.service'
-import {
-    zInsertAdmin,
-    zQueryAdmins,
-    zSelectAdmin,
-    zUpdateAdmin,
-} from '../core/admin-core.model'
+import { zInsertAdmin, zQueryAdmins, zSelectAdmin, zUpdateAdmin } from '../core/admin-core.model'
 import { AdminCrudService } from './admin-crud.service'
 
 const tags = [APP_OPENAPI_TAGS.Admin]
@@ -34,9 +29,7 @@ const GetAdminListCrudDef = createRoute({
     },
 })
 
-const GetAdminListCrud: AppRouteHandler<typeof GetAdminListCrudDef> = async (
-    c,
-) => {
+const GetAdminListCrud: AppRouteHandler<typeof GetAdminListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await AdminCrudService.findMany(query)
     const count = await AdminCrudService.count(query)
@@ -95,9 +88,7 @@ const CreateAdminCrudDef = createRoute({
     },
 })
 
-const CreateAdminCrud: AppRouteHandler<typeof CreateAdminCrudDef> = async (
-    c,
-) => {
+const CreateAdminCrud: AppRouteHandler<typeof CreateAdminCrudDef> = async (c) => {
     const input = c.req.valid('json')
     const password = await CryptoService.hashPassword(input.password)
     const data = await AdminCrudService.create({ ...input, password })
@@ -126,9 +117,7 @@ const UpdateAdminCrudDef = createRoute({
     },
 })
 
-const UpdateAdminCrud: AppRouteHandler<typeof UpdateAdminCrudDef> = async (
-    c,
-) => {
+const UpdateAdminCrud: AppRouteHandler<typeof UpdateAdminCrudDef> = async (c) => {
     const id = c.req.valid('param').id
     const existing = await AdminCrudService.findById(id)
     if (!existing) {
@@ -168,9 +157,7 @@ const DeleteAdminCrudDef = createRoute({
     },
 })
 
-const DeleteAdminCrud: AppRouteHandler<typeof DeleteAdminCrudDef> = async (
-    c,
-) => {
+const DeleteAdminCrud: AppRouteHandler<typeof DeleteAdminCrudDef> = async (c) => {
     const id = c.req.valid('param').id
     const existing = await AdminCrudService.findById(id)
     if (!existing) {

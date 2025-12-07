@@ -1,11 +1,7 @@
 import { z } from 'zod'
 import { referralsTable } from '../../../db/schema'
 import { zPagination, zSearch } from '../../../models/common.schema'
-import {
-    createInsertSchema,
-    createSelectSchema,
-    createUpdateSchema,
-} from '../../../utils/zod.util'
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from '../../../utils/zod.util'
 
 export type InsertReferral = z.infer<typeof zInsertReferral>
 export type SelectReferral = z.infer<typeof zSelectReferral>

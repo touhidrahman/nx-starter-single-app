@@ -3,15 +3,7 @@ import { Group } from '@repo/common-auth'
 import { OrderBy } from '@repo/common-models'
 import { GroupApiService } from '@repo/group'
 import { SimpleStore } from '@repo/store'
-import {
-    catchError,
-    combineLatest,
-    debounceTime,
-    finalize,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs'
+import { catchError, combineLatest, debounceTime, finalize, switchMap, tap, throwError } from 'rxjs'
 
 export type GroupListState = {
     groups: Group[]
@@ -73,9 +65,7 @@ export class GroupListStateService extends SimpleStore<GroupListState> {
 
     replaceGroup(group: Group) {
         this.setState({
-            groups: this.getState().groups.map((g) =>
-                g.id === group.id ? group : g,
-            ),
+            groups: this.getState().groups.map((g) => (g.id === group.id ? group : g)),
         })
     }
 
@@ -165,9 +155,7 @@ export class GroupListStateService extends SimpleStore<GroupListState> {
     }
 
     private removeGroup(id: string) {
-        const updateGroup = this.getState().groups.filter(
-            (group) => group.id !== id,
-        )
+        const updateGroup = this.getState().groups.filter((group) => group.id !== id)
         this.setState({ groups: updateGroup, selectedGroup: null })
     }
 }

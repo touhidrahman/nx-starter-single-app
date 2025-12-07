@@ -107,9 +107,7 @@ export class InvitationStateService extends SimpleStore<InvitationListState> {
             tap(() => {
                 this.setState({
                     loading: false,
-                    invitations: this.getState().invitations.filter(
-                        (i) => i.id !== id,
-                    ),
+                    invitations: this.getState().invitations.filter((i) => i.id !== id),
                 })
             }),
             catchError((err) => {

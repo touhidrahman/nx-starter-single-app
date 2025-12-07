@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import {
-    MessageListStateService,
-    SendMessageFormComponent,
-} from '@repo/communication'
+import { MessageListStateService, SendMessageFormComponent } from '@repo/communication'
 import { PrimeModules } from '@repo/prime-modules'
 
 @Component({

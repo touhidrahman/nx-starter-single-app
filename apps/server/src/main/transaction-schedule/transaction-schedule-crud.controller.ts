@@ -27,40 +27,29 @@ const GetTransactionScheduleListDef = createRoute({
     path: path,
     tags,
     method: 'get',
-    middleware: [
-        checkToken,
-        checkPermission(['TransactionSchedule:Read']),
-    ] as const,
+    middleware: [checkToken, checkPermission(['TransactionSchedule:Read'])] as const,
     request: {
         query: zQueryTransactionSchedules,
     },
     responses: {
-        [OK]: ApiListResponse(
-            z.array(zSelectTransactionSchedule),
-            'TransactionSchedule List',
-        ),
+        [OK]: ApiListResponse(z.array(zSelectTransactionSchedule), 'TransactionSchedule List'),
     },
 })
 
-const GetTransactionScheduleList: AppRouteHandler<
-    typeof GetTransactionScheduleListDef
-> = async (c) => {
+const GetTransactionScheduleList: AppRouteHandler<typeof GetTransactionScheduleListDef> = async (
+    c,
+) => {
     try {
         const query = c.req.valid('query')
         const { groupId } = c.get('jwtPayload') as AccessTokenPayload
         const groupSpecificQuery = { ...query, groupId }
-        const data =
-            await TransactionScheduleService.findMany(groupSpecificQuery)
+        const data = await TransactionScheduleService.findMany(groupSpecificQuery)
         const count = await TransactionScheduleService.count(groupSpecificQuery)
 
         return c.json(
             {
                 data,
-                pagination: buildPaginationResponse(
-                    query.page,
-                    query.size,
-                    count,
-                ),
+                pagination: buildPaginationResponse(query.page, query.size, count),
                 message: 'TransactionSchedule list fetched successfully',
                 success: true,
             },
@@ -75,10 +64,7 @@ const GetTransactionScheduleDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: 'get',
-    middleware: [
-        checkToken,
-        checkPermission(['TransactionSchedule:Read']),
-    ] as const,
+    middleware: [checkToken, checkPermission(['TransactionSchedule:Read'])] as const,
     request: {
         params: zId,
     },
@@ -87,9 +73,7 @@ const GetTransactionScheduleDef = createRoute({
     },
 })
 
-const GetTransactionSchedule: AppRouteHandler<
-    typeof GetTransactionScheduleDef
-> = async (c) => {
+const GetTransactionSchedule: AppRouteHandler<typeof GetTransactionScheduleDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -99,10 +83,7 @@ const GetTransactionSchedule: AppRouteHandler<
         })
     }
 
-    const existing = await TransactionScheduleService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await TransactionScheduleService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, {
             message: 'TransactionSchedule not found',
@@ -123,10 +104,7 @@ const CreateTransactionScheduleDef = createRoute({
     path,
     tags,
     method: 'post',
-    middleware: [
-        checkToken,
-        checkPermission(['TransactionSchedule:Write']),
-    ] as const,
+    middleware: [checkToken, checkPermission(['TransactionSchedule:Write'])] as const,
     request: {
         body: jsonContent(zInsertTransactionSchedule, 'Input'),
     },
@@ -135,12 +113,10 @@ const CreateTransactionScheduleDef = createRoute({
     },
 })
 
-const CreateTransactionSchedule: AppRouteHandler<
-    typeof CreateTransactionScheduleDef
-> = async (c) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateTransactionSchedule: AppRouteHandler<typeof CreateTransactionScheduleDef> = async (
+    c,
+) => {
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {
@@ -173,10 +149,7 @@ const UpdateTransactionScheduleDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: 'put',
-    middleware: [
-        checkToken,
-        checkPermission(['TransactionSchedule:Write']),
-    ] as const,
+    middleware: [checkToken, checkPermission(['TransactionSchedule:Write'])] as const,
     request: {
         params: zId,
         body: jsonContent(zUpdateTransactionSchedule, 'Input'),
@@ -186,9 +159,9 @@ const UpdateTransactionScheduleDef = createRoute({
     },
 })
 
-const UpdateTransactionSchedule: AppRouteHandler<
-    typeof UpdateTransactionScheduleDef
-> = async (c) => {
+const UpdateTransactionSchedule: AppRouteHandler<typeof UpdateTransactionScheduleDef> = async (
+    c,
+) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -198,10 +171,7 @@ const UpdateTransactionSchedule: AppRouteHandler<
         })
     }
 
-    const existing = await TransactionScheduleService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await TransactionScheduleService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, {
             message: 'TransactionSchedule not found',
@@ -228,24 +198,18 @@ const DeleteTransactionScheduleDef = createRoute({
     path: `${path}/:id`,
     tags,
     method: 'delete',
-    middleware: [
-        checkToken,
-        checkPermission(['TransactionSchedule:Delete']),
-    ] as const,
+    middleware: [checkToken, checkPermission(['TransactionSchedule:Delete'])] as const,
     request: {
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTransactionSchedule,
-            'Deleted TransactionSchedule',
-        ),
+        [OK]: ApiResponse(zSelectTransactionSchedule, 'Deleted TransactionSchedule'),
     },
 })
 
-const DeleteTransactionSchedule: AppRouteHandler<
-    typeof DeleteTransactionScheduleDef
-> = async (c) => {
+const DeleteTransactionSchedule: AppRouteHandler<typeof DeleteTransactionScheduleDef> = async (
+    c,
+) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -255,10 +219,7 @@ const DeleteTransactionSchedule: AppRouteHandler<
         })
     }
 
-    const existing = await TransactionScheduleService.findByIdAndGroupId(
-        id,
-        groupId,
-    )
+    const existing = await TransactionScheduleService.findByIdAndGroupId(id, groupId)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, {
             message: 'TransactionSchedule not found',

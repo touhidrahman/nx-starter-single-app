@@ -5,10 +5,7 @@ export class CryptoService {
         return argon2.hash(password)
     }
 
-    static async verifyPassword(
-        plainPassword: string,
-        hash: string,
-    ): Promise<boolean> {
+    static async verifyPassword(plainPassword: string, hash: string): Promise<boolean> {
         return argon2.verify(hash, plainPassword)
     }
 }

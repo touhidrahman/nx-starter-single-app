@@ -9,10 +9,7 @@ import { FilestoreItem, FilestoreItemDto } from './filestore.model'
 @Injectable({
     providedIn: 'root',
 })
-export class FilestoreApiService extends ApiService<
-    FilestoreItem,
-    FilestoreItemDto
-> {
+export class FilestoreApiService extends ApiService<FilestoreItem, FilestoreItemDto> {
     constructor(
         protected override http: HttpClient,
         @Inject(APP_ENVIRONMENT)

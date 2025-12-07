@@ -25,10 +25,8 @@ export class GroupMessageListComponent implements OnInit {
 
         this.adminGroupManagementStateService.init(this.groupId())
 
-        this.adminGroupManagementStateService
-            .select('groupMessages')
-            .subscribe((messages) => {
-                this.messages.set(messages)
-            })
+        this.adminGroupManagementStateService.select('groupMessages').subscribe((messages) => {
+            this.messages.set(messages)
+        })
     }
 }

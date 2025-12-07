@@ -11,13 +11,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-page-client-client-user-list',
-    imports: [
-        FormsModule,
-        PrimeModules,
-        AsyncPipe,
-        ClientListTableComponent,
-        ReactiveFormsModule,
-    ],
+    imports: [FormsModule, PrimeModules, AsyncPipe, ClientListTableComponent, ReactiveFormsModule],
     templateUrl: './page-client-user-list.component.html',
     styleUrl: './page-client-user-list.component.css',
     providers: [ClientListStateService, DialogService, DynamicDialogRef],

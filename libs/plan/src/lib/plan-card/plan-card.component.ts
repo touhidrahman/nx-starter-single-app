@@ -1,13 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common'
-import {
-    Component,
-    effect,
-    inject,
-    input,
-    OnDestroy,
-    output,
-    signal,
-} from '@angular/core'
+import { Component, effect, inject, input, OnDestroy, output, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { PrimeModules } from '@repo/prime-modules'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
@@ -67,13 +59,10 @@ export class PlanCardComponent implements OnDestroy {
                 data: { currentPlan: this.currentPlan(), newPlan: newPlan },
             })
         } else {
-            this.router.navigate(
-                ['/dashboard/organization/subscribe-plan', newPlan.id],
-                {
-                    //TODO: change method for data sending "yearly/monthly"
-                    queryParams: { isYearly: this.isYearly() },
-                },
-            )
+            this.router.navigate(['/dashboard/organization/subscribe-plan', newPlan.id], {
+                //TODO: change method for data sending "yearly/monthly"
+                queryParams: { isYearly: this.isYearly() },
+            })
         }
     }
 

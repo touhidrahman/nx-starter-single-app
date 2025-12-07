@@ -1,21 +1,9 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    input,
-    OnInit,
-    Output,
-    signal,
-} from '@angular/core'
+import { Component, EventEmitter, inject, input, OnInit, Output, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Group, GroupInput } from '@repo/common-auth'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
-import {
-    GroupApiService,
-    GroupFormService,
-    GroupStateService,
-} from '@repo/group'
+import { GroupApiService, GroupFormService, GroupStateService } from '@repo/group'
 import { DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({

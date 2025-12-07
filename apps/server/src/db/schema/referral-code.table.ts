@@ -18,17 +18,14 @@ export const referralCodesTable = pgTable('referral_codes', {
     ...timestampColumns,
 })
 
-export const referralCodeRelations = relations(
-    referralCodesTable,
-    ({ one, many }) => ({
-        user: one(usersTable, {
-            fields: [referralCodesTable.userId],
-            references: [usersTable.id],
-        }),
-        group: one(groupsTable, {
-            fields: [referralCodesTable.groupId],
-            references: [groupsTable.id],
-        }),
-        referrals: many(referralsTable),
+export const referralCodeRelations = relations(referralCodesTable, ({ one, many }) => ({
+    user: one(usersTable, {
+        fields: [referralCodesTable.userId],
+        references: [usersTable.id],
     }),
-)
+    group: one(groupsTable, {
+        fields: [referralCodesTable.groupId],
+        references: [groupsTable.id],
+    }),
+    referrals: many(referralsTable),
+}))

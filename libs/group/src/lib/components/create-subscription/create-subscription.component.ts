@@ -95,21 +95,19 @@ export class CreateSubscriptionComponent implements OnInit {
 
     update(data: SubscriptionDto) {
         this.isLoading.set(true)
-        this.subscriptionsApiService
-            .update(this.config.data.id, data)
-            .subscribe({
-                next: ({ data }) => {
-                    this.alertService.success('Subscription updated!')
-                    this.isLoading.set(false)
-                    this.ref?.close(data)
-                },
-                error: (err) => {
-                    this.alertService.error(err.error.message)
-                    this.isLoading.set(false)
-                    this.isError.set(true)
-                    this.ref?.close()
-                },
-            })
+        this.subscriptionsApiService.update(this.config.data.id, data).subscribe({
+            next: ({ data }) => {
+                this.alertService.success('Subscription updated!')
+                this.isLoading.set(false)
+                this.ref?.close(data)
+            },
+            error: (err) => {
+                this.alertService.error(err.error.message)
+                this.isLoading.set(false)
+                this.isError.set(true)
+                this.ref?.close()
+            },
+        })
     }
 
     private patchFormWithConfigData(): void {

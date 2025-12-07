@@ -18,8 +18,6 @@ export class SignupStepTypeComponent {
     register = output<void>()
 
     selectGroupType(type: string) {
-        this.registerFormService.form
-            .get('organization.groupType')
-            ?.setValue(type)
+        this.registerFormService.form.get('organization.groupType')?.setValue(type)
     }
 }

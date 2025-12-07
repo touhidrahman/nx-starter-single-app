@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertRole,
-    zQueryRoles,
-    zSelectRole,
-    zUpdateRole,
-} from './role-core.model'
+import { zInsertRole, zQueryRoles, zSelectRole, zUpdateRole } from './role-core.model'
 import { RoleCoreService } from './role-core.service'
 
 const tags = [APP_OPENAPI_TAGS.Role]
@@ -32,9 +27,7 @@ const GetRoleListCoreDef = createRoute({
     },
 })
 
-const GetRoleListCore: AppRouteHandler<typeof GetRoleListCoreDef> = async (
-    c,
-) => {
+const GetRoleListCore: AppRouteHandler<typeof GetRoleListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await RoleCoreService.findMany(query)
     const count = await RoleCoreService.count(query)
@@ -64,9 +57,7 @@ const GetRoleByIdCoreDef = createRoute({
     },
 })
 
-const GetRoleByIdCore: AppRouteHandler<typeof GetRoleByIdCoreDef> = async (
-    c,
-) => {
+const GetRoleByIdCore: AppRouteHandler<typeof GetRoleByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const role = await RoleCoreService.findById(id)
 
@@ -215,9 +206,7 @@ const DeleteManyRoleCoreDef = createRoute({
     },
 })
 
-const DeleteManyRoleCore: AppRouteHandler<
-    typeof DeleteManyRoleCoreDef
-> = async (c) => {
+const DeleteManyRoleCore: AppRouteHandler<typeof DeleteManyRoleCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await RoleCoreService.deleteMany(ids)

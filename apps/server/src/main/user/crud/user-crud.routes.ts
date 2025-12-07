@@ -11,12 +11,7 @@ import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
 import { CryptoService } from '../../auth/crypto.service'
-import {
-    zInsertUser,
-    zQueryUsers,
-    zSelectUser,
-    zUpdateUser,
-} from '../core/user-core.model'
+import { zInsertUser, zQueryUsers, zSelectUser, zUpdateUser } from '../core/user-core.model'
 import { UserCrudService } from './user-crud.service'
 
 const tags = [APP_OPENAPI_TAGS.User]
@@ -35,9 +30,7 @@ const GetUserListCrudDef = createRoute({
     },
 })
 
-const GetUserListCrud: AppRouteHandler<typeof GetUserListCrudDef> = async (
-    c,
-) => {
+const GetUserListCrud: AppRouteHandler<typeof GetUserListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -135,9 +128,7 @@ const UpdateUserCrud: AppRouteHandler<typeof UpdateUserCrudDef> = async (c) => {
     }
 
     const input = c.req.valid('json')
-    const password = input.password
-        ? await CryptoService.hashPassword(input.password)
-        : undefined
+    const password = input.password ? await CryptoService.hashPassword(input.password) : undefined
     const data = await UserCrudService.update(existing.id, {
         ...input,
         password,

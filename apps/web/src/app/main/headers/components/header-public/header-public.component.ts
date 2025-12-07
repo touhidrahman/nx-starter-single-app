@@ -11,13 +11,7 @@ import { UserLoginStatusComponent } from '../user-login-status/user-login-satus.
 
 @Component({
     selector: 'app-header-public',
-    imports: [
-        RouterModule,
-        PrimeModules,
-        AsyncPipe,
-        CommonModule,
-        UserLoginStatusComponent,
-    ],
+    imports: [RouterModule, PrimeModules, AsyncPipe, CommonModule, UserLoginStatusComponent],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })
@@ -57,8 +51,6 @@ export class HeaderPublicComponent implements OnInit {
     }
 
     navigateToFragment(id: string) {
-        this.scrollService.navigateToFragment(id, () =>
-            this.headerService.closeMenu(),
-        )
+        this.scrollService.navigateToFragment(id, () => this.headerService.closeMenu())
     }
 }

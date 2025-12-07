@@ -20,9 +20,7 @@ export const inviteUserRoute = createRoute({
     },
 })
 
-export const inviteUserHandler: AppRouteHandler<
-    typeof inviteUserRoute
-> = async (c) => {
+export const inviteUserHandler: AppRouteHandler<typeof inviteUserRoute> = async (c) => {
     const body = c.req.valid('json')
     const payload = c.get('jwtPayload')
 

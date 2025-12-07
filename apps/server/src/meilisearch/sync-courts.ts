@@ -5,9 +5,7 @@ export async function syncCourtsToMeilisearch() {
     try {
         // Pull all courts from PostgreSQL
         const courts = await db.query.courtsTable.findMany()
-        const courtsIndex = await meiliClient
-            .index('courts')
-            .addDocuments(courts)
+        const courtsIndex = await meiliClient.index('courts').addDocuments(courts)
 
         // Manually poll the task until it's finished
         await meilisearchPolling(courtsIndex.taskUid)

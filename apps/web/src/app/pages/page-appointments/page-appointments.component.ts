@@ -2,10 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import {
-    AppointmentEditFormService,
-    AppointmentListStateService,
-} from '@repo/appointment'
+import { AppointmentEditFormService, AppointmentListStateService } from '@repo/appointment'
 import { PrimeModules } from '@repo/prime-modules'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 import { AppointmentFilterComponent } from '../../main/appointment/components/appointment-filter/appointment-filter.component'

@@ -1,11 +1,4 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    effect,
-    inject,
-    OnInit,
-    signal,
-} from '@angular/core'
+import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { NoDataComponent } from '@repo/common-components'
@@ -13,10 +6,7 @@ import { AlertService, ConfirmDialogData } from '@repo/common-services'
 import { UniqueKeyValuePairCollection } from '@repo/common-util'
 import { PrimeModules } from '@repo/prime-modules'
 import { AuthStateService } from '@repo/auth'
-import {
-    AdminGroupManagementStateService,
-    LoggedInGroupStateService,
-} from '@repo/group'
+import { AdminGroupManagementStateService, LoggedInGroupStateService } from '@repo/group'
 import {
     ClaimStateService,
     Role,
@@ -31,13 +21,7 @@ import { DialogService } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-permissions-content',
-    imports: [
-        ...PrimeModules,
-        NoDataComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        AccordionModule,
-    ],
+    imports: [...PrimeModules, NoDataComponent, FormsModule, ReactiveFormsModule, AccordionModule],
     templateUrl: './permissions-content.component.html',
     styleUrl: './permissions-content.component.scss',
     providers: [ClaimStateService],
@@ -48,9 +32,7 @@ export class PermissionsContentComponent implements OnInit {
     private dialogService = inject(DialogService)
     private alertService = inject(AlertService)
     private loggedInGroupStateService = inject(LoggedInGroupStateService)
-    private adminGroupManagementStateService = inject(
-        AdminGroupManagementStateService,
-    )
+    private adminGroupManagementStateService = inject(AdminGroupManagementStateService)
     private route = inject(ActivatedRoute)
     private cdr = inject(ChangeDetectorRef)
     protected claimStateService = inject(ClaimStateService)
@@ -69,8 +51,7 @@ export class PermissionsContentComponent implements OnInit {
     readonly _fillPermissionsMap = effect(() => {
         this.roles().forEach((role) => {
             role.claims.forEach((claim) => {
-                this.claimStateService.hasClaim(claim) &&
-                    this.roleClaimMap.add(role.id, claim)
+                this.claimStateService.hasClaim(claim) && this.roleClaimMap.add(role.id, claim)
             })
         })
     })
@@ -80,11 +61,8 @@ export class PermissionsContentComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const groupIdForAdminGroupManagement =
-            this.route.parent?.snapshot.paramMap.get('groupId')
-        this.groupIdForAdminGroupManagement.set(
-            groupIdForAdminGroupManagement ?? '',
-        )
+        const groupIdForAdminGroupManagement = this.route.parent?.snapshot.paramMap.get('groupId')
+        this.groupIdForAdminGroupManagement.set(groupIdForAdminGroupManagement ?? '')
 
         this.groupId.set(this.route.snapshot.paramMap.get('groupId') as string)
         this.route.parent?.paramMap.subscribe((params) => {
@@ -98,17 +76,13 @@ export class PermissionsContentComponent implements OnInit {
     }
 
     isAllTicked(roleId: string): boolean {
-        const roleClaims =
-            this.roles().find((r) => r.id === roleId)?.claims ?? []
+        const roleClaims = this.roles().find((r) => r.id === roleId)?.claims ?? []
         return isSubset(this.claimStateService.claimIds(), roleClaims)
     }
 
     isAllTickedForSection(roleId: string, section: string): boolean {
-        const sectionClaims = this.claimStateService
-            .groupedClaims()
-            [section].map((c) => c.id)
-        const roleClaims =
-            this.roles().find((r) => r.id === roleId)?.claims ?? []
+        const sectionClaims = this.claimStateService.groupedClaims()[section].map((c) => c.id)
+        const roleClaims = this.roles().find((r) => r.id === roleId)?.claims ?? []
         return isSubset(sectionClaims, roleClaims)
     }
 
@@ -131,9 +105,7 @@ export class PermissionsContentComponent implements OnInit {
     }
 
     isClaimChecked(claimId: string, roleId: string): boolean {
-        return this.roles().some(
-            (r) => r.id === roleId && r.claims.map((c) => c.includes(claimId)),
-        )
+        return this.roles().some((r) => r.id === roleId && r.claims.map((c) => c.includes(claimId)))
     }
 
     saveRole(roleId: string): void {
@@ -149,16 +121,14 @@ export class PermissionsContentComponent implements OnInit {
             }
         }
 
-        this.loggedInGroupStateService
-            .updateRole(roleId, checkedClaims)
-            .subscribe({
-                next: () => {
-                    this.alertMessage.success('Permissions saved successfully')
-                },
-                error: () => {
-                    this.alertMessage.error('Failed to save permissions')
-                },
-            })
+        this.loggedInGroupStateService.updateRole(roleId, checkedClaims).subscribe({
+            next: () => {
+                this.alertMessage.success('Permissions saved successfully')
+            },
+            error: () => {
+                this.alertMessage.error('Failed to save permissions')
+            },
+        })
     }
 
     onRoleChange(roleId: string): void {
@@ -201,9 +171,7 @@ export class PermissionsContentComponent implements OnInit {
                         this.loggedInGroupStateService.pushRole(res.role)
                     }
 
-                    this.alertService.success(
-                        `Role ${res.role.name} created successfully`,
-                    )
+                    this.alertService.success(`Role ${res.role.name} created successfully`)
                 }
             },
             error: (err) => {
@@ -240,13 +208,11 @@ export class PermissionsContentComponent implements OnInit {
 
     private getRolesInAdminView(groupId: string) {
         this.adminGroupManagementStateService.init(groupId)
-        this.adminGroupManagementStateService
-            .select('roles')
-            .subscribe((roles) => {
-                this.roles.set(roles)
-                this.loading = roles.length === 0 ? 'nodata' : 'loaded'
-                this.cdr.detectChanges()
-            })
+        this.adminGroupManagementStateService.select('roles').subscribe((roles) => {
+            this.roles.set(roles)
+            this.loading = roles.length === 0 ? 'nodata' : 'loaded'
+            this.cdr.detectChanges()
+        })
     }
 
     private getRolesInUserView() {
@@ -286,9 +252,7 @@ export class PermissionsContentComponent implements OnInit {
                 }
             },
             error: () => {
-                this.alertService.error(
-                    'An error occurred while deleting the role',
-                )
+                this.alertService.error('An error occurred while deleting the role')
             },
         })
     }

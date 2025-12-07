@@ -1,26 +1,15 @@
 import { DatePipe } from '@angular/common'
 import { Component, inject, signal, viewChild } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import {
-    FullCalendarComponent,
-    FullCalendarModule,
-} from '@fullcalendar/angular'
-import {
-    CalendarOptions,
-    DatesSetArg,
-    EventClickArg,
-    EventInput,
-} from '@fullcalendar/core'
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular'
+import { CalendarOptions, DatesSetArg, EventClickArg, EventInput } from '@fullcalendar/core'
 import { EventImpl } from '@fullcalendar/core/internal'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { WA_WINDOW } from '@ng-web-apis/common'
-import {
-    CalendarApiService,
-    CalendarEventDialogComponent,
-} from '@repo/calendar'
+import { CalendarApiService, CalendarEventDialogComponent } from '@repo/calendar'
 import { PrimeModules } from '@repo/prime-modules'
 import { endOfMonth, startOfMonth } from 'date-fns'
 import { DialogService } from 'primeng/dynamicdialog'
@@ -38,8 +27,7 @@ import { COLOR_PALETTE_TAILWIND } from './color-palette'
 export class PageCalenderComponent {
     private calendarApiService = inject(CalendarApiService)
     private windowRef = inject(WA_WINDOW)
-    private readonly calendarComponent =
-        viewChild.required<FullCalendarComponent>('calendar')
+    private readonly calendarComponent = viewChild.required<FullCalendarComponent>('calendar')
     private dialogService = inject(DialogService)
     private caseColorMap = new Map<string, number>()
     private nextColorIndex = 0
@@ -52,8 +40,7 @@ export class PageCalenderComponent {
     props = signal<Record<string, any> | null>(null)
 
     calendarOptions: CalendarOptions = {
-        initialView:
-            this.windowRef.innerWidth < 640 ? 'listMonth' : 'dayGridMonth',
+        initialView: this.windowRef.innerWidth < 640 ? 'listMonth' : 'dayGridMonth',
         events: this.events(),
         eventClick: this.handleEventClick.bind(this),
         datesSet: this.handleDatesChange.bind(this),

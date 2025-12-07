@@ -25,13 +25,9 @@ const GetMySubcategoryListDef = createRoute({
     },
 })
 
-const GetSubcategoryListCrud: AppRouteHandler<
-    typeof GetMySubcategoryListDef
-> = async (c) => {
+const GetSubcategoryListCrud: AppRouteHandler<typeof GetMySubcategoryListDef> = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
     const data = await SubcategoryService.findMany(groupAndUserSpecificQuery)

@@ -16,9 +16,7 @@ export const publicRoutes: PublicRoutes = {
     landing: {
         path: '',
         loadComponent: () =>
-            import('../page-landing/page-landing.component').then(
-                (m) => m.PageLandingComponent,
-            ),
+            import('../page-landing/page-landing.component').then((m) => m.PageLandingComponent),
         resolve: { layout: setLayout(PageLayout.Public) },
         pathMatch: 'full',
         canActivate: [publicGuard()],
@@ -34,9 +32,7 @@ export const publicRoutes: PublicRoutes = {
     lawyers: {
         path: 'lawyers',
         loadComponent: () =>
-            import('../page-lawyers/page-lawyers.component').then(
-                (m) => m.PageLawyersComponent,
-            ),
+            import('../page-lawyers/page-lawyers.component').then((m) => m.PageLawyersComponent),
         resolve: { layout: setLayout(PageLayout.Public) },
         data: {
             title: 'MyApp | Find Lawyers',
@@ -49,17 +45,13 @@ export const publicRoutes: PublicRoutes = {
     blogs: {
         path: 'blogs',
         loadComponent: () =>
-            import('../page-blogs/page-blogs.component').then(
-                (m) => m.PageBlogsComponent,
-            ),
+            import('../page-blogs/page-blogs.component').then((m) => m.PageBlogsComponent),
         resolve: { layout: setLayout(PageLayout.Public) },
     },
     news: {
         path: 'news',
         loadComponent: () =>
-            import('../page-news/page-news.component').then(
-                (m) => m.PageNewsComponent,
-            ),
+            import('../page-news/page-news.component').then((m) => m.PageNewsComponent),
         resolve: { layout: setLayout(PageLayout.Public) },
     },
     followCase: {
@@ -73,9 +65,9 @@ export const publicRoutes: PublicRoutes = {
     pricing: {
         path: 'pricing',
         loadComponent: () =>
-            import(
-                '../lawyer-account-pages/page-subscription/page-subscription.component'
-            ).then((m) => m.PageSubscriptionComponent),
+            import('../lawyer-account-pages/page-subscription/page-subscription.component').then(
+                (m) => m.PageSubscriptionComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Public) },
     },
     lawyerForgotPassword: {

@@ -26,13 +26,9 @@ const GetMyAccountListDef = createRoute({
     },
 })
 
-const GetAccountListCrud: AppRouteHandler<typeof GetMyAccountListDef> = async (
-    c,
-) => {
+const GetAccountListCrud: AppRouteHandler<typeof GetMyAccountListDef> = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
     const data = await AccountCustomService.findMany(groupAndUserSpecificQuery)
@@ -49,7 +45,4 @@ const GetAccountListCrud: AppRouteHandler<typeof GetMyAccountListDef> = async (
     )
 }
 
-export const accountCustomRoutes = createRouter().openapi(
-    GetMyAccountListDef,
-    GetAccountListCrud,
-)
+export const accountCustomRoutes = createRouter().openapi(GetMyAccountListDef, GetAccountListCrud)

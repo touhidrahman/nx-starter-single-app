@@ -35,9 +35,7 @@ const GetUserSettingListCrudDef = createRoute({
     },
 })
 
-const GetUserSettingListCrud: AppRouteHandler<
-    typeof GetUserSettingListCrudDef
-> = async (c) => {
+const GetUserSettingListCrud: AppRouteHandler<typeof GetUserSettingListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const userSpecificQuery = { ...query, userId }
@@ -70,16 +68,11 @@ const GetUserSettingCrudDef = createRoute({
     },
 })
 
-const GetUserSettingCrud: AppRouteHandler<
-    typeof GetUserSettingCrudDef
-> = async (c) => {
+const GetUserSettingCrud: AppRouteHandler<typeof GetUserSettingCrudDef> = async (c) => {
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const { key } = c.req.valid('param')
 
-    const existing = await UserSettingCrudService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const existing = await UserSettingCrudService.findByUserIdAndKey(userId, key)
     if (!existing) {
         throw new HTTPException(NOT_FOUND, {
             message: 'UserSetting not found',
@@ -109,9 +102,7 @@ const CreateUserSettingCrudDef = createRoute({
     },
 })
 
-const CreateUserSettingCrud: AppRouteHandler<
-    typeof CreateUserSettingCrudDef
-> = async (c) => {
+const CreateUserSettingCrud: AppRouteHandler<typeof CreateUserSettingCrudDef> = async (c) => {
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
@@ -152,16 +143,11 @@ const UpdateUserSettingCrudDef = createRoute({
     },
 })
 
-const UpdateUserSettingCrud: AppRouteHandler<
-    typeof UpdateUserSettingCrudDef
-> = async (c) => {
+const UpdateUserSettingCrud: AppRouteHandler<typeof UpdateUserSettingCrudDef> = async (c) => {
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const { key } = c.req.valid('param')
 
-    const existing = await UserSettingCrudService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const existing = await UserSettingCrudService.findByUserIdAndKey(userId, key)
     if (!existing) {
         throw new HTTPException(FORBIDDEN, {
             message: 'UserSetting cannot be updated',
@@ -199,16 +185,11 @@ const DeleteUserSettingCrudDef = createRoute({
     },
 })
 
-const DeleteUserSettingCrud: AppRouteHandler<
-    typeof DeleteUserSettingCrudDef
-> = async (c) => {
+const DeleteUserSettingCrud: AppRouteHandler<typeof DeleteUserSettingCrudDef> = async (c) => {
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const { key } = c.req.valid('param')
 
-    const existing = await UserSettingCrudService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const existing = await UserSettingCrudService.findByUserIdAndKey(userId, key)
     if (!existing) {
         throw new HTTPException(FORBIDDEN, {
             message: 'UserSetting cannot be deleted',

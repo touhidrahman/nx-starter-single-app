@@ -44,22 +44,18 @@ export class PageCreateProfileFormComponent implements OnInit {
             return
         }
 
-        this.authApiService
-            .createGroup(payload, this.selectedGroupType() as GroupType)
-            .subscribe({
-                next: (_res) => {
-                    this.isLoading = false
-                    this.router.navigate(['/profile-created'])
-                    this.authStateService.logout('/profile-created')
-                },
-                error: (error) => {
-                    this.isLoading = false
-                    this.error = error.error.message
-                    this.alertService.error(
-                        error.error.message || 'Error occurred',
-                    )
-                },
-            })
+        this.authApiService.createGroup(payload, this.selectedGroupType() as GroupType).subscribe({
+            next: (_res) => {
+                this.isLoading = false
+                this.router.navigate(['/profile-created'])
+                this.authStateService.logout('/profile-created')
+            },
+            error: (error) => {
+                this.isLoading = false
+                this.error = error.error.message
+                this.alertService.error(error.error.message || 'Error occurred')
+            },
+        })
     }
 
     private setSelectedGroupType() {

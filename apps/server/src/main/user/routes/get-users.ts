@@ -4,12 +4,7 @@ import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { ApiResponse } from '../../../utils/api-response.util'
-import {
-    User,
-    UserWithoutPassword,
-    zSearchUser,
-    zSelectUserWithoutPass,
-} from '../user.schema'
+import { User, UserWithoutPassword, zSearchUser, zSelectUserWithoutPass } from '../user.schema'
 import { countUsers, findUsers } from '../user.service'
 import { passwordRemoved, validateEnum } from '../user.util'
 
@@ -26,9 +21,7 @@ export const getUsersRoute = createRoute({
     },
 })
 
-export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
-    c,
-) => {
+export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (c) => {
     const {
         search,
         page,
@@ -52,11 +45,7 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
 
     // Validate types
     const validatedGroupType = validateEnum(groupType, ['client', 'vendor'])
-    const validatedStatus = validateEnum(status, [
-        'active',
-        'inactive',
-        'banned',
-    ])
+    const validatedStatus = validateEnum(status, ['active', 'inactive', 'banned'])
     const validatedLevel = validateEnum(level, ['user', 'moderator', 'admin'])
     const data = (await findUsers({
         search,

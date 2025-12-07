@@ -64,9 +64,7 @@ export class UserSettingStateService extends SimpleStore<UserSettingState> {
                 ...current.settings,
                 ...partialSettings,
             },
-            isPinCodeSet: !!(
-                partialSettings.pinCode ?? current.settings.pinCode
-            ),
+            isPinCodeSet: !!(partialSettings.pinCode ?? current.settings.pinCode),
         })
     }
 

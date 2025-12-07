@@ -1,10 +1,5 @@
 import { Component, inject } from '@angular/core'
-import {
-    FormBuilder,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 @Component({
     selector: 'app-page-reset-password',
@@ -25,9 +20,7 @@ export class PageResetPasswordComponent {
         const newPassword = form.get('newPassword')
         const confirmPassword = form.get('confirmPassword')
         if (newPassword && confirmPassword) {
-            return newPassword.value === confirmPassword.value
-                ? null
-                : { mismatch: true }
+            return newPassword.value === confirmPassword.value ? null : { mismatch: true }
         }
         return null
     }

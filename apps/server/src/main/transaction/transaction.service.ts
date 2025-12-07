@@ -4,11 +4,7 @@ import { db } from '../../db/db'
 import { accountsTable, transactionsTable } from '../../db/schema'
 import { SelectAccount } from '../account/core/account-core.model'
 import { AccountCustomService } from '../account/custom/account-custom.service'
-import {
-    InsertTransaction,
-    SelectTransaction,
-    UpdateTransaction,
-} from './transaction.model'
+import { InsertTransaction, SelectTransaction, UpdateTransaction } from './transaction.model'
 import { withSign } from './transaction.util'
 import { TransactionCoreService } from './transaction-core.service'
 
@@ -67,8 +63,7 @@ export class TransactionService extends TransactionCoreService {
         transactionId: string,
         input: UpdateTransaction,
     ): Promise<SelectTransaction & { account: SelectAccount | null }> {
-        const existingTransaction =
-            await TransactionService.findById(transactionId)
+        const existingTransaction = await TransactionService.findById(transactionId)
 
         if (!existingTransaction) {
             throw new Error('Transaction not found', { cause: NOT_FOUND })
@@ -96,8 +91,7 @@ export class TransactionService extends TransactionCoreService {
         // Revert the old transaction amount
         const prevAmount = withSign(existingTransaction.amount)
         const newAmount = withSign(input.amount)
-        const updatedBalance =
-            withSign(account.balance) - prevAmount + newAmount
+        const updatedBalance = withSign(account.balance) - prevAmount + newAmount
 
         const updatedTransaction = await db.transaction(async (tx) => {
             await tx
@@ -122,11 +116,8 @@ export class TransactionService extends TransactionCoreService {
         }
     }
 
-    static async deleteTransactionAndUpdateAccountBalance(
-        transactionId: string,
-    ): Promise<void> {
-        const existingTransaction =
-            await TransactionService.findById(transactionId)
+    static async deleteTransactionAndUpdateAccountBalance(transactionId: string): Promise<void> {
+        const existingTransaction = await TransactionService.findById(transactionId)
 
         if (!existingTransaction) {
             throw new Error('Transaction not found', { cause: NOT_FOUND })
@@ -139,9 +130,7 @@ export class TransactionService extends TransactionCoreService {
 
         if (!account) {
             // just delete the transaction if account not found
-            await db
-                .delete(transactionsTable)
-                .where(eq(transactionsTable.id, transactionId))
+            await db.delete(transactionsTable).where(eq(transactionsTable.id, transactionId))
             return
         }
 
@@ -157,9 +146,7 @@ export class TransactionService extends TransactionCoreService {
                 })
                 .where(eq(accountsTable.id, account.id))
 
-            await tx
-                .delete(transactionsTable)
-                .where(eq(transactionsTable.id, transactionId))
+            await tx.delete(transactionsTable).where(eq(transactionsTable.id, transactionId))
         })
     }
 }

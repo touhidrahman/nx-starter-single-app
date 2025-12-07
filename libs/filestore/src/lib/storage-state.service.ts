@@ -1,12 +1,6 @@
 import { Injectable, inject } from '@angular/core'
 import { SimpleStore } from '@repo/store'
-import {
-    combineLatest,
-    debounceTime,
-    distinctUntilChanged,
-    switchMap,
-    tap,
-} from 'rxjs'
+import { combineLatest, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs'
 import { FilestoreItem } from './filestore.model'
 import { FilestoreApiService } from './filestore-api.service'
 
@@ -78,9 +72,7 @@ export class StorageStateService extends SimpleStore<StorageListState> {
                         loading: false,
                         storages: data,
                         totalItems: pagination?.total ?? 0,
-                        totalPages: Math.ceil(
-                            (pagination?.total ?? 0) / (pagination?.size ?? 1),
-                        ),
+                        totalPages: Math.ceil((pagination?.total ?? 0) / (pagination?.size ?? 1)),
                     })
                 },
                 error: (_err) => {

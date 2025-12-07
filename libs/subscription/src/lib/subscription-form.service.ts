@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-    AbstractControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    Validators,
-} from '@angular/forms'
+import { AbstractControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 import { RegexBangladeshPhone } from '@repo/common-util'
 import { SubscriptionDto } from '@repo/subscription'
 
@@ -13,8 +8,7 @@ export class SubscriptionFormService {
     form: FormGroup
 
     constructor(private fb: NonNullableFormBuilder) {
-        const { required, pattern, requiredTrue, maxLength, minLength, min } =
-            Validators
+        const { required, pattern, requiredTrue, maxLength, minLength, min } = Validators
         this.form = this.fb.group({
             planId: [''],
             isTrial: [false],

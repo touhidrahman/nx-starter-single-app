@@ -56,8 +56,7 @@ export const AuthStore = signalStore(
 
                         const dateUtil = DateUtil
 
-                        const { email, exp, sub } =
-                            new JwtHelperService().decodeToken(token)
+                        const { email, exp, sub } = new JwtHelperService().decodeToken(token)
                         const expiry = dateUtil.date(Number(exp) * 1000)
 
                         patchState(store, {

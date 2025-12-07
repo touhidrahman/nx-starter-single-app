@@ -24,10 +24,7 @@ const GetMyTransactionScheduleListDef = createRoute({
         query: zQueryTransactionSchedules,
     },
     responses: {
-        [OK]: ApiListResponse(
-            z.array(zSelectTransactionSchedule),
-            'TransactionSchedule List',
-        ),
+        [OK]: ApiListResponse(z.array(zSelectTransactionSchedule), 'TransactionSchedule List'),
     },
 })
 
@@ -35,17 +32,11 @@ const GetTransactionScheduleListCrud: AppRouteHandler<
     typeof GetMyTransactionScheduleListDef
 > = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
-    const data = await TransactionScheduleService.findMany(
-        groupAndUserSpecificQuery,
-    )
-    const count = await TransactionScheduleService.count(
-        groupAndUserSpecificQuery,
-    )
+    const data = await TransactionScheduleService.findMany(groupAndUserSpecificQuery)
+    const count = await TransactionScheduleService.count(groupAndUserSpecificQuery)
 
     return c.json(
         {

@@ -1,23 +1,8 @@
-import {
-    and,
-    asc,
-    count,
-    desc,
-    eq,
-    ilike,
-    inArray,
-    or,
-    SQL,
-    sql,
-} from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
 import { categoriesTable } from '../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../models/common.values'
-import {
-    InsertCategory,
-    QueryCategories,
-    SelectCategory,
-} from './category.model'
+import { InsertCategory, QueryCategories, SelectCategory } from './category.model'
 
 export class CategoryCoreService {
     static async findMany(filters: QueryCategories): Promise<SelectCategory[]> {
@@ -39,15 +24,9 @@ export class CategoryCoreService {
         return categories
     }
 
-    static async findOne(
-        filters: QueryCategories,
-    ): Promise<SelectCategory | null> {
+    static async findOne(filters: QueryCategories): Promise<SelectCategory | null> {
         const conditions = CategoryCoreService.buildWhereConditions(filters)
-        const categories = await db
-            .select()
-            .from(categoriesTable)
-            .where(conditions)
-            .limit(1)
+        const categories = await db.select().from(categoriesTable).where(conditions).limit(1)
         return categories[0] ?? null
     }
 
@@ -80,27 +59,16 @@ export class CategoryCoreService {
     }
 
     static async create(input: InsertCategory): Promise<SelectCategory> {
-        const [category] = await db
-            .insert(categoriesTable)
-            .values(input)
-            .returning()
+        const [category] = await db.insert(categoriesTable).values(input).returning()
         return category
     }
 
-    static async createMany(
-        inputs: InsertCategory[],
-    ): Promise<SelectCategory[]> {
-        const categories = await db
-            .insert(categoriesTable)
-            .values(inputs)
-            .returning()
+    static async createMany(inputs: InsertCategory[]): Promise<SelectCategory[]> {
+        const categories = await db.insert(categoriesTable).values(inputs).returning()
         return categories
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertCategory>,
-    ): Promise<SelectCategory> {
+    static async update(id: string, input: Partial<InsertCategory>): Promise<SelectCategory> {
         const [category] = await db
             .update(categoriesTable)
             .set(input)
@@ -109,10 +77,7 @@ export class CategoryCoreService {
         return category
     }
 
-    static async upsert(
-        id: string,
-        input: InsertCategory,
-    ): Promise<SelectCategory> {
+    static async upsert(id: string, input: InsertCategory): Promise<SelectCategory> {
         const existingCategory = await CategoryCoreService.findById(id)
         if (existingCategory) {
             return CategoryCoreService.update(id, input)
@@ -141,9 +106,7 @@ export class CategoryCoreService {
         return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
-    static buildWhereConditions(
-        params: QueryCategories,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryCategories): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

@@ -9,9 +9,7 @@ import {
 } from './subscription-core.model'
 
 export class SubscriptionCoreService {
-    static async findMany(
-        filters: QuerySubscriptions,
-    ): Promise<SelectSubscription[]> {
+    static async findMany(filters: QuerySubscriptions): Promise<SelectSubscription[]> {
         const conditions = SubscriptionCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
@@ -24,9 +22,7 @@ export class SubscriptionCoreService {
         return rows
     }
 
-    static async findOne(
-        filters: QuerySubscriptions,
-    ): Promise<SelectSubscription | null> {
+    static async findOne(filters: QuerySubscriptions): Promise<SelectSubscription | null> {
         const conditions = SubscriptionCoreService.buildWhereConditions(filters)
         const rows = (await db
             .select()
@@ -62,9 +58,7 @@ export class SubscriptionCoreService {
         return count || 0
     }
 
-    static async create(
-        input: InsertSubscription,
-    ): Promise<SelectSubscription> {
+    static async create(input: InsertSubscription): Promise<SelectSubscription> {
         const [row] = (await db
             .insert(subscriptionsTable)
             .values(input)
@@ -72,9 +66,7 @@ export class SubscriptionCoreService {
         return row
     }
 
-    static async createMany(
-        inputs: InsertSubscription[],
-    ): Promise<SelectSubscription[]> {
+    static async createMany(inputs: InsertSubscription[]): Promise<SelectSubscription[]> {
         const rows = (await db
             .insert(subscriptionsTable)
             .values(inputs)
@@ -98,30 +90,20 @@ export class SubscriptionCoreService {
         await db.delete(subscriptionsTable).where(eq(subscriptionsTable.id, id))
     }
 
-    static buildWhereConditions(
-        params: QuerySubscriptions,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QuerySubscriptions): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.id) conditions.push(eq(subscriptionsTable.id, params.id))
-        if (params.groupId)
-            conditions.push(eq(subscriptionsTable.groupId, params.groupId))
-        if (params.planId)
-            conditions.push(eq(subscriptionsTable.planId, params.planId))
-        if (params.creatorId)
-            conditions.push(eq(subscriptionsTable.creatorId, params.creatorId))
-        if (params.approverId)
-            conditions.push(
-                eq(subscriptionsTable.approverId, params.approverId),
-            )
+        if (params.groupId) conditions.push(eq(subscriptionsTable.groupId, params.groupId))
+        if (params.planId) conditions.push(eq(subscriptionsTable.planId, params.planId))
+        if (params.creatorId) conditions.push(eq(subscriptionsTable.creatorId, params.creatorId))
+        if (params.approverId) conditions.push(eq(subscriptionsTable.approverId, params.approverId))
         if (params.ids && params.ids.length > 0)
             conditions.push(inArray(subscriptionsTable.id, params.ids))
         if (params.isTrial !== undefined)
             conditions.push(eq(subscriptionsTable.isTrial, params.isTrial))
         if (params.autoRenewal !== undefined)
-            conditions.push(
-                eq(subscriptionsTable.autoRenewal, params.autoRenewal),
-            )
+            conditions.push(eq(subscriptionsTable.autoRenewal, params.autoRenewal))
 
         return conditions.length ? and(...conditions) : undefined
     }

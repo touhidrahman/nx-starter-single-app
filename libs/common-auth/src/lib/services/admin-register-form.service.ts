@@ -15,8 +15,7 @@ type RegisterForm = {
 }
 
 const RegexEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const Regex8CharsSmallCapitalDigitSpecial =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
+const Regex8CharsSmallCapitalDigitSpecial = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
 
 @Injectable()
 export class AdminRegisterFormService {
@@ -63,10 +62,7 @@ const confirmPasswordValidator: ValidatorFn = (
 
     if (!password || !confirmPassword) return null
 
-    if (
-        confirmPassword.errors &&
-        !confirmPassword.errors['passwordNotMatched']
-    ) {
+    if (confirmPassword.errors && !confirmPassword.errors['passwordNotMatched']) {
         return null // Keep other existing errors
     }
 

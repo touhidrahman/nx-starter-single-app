@@ -36,13 +36,7 @@ function pgDumpToBuffer(): Promise<Buffer> {
             return
         }
 
-        const pgDump = spawn('pg_dump', [
-            connectionString,
-            '-F',
-            'c',
-            '-Z',
-            '9',
-        ])
+        const pgDump = spawn('pg_dump', [connectionString, '-F', 'c', '-Z', '9'])
 
         const chunks: Buffer[] = []
         let totalLength = 0
@@ -89,9 +83,7 @@ async function uploadToS3(buffer: Buffer, fileName: string): Promise<void> {
 
 function extractDateFromFilename(filename: string): Date | null {
     try {
-        const match = filename.match(
-            /^(\d{4})-([a-z]{3})-(\d{2})-backup\.dump$/,
-        )
+        const match = filename.match(/^(\d{4})-([a-z]{3})-(\d{2})-backup\.dump$/)
         if (!match) return null
 
         const dateStr = `${match[1]}-${match[2]}-${match[3]}`
@@ -114,8 +106,7 @@ export async function listDatabaseBackups(): Promise<DbBackupRecord[]> {
             response.Contents?.map((obj) => {
                 const lastModified = obj.LastModified!
                 const filename = obj.Key!.split('/').pop() || ''
-                const creationDate =
-                    extractDateFromFilename(filename) || lastModified
+                const creationDate = extractDateFromFilename(filename) || lastModified
 
                 return {
                     key: obj.Key!,
@@ -150,9 +141,7 @@ export function selectMonthForDeletion(): {
     }
 }
 
-export async function removeBackups(
-    options: RemovalOptions = { auto: true },
-): Promise<void> {
+export async function removeBackups(options: RemovalOptions = { auto: true }): Promise<void> {
     const backups = await listDatabaseBackups()
 
     if (backups.length === 0) {
@@ -184,9 +173,7 @@ export async function removeBackups(
     await deleteBackupsInBatches(backupsToDelete)
 }
 
-async function deleteBackupsInBatches(
-    backupsToDelete: DbBackupRecord[],
-): Promise<void> {
+async function deleteBackupsInBatches(backupsToDelete: DbBackupRecord[]): Promise<void> {
     const batchSize = 1000
 
     for (let i = 0; i < backupsToDelete.length; i += batchSize) {
@@ -203,9 +190,7 @@ async function deleteBackupsInBatches(
     }
 }
 
-export async function findBackupFileByName(
-    fileName: string,
-): Promise<DbBackupRecord | null> {
+export async function findBackupFileByName(fileName: string): Promise<DbBackupRecord | null> {
     const backups = await listDatabaseBackups()
     return backups.find((backup) => backup.filename === fileName) || null
 }

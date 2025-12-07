@@ -31,9 +31,7 @@ const GetCategoryListCoreDef = createRoute({
     },
 })
 
-const GetCategoryListCore: AppRouteHandler<
-    typeof GetCategoryListCoreDef
-> = async (c) => {
+const GetCategoryListCore: AppRouteHandler<typeof GetCategoryListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await CategoryCoreService.findMany(query)
     const count = await CategoryCoreService.count(query)
@@ -63,9 +61,7 @@ const GetCategoryByIdCoreDef = createRoute({
     },
 })
 
-const GetCategoryByIdCore: AppRouteHandler<
-    typeof GetCategoryByIdCoreDef
-> = async (c) => {
+const GetCategoryByIdCore: AppRouteHandler<typeof GetCategoryByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const category = await CategoryCoreService.findById(id)
 
@@ -99,16 +95,11 @@ const CreateCategoryCoreDef = createRoute({
         body: jsonContent(zInsertCategory, 'Category Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectCategory,
-            'Category created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectCategory, 'Category created successfully'),
     },
 })
 
-const CreateCategoryCore: AppRouteHandler<
-    typeof CreateCategoryCoreDef
-> = async (c) => {
+const CreateCategoryCore: AppRouteHandler<typeof CreateCategoryCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newCategory = await CategoryCoreService.create(body)
 
@@ -137,9 +128,7 @@ const UpdateCategoryCoreDef = createRoute({
     },
 })
 
-const UpdateCategoryCore: AppRouteHandler<
-    typeof UpdateCategoryCoreDef
-> = async (c) => {
+const UpdateCategoryCore: AppRouteHandler<typeof UpdateCategoryCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingCategory = await CategoryCoreService.findById(id)
@@ -181,9 +170,7 @@ const DeleteCategoryCoreDef = createRoute({
     },
 })
 
-const DeleteCategoryCore: AppRouteHandler<
-    typeof DeleteCategoryCoreDef
-> = async (c) => {
+const DeleteCategoryCore: AppRouteHandler<typeof DeleteCategoryCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingCategory = await CategoryCoreService.findById(id)
 
@@ -223,9 +210,7 @@ const DeleteManyCategoryCoreDef = createRoute({
     },
 })
 
-const DeleteManyCategoryCore: AppRouteHandler<
-    typeof DeleteManyCategoryCoreDef
-> = async (c) => {
+const DeleteManyCategoryCore: AppRouteHandler<typeof DeleteManyCategoryCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await CategoryCoreService.deleteMany(ids)

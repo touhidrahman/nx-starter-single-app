@@ -35,9 +35,7 @@ const GetReferralListCrudDef = createRoute({
     },
 })
 
-const GetReferralListCrud: AppRouteHandler<
-    typeof GetReferralListCrudDef
-> = async (c) => {
+const GetReferralListCrud: AppRouteHandler<typeof GetReferralListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const data = await ReferralCrudService.findManyForUser(query, userId)
@@ -67,9 +65,7 @@ const GetReferralCrudDef = createRoute({
     },
 })
 
-const GetReferralCrud: AppRouteHandler<typeof GetReferralCrudDef> = async (
-    c,
-) => {
+const GetReferralCrud: AppRouteHandler<typeof GetReferralCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -106,9 +102,7 @@ const PostReferralCrudDef = createRoute({
     },
 })
 
-const PostReferralCrud: AppRouteHandler<typeof PostReferralCrudDef> = async (
-    c,
-) => {
+const PostReferralCrud: AppRouteHandler<typeof PostReferralCrudDef> = async (c) => {
     const body = c.req.valid('json')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -139,9 +133,7 @@ const PutReferralCrudDef = createRoute({
     },
 })
 
-const PutReferralCrud: AppRouteHandler<typeof PutReferralCrudDef> = async (
-    c,
-) => {
+const PutReferralCrud: AppRouteHandler<typeof PutReferralCrudDef> = async (c) => {
     const body = c.req.valid('json')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
@@ -185,9 +177,7 @@ const DeleteReferralCrudDef = createRoute({
     },
 })
 
-const DeleteReferralCrud: AppRouteHandler<
-    typeof DeleteReferralCrudDef
-> = async (c) => {
+const DeleteReferralCrud: AppRouteHandler<typeof DeleteReferralCrudDef> = async (c) => {
     const id = c.req.valid('param').id
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
 

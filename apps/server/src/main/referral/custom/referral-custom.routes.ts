@@ -26,9 +26,7 @@ const GetMyReferralsCustomDef = createRoute({
     },
 })
 
-const GetMyReferralsCustom: AppRouteHandler<
-    typeof GetMyReferralsCustomDef
-> = async (c) => {
+const GetMyReferralsCustom: AppRouteHandler<typeof GetMyReferralsCustomDef> = async (c) => {
     const query = c.req.valid('query')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
     const data = await ReferralCustomService.findManyForUser(query, userId)

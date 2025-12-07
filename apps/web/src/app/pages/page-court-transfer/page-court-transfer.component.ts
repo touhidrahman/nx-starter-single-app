@@ -14,12 +14,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-page-court-transfer',
-    imports: [
-        CommonModule,
-        PrimeModules,
-        CourtTransferTableComponent,
-        NoDataComponent,
-    ],
+    imports: [CommonModule, PrimeModules, CourtTransferTableComponent, NoDataComponent],
     templateUrl: './page-court-transfer.component.html',
     styleUrl: './page-court-transfer.component.scss',
 })
@@ -29,9 +24,7 @@ export class PageCourtTransferComponent {
     private activatedRoute = inject(ActivatedRoute)
     id = signal<string>('')
 
-    protected courtTransferListStateService = inject(
-        CourtTransferListStateService,
-    )
+    protected courtTransferListStateService = inject(CourtTransferListStateService)
     protected caseStateService = inject(CaseStateService)
 
     ngOnInit() {
@@ -64,13 +57,9 @@ export class PageCourtTransferComponent {
         ref?.onClose.subscribe({
             next: (res: CourtTransferDialogResult) => {
                 if (res?.caseTransfer?.case) {
-                    this.courtTransferListStateService.pushCourtTransfer(
-                        res.caseTransfer.case,
-                    )
+                    this.courtTransferListStateService.pushCourtTransfer(res.caseTransfer.case)
                     if (res.caseTransfer.caseHistory) {
-                        this.caseHistoryStateService.pushCaseHistories(
-                            res.caseTransfer.caseHistory,
-                        )
+                        this.caseHistoryStateService.pushCaseHistories(res.caseTransfer.caseHistory)
                     }
                 }
             },

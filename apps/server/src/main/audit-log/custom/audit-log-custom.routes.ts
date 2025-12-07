@@ -27,9 +27,7 @@ const GetMyAuditLogListDef = createRoute({
     },
 })
 
-const GetMyAuditLogList: AppRouteHandler<typeof GetMyAuditLogListDef> = async (
-    c,
-) => {
+const GetMyAuditLogList: AppRouteHandler<typeof GetMyAuditLogListDef> = async (c) => {
     const query = c.req.valid('query')
     const { sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
@@ -63,13 +61,9 @@ const DeleteLogByEntityIdDef = createRoute({
     },
 })
 
-const DeleteLogByEntityId: AppRouteHandler<
-    typeof DeleteLogByEntityIdDef
-> = async (c) => {
+const DeleteLogByEntityId: AppRouteHandler<typeof DeleteLogByEntityIdDef> = async (c) => {
     const params = c.req.valid('param')
-    const { sub: creatorId, groupId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { sub: creatorId, groupId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupSpecificQuery = { ...params, groupId }
     await AuditLogCustomService.deleteManyByQuery(groupSpecificQuery)

@@ -10,12 +10,7 @@ import { zEmpty, zId } from '../../../models/common.schema'
 import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertPlan,
-    zQueryPlans,
-    zSelectPlan,
-    zUpdatePlan,
-} from '../core/plan-core.model'
+import { zInsertPlan, zQueryPlans, zSelectPlan, zUpdatePlan } from '../core/plan-core.model'
 import { PlanCrudService } from './plan-crud.service'
 
 const tags = ['Plans']
@@ -34,9 +29,7 @@ const GetPlanListCrudDef = createRoute({
     },
 })
 
-const GetPlanListCrud: AppRouteHandler<typeof GetPlanListCrudDef> = async (
-    c,
-) => {
+const GetPlanListCrud: AppRouteHandler<typeof GetPlanListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await PlanCrudService.findMany(query)
     const count = await PlanCrudService.count(query)

@@ -1,20 +1,7 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    effect,
-    Injector,
-    inject,
-    input,
-    OnInit,
-    output,
-    signal,
-} from '@angular/core'
+import { Component, effect, Injector, inject, input, OnInit, output, signal } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import {
-    ControlValueAccessor,
-    NgControl,
-    ReactiveFormsModule,
-} from '@angular/forms'
+import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms'
 import { PrimeModules } from '@repo/prime-modules'
 
 @Component({
@@ -48,9 +35,7 @@ import { PrimeModules } from '@repo/prime-modules'
   </div>
   `,
 })
-export class UserIdentifierInputFieldComponent
-    implements ControlValueAccessor, OnInit
-{
+export class UserIdentifierInputFieldComponent implements ControlValueAccessor, OnInit {
     private injector = inject(Injector)
     private ngControl = inject(NgControl, { optional: true, self: true })
 

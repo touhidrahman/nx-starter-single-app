@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import {
-    CaseParty,
-    CasePartyContainerComponent,
-    CaseStateService,
-} from '@repo/case'
+import { CaseParty, CasePartyContainerComponent, CaseStateService } from '@repo/case'
 
 @Component({
     selector: 'app-page-case-parties',

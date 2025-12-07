@@ -1,14 +1,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    computed,
-    inject,
-    input,
-    output,
-    signal,
-} from '@angular/core'
+import { Component, computed, inject, input, output, signal } from '@angular/core'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -41,9 +34,7 @@ export class ImageUploaderComponent {
     imageCleared = output<void>()
 
     selectedFile = signal<File | null>(null)
-    readonly displayImageUrl = computed(
-        () => this.localImageUrl() || this.previewImageUrl(),
-    )
+    readonly displayImageUrl = computed(() => this.localImageUrl() || this.previewImageUrl())
 
     onFileSelect(event: FileSelectEvent) {
         if (event.files && event.files.length > 0) {

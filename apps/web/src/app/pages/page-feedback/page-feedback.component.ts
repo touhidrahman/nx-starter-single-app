@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import {
-    FeedbackCreateComponent,
-    FeedbacksListStateService,
-} from '@repo/feedback'
+import { FeedbackCreateComponent, FeedbacksListStateService } from '@repo/feedback'
 import { PrimeModules } from '@repo/prime-modules'
 
 @Component({

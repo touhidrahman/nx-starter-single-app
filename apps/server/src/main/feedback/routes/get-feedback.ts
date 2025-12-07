@@ -21,21 +21,13 @@ export const getFeedbackRoute = createRoute({
     },
 })
 
-export const getFeedbackHandler: AppRouteHandler<
-    typeof getFeedbackRoute
-> = async (c) => {
+export const getFeedbackHandler: AppRouteHandler<typeof getFeedbackRoute> = async (c) => {
     const feedbackId = c.req.param('id')
     const feedback = await findFeedbackById(feedbackId)
 
     if (!feedback) {
-        return c.json(
-            { data: {}, message: 'Feedback not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Feedback not found', success: false }, NOT_FOUND)
     }
 
-    return c.json(
-        { data: feedback, message: 'Feedback found', success: true },
-        OK,
-    )
+    return c.json({ data: feedback, message: 'Feedback found', success: true }, OK)
 }

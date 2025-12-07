@@ -39,30 +39,18 @@ const ChangePasswordDef = createRoute({
 const ChangePassword: AppRouteHandler<typeof ChangePasswordDef> = async (c) => {
     try {
         const { userId, currentPassword, password } = c.req.valid('json')
-        const data = await AuthService.changePassword(
-            userId,
-            currentPassword,
-            password,
-        )
+        const data = await AuthService.changePassword(userId, currentPassword, password)
 
         try {
             if (data.email) {
-                const passwordChangeTemplate =
-                    buildPasswordChangeSuccessfulEmailTemplate({
-                        email: data.email,
-                    })
+                const passwordChangeTemplate = buildPasswordChangeSuccessfulEmailTemplate({
+                    email: data.email,
+                })
 
-                await sendEmailUsingResend(
-                    [data.email],
-                    'Password change',
-                    passwordChangeTemplate,
-                )
+                await sendEmailUsingResend([data.email], 'Password change', passwordChangeTemplate)
             }
         } catch (emailError) {
-            c.var.logger.error(
-                emailError,
-                'Error sending password change email',
-            )
+            c.var.logger.error(emailError, 'Error sending password change email')
         }
 
         return c.json(
@@ -86,10 +74,7 @@ const ForgotPasswordDef = createRoute({
     tags,
     method: REQ_METHOD.POST,
     request: {
-        body: jsonContentRequired(
-            z.object({ identifier: z.string() }),
-            'Identifier',
-        ),
+        body: jsonContentRequired(z.object({ identifier: z.string() }), 'Identifier'),
     },
     responses: {
         [OK]: ApiResponse(zEmpty, 'Password reset email sent'),
@@ -108,11 +93,7 @@ const ForgotPassword: AppRouteHandler<typeof ForgotPasswordDef> = async (c) => {
         }
 
         const [error, token] = await attemptAsync(
-            async () =>
-                await AuthService.createForgotPasswordToken(
-                    user.id,
-                    identifier,
-                ),
+            async () => await AuthService.createForgotPasswordToken(user.id, identifier),
         )
 
         let noEmailError = true
@@ -132,9 +113,7 @@ const ForgotPassword: AppRouteHandler<typeof ForgotPasswordDef> = async (c) => {
 
         if (error || !user?.id || !token || !noEmailError) {
             throw new HTTPException(BAD_REQUEST, {
-                message:
-                    (error as Error).message ??
-                    'Could not create password reset token',
+                message: (error as Error).message ?? 'Could not create password reset token',
             })
         }
 
@@ -183,11 +162,10 @@ const ResetPassword: AppRouteHandler<typeof ResetPasswordDef> = async (c) => {
         // custom service automatically hashes the password
         await UserCustomService.update(user.id, { password })
 
-        const passwordResetSuccessfulTemplate =
-            buildPasswordResetSuccessfulEmailTemplate({
-                firstName: user.firstName ?? '',
-                lastName: user.lastName ?? '',
-            })
+        const passwordResetSuccessfulTemplate = buildPasswordResetSuccessfulEmailTemplate({
+            firstName: user.firstName ?? '',
+            lastName: user.lastName ?? '',
+        })
 
         const { data, error } = await sendEmailUsingResend(
             [email],

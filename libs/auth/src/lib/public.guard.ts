@@ -7,8 +7,6 @@ export function publicGuard(): CanActivateFn {
         const authService = inject(AuthStateService)
         const router = inject(Router)
 
-        return authService.isLoggedIn()
-            ? router.createUrlTree(['/dashboard/home'])
-            : true
+        return authService.isLoggedIn() ? router.createUrlTree(['/dashboard/home']) : true
     }
 }

@@ -24,11 +24,7 @@ import { PrimeModules } from '@repo/prime-modules'
     ],
     templateUrl: './page-client-case.component.html',
     styleUrl: './page-client-case.component.scss',
-    providers: [
-        CaseHistoryStateService,
-        CaseStateService,
-        DocumentListStateService,
-    ],
+    providers: [CaseHistoryStateService, CaseStateService, DocumentListStateService],
 })
 export class PageClientCaseComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute)
@@ -36,8 +32,7 @@ export class PageClientCaseComponent implements OnInit {
     private cdr = inject(ChangeDetectorRef)
 
     protected caseStateService = inject(CaseStateService)
-    caseDetailsRoutesData: CaseDetailsRoutesData[] =
-        CASE_DETAILS_CLIENT_ROUTES_DATA
+    caseDetailsRoutesData: CaseDetailsRoutesData[] = CASE_DETAILS_CLIENT_ROUTES_DATA
 
     id = this.activatedRoute.snapshot.paramMap.get('id')
 
@@ -58,9 +53,7 @@ export class PageClientCaseComponent implements OnInit {
 
     onMobileNavChange(path: string) {
         this.router.navigate([path], { relativeTo: this.activatedRoute })
-        this.selectedItem =
-            this.caseDetailsRoutesData.find((item) => item.path === path) ||
-            null
+        this.selectedItem = this.caseDetailsRoutesData.find((item) => item.path === path) || null
         this.cdr.detectChanges()
     }
 }

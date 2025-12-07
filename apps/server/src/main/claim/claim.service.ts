@@ -23,8 +23,6 @@ export function findAllClaimsList(): string[] {
 
 export function getDefaultClaims(role: string): string[] {
     return uniq(
-        CLAIMS_LIST.filter((claim) => claim.forRoles.includes(role)).map(
-            (claim) => claim.id,
-        ),
+        CLAIMS_LIST.filter((claim) => claim.forRoles.includes(role)).map((claim) => claim.id),
     ).sort()
 }

@@ -23,43 +23,26 @@ export function getFileNameFromUrl(url: string) {
     return url.split('/').pop()
 }
 
-export function getFileType(
-    file: File,
-): 'image' | 'document' | 'audio' | 'video' {
+export function getFileType(file: File): 'image' | 'document' | 'audio' | 'video' {
     const extension = getFileExtension(file)
 
-    if (
-        ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp'].includes(extension)
-    ) {
+    if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'webp'].includes(extension)) {
         return 'image'
     }
 
     if (
-        [
-            'txt',
-            'rtf',
-            'odt',
-            'pdf',
-            'doc',
-            'docx',
-            'xls',
-            'xlsx',
-            'ppt',
-            'pptx',
-        ].includes(extension)
+        ['txt', 'rtf', 'odt', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'].includes(
+            extension,
+        )
     ) {
         return 'document'
     }
 
-    if (
-        ['mp3', 'wav', 'ogg', 'flac', 'aac', 'wma', 'm4a'].includes(extension)
-    ) {
+    if (['mp3', 'wav', 'ogg', 'flac', 'aac', 'wma', 'm4a'].includes(extension)) {
         return 'audio'
     }
 
-    if (
-        ['mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm'].includes(extension)
-    ) {
+    if (['mp4', 'mkv', 'avi', 'mov', 'wmv', 'flv', 'webm'].includes(extension)) {
         return 'video'
     }
 

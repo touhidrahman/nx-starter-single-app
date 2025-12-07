@@ -1,17 +1,10 @@
 import { createRoute } from '@hono/zod-openapi'
-import {
-    BAD_REQUEST,
-    INTERNAL_SERVER_ERROR,
-    OK,
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
-import {
-    deleteS3File,
-    uploadToS3AndGetUrl,
-} from '../../../third-party/s3.service'
+import { deleteS3File, uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
 
 import {
@@ -51,8 +44,7 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
 
         if (!file) errors.push('No file provided')
 
-        if (!allowedFormats.includes(file.type))
-            errors.push('Invalid file type')
+        if (!allowedFormats.includes(file.type)) errors.push('Invalid file type')
         if (file.size > MAX_FILE_SIZE) errors.push('File size exceeds limit')
 
         if (errors.length > 0)
@@ -94,10 +86,7 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
             uploadedBy: payload.sub,
         })
 
-        const [updatedUser] = await updateUserProfilePictureUrl(
-            profilePictureUrl,
-            payload.sub,
-        )
+        const [updatedUser] = await updateUserProfilePictureUrl(profilePictureUrl, payload.sub)
 
         if (!updatedUser) {
             return c.json(
@@ -122,8 +111,7 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
         return c.json(
             {
                 data: {},
-                message:
-                    'An error occurred while uploading the profile picture',
+                message: 'An error occurred while uploading the profile picture',
                 success: false,
                 error: error,
             },

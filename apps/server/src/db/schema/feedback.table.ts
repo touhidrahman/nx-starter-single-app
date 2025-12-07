@@ -1,10 +1,6 @@
 import { pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
-import {
-    feedbackStatusEnum,
-    feedbackTypeEnum,
-    timestampColumns,
-} from './_common.table'
+import { feedbackStatusEnum, feedbackTypeEnum, timestampColumns } from './_common.table'
 import { usersTable } from './users.table'
 
 export const feedbackTable = pgTable('feedback', {

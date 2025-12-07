@@ -7,10 +7,7 @@ import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
-import {
-    zQueryUserSettings,
-    zSelectUserSetting,
-} from '../core/user-setting-core.model'
+import { zQueryUserSettings, zSelectUserSetting } from '../core/user-setting-core.model'
 import { UserSettingCustomService } from './user-setting-custom.service'
 
 const tags = ['UserSettings']
@@ -29,9 +26,7 @@ const GetMyUserSettingListDef = createRoute({
     },
 })
 
-const GetMyUserSettingList: AppRouteHandler<
-    typeof GetMyUserSettingListDef
-> = async (c) => {
+const GetMyUserSettingList: AppRouteHandler<typeof GetMyUserSettingListDef> = async (c) => {
     const query = c.req.valid('query')
     const { sub: userId } = c.get('jwtPayload') as AccessTokenPayload
 
