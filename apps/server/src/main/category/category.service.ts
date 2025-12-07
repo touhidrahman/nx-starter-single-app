@@ -28,4 +28,16 @@ export class CategoryService extends CategoryCoreService {
         })
         return category ?? null
     }
+
+    static async findManyWithSubcategories(
+        groupId: string,
+    ): Promise<SelectCategoryWithSubcategories[]> {
+        const categories = await db.query.categoriesTable.findMany({
+            where: (categoriesTable, { eq }) => eq(categoriesTable.groupId, groupId),
+            with: {
+                subcategories: true,
+            },
+        })
+        return categories
+    }
 }

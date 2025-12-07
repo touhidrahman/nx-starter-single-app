@@ -66,6 +66,11 @@ Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 
 ###
+GET {{BACKEND_URL}}/{{resource}}/custom/my-all-with-subcategories
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+###
 GET {{BACKEND_URL}}/{{resource}}/custom/{{id}}/with-subcategories
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

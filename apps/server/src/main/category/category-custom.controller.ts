@@ -49,6 +49,34 @@ const GetCategoryListCrud: AppRouteHandler<typeof GetMyCategoryListDef> = async 
     )
 }
 
+const GetMyAllCategoryWithSubcategoriesListDef = createRoute({
+    path: `${path}/my-all-with-subcategories`,
+    tags,
+    method: 'get',
+    middleware: [checkToken] as const,
+    request: {},
+    responses: {
+        [OK]: ApiResponse(z.array(zSelectCategoryWithSubcategories), 'Category List'),
+    },
+})
+
+const GetMyAllCategoryWithSubcategoriesList: AppRouteHandler<
+    typeof GetMyAllCategoryWithSubcategoriesListDef
+> = async (c) => {
+    const { groupId } = c.get('jwtPayload') as AccessTokenPayload
+    if (!groupId) throw new HTTPException(FORBIDDEN, { message: 'GroupId is required' })
+    const data = await CategoryService.findManyWithSubcategories(groupId)
+
+    return c.json(
+        {
+            data,
+            message: "Group's all categories with subcategories fetched successfully",
+            success: true,
+        },
+        OK,
+    )
+}
+
 const GetCategoryWithSubcategoriesDef = createRoute({
     path: `${path}/:id/with-subcategories`,
     tags,
@@ -85,3 +113,4 @@ const GetCategoryWithSubcategories: AppRouteHandler<
 export const categoryCustomRoutes = createRouter()
     .openapi(GetMyCategoryListDef, GetCategoryListCrud)
     .openapi(GetCategoryWithSubcategoriesDef, GetCategoryWithSubcategories)
+    .openapi(GetMyAllCategoryWithSubcategoriesListDef, GetMyAllCategoryWithSubcategoriesList)
