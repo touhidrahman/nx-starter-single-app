@@ -1,6 +1,8 @@
-@accountId=d59d7f428b
+@accountId=25a56abbc7
 @deleteId=b96dd738f1
 @id=ebb65095bd
+@categoryId=8599a1a688
+@subcategoryId=479904edba
 
 
 ###
@@ -10,8 +12,11 @@ Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
   "accountId": "{{accountId}}",
-  "amount": "2.19",
-  "title": "Grocery Shopping 3"
+  "amount": "22.99",
+  "title": "Grocery Shopping 1",
+  "isOutgoing": true,
+  "categoryId": "{{categoryId}}",
+  "subcategoryId": "{{subcategoryId}}"
 }
 
 

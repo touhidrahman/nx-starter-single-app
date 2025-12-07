@@ -30,7 +30,7 @@ export const transactionsTable = pgTable('transactions', {
     groupId: text()
         .notNull()
         .references(() => groupsTable.id, { onDelete: 'cascade' }),
-    scheduledTransactionId: text().references(() => transactionSchedulesTable.id, {
+    transactionScheduleId: text().references(() => transactionSchedulesTable.id, {
         onDelete: 'set null',
     }),
     ...timestampColumns,
@@ -65,8 +65,8 @@ export const transactionsRelations = relations(transactionsTable, ({ one }) => (
         fields: [transactionsTable.groupId],
         references: [groupsTable.id],
     }),
-    scheduledTransaction: one(transactionSchedulesTable, {
-        fields: [transactionsTable.scheduledTransactionId],
+    transactionSchedule: one(transactionSchedulesTable, {
+        fields: [transactionsTable.transactionScheduleId],
         references: [transactionSchedulesTable.id],
     }),
 }))
