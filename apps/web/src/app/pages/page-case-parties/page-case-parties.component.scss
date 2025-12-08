@@ -1,9 +1,0 @@
-:host {
-    display: block;
-}
-
-@reference "tailwindcss";
-
-.border-end-1 {
-    @apply border-gray-100 lg:border-r;
-}

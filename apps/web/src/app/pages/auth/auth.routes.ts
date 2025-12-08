@@ -12,11 +12,8 @@ export type AuthRoutes = {
     accountVerify: Route
     verifyPhone: Route
     login: Route
-    accept: Route
     createProfile: Route
-    statusPending: Route
     profileCreated: Route
-    payment: Route
     verificationEmailSent: Route
 }
 
@@ -38,7 +35,7 @@ export const authRoutes: AuthRoutes = {
     newPassword: {
         path: 'new-password/:token',
         loadComponent: () =>
-            import('../page-set-new-password/page-set-new-password.component').then(
+            import('../../pages/page-set-new-password/page-set-new-password.component').then(
                 (m) => m.PageSetNewPasswordComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
@@ -76,44 +73,25 @@ export const authRoutes: AuthRoutes = {
             title: 'MyApp | Sign In',
         },
     },
-    accept: {
-        path: 'accept',
-        loadComponent: () =>
-            import('../page-accept-invite/page-accept-invite.component').then(
-                (m) => m.PageAcceptInviteComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
+
     createProfile: {
         path: 'create-profile',
         loadComponent: () => import('@repo/auth').then((m) => m.PageCreateProfileFormComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
-    statusPending: {
-        path: 'status-pending',
-        loadComponent: () =>
-            import('../page-organization-status-pending/page-organization-status-pending').then(
-                (m) => m.pageOrganizationStatusPendingComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
+
     profileCreated: {
         path: 'profile-created',
         loadComponent: () => import('@repo/auth').then((m) => m.PageProfileCreatedComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
-    payment: {
-        path: 'payment',
-        loadComponent: () =>
-            import('../page-payment/page-payment.component').then((c) => c.PagePaymentComponent),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
+
     verificationEmailSent: {
         path: 'verification-email-sent',
         loadComponent: () =>
-            import('../page-verification-email-sent/page-verification-email-sent.component').then(
-                (c) => c.PageVerificationEmailSentComponent,
-            ),
+            import(
+                '../../pages/page-verification-email-sent/page-verification-email-sent.component'
+            ).then((c) => c.PageVerificationEmailSentComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
 }
