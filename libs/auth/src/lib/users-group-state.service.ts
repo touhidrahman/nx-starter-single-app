@@ -59,7 +59,7 @@ export class UserGroupsStateService extends SimpleStore<UserGroupState> {
 
     private continueLoadingGroups() {
         this.loadMyGroups().subscribe({
-            next: (res) => {
+            next: (res: any) => {
                 this.setState({
                     groups: res.data.groups,
                     loading: false,

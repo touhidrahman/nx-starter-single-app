@@ -256,7 +256,7 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
 
     onLoadOwnedGroups(moreOptionWrapper: HTMLDivElement, chevron: HTMLSpanElement) {
         this.userGroupStateService.loadMyGroups().subscribe({
-            next: ({ data }) => {
+            next: ({ data }: { data: unknown }) => {
                 moreOptionWrapper.classList.toggle('h-0')
                 chevron.classList.toggle('rotate-90')
                 if (!data.hasClientGroup || !data.hasVendorGroup) {

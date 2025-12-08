@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { GroupOverview } from '@repo/common-auth'
 import { AlertService } from '@repo/common-services'
-import { PrimeModules } from '@repo/prime-modules'
 import { GroupApiService } from '@repo/group'
+import { PrimeModules } from '@repo/prime-modules'
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
@@ -22,11 +22,11 @@ export class PlanPerksWidgetComponent {
 
     constructor() {
         this.groupApiService.getGroupOverview().subscribe({
-            next: ({ data }) => {
+            next: ({ data }: { data: unknown }) => {
                 this.groupOverview.set(data)
             },
-            error: (err) => {
-                this.alertService.error(err.message)
+            error: (err: unknown) => {
+                this.alertService.error((err as any).message)
             },
         })
     }
