@@ -36,7 +36,6 @@
             "@repo/core": ["libs/core/src/index.ts"],
             "@repo/feedback": ["libs/feedback/src/index.ts"],
             "@repo/filestore": ["libs/filestore/src/index.ts"],
-            "@repo/group": ["libs/group/src/index.ts"],
             "@repo/home": ["libs/home/src/index.ts"],
             "@repo/news-ticker": ["libs/news-ticker/src/index.ts"],
             "@repo/plan": ["libs/plan/src/index.ts"],
