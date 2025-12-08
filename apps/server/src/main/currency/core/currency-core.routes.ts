@@ -32,9 +32,7 @@ const GetCurrencyListCoreDef = createRoute({
     },
 })
 
-const GetCurrencyListCore: AppRouteHandler<
-    typeof GetCurrencyListCoreDef
-> = async (c) => {
+const GetCurrencyListCore: AppRouteHandler<typeof GetCurrencyListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await CurrencyCoreService.findMany(query)
     const count = await CurrencyCoreService.count(query)
@@ -64,9 +62,7 @@ const GetCurrencyByIdCoreDef = createRoute({
     },
 })
 
-const GetCurrencyByIdCore: AppRouteHandler<
-    typeof GetCurrencyByIdCoreDef
-> = async (c) => {
+const GetCurrencyByIdCore: AppRouteHandler<typeof GetCurrencyByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const currency = await CurrencyCoreService.findById(id)
 
@@ -100,16 +96,11 @@ const CreateCurrencyCoreDef = createRoute({
         body: jsonContent(zInsertCurrency, 'Currency Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectCurrency,
-            'Currency created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectCurrency, 'Currency created successfully'),
     },
 })
 
-const CreateCurrencyCore: AppRouteHandler<
-    typeof CreateCurrencyCoreDef
-> = async (c) => {
+const CreateCurrencyCore: AppRouteHandler<typeof CreateCurrencyCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newCurrency = await CurrencyCoreService.create(body)
 
@@ -138,9 +129,7 @@ const UpdateCurrencyCoreDef = createRoute({
     },
 })
 
-const UpdateCurrencyCore: AppRouteHandler<
-    typeof UpdateCurrencyCoreDef
-> = async (c) => {
+const UpdateCurrencyCore: AppRouteHandler<typeof UpdateCurrencyCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingCurrency = await CurrencyCoreService.findById(id)
@@ -182,9 +171,7 @@ const DeleteCurrencyCoreDef = createRoute({
     },
 })
 
-const DeleteCurrencyCore: AppRouteHandler<
-    typeof DeleteCurrencyCoreDef
-> = async (c) => {
+const DeleteCurrencyCore: AppRouteHandler<typeof DeleteCurrencyCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingCurrency = await CurrencyCoreService.findById(id)
 
@@ -224,9 +211,7 @@ const DeleteManyCurrencyCoreDef = createRoute({
     },
 })
 
-const DeleteManyCurrencyCore: AppRouteHandler<
-    typeof DeleteManyCurrencyCoreDef
-> = async (c) => {
+const DeleteManyCurrencyCore: AppRouteHandler<typeof DeleteManyCurrencyCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await CurrencyCoreService.deleteMany(ids)

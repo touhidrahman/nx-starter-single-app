@@ -3,12 +3,7 @@
 }
 
 .gradient-text {
-    background: linear-gradient(
-        90deg,
-        rgb(0, 138, 0),
-        rgb(179, 255, 0),
-        rgb(0, 133, 0)
-    );
+    background: linear-gradient(90deg, rgb(0, 138, 0), rgb(179, 255, 0), rgb(0, 133, 0));
     background-size: 200% auto;
     color: transparent;
     font-weight: bold;

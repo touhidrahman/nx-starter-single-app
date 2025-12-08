@@ -46,7 +46,4 @@ const GetRoleListCrud: AppRouteHandler<typeof GetMyRoleListDef> = async (c) => {
     )
 }
 
-export const roleCustomRoutes = createRouter().openapi(
-    GetMyRoleListDef,
-    GetRoleListCrud,
-)
+export const roleCustomRoutes = createRouter().openapi(GetMyRoleListDef, GetRoleListCrud)

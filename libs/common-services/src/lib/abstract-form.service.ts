@@ -44,8 +44,7 @@ export abstract class AbstractFormService<T> {
     }
 
     save$(): Observable<T> {
-        if (this.form.invalid)
-            return throwError(() => new Error('Invalid form'))
+        if (this.form.invalid) return throwError(() => new Error('Invalid form'))
 
         const id = this.form.get('id')?.value ?? null
         return id ? this.update$(id) : this.create$()

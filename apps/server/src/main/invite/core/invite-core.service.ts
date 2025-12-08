@@ -20,20 +20,12 @@ export class InviteCoreService {
 
     static async findOne(filters: QueryInvites): Promise<SelectInvite | null> {
         const conditions = InviteCoreService.buildWhereConditions(filters)
-        const invites = await db
-            .select()
-            .from(invitesTable)
-            .where(conditions)
-            .limit(1)
+        const invites = await db.select().from(invitesTable).where(conditions).limit(1)
         return invites[0] ?? null
     }
 
     static async findById(id: string): Promise<SelectInvite | null> {
-        const invite = await db
-            .select()
-            .from(invitesTable)
-            .where(eq(invitesTable.id, id))
-            .limit(1)
+        const invite = await db.select().from(invitesTable).where(eq(invitesTable.id, id)).limit(1)
         return invite[0] || null
     }
 
@@ -66,10 +58,7 @@ export class InviteCoreService {
         return invites
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertInvite>,
-    ): Promise<SelectInvite> {
+    static async update(id: string, input: Partial<InsertInvite>): Promise<SelectInvite> {
         const [invite] = await db
             .update(invitesTable)
             .set(input)
@@ -78,10 +67,7 @@ export class InviteCoreService {
         return invite
     }
 
-    static async upsert(
-        id: string,
-        input: InsertInvite,
-    ): Promise<SelectInvite> {
+    static async upsert(id: string, input: InsertInvite): Promise<SelectInvite> {
         const existingInvite = await InviteCoreService.findById(id)
         if (existingInvite) {
             return InviteCoreService.update(id, input)
@@ -97,9 +83,7 @@ export class InviteCoreService {
         await db.delete(invitesTable).where(inArray(invitesTable.id, ids))
     }
 
-    static buildWhereConditions(
-        params: QueryInvites,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryInvites): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

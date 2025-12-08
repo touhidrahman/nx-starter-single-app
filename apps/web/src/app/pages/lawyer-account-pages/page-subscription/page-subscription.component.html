@@ -1,11 +1,7 @@
 <section class="relative min-h-screen w-full overflow-hidden">
     <div class="animate-top mt-24">
-        <h2 class="gradient-text text-center text-6xl font-bold">
-            Choose Your Plan
-        </h2>
-        <p class="text-gray58 text-center text-2xl font-semibold">
-            Choose your best plan
-        </p>
+        <h2 class="gradient-text text-center text-6xl font-bold">Choose Your Plan</h2>
+        <p class="text-gray58 text-center text-2xl font-semibold">Choose your best plan</p>
 
         <div class="mb-32 text-center">
             <div
@@ -14,8 +10,7 @@
                 <div
                     class="absolute top-0 left-0 -z-10 h-full w-full rounded-full bg-white opacity-80 blur-3xl"></div>
 
-                <div
-                    class="flex-col sm:flex sm:flex-row sm:gap-4 md:flex md:flex-row md:gap-4">
+                <div class="flex-col sm:flex sm:flex-row sm:gap-4 md:flex md:flex-row md:gap-4">
                     <div
                         (click)="togglePlan(subscriptionType.MONTHLY)"
                         [ngClass]="{
@@ -29,8 +24,7 @@
                         "
                         class="text-gray23 transform cursor-pointer rounded-full px-12 py-2 text-2xl transition-transform duration-500"
                         style="box-shadow: 0px 1px 1px 0px #00000040">
-                        <button
-                            class="transform transition-transform duration-700 hover:scale-110">
+                        <button class="transform transition-transform duration-700 hover:scale-110">
                             Monthly
                         </button>
                     </div>
@@ -46,8 +40,7 @@
                                 : {}
                         "
                         class="text-gray23 cursor-pointer rounded-full px-12 py-2 text-2xl">
-                        <button
-                            class="transform transition-transform duration-700 hover:scale-110">
+                        <button class="transform transition-transform duration-700 hover:scale-110">
                             Yearly
                         </button>
                     </div>
@@ -105,43 +98,29 @@
                     <h6 class="text-gray66 text-3xl font-bold">
                         BDT
                         {{
-                            getPrice(
-                                plan.monthlyPrice || 0,
-                                plan.yearlyPrice || 0
-                            ) | number: '1.0-0'
+                            getPrice(plan.monthlyPrice || 0, plan.yearlyPrice || 0)
+                                | number: '1.0-0'
                         }}/<span class="text-sm">{{
                             planPriceType === 'monthly' ? 'Month' : 'Year'
                         }}</span>
                     </h6>
                     <hr class="border-graybf mt-2 mb-4 w-full border-t" />
-                    @for (
-                        feature of getFeatures(plan.activeFeatures?.[0]);
-                        track feature
-                    ) {
+                    @for (feature of getFeatures(plan.activeFeatures?.[0]); track feature) {
                         <div class="my-2.5 flex items-center">
                             <span
                                 class="flex h-6 w-6 items-center justify-center rounded-full bg-[#009A12] p-[.5rem]">
-                                <i
-                                    class="pi pi-check text-xs !font-[1000] text-white"></i>
+                                <i class="pi pi-check text-xs !font-[1000] text-white"></i>
                             </span>
-                            <span class="text-md ml-2 text-[#999999]">{{
-                                feature
-                            }}</span>
+                            <span class="text-md ml-2 text-[#999999]">{{ feature }}</span>
                         </div>
                     }
-                    @for (
-                        feature of getFeatures(plan.inactiveFeatures?.[0]);
-                        track feature
-                    ) {
+                    @for (feature of getFeatures(plan.inactiveFeatures?.[0]); track feature) {
                         <div class="my-2.5 flex items-center">
                             <span
                                 class="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 p-[.5rem]">
-                                <i
-                                    class="pi pi-times text-xs !font-[1000] text-white"></i>
+                                <i class="pi pi-times text-xs !font-[1000] text-white"></i>
                             </span>
-                            <span class="text-md ml-2 text-[#999999]">{{
-                                feature
-                            }}</span>
+                            <span class="text-md ml-2 text-[#999999]">{{ feature }}</span>
                         </div>
                     }
                     <div class="mx-auto mt-4 w-full">
@@ -152,10 +131,8 @@
                                 class="transform transition-transform duration-500 hover:scale-125">
                                 Start For BDT
                                 {{
-                                    getPrice(
-                                        plan.monthlyPrice || 0,
-                                        plan.yearlyPrice || 0
-                                    ) | number: '1.0-0'
+                                    getPrice(plan.monthlyPrice || 0, plan.yearlyPrice || 0)
+                                        | number: '1.0-0'
                                 }}
                             </button>
                         </div>

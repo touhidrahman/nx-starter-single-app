@@ -15,8 +15,7 @@ export const caseRoutes: CaseRoutes = {
     createCase: {
         path: 'dashboard/cases/create',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
-        loadComponent: () =>
-            import('@repo/case').then((m) => m.CreateCaseComponent),
+        loadComponent: () => import('@repo/case').then((m) => m.CreateCaseComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 
@@ -24,9 +23,7 @@ export const caseRoutes: CaseRoutes = {
         path: 'dashboard/case/:id',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-case/page-case.component').then(
-                (m) => m.PageCaseComponent,
-            ),
+            import('../page-case/page-case.component').then((m) => m.PageCaseComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
         children: [
             {
@@ -37,45 +34,45 @@ export const caseRoutes: CaseRoutes = {
             {
                 path: 'event',
                 loadComponent: () =>
-                    import(
-                        '../page-case-events/page-case-events.component'
-                    ).then((m) => m.PageCaseEventsComponent),
+                    import('../page-case-events/page-case-events.component').then(
+                        (m) => m.PageCaseEventsComponent,
+                    ),
             },
             {
                 path: 'parties',
                 loadComponent: () =>
-                    import(
-                        '../page-case-parties/page-case-parties.component'
-                    ).then((m) => m.PageCasePartiesComponent),
+                    import('../page-case-parties/page-case-parties.component').then(
+                        (m) => m.PageCasePartiesComponent,
+                    ),
             },
             {
                 path: 'documents',
                 loadComponent: () =>
-                    import(
-                        '../page-case-documents/page-case-documents.component'
-                    ).then((m) => m.PageCaseDocumentsComponent),
+                    import('../page-case-documents/page-case-documents.component').then(
+                        (m) => m.PageCaseDocumentsComponent,
+                    ),
             },
             {
                 path: 'clients',
                 loadComponent: () =>
-                    import(
-                        '../page-case-clients/page-case-clients.component'
-                    ).then((m) => m.PageCaseClientsComponent),
+                    import('../page-case-clients/page-case-clients.component').then(
+                        (m) => m.PageCaseClientsComponent,
+                    ),
                 data: { inheritParams: true },
             },
             {
                 path: 'court-transfer',
                 loadComponent: () =>
-                    import(
-                        '../page-court-transfer/page-court-transfer.component'
-                    ).then((m) => m.PageCourtTransferComponent),
+                    import('../page-court-transfer/page-court-transfer.component').then(
+                        (m) => m.PageCourtTransferComponent,
+                    ),
             },
             {
                 path: 'followers',
                 loadComponent: () =>
-                    import(
-                        '../page-case-followers/page-case-followers.component'
-                    ).then((m) => m.PageCaseFollowersComponent),
+                    import('../page-case-followers/page-case-followers.component').then(
+                        (m) => m.PageCaseFollowersComponent,
+                    ),
             },
             {
                 path: 'notes',
@@ -87,9 +84,9 @@ export const caseRoutes: CaseRoutes = {
             {
                 path: 'case-members',
                 loadComponent: () =>
-                    import(
-                        '../page-case-member/page-case-member.component'
-                    ).then((m) => m.PageCaseMemberComponent),
+                    import('../page-case-member/page-case-member.component').then(
+                        (m) => m.PageCaseMemberComponent,
+                    ),
             },
             {
                 path: 'causelist',
@@ -103,17 +100,14 @@ export const caseRoutes: CaseRoutes = {
     caseEvent: {
         path: 'dashboard/case/:id/case-event',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
-        loadComponent: () =>
-            import('@repo/case').then((m) => m.CaseHistoryComponent),
+        loadComponent: () => import('@repo/case').then((m) => m.CaseHistoryComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     cases: {
         path: 'dashboard/cases',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-cases/page-cases.component').then(
-                (m) => m.PageCasesComponent,
-            ),
+            import('../page-cases/page-cases.component').then((m) => m.PageCasesComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     myCases: {
@@ -148,9 +142,9 @@ export const caseRoutes: CaseRoutes = {
             {
                 path: 'documents',
                 loadComponent: () =>
-                    import(
-                        '../page-case-documents/page-case-documents.component'
-                    ).then((m) => m.PageCaseDocumentsComponent),
+                    import('../page-case-documents/page-case-documents.component').then(
+                        (m) => m.PageCaseDocumentsComponent,
+                    ),
             },
         ],
     },

@@ -3,11 +3,7 @@ import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { AuthStateService } from '@repo/auth'
 import { Group } from '@repo/common-auth'
-import {
-    AlertService,
-    ConfirmDialogData,
-    ThemeService,
-} from '@repo/common-services'
+import { AlertService, ConfirmDialogData, ThemeService } from '@repo/common-services'
 import { GroupApiService } from '@repo/group'
 import { PrimeModules } from '@repo/prime-modules'
 import { SubscriptionStateService } from '@repo/subscription'
@@ -77,19 +73,15 @@ export class PreferencesComponent {
         this.themeService.setTheme(this.themeChecked)
 
         const theme = this.themeChecked ? 'dark' : 'light'
-        this.userSettingsApiService
-            .updateUserSetting(this.userId(), { theme })
-            .subscribe()
+        this.userSettingsApiService.updateUserSetting(this.userId(), { theme }).subscribe()
     }
 
     onLanguageChange() {
         const language = this.languageChecked ? 'bn' : 'en'
-        this.userSettingsApiService
-            .updateUserSetting(this.userId(), { language })
-            .subscribe({
-                next: (res) => {},
-                error: (err) => console.error('Error updating language', err),
-            })
+        this.userSettingsApiService.updateUserSetting(this.userId(), { language }).subscribe({
+            next: (res) => {},
+            error: (err) => console.error('Error updating language', err),
+        })
     }
 
     private getOrganization(id: string) {
@@ -101,14 +93,12 @@ export class PreferencesComponent {
     }
 
     private getUserSetting() {
-        this.userSettingsApiService
-            .getUsersSettingsByUserId()
-            .subscribe((res) => {
-                const settings = res.data?.settings
-                if (settings) {
-                    this.themeChecked = settings['theme'] === 'dark'
-                    this.languageChecked = settings['language'] === 'bn'
-                }
-            })
+        this.userSettingsApiService.getUsersSettingsByUserId().subscribe((res) => {
+            const settings = res.data?.settings
+            if (settings) {
+                this.themeChecked = settings['theme'] === 'dark'
+                this.languageChecked = settings['language'] === 'bn'
+            }
+        })
     }
 }

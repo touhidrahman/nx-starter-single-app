@@ -35,9 +35,7 @@ const GetInviteListCrudDef = createRoute({
     },
 })
 
-const GetInviteListCrud: AppRouteHandler<typeof GetInviteListCrudDef> = async (
-    c,
-) => {
+const GetInviteListCrud: AppRouteHandler<typeof GetInviteListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -100,9 +98,7 @@ const CreateInviteCrudDef = createRoute({
     },
 })
 
-const CreateInviteCrud: AppRouteHandler<typeof CreateInviteCrudDef> = async (
-    c,
-) => {
+const CreateInviteCrud: AppRouteHandler<typeof CreateInviteCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
@@ -141,9 +137,7 @@ const UpdateInviteCrudDef = createRoute({
     },
 })
 
-const UpdateInviteCrud: AppRouteHandler<typeof UpdateInviteCrudDef> = async (
-    c,
-) => {
+const UpdateInviteCrud: AppRouteHandler<typeof UpdateInviteCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -183,9 +177,7 @@ const DeleteInviteCrudDef = createRoute({
     },
 })
 
-const DeleteInviteCrud: AppRouteHandler<typeof DeleteInviteCrudDef> = async (
-    c,
-) => {
+const DeleteInviteCrud: AppRouteHandler<typeof DeleteInviteCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 

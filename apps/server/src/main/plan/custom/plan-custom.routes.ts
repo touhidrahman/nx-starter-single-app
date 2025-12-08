@@ -25,9 +25,7 @@ const GetActivePlanListDef = createRoute({
     },
 })
 
-const GetActivePlanList: AppRouteHandler<typeof GetActivePlanListDef> = async (
-    c,
-) => {
+const GetActivePlanList: AppRouteHandler<typeof GetActivePlanListDef> = async (c) => {
     const query = c.req.valid('query')
 
     const activeQuery = { ...query, isActive: true }
@@ -45,7 +43,4 @@ const GetActivePlanList: AppRouteHandler<typeof GetActivePlanListDef> = async (
     )
 }
 
-export const planCustomRoutes = createRouter().openapi(
-    GetActivePlanListDef,
-    GetActivePlanList,
-)
+export const planCustomRoutes = createRouter().openapi(GetActivePlanListDef, GetActivePlanList)

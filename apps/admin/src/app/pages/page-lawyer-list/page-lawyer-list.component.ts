@@ -105,8 +105,7 @@ export class PageLawyerListComponent implements OnInit {
 
     onDeleteLawyers(id: string) {
         this.lawyerStateService.deleteLawyer(id).subscribe({
-            next: () =>
-                this.alertService.success('Lawyer deleted successfully.'),
+            next: () => this.alertService.success('Lawyer deleted successfully.'),
             error: (err) => this.alertService.error(err.message),
         })
     }

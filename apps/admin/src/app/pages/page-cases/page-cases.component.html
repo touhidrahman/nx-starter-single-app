@@ -5,10 +5,7 @@
 <div class="my-5 flex items-center justify-between">
     <div class="flex items-center justify-start gap-3">
         <div>
-            <p-button
-                label="Filters"
-                icon="pi pi-filter"
-                iconPos="left"></p-button>
+            <p-button label="Filters" icon="pi pi-filter" iconPos="left"></p-button>
         </div>
         <div
             class="flex items-center justify-start gap-2 rounded-md bg-gray-100 px-1 py-1 shadow-sm">
@@ -17,10 +14,7 @@
                 styleClass="{'border-radius': '24px'}"
                 placeholder="Select a Status"
                 class="w-full md:w-56" />
-            <p-select
-                size="small"
-                placeholder="Sorting"
-                class="w-full md:w-56" />
+            <p-select size="small" placeholder="Sorting" class="w-full md:w-56" />
         </div>
     </div>
     <div class="flex items-center justify-end gap-3">
@@ -36,9 +30,7 @@
     @if (allCases && allCases.length <= 0) {
         <div>No Data</div>
     } @else {
-        <p-table
-            [value]="allCases ?? []"
-            [tableStyle]="{ 'min-width': '50rem' }">
+        <p-table [value]="allCases ?? []" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template #header>
                 <tr>
                     <th>Case Number</th>
@@ -62,8 +54,7 @@
                     <td>{{ case.trialPeriodDays }}</td>
                     <td class="flex space-x-4">
                         <p-button icon="pi pi-pencil"> </p-button>
-                        <p-button severity="danger" icon="pi pi-trash">
-                        </p-button>
+                        <p-button severity="danger" icon="pi pi-trash"> </p-button>
                     </td>
                 </tr>
             </ng-template>

@@ -56,9 +56,7 @@ const AdminNotificationContent = (_props: AdminNotificationTemplateProps) => `
   </tr>
 `
 
-export function buildAdminNotificationTemplate(
-    props: AdminNotificationTemplateProps,
-): string {
+export function buildAdminNotificationTemplate(props: AdminNotificationTemplateProps): string {
     return new EmailTemplateBuilder<AdminNotificationTemplateProps>()
         .setBodyTemplate(AdminNotificationContent(props))
         .build(props)

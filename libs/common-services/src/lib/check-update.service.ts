@@ -13,15 +13,11 @@ export class CheckUpdateService {
     checkForUpdates() {
         // Prevent update check in dev mode or when service worker is not enabled
         if (!this.updateService.isEnabled || isDevMode()) {
-            console.warn(
-                'Service worker updates are disabled or running in dev mode.',
-            )
+            console.warn('Service worker updates are disabled or running in dev mode.')
             return
         }
 
-        const appIsStable$ = this.appRef.isStable.pipe(
-            first((isStable) => isStable === true),
-        )
+        const appIsStable$ = this.appRef.isStable.pipe(first((isStable) => isStable === true))
         const everyTenMins$ = interval(10 * 60 * 1000)
         const updateTrigger$ = concat(appIsStable$, everyTenMins$)
 

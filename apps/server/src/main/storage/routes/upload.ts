@@ -5,11 +5,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
-import {
-    SelectStorage,
-    zInsertStorage,
-    zUploadStorage,
-} from '../storage.schema'
+import { SelectStorage, zInsertStorage, zUploadStorage } from '../storage.schema'
 import { createStorageRecord } from '../storage.service'
 
 export const uploadRoute = createRoute({
@@ -21,10 +17,7 @@ export const uploadRoute = createRoute({
         body: jsonContent(zUploadStorage, 'Storage Item'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            z.array(zInsertStorage),
-            'Storage Item(s) uploaded',
-        ),
+        [CREATED]: ApiResponse(z.array(zInsertStorage), 'Storage Item(s) uploaded'),
     },
 })
 
@@ -61,8 +54,5 @@ export const uploadHandler: AppRouteHandler<typeof uploadRoute> = async (c) => {
         results.push(item)
     }
 
-    return c.json(
-        { data: results, message: 'Files uploaded', success: true },
-        CREATED,
-    )
+    return c.json({ data: results, message: 'Files uploaded', success: true }, CREATED)
 }

@@ -4,12 +4,9 @@ import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 
 export function onErrorFn(): ErrorHandler {
     return async (err, c) => {
-        const currentStatus =
-            'status' in err ? err.status : c.newResponse(null).status
+        const currentStatus = 'status' in err ? err.status : c.newResponse(null).status
         const statusCode =
-            currentStatus !== OK
-                ? (currentStatus as ContentfulStatusCode)
-                : INTERNAL_SERVER_ERROR
+            currentStatus !== OK ? (currentStatus as ContentfulStatusCode) : INTERNAL_SERVER_ERROR
         const env = c.env?.NODE_ENV || process.env?.NODE_ENV
 
         if (env !== 'production') {

@@ -4,43 +4,29 @@ import { db } from '../../db/db'
 import { groupsTable, membershipsTable } from '../../db/schema'
 import { DateUtil } from '../../utils/date.util'
 import { SelectGroup } from '../group/core/group-core.model'
+import { PermissionService } from '../permission/permission.service'
 import { SelectRole } from '../role/core/role-core.model'
+import { RoleCoreService } from '../role/core/role-core.service'
 import { SelectUser } from '../user/core/user-core.model'
 import { UserCustomService } from '../user/custom/user-custom.service'
 import { passwordRemoved } from '../user/user.util'
 import { UserLoginResponse } from './auth.model'
 import { CryptoService } from './crypto.service'
-import {
-    createAccessToken2,
-    createRefreshToken,
-    createVerificationToken,
-} from './token.util'
+import { createAccessToken2, createRefreshToken, createVerificationToken } from './token.util'
 
 export class AuthService {
-    static async login(
-        emailOrUsername: string,
-        password: string,
-    ): Promise<UserLoginResponse> {
-        const user =
-            await UserCustomService.findByEmailOrUsername(emailOrUsername)
+    static async login(emailOrUsername: string, password: string): Promise<UserLoginResponse> {
+        const user = await UserCustomService.findByEmailOrUsername(emailOrUsername)
         if (!user) {
             throw new Error('Invalid email or password')
         }
 
         const now = DateUtil.date()
-        if (
-            user.bannedAt &&
-            DateUtil.isBefore(DateUtil.toJsDate(user.bannedAt), now)
-        ) {
-            throw new Error(
-                'Your account has been locked. Please contact support.',
-            )
+        if (user.bannedAt && DateUtil.isBefore(DateUtil.toJsDate(user.bannedAt), now)) {
+            throw new Error('Your account has been locked. Please contact support.')
         }
 
-        const isPasswordValid = await CryptoService.verifyPassword(
-            password,
-            user.password,
-        )
+        const isPasswordValid = await CryptoService.verifyPassword(password, user.password)
         if (!isPasswordValid) {
             throw new Error('Invalid email or password')
         }
@@ -60,8 +46,7 @@ export class AuthService {
                 roleId = membership.roleId ?? ''
                 groupId = membership.groupId
             } else {
-                const res =
-                    await AuthService.getFirstMembershipRoleAndGroup(user)
+                const res = await AuthService.getFirstMembershipRoleAndGroup(user)
                 roleId = res.roleId
                 groupId = res.groupId
             }
@@ -71,19 +56,28 @@ export class AuthService {
             groupId = res.groupId
         }
 
-        const role = await db.query.membershipsTable.findFirst({
+        const membership = await db.query.membershipsTable.findFirst({
             with: { role: true },
             where: eq(membershipsTable.roleId, roleId),
         })
+        let role = membership?.role
+        // update role permissions from default permissions set so that user has an option to enable them later
+        if (role) {
+            const updatedPermissions = PermissionService.upsertAvailablePermissions(
+                (role.permissions ?? '').split(','),
+            ).join(',')
+            if (updatedPermissions !== role.permissions) {
+                role = await RoleCoreService.update(role.id, {
+                    permissions: updatedPermissions,
+                })
+            }
+        }
+
         const group = await db.query.groupsTable.findFirst({
             where: eq(groupsTable.id, groupId),
         })
 
-        return AuthService.getUserLoginResponse(
-            user,
-            group ?? null,
-            role?.role ?? null,
-        )
+        return AuthService.getUserLoginResponse(user, group ?? null, role ?? null)
     }
 
     static async getUserLoginResponseByUserIdAndGroupId(
@@ -91,10 +85,7 @@ export class AuthService {
         groupId: string,
     ): Promise<UserLoginResponse | null> {
         const membership = await db.query.membershipsTable.findFirst({
-            where: and(
-                eq(membershipsTable.userId, userId),
-                eq(membershipsTable.groupId, groupId),
-            ),
+            where: and(eq(membershipsTable.userId, userId), eq(membershipsTable.groupId, groupId)),
             with: { role: true, group: true, user: true },
         })
         if (membership) {
@@ -166,22 +157,16 @@ export class AuthService {
             throw new Error('User not found', { cause: NOT_FOUND })
         }
 
-        if (
-            !(await CryptoService.verifyPassword(
-                currentPassword,
-                user.password,
-            ))
-        ) {
+        if (!(await CryptoService.verifyPassword(currentPassword, user.password))) {
             throw new Error('Current password is incorrect', {
                 cause: BAD_REQUEST,
             })
         }
 
         if (currentPassword === newPassword) {
-            throw new Error(
-                'New password must be different from the current password',
-                { cause: BAD_REQUEST },
-            )
+            throw new Error('New password must be different from the current password', {
+                cause: BAD_REQUEST,
+            })
         }
 
         const hashedPassword = await CryptoService.hashPassword(newPassword)
@@ -191,12 +176,7 @@ export class AuthService {
     }
 
     static async createForgotPasswordToken(userId: string, identifier: string) {
-        return createVerificationToken(
-            userId,
-            { unit: 'day', value: 3 },
-            identifier,
-            '',
-        )
+        return createVerificationToken(userId, { unit: 'day', value: 3 }, identifier, '')
     }
 
     private static async getFirstMembershipRoleAndGroup(

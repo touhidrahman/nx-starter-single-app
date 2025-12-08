@@ -1,19 +1,7 @@
 import { CommonModule, Location } from '@angular/common'
-import {
-    ChangeDetectorRef,
-    Component,
-    inject,
-    OnDestroy,
-    OnInit,
-    signal,
-} from '@angular/core'
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core'
 import { SafeResourceUrl } from '@angular/platform-browser'
-import {
-    ActivatedRoute,
-    Router,
-    RouterModule,
-    RouterOutlet,
-} from '@angular/router'
+import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { NgIconsModule } from '@ng-icons/core'
 import {
     CASE_DETAILS_ROUTES_DATA,
@@ -42,11 +30,7 @@ import {
 import { DocumentFormService, DocumentListStateService } from '@repo/documents'
 import { PrimeModules } from '@repo/prime-modules'
 import { injectParams } from 'ngxtension/inject-params'
-import {
-    DialogService,
-    DynamicDialogConfig,
-    DynamicDialogRef,
-} from 'primeng/dynamicdialog'
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
     selector: 'app-page-case',
@@ -79,9 +63,7 @@ import {
 export class PageCaseComponent implements OnInit, OnDestroy {
     private route = inject(ActivatedRoute)
     private caseHistoryStateService = inject(CaseHistoryStateService)
-    private courtTransferListStateService = inject(
-        CourtTransferListStateService,
-    )
+    private courtTransferListStateService = inject(CourtTransferListStateService)
     private dialogService = inject(DialogService)
     private alertService = inject(AlertService)
     private router = inject(Router)
@@ -91,8 +73,7 @@ export class PageCaseComponent implements OnInit, OnDestroy {
     private caseFollowRequestApiService = inject(CaseFollowRequestApiService)
 
     protected caseStateService = inject(CaseStateService)
-    protected caseDetailsRouterData: CaseDetailsRoutesData[] =
-        CASE_DETAILS_ROUTES_DATA
+    protected caseDetailsRouterData: CaseDetailsRoutesData[] = CASE_DETAILS_ROUTES_DATA
 
     id = injectParams('id')
 
@@ -124,17 +105,11 @@ export class PageCaseComponent implements OnInit, OnDestroy {
 
     menuItems = [
         {
-            label:
-                this.caseData?.caseStatus === 'archived'
-                    ? 'Unarchive'
-                    : 'Archive',
+            label: this.caseData?.caseStatus === 'archived' ? 'Unarchive' : 'Archive',
             icon: 'pi pi-box',
             command: () => {
                 if (this.caseData?.id) {
-                    this.openCaseArchiveModal(
-                        this.caseData.id,
-                        this.caseData.caseStatus,
-                    )
+                    this.openCaseArchiveModal(this.caseData.id, this.caseData.caseStatus)
                 }
             },
         },
@@ -172,22 +147,16 @@ export class PageCaseComponent implements OnInit, OnDestroy {
         this.alertService.confirm(confirmDialogData)
     }
 
-    openCaseArchiveModal(
-        caseId: string,
-        currentCaseStatus: 'active' | 'archived',
-    ) {
+    openCaseArchiveModal(caseId: string, currentCaseStatus: 'active' | 'archived') {
         const data: CaseArchiveConfirmDialogData = { caseId, currentCaseStatus }
-        const archiveRef = this.dialogService.open(
-            CaseArchiveConfirmDialogComponent,
-            {
-                header: `${currentCaseStatus === 'active' ? 'Archive' : 'Unarchive'} case`,
-                width: '50%',
-                breakpoints: { '960px': '75vw', '640px': '95vw' },
-                modal: true,
-                closable: true,
-                data,
-            },
-        )
+        const archiveRef = this.dialogService.open(CaseArchiveConfirmDialogComponent, {
+            header: `${currentCaseStatus === 'active' ? 'Archive' : 'Unarchive'} case`,
+            width: '50%',
+            breakpoints: { '960px': '75vw', '640px': '95vw' },
+            modal: true,
+            closable: true,
+            data,
+        })
 
         archiveRef?.onClose.subscribe({
             next: (res: CaseArchiveConfirmDialogResult) => {
@@ -219,9 +188,7 @@ export class PageCaseComponent implements OnInit, OnDestroy {
 
     onMobileNavChange(path: string) {
         this.router.navigate([path], { relativeTo: this.route })
-        this.selectedItem =
-            this.caseDetailsRouterData.find((item) => item.path === path) ||
-            null
+        this.selectedItem = this.caseDetailsRouterData.find((item) => item.path === path) || null
         this.isDropdownOpen = false
         this.cdr.detectChanges()
     }
@@ -253,13 +220,9 @@ export class PageCaseComponent implements OnInit, OnDestroy {
         ref?.onClose.subscribe({
             next: (res: CourtTransferDialogResult) => {
                 if (res?.caseTransfer?.case) {
-                    this.courtTransferListStateService.pushCourtTransfer(
-                        res?.caseTransfer?.case,
-                    )
+                    this.courtTransferListStateService.pushCourtTransfer(res?.caseTransfer?.case)
                     if (res.caseTransfer.caseHistory) {
-                        this.caseHistoryStateService.pushCaseHistories(
-                            res.caseTransfer.caseHistory,
-                        )
+                        this.caseHistoryStateService.pushCaseHistories(res.caseTransfer.caseHistory)
                     }
                     this.courtTransferListStateService.init()
                 }
@@ -287,9 +250,7 @@ export class PageCaseComponent implements OnInit, OnDestroy {
         this.caseStateService.pinOrUnpinCase(newPinStatus).subscribe({
             next: ({ data }) => {
                 this.alertService.success(
-                    data.isPinned
-                        ? 'Pinned successfully'
-                        : 'Unpinned successfully',
+                    data.isPinned ? 'Pinned successfully' : 'Unpinned successfully',
                 )
                 this.isPinned = data.isPinned
                 this.loading.set(false)

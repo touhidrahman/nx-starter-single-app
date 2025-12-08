@@ -1,7 +1,6 @@
 <div>
     <h1 class="text-2xl font-bold">Admin List</h1>
-    <div
-        class="my-5 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div class="my-5 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <p-button
             (click)="openAdminCreateModal()"
             styleClass="bg-primary"
@@ -13,9 +12,7 @@
     <p-card>
         @if (isLoading()) {
             <div class="flex items-center justify-center py-8">
-                <i
-                    class="pi pi-spin pi-spinner"
-                    style="font-size: 2rem; color: green"></i>
+                <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
             </div>
         } @else if (users.length > 0) {
             <p-table [value]="users">
@@ -36,10 +33,8 @@
                             <span
                                 class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap"
                                 [ngClass]="{
-                                    'bg-pink-100 text-pink-800':
-                                        user.status === 'inactive',
-                                    'bg-emerald-100 text-emerald-800':
-                                        user.status === 'active',
+                                    'bg-pink-100 text-pink-800': user.status === 'inactive',
+                                    'bg-emerald-100 text-emerald-800': user.status === 'active',
                                 }">
                                 {{ user.status | uppercase }}</span
                             >
@@ -49,8 +44,7 @@
                                 class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap uppercase"
                                 [ngClass]="{
                                     'bg-red-100 text-red-800': !user.verified,
-                                    'bg-purple-100 text-purple-800':
-                                        user.verified,
+                                    'bg-purple-100 text-purple-800': user.verified,
                                 }">
                                 {{ user.verified ? 'Verified' : 'Unverified' }}
                             </span>

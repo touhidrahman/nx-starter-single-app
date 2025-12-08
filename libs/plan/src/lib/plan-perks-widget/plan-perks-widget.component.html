@@ -1,36 +1,28 @@
 <div class="space-y-5">
     @if (this.checkPackage()) {
-        <p
-            class="rounded-md border-1 border-red-300 bg-red-50 p-2 font-thin text-red-400">
+        <p class="rounded-md border-1 border-red-300 bg-red-50 p-2 font-thin text-red-400">
             You have crossed some of your limits than
-            <span class="font-bold underline"
-                >{{ this.config?.data?.newPlan.name }} Plan!</span
-            >
+            <span class="font-bold underline">{{ this.config?.data?.newPlan.name }} Plan!</span>
         </p>
     }
 
-    <p
-        class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
+    <p class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
         You will not be able to have some advance features!
     </p>
 
     <div class="space-y-1">
         <h2 class="text-xl font-bold">Your Status</h2>
-        <p
-            class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
+        <p class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
             You have total cases: {{ groupOverview()?.totalCases }}
         </p>
-        <p
-            class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
+        <p class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
             You have total Cause List Enrollments:
             {{ groupOverview()?.totalEnrollments }}
         </p>
-        <p
-            class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
+        <p class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
             You have total Clients: {{ groupOverview()?.totalClients }}
         </p>
-        <p
-            class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
+        <p class="text-primary border-primary bg-lightGreen rounded-md border-1 p-2">
             You have total Storage Used: {{ groupOverview()?.storageUsed }}
         </p>
     </div>

@@ -15,10 +15,7 @@ export class CurrencyCrudService extends CurrencyCoreService {
         }
     }
 
-    static async findByIdAndGroupId(
-        id: string,
-        groupId: string,
-    ): Promise<SelectCurrency | null> {
+    static async findByIdAndGroupId(id: string, groupId: string): Promise<SelectCurrency | null> {
         return CurrencyCrudService.findOne({ id, groupId })
     }
 }

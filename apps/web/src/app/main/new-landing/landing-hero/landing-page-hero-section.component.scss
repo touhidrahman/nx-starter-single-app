@@ -27,12 +27,7 @@
 }
 
 .gradient-text {
-    background: linear-gradient(
-        90deg,
-        rgb(0, 138, 0),
-        rgb(179, 255, 0),
-        rgb(0, 133, 0)
-    );
+    background: linear-gradient(90deg, rgb(0, 138, 0), rgb(179, 255, 0), rgb(0, 133, 0));
     background-size: 200% auto;
     color: transparent;
     font-weight: bold;
@@ -83,12 +78,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0, 112, 37, 0.637),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(0, 112, 37, 0.637), transparent);
     z-index: -1;
     filter: blur(5px);
     transform: translateX(-100%);
@@ -97,12 +87,7 @@
 
 .synthwave-laser-button::after {
     animation-delay: 5.25s;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgb(0, 133, 22),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgb(0, 133, 22), transparent);
 }
 
 @keyframes laser-glow {

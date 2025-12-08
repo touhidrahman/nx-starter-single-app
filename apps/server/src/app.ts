@@ -16,9 +16,7 @@ import { authRoutes } from './main/auth/auth.routes'
 import { authInviteRoutes } from './main/auth/auth-invite.routes'
 import { authPasswordRoutes } from './main/auth/auth-password.routes'
 import { authVerifyRoutes } from './main/auth/auth-verify.routes'
-import { categoryCoreRoutes } from './main/category/core/category-core.routes'
-import { categoryCrudRoutes } from './main/category/crud/category-crud.routes'
-import { categoryCustomRoutes } from './main/category/custom/category-custom.routes'
+import { categoryRoutes } from './main/category/category.routes'
 import { claimV1Routes } from './main/claim/claim.routes'
 import { currencyCoreRoutes } from './main/currency/core/currency-core.routes'
 import { currencyCrudRoutes } from './main/currency/crud/currency-crud.routes'
@@ -35,15 +33,14 @@ import { planCoreRoutes } from './main/plan/core/plan-core.routes'
 import { planCrudRoutes } from './main/plan/crud/plan-crud.routes'
 import { planCustomRoutes } from './main/plan/custom/plan-custom.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
-import { subcategoryCoreRoutes } from './main/subcategory/core/subcategory-core.routes'
-import { subcategoryCrudRoutes } from './main/subcategory/crud/subcategory-crud.routes'
-import { subcategoryCustomRoutes } from './main/subcategory/custom/subcategory-custom.routes'
+import { subcategoryRoutes } from './main/subcategory/subcategory.routes'
 import { subscriptionCoreRoutes } from './main/subscription/core/subscription-core.routes'
 import { subscriptionCrudRoutes } from './main/subscription/crud/subscription-crud.routes'
 import { subscriptionCustomRoutes } from './main/subscription/custom/subscription-custom.routes'
 import { transactionRoutes } from './main/transaction/transaction.routes'
 import { transactionCoreRoutes } from './main/transaction/transaction-core.routes'
 import { transactionCrudRoutes } from './main/transaction/transaction-crud.routes'
+import { transactionScheduleRoutes } from './main/transaction-schedule/transaction-schedule.routes'
 import { userCoreRoutes } from './main/user/core/user-core.routes'
 import { userCrudRoutes } from './main/user/crud/user-crud.routes'
 import { userCustomRoutes } from './main/user/custom/user-custom.routes'
@@ -68,11 +65,9 @@ const routes = [
     authPasswordRoutes,
     authRoutes,
     authVerifyRoutes,
-    categoryCoreRoutes,
-    categoryCrudRoutes,
-    categoryCustomRoutes,
-    claimV1Routes,
+    ...categoryRoutes,
     currencyCoreRoutes,
+    claimV1Routes,
     currencyCrudRoutes,
     dashboardV1Routes,
     databaseBackupV1Routes,
@@ -87,15 +82,14 @@ const routes = [
     planCrudRoutes,
     planCustomRoutes,
     storageV1Routes,
-    subcategoryCoreRoutes,
-    subcategoryCrudRoutes,
-    subcategoryCustomRoutes,
+    ...subcategoryRoutes,
     subscriptionCoreRoutes,
     subscriptionCrudRoutes,
     subscriptionCustomRoutes,
     transactionCoreRoutes,
     transactionCrudRoutes,
     transactionRoutes,
+    ...transactionScheduleRoutes,
     userCoreRoutes,
     userCrudRoutes,
     userCustomRoutes,
@@ -108,9 +102,7 @@ configureOpenAPI(app)
 
 const paths = []
 for (const route of routes) {
-    paths.push(
-        ...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)),
-    )
+    paths.push(...uniq(route.routes.map((r) => `${pad(r.method, 8)}: ${r.path}`)))
     app.route('/', route)
 }
 console.log('Registered routes:\n')

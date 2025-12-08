@@ -1,11 +1,7 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { referralsTable } from '../../../db/schema'
-import {
-    InsertReferral,
-    QueryReferrals,
-    SelectReferral,
-} from '../core/referral-core.model'
+import { InsertReferral, QueryReferrals, SelectReferral } from '../core/referral-core.model'
 import { ReferralCoreService } from '../core/referral-core.service'
 
 export class ReferralCrudService extends ReferralCoreService {
@@ -17,10 +13,7 @@ export class ReferralCrudService extends ReferralCoreService {
             .select()
             .from(referralsTable)
             .where(
-                and(
-                    eq(referralsTable.id, id),
-                    eq(referralsTable.referralCodeId, referralCodeId),
-                ),
+                and(eq(referralsTable.id, id), eq(referralsTable.referralCodeId, referralCodeId)),
             )
             .limit(1)
         return referral[0] || null
@@ -34,10 +27,7 @@ export class ReferralCrudService extends ReferralCoreService {
         return ReferralCoreService.findMany(modifiedFilters)
     }
 
-    static async countForUser(
-        filters: QueryReferrals,
-        referralCodeId: string,
-    ): Promise<number> {
+    static async countForUser(filters: QueryReferrals, referralCodeId: string): Promise<number> {
         const modifiedFilters = { ...filters, referralCodeId }
         return ReferralCoreService.count(modifiedFilters)
     }
@@ -54,24 +44,15 @@ export class ReferralCrudService extends ReferralCoreService {
         input: Partial<InsertReferral>,
         referralCodeId: string,
     ): Promise<SelectReferral | null> {
-        const referral = await ReferralCrudService.findByIdForUser(
-            id,
-            referralCodeId,
-        )
+        const referral = await ReferralCrudService.findByIdForUser(id, referralCodeId)
         if (!referral) {
             return null
         }
         return ReferralCoreService.update(id, input)
     }
 
-    static async deleteForUser(
-        id: string,
-        referralCodeId: string,
-    ): Promise<boolean> {
-        const referral = await ReferralCrudService.findByIdForUser(
-            id,
-            referralCodeId,
-        )
+    static async deleteForUser(id: string, referralCodeId: string): Promise<boolean> {
+        const referral = await ReferralCrudService.findByIdForUser(id, referralCodeId)
         if (!referral) {
             return false
         }

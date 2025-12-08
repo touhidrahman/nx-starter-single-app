@@ -4,10 +4,7 @@ import { ApiResponse } from '@repo/common-models'
 import { ApiService } from '@repo/common-services'
 import { APP_ENVIRONMENT, AppEnvironmentConfig } from '@repo/core'
 import { Observable } from 'rxjs'
-import {
-    PermissionRequest,
-    PermissionRequestDto,
-} from './permission-request.model'
+import { PermissionRequest, PermissionRequestDto } from './permission-request.model'
 
 @Injectable({ providedIn: 'root' })
 export class PermissionRequestApiService extends ApiService<
@@ -22,21 +19,11 @@ export class PermissionRequestApiService extends ApiService<
         super(inject(HttpClient), `${env.apiUrl}/v1/permission-requests`)
     }
 
-    readPermissionRequest(
-        id: string,
-    ): Observable<ApiResponse<PermissionRequest>> {
-        return this.http.put<ApiResponse<PermissionRequest>>(
-            `${this.apiUrl}/read/${id}`,
-            {},
-        )
+    readPermissionRequest(id: string): Observable<ApiResponse<PermissionRequest>> {
+        return this.http.put<ApiResponse<PermissionRequest>>(`${this.apiUrl}/read/${id}`, {})
     }
 
-    approvePermissionRequest(
-        id: string,
-    ): Observable<ApiResponse<PermissionRequest>> {
-        return this.http.put<ApiResponse<PermissionRequest>>(
-            `${this.apiUrl}/approve/${id}`,
-            {},
-        )
+    approvePermissionRequest(id: string): Observable<ApiResponse<PermissionRequest>> {
+        return this.http.put<ApiResponse<PermissionRequest>>(`${this.apiUrl}/approve/${id}`, {})
     }
 }

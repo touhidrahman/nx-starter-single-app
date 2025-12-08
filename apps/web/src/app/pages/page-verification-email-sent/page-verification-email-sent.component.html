@@ -11,18 +11,12 @@
             <div class="ms-3 text-sm font-normal">
                 <span class="mb-1 text-sm font-semibold text-gray-900">
                     {{
-                        isReset()
-                            ? 'Send Password Reset Link via Email'
-                            : 'Send Verification Email'
+                        isReset() ? 'Send Password Reset Link via Email' : 'Send Verification Email'
                     }}
                 </span>
                 <div class="mb-2 text-sm font-normal">
                     Please check your email to
-                    {{
-                        isReset()
-                            ? 'reset your password'
-                            : 'verify your account'
-                    }}.
+                    {{ isReset() ? 'reset your password' : 'verify your account' }}.
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div></div>

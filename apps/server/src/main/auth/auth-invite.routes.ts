@@ -90,11 +90,7 @@ const AcceptInvite: AppRouteHandler<typeof AcceptInviteDef> = async (c) => {
         where: eq(membershipsTable.userId, user.id),
     })
 
-    const data = await AuthService.getUserLoginResponse(
-        user,
-        group,
-        role?.role ?? null,
-    )
+    const data = await AuthService.getUserLoginResponse(user, group, role?.role ?? null)
 
     return c.json(
         {
@@ -106,7 +102,4 @@ const AcceptInvite: AppRouteHandler<typeof AcceptInviteDef> = async (c) => {
     )
 }
 
-export const authInviteRoutes = createRouter().openapi(
-    AcceptInviteDef,
-    AcceptInvite,
-)
+export const authInviteRoutes = createRouter().openapi(AcceptInviteDef, AcceptInvite)

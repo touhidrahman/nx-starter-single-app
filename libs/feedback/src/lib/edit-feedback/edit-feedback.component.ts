@@ -54,9 +54,7 @@ export class EditFeedbackComponent {
             })
             .subscribe({
                 next: (res: ApiResponse<Feedback>) => {
-                    this.alertService.success(
-                        'Feedback status updated successfully',
-                    )
+                    this.alertService.success('Feedback status updated successfully')
                     this.ref?.close({
                         feedback: res.data,
                         isEdit: true,

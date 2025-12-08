@@ -30,49 +30,43 @@ export const transactionsTable = pgTable('transactions', {
     groupId: text()
         .notNull()
         .references(() => groupsTable.id, { onDelete: 'cascade' }),
-    scheduledTransactionId: text().references(
-        () => transactionSchedulesTable.id,
-        {
-            onDelete: 'set null',
-        },
-    ),
+    transactionScheduleId: text().references(() => transactionSchedulesTable.id, {
+        onDelete: 'set null',
+    }),
     ...timestampColumns,
 })
 
-export const transactionsRelations = relations(
-    transactionsTable,
-    ({ one }) => ({
-        account: one(accountsTable, {
-            fields: [transactionsTable.accountId],
-            references: [accountsTable.id],
-        }),
-        inBalanceTransfer: one(balanceTransfersTable, {
-            fields: [transactionsTable.id],
-            references: [balanceTransfersTable.inTransactionId],
-        }),
-        outBalanceTransfer: one(balanceTransfersTable, {
-            fields: [transactionsTable.id],
-            references: [balanceTransfersTable.outTransactionId],
-        }),
-        category: one(categoriesTable, {
-            fields: [transactionsTable.categoryId],
-            references: [categoriesTable.id],
-        }),
-        subcategory: one(subcategoriesTable, {
-            fields: [transactionsTable.subcategoryId],
-            references: [subcategoriesTable.id],
-        }),
-        creator: one(usersTable, {
-            fields: [transactionsTable.creatorId],
-            references: [usersTable.id],
-        }),
-        group: one(groupsTable, {
-            fields: [transactionsTable.groupId],
-            references: [groupsTable.id],
-        }),
-        scheduledTransaction: one(transactionSchedulesTable, {
-            fields: [transactionsTable.scheduledTransactionId],
-            references: [transactionSchedulesTable.id],
-        }),
+export const transactionsRelations = relations(transactionsTable, ({ one }) => ({
+    account: one(accountsTable, {
+        fields: [transactionsTable.accountId],
+        references: [accountsTable.id],
     }),
-)
+    inBalanceTransfer: one(balanceTransfersTable, {
+        fields: [transactionsTable.id],
+        references: [balanceTransfersTable.inTransactionId],
+    }),
+    outBalanceTransfer: one(balanceTransfersTable, {
+        fields: [transactionsTable.id],
+        references: [balanceTransfersTable.outTransactionId],
+    }),
+    category: one(categoriesTable, {
+        fields: [transactionsTable.categoryId],
+        references: [categoriesTable.id],
+    }),
+    subcategory: one(subcategoriesTable, {
+        fields: [transactionsTable.subcategoryId],
+        references: [subcategoriesTable.id],
+    }),
+    creator: one(usersTable, {
+        fields: [transactionsTable.creatorId],
+        references: [usersTable.id],
+    }),
+    group: one(groupsTable, {
+        fields: [transactionsTable.groupId],
+        references: [groupsTable.id],
+    }),
+    transactionSchedule: one(transactionSchedulesTable, {
+        fields: [transactionsTable.transactionScheduleId],
+        references: [transactionSchedulesTable.id],
+    }),
+}))

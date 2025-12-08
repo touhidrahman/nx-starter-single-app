@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertPlan,
-    zQueryPlans,
-    zSelectPlan,
-    zUpdatePlan,
-} from './plan-core.model'
+import { zInsertPlan, zQueryPlans, zSelectPlan, zUpdatePlan } from './plan-core.model'
 import { PlanCoreService } from './plan-core.service'
 
 const tags = ['Plans']
@@ -32,9 +27,7 @@ const GetPlanListCoreDef = createRoute({
     },
 })
 
-const GetPlanListCore: AppRouteHandler<typeof GetPlanListCoreDef> = async (
-    c,
-) => {
+const GetPlanListCore: AppRouteHandler<typeof GetPlanListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await PlanCoreService.findMany(query)
     const count = await PlanCoreService.count(query)
@@ -64,9 +57,7 @@ const GetPlanByIdCoreDef = createRoute({
     },
 })
 
-const GetPlanByIdCore: AppRouteHandler<typeof GetPlanByIdCoreDef> = async (
-    c,
-) => {
+const GetPlanByIdCore: AppRouteHandler<typeof GetPlanByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const plan = await PlanCoreService.findById(id)
 
@@ -215,9 +206,7 @@ const DeleteManyPlanCoreDef = createRoute({
     },
 })
 
-const DeleteManyPlanCore: AppRouteHandler<
-    typeof DeleteManyPlanCoreDef
-> = async (c) => {
+const DeleteManyPlanCore: AppRouteHandler<typeof DeleteManyPlanCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await PlanCoreService.deleteMany(ids)

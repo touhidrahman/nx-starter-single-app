@@ -25,10 +25,7 @@ export class StatusBarService {
 
             await StatusBar.setStyle({ style: Style.Dark })
         } catch (err) {
-            console.warn(
-                '[StatusBarService] StatusBar plugin not available',
-                err,
-            )
+            console.warn('[StatusBarService] StatusBar plugin not available', err)
         }
     }
 

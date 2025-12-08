@@ -2,16 +2,10 @@ import { and, eq, ilike, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { usersSettingsTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
-import {
-    InsertUserSetting,
-    QueryUserSettings,
-    SelectUserSetting,
-} from './user-setting-core.model'
+import { InsertUserSetting, QueryUserSettings, SelectUserSetting } from './user-setting-core.model'
 
 export class UserSettingCoreService {
-    static async findMany(
-        filters: QueryUserSettings,
-    ): Promise<SelectUserSetting[]> {
+    static async findMany(filters: QueryUserSettings): Promise<SelectUserSetting[]> {
         const conditions = UserSettingCoreService.buildWhereConditions(filters)
         const size = filters.size || DEFAULT_PAGE_SIZE
         const offset = ((filters.page || 1) - 1) * size
@@ -24,15 +18,9 @@ export class UserSettingCoreService {
         return userSettings
     }
 
-    static async findOne(
-        filters: QueryUserSettings,
-    ): Promise<SelectUserSetting | null> {
+    static async findOne(filters: QueryUserSettings): Promise<SelectUserSetting | null> {
         const conditions = UserSettingCoreService.buildWhereConditions(filters)
-        const userSettings = await db
-            .select()
-            .from(usersSettingsTable)
-            .where(conditions)
-            .limit(1)
+        const userSettings = await db.select().from(usersSettingsTable).where(conditions).limit(1)
         return userSettings[0] ?? null
     }
 
@@ -43,12 +31,7 @@ export class UserSettingCoreService {
         const userSetting = await db
             .select()
             .from(usersSettingsTable)
-            .where(
-                and(
-                    eq(usersSettingsTable.userId, userId),
-                    eq(usersSettingsTable.key, key),
-                ),
-            )
+            .where(and(eq(usersSettingsTable.userId, userId), eq(usersSettingsTable.key, key)))
             .limit(1)
         return userSetting[0] || null
     }
@@ -57,12 +40,7 @@ export class UserSettingCoreService {
         const countResult = await db
             .select({ count: sql<number>`count(*)` })
             .from(usersSettingsTable)
-            .where(
-                and(
-                    eq(usersSettingsTable.userId, userId),
-                    eq(usersSettingsTable.key, key),
-                ),
-            )
+            .where(and(eq(usersSettingsTable.userId, userId), eq(usersSettingsTable.key, key)))
         const count = countResult[0]?.count || 0
         return count > 0
     }
@@ -78,20 +56,12 @@ export class UserSettingCoreService {
     }
 
     static async create(input: InsertUserSetting): Promise<SelectUserSetting> {
-        const [userSetting] = await db
-            .insert(usersSettingsTable)
-            .values(input)
-            .returning()
+        const [userSetting] = await db.insert(usersSettingsTable).values(input).returning()
         return userSetting
     }
 
-    static async createMany(
-        inputs: InsertUserSetting[],
-    ): Promise<SelectUserSetting[]> {
-        const userSettings = await db
-            .insert(usersSettingsTable)
-            .values(inputs)
-            .returning()
+    static async createMany(inputs: InsertUserSetting[]): Promise<SelectUserSetting[]> {
+        const userSettings = await db.insert(usersSettingsTable).values(inputs).returning()
         return userSettings
     }
 
@@ -103,12 +73,7 @@ export class UserSettingCoreService {
         const [userSetting] = await db
             .update(usersSettingsTable)
             .set(input)
-            .where(
-                and(
-                    eq(usersSettingsTable.userId, userId),
-                    eq(usersSettingsTable.key, key),
-                ),
-            )
+            .where(and(eq(usersSettingsTable.userId, userId), eq(usersSettingsTable.key, key)))
             .returning()
         return userSetting
     }
@@ -118,10 +83,7 @@ export class UserSettingCoreService {
         key: string,
         input: InsertUserSetting,
     ): Promise<SelectUserSetting> {
-        const existing = await UserSettingCoreService.findByUserIdAndKey(
-            userId,
-            key,
-        )
+        const existing = await UserSettingCoreService.findByUserIdAndKey(userId, key)
         if (existing) {
             return UserSettingCoreService.update(userId, key, input)
         }
@@ -131,23 +93,14 @@ export class UserSettingCoreService {
     static async delete(userId: string, key: string): Promise<void> {
         await db
             .delete(usersSettingsTable)
-            .where(
-                and(
-                    eq(usersSettingsTable.userId, userId),
-                    eq(usersSettingsTable.key, key),
-                ),
-            )
+            .where(and(eq(usersSettingsTable.userId, userId), eq(usersSettingsTable.key, key)))
     }
 
     static async deleteByUserId(userId: string): Promise<void> {
-        await db
-            .delete(usersSettingsTable)
-            .where(eq(usersSettingsTable.userId, userId))
+        await db.delete(usersSettingsTable).where(eq(usersSettingsTable.userId, userId))
     }
 
-    static buildWhereConditions(
-        params: QueryUserSettings,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryUserSettings): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

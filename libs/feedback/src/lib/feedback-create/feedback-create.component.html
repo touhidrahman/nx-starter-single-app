@@ -1,21 +1,14 @@
-<form
-    [formGroup]="feedbackFormService.form"
-    class="grid grid-cols-12 gap-5 p-2">
+<form [formGroup]="feedbackFormService.form" class="grid grid-cols-12 gap-5 p-2">
     @if (feedbackFormService.feedbackOptions.length > 0) {
         <div class="col-span-12 flex flex-col">
-            <label
-                for="feedbackType"
-                class="primary-text mb-2 font-semibold text-gray-700"
+            <label for="feedbackType" class="primary-text mb-2 font-semibold text-gray-700"
                 >Feedback Type</label
             >
 
             <!-- Two-column grid layout -->
             <div
                 class="mt-1 grid grid-cols-2 gap-3 text-gray-700 sm:gap-4 md:w-[49%] xl:flex xl:grid-cols-4">
-                @for (
-                    option of feedbackFormService.feedbackOptions;
-                    track option
-                ) {
+                @for (option of feedbackFormService.feedbackOptions; track option) {
                     <div class="flex items-center gap-2">
                         <p-radioButton
                             [inputId]="'feedbackType_' + option.value"
@@ -23,11 +16,9 @@
                             [formControlName]="'feedbackType'"
                             [value]="option.value">
                         </p-radioButton>
-                        <label
-                            [for]="'feedbackType_' + option.value"
-                            class="secondary-text"
-                            >{{ option.feedbackType }}</label
-                        >
+                        <label [for]="'feedbackType_' + option.value" class="secondary-text">{{
+                            option.feedbackType
+                        }}</label>
                     </div>
                 }
             </div>
@@ -37,16 +28,12 @@
                 feedbackFormService.controls('feedbackType')?.invalid &&
                 feedbackFormService.controls('feedbackType')?.touched
             ) {
-                <small class="p-error secondary-text mt-1"
-                    >Please select a feedback type</small
-                >
+                <small class="p-error secondary-text mt-1">Please select a feedback type</small>
             }
         </div>
     }
     <div class="col-span-12 flex flex-col">
-        <label
-            for="feedbackText"
-            class="required primary-text mb-2 font-semibold text-gray-700"
+        <label for="feedbackText" class="required primary-text mb-2 font-semibold text-gray-700"
             >Comment</label
         >
         <textarea
@@ -61,11 +48,7 @@
             feedbackFormService.controls('feedbackText')?.touched
         ) {
             <small class="p-error secondary-text text-red-500">
-                @if (
-                    feedbackFormService.controls('feedbackText')?.errors?.[
-                        'required'
-                    ]
-                ) {
+                @if (feedbackFormService.controls('feedbackText')?.errors?.['required']) {
                     Comment is required
                 }
             </small>
@@ -73,9 +56,7 @@
     </div>
 
     <div class="col-span-12 flex flex-col overflow-ellipsis">
-        <label
-            for="attachments"
-            class="primary-text mb-2 font-semibold text-gray-700"
+        <label for="attachments" class="primary-text mb-2 font-semibold text-gray-700"
             >Attachments (Max 5 files)</label
         >
         <p-fileUpload
@@ -96,10 +77,7 @@
                     icon="pi pi-times"
                     label="Reset"
                     styleClass="p-button-sm p-button-outlined dark:bg-[var(--color-primary)]"
-                    [disabled]="
-                        !feedbackFormService.form.get('attachments')?.value
-                            ?.length
-                    "
+                    [disabled]="!feedbackFormService.form.get('attachments')?.value?.length"
                     (onClick)="onResetAttachments(fileUpload)">
                 </p-button>
             </div>

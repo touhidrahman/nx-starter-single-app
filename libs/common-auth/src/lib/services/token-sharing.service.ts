@@ -33,11 +33,9 @@ export class TokenSharingService {
             } else {
                 const { accessToken, refreshToken } = event.data
 
-                accessToken &&
-                    this.tokenStorageService.saveAccessToken(accessToken)
+                accessToken && this.tokenStorageService.saveAccessToken(accessToken)
 
-                refreshToken &&
-                    this.tokenStorageService.saveRefreshToken(refreshToken)
+                refreshToken && this.tokenStorageService.saveRefreshToken(refreshToken)
             }
         })
     }

@@ -8,8 +8,8 @@ import {
     TokenStorageService,
 } from '@repo/common-auth'
 import { LocalStorageService } from '@repo/common-services'
-import { AdminUser } from '@repo/user'
 import { SimpleStore } from '@repo/store'
+import { AdminUser } from '@repo/user'
 import { catchError, map, of, timer } from 'rxjs'
 import { AdminAccessTokenPayload } from './token.model'
 
@@ -42,8 +42,7 @@ export class AdminAuthStateService extends SimpleStore<AdminAuthState> {
     private refreshTokenTimeout?: any
     private jwtHelper = new JwtHelperService()
     private tokenStorageService = inject(TokenStorageService)
-    private adminAuthApiService =
-        inject<AdminAuthApiService<AdminUser>>(AdminAuthApiService)
+    private adminAuthApiService = inject<AdminAuthApiService<AdminUser>>(AdminAuthApiService)
     private router = inject(Router)
     private localStorageService = inject(LocalStorageService)
     private tokenSharingService = inject(TokenSharingService)
@@ -92,11 +91,7 @@ export class AdminAuthStateService extends SimpleStore<AdminAuthState> {
         const accessToken = this.tokenStorageService.getAccessToken()
         const refreshToken = this.tokenStorageService.getRefreshToken()
 
-        if (
-            !accessToken ||
-            !refreshToken ||
-            this.jwtHelper.isTokenExpired(accessToken)
-        ) {
+        if (!accessToken || !refreshToken || this.jwtHelper.isTokenExpired(accessToken)) {
             this.clearState()
             return
         }
@@ -128,8 +123,7 @@ export class AdminAuthStateService extends SimpleStore<AdminAuthState> {
     }
 
     setStateAfterLogin(accessToken: string, refreshToken: string) {
-        const decoded =
-            this.jwtHelper.decodeToken<AdminAccessTokenPayload>(accessToken)
+        const decoded = this.jwtHelper.decodeToken<AdminAccessTokenPayload>(accessToken)
 
         if (!decoded) {
             console.error('Invalid token payload')
@@ -176,10 +170,7 @@ export class AdminAuthStateService extends SimpleStore<AdminAuthState> {
     private startRefreshTokenTimer(_expiry: number) {
         const timeout = 5 * 60 * 1000 // 5 minutes
         this.stopRefreshTokenTimer()
-        this.refreshTokenTimeout = setTimeout(
-            () => this.refreshAccessToken().subscribe(),
-            timeout,
-        )
+        this.refreshTokenTimeout = setTimeout(() => this.refreshAccessToken().subscribe(), timeout)
     }
 
     private stopRefreshTokenTimer() {

@@ -29,16 +29,11 @@ export const updateFeedbackRoute = createRoute({
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid Feedback data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Feedback not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
-        [FORBIDDEN]: ApiResponse(
-            zEmpty,
-            'Not authorized to update this Feedback',
-        ),
+        [FORBIDDEN]: ApiResponse(zEmpty, 'Not authorized to update this Feedback'),
     },
 })
 
-export const updateFeedbackHandler: AppRouteHandler<
-    typeof updateFeedbackRoute
-> = async (c) => {
+export const updateFeedbackHandler: AppRouteHandler<typeof updateFeedbackRoute> = async (c) => {
     const payload = await c.get('jwtPayload')
     const feedbackId = c.req.param('id')
     const body = c.req.valid('json')
@@ -47,10 +42,7 @@ export const updateFeedbackHandler: AppRouteHandler<
         const existingFeedback = await findFeedbackById(feedbackId)
 
         if (!existingFeedback) {
-            return c.json(
-                { data: {}, message: 'Item not found', success: false },
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
         }
 
         const [updatedFeedback] = await updateFeedback(feedbackId, body)

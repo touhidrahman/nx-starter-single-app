@@ -20,20 +20,12 @@ export class UserCoreService {
 
     static async findOne(filters: QueryUsers): Promise<SelectUser | null> {
         const conditions = UserCoreService.buildWhereConditions(filters)
-        const users = await db
-            .select()
-            .from(usersTable)
-            .where(conditions)
-            .limit(1)
+        const users = await db.select().from(usersTable).where(conditions).limit(1)
         return users[0] ?? null
     }
 
     static async findById(id: string): Promise<SelectUser | null> {
-        const user = await db
-            .select()
-            .from(usersTable)
-            .where(eq(usersTable.id, id))
-            .limit(1)
+        const user = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1)
         return user[0] || null
     }
 
@@ -66,10 +58,7 @@ export class UserCoreService {
         return users
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertUser>,
-    ): Promise<SelectUser> {
+    static async update(id: string, input: Partial<InsertUser>): Promise<SelectUser> {
         const [user] = await db
             .update(usersTable)
             .set(input)

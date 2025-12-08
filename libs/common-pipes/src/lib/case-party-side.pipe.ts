@@ -15,9 +15,7 @@ export class CasePartyTitlePipe implements PipeTransform {
             case 'civil':
                 return side === 'left' ? 'Plaintiff' : 'Defendant'
             default:
-                return side === 'left'
-                    ? 'Complainant / Plaintiff'
-                    : 'Accused / Defendant'
+                return side === 'left' ? 'Complainant / Plaintiff' : 'Accused / Defendant'
         }
     }
 }

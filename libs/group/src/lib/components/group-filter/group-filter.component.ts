@@ -1,15 +1,9 @@
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    signal,
-} from '@angular/core'
+import { Component, ElementRef, HostListener, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { GroupStatus, GroupType } from '@repo/common-auth'
 import { LabelValuePair } from '@repo/common-models'
-import { PrimeModules } from '@repo/prime-modules'
 import { GroupListState, GroupListStateService } from '@repo/group'
+import { PrimeModules } from '@repo/prime-modules'
 
 @Component({
     selector: 'app-group-filter',
@@ -43,14 +37,11 @@ export class GroupFilterComponent {
         const currentState = this.groupListStateService.getState()
         this.selectedStatus =
             currentState.status &&
-            Object.values(GroupStatus).includes(
-                currentState.status as GroupStatus,
-            )
+            Object.values(GroupStatus).includes(currentState.status as GroupStatus)
                 ? (currentState.status as GroupStatus)
                 : null
         this.selectedType =
-            currentState.type &&
-            Object.values(GroupType).includes(currentState.type as GroupType)
+            currentState.type && Object.values(GroupType).includes(currentState.type as GroupType)
                 ? (currentState.type as GroupType)
                 : null
     }
@@ -83,9 +74,7 @@ export class GroupFilterComponent {
 
     @HostListener('document:click', ['$event'])
     onOutsideClick(event: MouseEvent) {
-        const clickedInside = this.elementRef.nativeElement.contains(
-            event.target,
-        )
+        const clickedInside = this.elementRef.nativeElement.contains(event.target)
         if (!clickedInside) {
             this.closeFilter()
         }

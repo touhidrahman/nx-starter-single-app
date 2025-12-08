@@ -11,24 +11,22 @@ export const settingsRoutes: SettingsRoutes = {
         path: 'dashboard/settings',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-settings/page-settings').then(
-                (m) => m.PageSettingsComponent,
-            ),
+            import('../page-settings/page-settings').then((m) => m.PageSettingsComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
         children: [
             {
                 path: '',
                 loadComponent: () =>
-                    import(
-                        '../../main/settings/preferences/preferences.component'
-                    ).then((m) => m.PreferencesComponent),
+                    import('../../main/settings/preferences/preferences.component').then(
+                        (m) => m.PreferencesComponent,
+                    ),
             },
             {
                 path: 'set-pin',
                 loadComponent: () =>
-                    import(
-                        '../../main/settings/generate-pin/generate-pin.component'
-                    ).then((m) => m.GeneratePinComponent),
+                    import('../../main/settings/generate-pin/generate-pin.component').then(
+                        (m) => m.GeneratePinComponent,
+                    ),
             },
         ],
     },

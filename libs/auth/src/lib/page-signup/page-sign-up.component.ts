@@ -2,12 +2,8 @@ import { NgClass } from '@angular/common'
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import {
-    AuthApiService,
-    JwtService,
-    RegisterFormService,
-    SignupForm,
-} from '@repo/common-auth'
+import { AuthPageHeaderComponent, AuthStateService } from '@repo/auth'
+import { AuthApiService, JwtService, RegisterFormService, SignupForm } from '@repo/common-auth'
 import { SupportWhatsappComponent } from '@repo/common-components'
 import {
     GROUP_TYPE_LABEL_VALUE,
@@ -15,9 +11,8 @@ import {
     USER_IDENTIFIER_LABEL_VALUE,
 } from '@repo/common-models'
 import { AlertService } from '@repo/common-services'
-import { PrimeModules } from '@repo/prime-modules'
-import { AuthPageHeaderComponent, AuthStateService } from '@repo/auth'
 import { InvitationTokenPayload } from '@repo/group'
+import { PrimeModules } from '@repo/prime-modules'
 import { MenuItem } from 'primeng/api'
 import { StepsModule } from 'primeng/steps'
 import { SignupStepDetailsComponent } from '../sign-up-step-details/sign-up-step-details.component'
@@ -49,9 +44,7 @@ export class PageSignUpComponent implements OnInit {
     private router = inject(Router)
     private activatedRoute = inject(ActivatedRoute)
     private alertService = inject(AlertService)
-    userVerificationStatusCheckService = inject(
-        UserVerificationStatusCheckService,
-    )
+    userVerificationStatusCheckService = inject(UserVerificationStatusCheckService)
     registerFormService = inject(RegisterFormService)
 
     token = signal('')
@@ -85,13 +78,9 @@ export class PageSignUpComponent implements OnInit {
         const initialMethod = 'email'
         this.userVerificationStatusCheckService.initSignup(initialMethod)
 
-        this.signUpForm
-            .get('registrationBy')
-            ?.valueChanges.subscribe((method) => {
-                this.userVerificationStatusCheckService.changeSignupRegistrationMethod(
-                    method,
-                )
-            })
+        this.signUpForm.get('registrationBy')?.valueChanges.subscribe((method) => {
+            this.userVerificationStatusCheckService.changeSignupRegistrationMethod(method)
+        })
     }
 
     selectRegistrationMethod(method: string) {
@@ -111,8 +100,7 @@ export class PageSignUpComponent implements OnInit {
         const userRegistrationData: SignupForm = {
             ...signupInput,
             organization: {
-                groupType:
-                    this.registerFormService?.groupTypeControl?.value ?? '',
+                groupType: this.registerFormService?.groupTypeControl?.value ?? '',
                 name: this.registerFormService.nameControl?.value ?? '',
             },
             defaultGroupId: this.defaultGroupId,
@@ -140,8 +128,7 @@ export class PageSignUpComponent implements OnInit {
         const token = this.activatedRoute.snapshot.queryParams['token']
         if (!token) return
 
-        const decoded =
-            this.jwtService.getUnexpiredDecoded<InvitationTokenPayload>(token)
+        const decoded = this.jwtService.getUnexpiredDecoded<InvitationTokenPayload>(token)
 
         if (decoded) {
             this.processValidInvitation(decoded)
@@ -167,10 +154,7 @@ export class PageSignUpComponent implements OnInit {
         }, 0)
     }
 
-    private handleRegistrationRedirect(response: {
-        registeredBy: string
-        token?: string
-    }) {
+    private handleRegistrationRedirect(response: { registeredBy: string; token?: string }) {
         // TODO: Activate commented code when SMS verification is ready
         // if (response.registeredBy === 'email') {
         //     this.router.navigate(['/account-created']);

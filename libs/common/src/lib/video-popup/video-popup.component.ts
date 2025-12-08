@@ -24,7 +24,6 @@ export class VideoPopupComponent {
         if (this.startSeconds) {
             url += `?start=${this.startSeconds}&autoplay=1`
         }
-        this.sanitizedVideoUrl =
-            this.sanitizer.bypassSecurityTrustResourceUrl(url)
+        this.sanitizedVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url)
     }
 }

@@ -1,9 +1,4 @@
-import {
-    Accordion,
-    AccordionContent,
-    AccordionHeader,
-    AccordionPanel,
-} from 'primeng/accordion'
+import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion'
 import { SharedModule } from 'primeng/api'
 import { AutoComplete } from 'primeng/autocomplete'
 import { AvatarModule } from 'primeng/avatar'

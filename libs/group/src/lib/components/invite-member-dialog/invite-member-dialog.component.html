@@ -32,8 +32,7 @@
                             <span class="block truncate whitespace-normal">
                                 {{ role.label }}
                                 @if (role.isDefaultRole) {
-                                    <i
-                                        class="pi pi-star-fill text-xs text-[#f97316]"></i>
+                                    <i class="pi pi-star-fill text-xs text-[#f97316]"></i>
                                 }
                             </span>
                             @if (role.isDefaultRole) {
@@ -49,19 +48,14 @@
                     <div class="flex items-center gap-2">
                         <span>{{ role.label }}</span>
                         @if (role.isDefaultRole) {
-                            <i
-                                class="pi pi-star-fill text-xs text-[#f97316]"></i>
+                            <i class="pi pi-star-fill text-xs text-[#f97316]"></i>
                         }
                     </div>
                 </ng-template>
             </p-select>
         </div>
         <div class="my-3 flex justify-start gap-2">
-            <p-button
-                label="Cancel"
-                severity="secondary"
-                (onClick)="onCancel()">
-            </p-button>
+            <p-button label="Cancel" severity="secondary" (onClick)="onCancel()"> </p-button>
             <p-button
                 label="Submit"
                 styleClass="bg-green3 dark:bg-[var(--color-primary)]"

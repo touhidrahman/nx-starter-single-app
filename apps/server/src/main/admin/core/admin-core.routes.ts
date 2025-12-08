@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertAdmin,
-    zQueryAdmins,
-    zSelectAdmin,
-    zUpdateAdmin,
-} from './admin-core.model'
+import { zInsertAdmin, zQueryAdmins, zSelectAdmin, zUpdateAdmin } from './admin-core.model'
 import { AdminCoreService } from './admin-core.service'
 
 const tags = [APP_OPENAPI_TAGS.Admin]
@@ -32,9 +27,7 @@ const GetAdminListCoreDef = createRoute({
     },
 })
 
-const GetAdminListCore: AppRouteHandler<typeof GetAdminListCoreDef> = async (
-    c,
-) => {
+const GetAdminListCore: AppRouteHandler<typeof GetAdminListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await AdminCoreService.findMany(query)
     const count = await AdminCoreService.count(query)
@@ -64,9 +57,7 @@ const GetAdminByIdCoreDef = createRoute({
     },
 })
 
-const GetAdminByIdCore: AppRouteHandler<typeof GetAdminByIdCoreDef> = async (
-    c,
-) => {
+const GetAdminByIdCore: AppRouteHandler<typeof GetAdminByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const admin = await AdminCoreService.findById(id)
 
@@ -104,9 +95,7 @@ const CreateAdminCoreDef = createRoute({
     },
 })
 
-const CreateAdminCore: AppRouteHandler<typeof CreateAdminCoreDef> = async (
-    c,
-) => {
+const CreateAdminCore: AppRouteHandler<typeof CreateAdminCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newAdmin = await AdminCoreService.create(body)
 
@@ -135,9 +124,7 @@ const UpdateAdminCoreDef = createRoute({
     },
 })
 
-const UpdateAdminCore: AppRouteHandler<typeof UpdateAdminCoreDef> = async (
-    c,
-) => {
+const UpdateAdminCore: AppRouteHandler<typeof UpdateAdminCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingAdmin = await AdminCoreService.findById(id)
@@ -179,9 +166,7 @@ const DeleteAdminCoreDef = createRoute({
     },
 })
 
-const DeleteAdminCore: AppRouteHandler<typeof DeleteAdminCoreDef> = async (
-    c,
-) => {
+const DeleteAdminCore: AppRouteHandler<typeof DeleteAdminCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingAdmin = await AdminCoreService.findById(id)
 
@@ -221,9 +206,7 @@ const DeleteManyAdminCoreDef = createRoute({
     },
 })
 
-const DeleteManyAdminCore: AppRouteHandler<
-    typeof DeleteManyAdminCoreDef
-> = async (c) => {
+const DeleteManyAdminCore: AppRouteHandler<typeof DeleteManyAdminCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await AdminCoreService.deleteMany(ids)

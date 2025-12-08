@@ -11,9 +11,7 @@ export const tasksRoutes: TasksRoutes = {
         path: 'dashboard/tasks',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-task/page-task.component').then(
-                (m) => m.PageTaskComponent,
-            ),
+            import('../page-task/page-task.component').then((m) => m.PageTaskComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 }

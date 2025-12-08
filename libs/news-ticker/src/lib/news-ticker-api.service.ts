@@ -7,10 +7,7 @@ import { Observable } from 'rxjs'
 import { NewsTicker, NewsTickerDto } from './news-ticker.model'
 
 @Injectable({ providedIn: 'root' })
-export class NewsTickerApiService extends ApiService<
-    NewsTicker,
-    NewsTickerDto
-> {
+export class NewsTickerApiService extends ApiService<NewsTicker, NewsTickerDto> {
     constructor(
         // eslint-disable-next-line @angular-eslint/prefer-inject
         @Inject(APP_ENVIRONMENT)

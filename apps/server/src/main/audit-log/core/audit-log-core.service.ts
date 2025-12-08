@@ -2,11 +2,7 @@ import { and, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { auditLogTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
-import {
-    InsertAuditLog,
-    QueryAuditLogs,
-    SelectAuditLog,
-} from './audit-log-core.model'
+import { InsertAuditLog, QueryAuditLogs, SelectAuditLog } from './audit-log-core.model'
 
 export class AuditLogCoreService {
     static async findMany(filters: QueryAuditLogs): Promise<SelectAuditLog[]> {
@@ -22,24 +18,14 @@ export class AuditLogCoreService {
         return logs as unknown as SelectAuditLog[]
     }
 
-    static async findOne(
-        filters: QueryAuditLogs,
-    ): Promise<SelectAuditLog | null> {
+    static async findOne(filters: QueryAuditLogs): Promise<SelectAuditLog | null> {
         const conditions = AuditLogCoreService.buildWhereConditions(filters)
-        const logs = await db
-            .select()
-            .from(auditLogTable)
-            .where(conditions)
-            .limit(1)
+        const logs = await db.select().from(auditLogTable).where(conditions).limit(1)
         return (logs[0] as unknown as SelectAuditLog) ?? null
     }
 
     static async findById(id: string): Promise<SelectAuditLog | null> {
-        const log = await db
-            .select()
-            .from(auditLogTable)
-            .where(eq(auditLogTable.id, id))
-            .limit(1)
+        const log = await db.select().from(auditLogTable).where(eq(auditLogTable.id, id)).limit(1)
         return (log[0] as unknown as SelectAuditLog) || null
     }
 
@@ -67,17 +53,12 @@ export class AuditLogCoreService {
         return log as unknown as SelectAuditLog
     }
 
-    static async createMany(
-        inputs: InsertAuditLog[],
-    ): Promise<SelectAuditLog[]> {
+    static async createMany(inputs: InsertAuditLog[]): Promise<SelectAuditLog[]> {
         const logs = await db.insert(auditLogTable).values(inputs).returning()
         return logs as unknown as SelectAuditLog[]
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertAuditLog>,
-    ): Promise<SelectAuditLog> {
+    static async update(id: string, input: Partial<InsertAuditLog>): Promise<SelectAuditLog> {
         const [log] = await db
             .update(auditLogTable)
             .set(input)
@@ -86,10 +67,7 @@ export class AuditLogCoreService {
         return log as unknown as SelectAuditLog
     }
 
-    static async upsert(
-        id: string,
-        input: InsertAuditLog,
-    ): Promise<SelectAuditLog> {
+    static async upsert(id: string, input: InsertAuditLog): Promise<SelectAuditLog> {
         const existing = await AuditLogCoreService.findById(id)
         if (existing) {
             return AuditLogCoreService.update(id, input)
@@ -110,9 +88,7 @@ export class AuditLogCoreService {
         await db.delete(auditLogTable).where(conditions)
     }
 
-    static buildWhereConditions(
-        params: QueryAuditLogs,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryAuditLogs): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

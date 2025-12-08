@@ -56,13 +56,7 @@ export class PageCourtsComponent implements OnDestroy, OnInit {
     }
 
     showCreateDialog() {
-        this.openDialog(
-            CreateCourtFormComponent,
-            'Add Court',
-            'create',
-            '50vw',
-            'center',
-        )
+        this.openDialog(CreateCourtFormComponent, 'Add Court', 'create', '50vw', 'center')
     }
 
     //TODO: don't remove

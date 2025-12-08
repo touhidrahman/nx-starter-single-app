@@ -11,22 +11,15 @@ export class ClaimStateService {
     groupId = signal<string>('')
 
     claims = derivedAsync(
-        () =>
-            this.claimApiService
-                .getAll(this.groupId())
-                .pipe(map((x) => x.data)),
+        () => this.claimApiService.getAll(this.groupId()).pipe(map((x) => x.data)),
         { initialValue: [] },
     )
 
     claimIds = computed(() => this.claims().map((c: Claim) => c.id))
 
-    groupedClaims = computed(() =>
-        groupBy(this.claims(), (item) => item.section || 'General'),
-    )
+    groupedClaims = computed(() => groupBy(this.claims(), (item) => item.section || 'General'))
 
-    groupedClaimSections = computed(() =>
-        Object.keys(this.groupedClaims()).sort(),
-    )
+    groupedClaimSections = computed(() => Object.keys(this.groupedClaims()).sort())
 
     hasClaim(claimId: string): boolean {
         return this.claimIds().includes(claimId)

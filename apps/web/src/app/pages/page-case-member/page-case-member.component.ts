@@ -15,13 +15,11 @@ export class PageCaseMemberComponent {
     caseId = signal<string>('')
 
     constructor() {
-        this.activatedRoute.parent?.paramMap
-            .pipe(takeUntilDestroyed())
-            .subscribe((params) => {
-                const paramId = params.get('id')
-                if (paramId) {
-                    this.caseId.set(paramId)
-                }
-            })
+        this.activatedRoute.parent?.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+            const paramId = params.get('id')
+            if (paramId) {
+                this.caseId.set(paramId)
+            }
+        })
     }
 }

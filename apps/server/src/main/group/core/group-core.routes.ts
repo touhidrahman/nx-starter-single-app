@@ -7,12 +7,7 @@ import { zEmpty, zId, zIds } from '../../../models/common.schema'
 import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
-import {
-    zInsertGroup,
-    zQueryGroups,
-    zSelectGroup,
-    zUpdateGroup,
-} from './group-core.model'
+import { zInsertGroup, zQueryGroups, zSelectGroup, zUpdateGroup } from './group-core.model'
 import { GroupCoreService } from './group-core.service'
 
 const tags = [APP_OPENAPI_TAGS.Group]
@@ -32,9 +27,7 @@ const GetGroupListCoreDef = createRoute({
     },
 })
 
-const GetGroupListCore: AppRouteHandler<typeof GetGroupListCoreDef> = async (
-    c,
-) => {
+const GetGroupListCore: AppRouteHandler<typeof GetGroupListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await GroupCoreService.findMany(query)
     const count = await GroupCoreService.count(query)
@@ -64,9 +57,7 @@ const GetGroupByIdCoreDef = createRoute({
     },
 })
 
-const GetGroupByIdCore: AppRouteHandler<typeof GetGroupByIdCoreDef> = async (
-    c,
-) => {
+const GetGroupByIdCore: AppRouteHandler<typeof GetGroupByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const group = await GroupCoreService.findById(id)
 
@@ -104,9 +95,7 @@ const CreateGroupCoreDef = createRoute({
     },
 })
 
-const CreateGroupCore: AppRouteHandler<typeof CreateGroupCoreDef> = async (
-    c,
-) => {
+const CreateGroupCore: AppRouteHandler<typeof CreateGroupCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newGroup = await GroupCoreService.create(body)
 
@@ -135,9 +124,7 @@ const UpdateGroupCoreDef = createRoute({
     },
 })
 
-const UpdateGroupCore: AppRouteHandler<typeof UpdateGroupCoreDef> = async (
-    c,
-) => {
+const UpdateGroupCore: AppRouteHandler<typeof UpdateGroupCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingGroup = await GroupCoreService.findById(id)
@@ -179,9 +166,7 @@ const DeleteGroupCoreDef = createRoute({
     },
 })
 
-const DeleteGroupCore: AppRouteHandler<typeof DeleteGroupCoreDef> = async (
-    c,
-) => {
+const DeleteGroupCore: AppRouteHandler<typeof DeleteGroupCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingGroup = await GroupCoreService.findById(id)
 
@@ -221,9 +206,7 @@ const DeleteManyGroupCoreDef = createRoute({
     },
 })
 
-const DeleteManyGroupCore: AppRouteHandler<
-    typeof DeleteManyGroupCoreDef
-> = async (c) => {
+const DeleteManyGroupCore: AppRouteHandler<typeof DeleteManyGroupCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await GroupCoreService.deleteMany(ids)

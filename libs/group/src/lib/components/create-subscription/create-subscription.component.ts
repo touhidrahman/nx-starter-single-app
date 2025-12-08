@@ -3,9 +3,9 @@ import { Component, inject, input, OnInit, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { AlertService } from '@repo/common-services'
 import { formattedDate } from '@repo/common-util'
-import { PrimeModules } from '@repo/prime-modules'
 import { GroupStateService } from '@repo/group'
 import { PlanStateService } from '@repo/plan'
+import { PrimeModules } from '@repo/prime-modules'
 import {
     Subscription,
     SubscriptionDto,
@@ -95,21 +95,19 @@ export class CreateSubscriptionComponent implements OnInit {
 
     update(data: SubscriptionDto) {
         this.isLoading.set(true)
-        this.subscriptionsApiService
-            .update(this.config.data.id, data)
-            .subscribe({
-                next: ({ data }) => {
-                    this.alertService.success('Subscription updated!')
-                    this.isLoading.set(false)
-                    this.ref?.close(data)
-                },
-                error: (err) => {
-                    this.alertService.error(err.error.message)
-                    this.isLoading.set(false)
-                    this.isError.set(true)
-                    this.ref?.close()
-                },
-            })
+        this.subscriptionsApiService.update(this.config.data.id, data).subscribe({
+            next: ({ data }) => {
+                this.alertService.success('Subscription updated!')
+                this.isLoading.set(false)
+                this.ref?.close(data)
+            },
+            error: (err) => {
+                this.alertService.error(err.error.message)
+                this.isLoading.set(false)
+                this.isError.set(true)
+                this.ref?.close()
+            },
+        })
     }
 
     private patchFormWithConfigData(): void {

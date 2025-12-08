@@ -18,11 +18,7 @@
                 class="secondary-text block text-base font-medium text-gray-700"
                 >Transaction ID</label
             >
-            <input
-                pInputText
-                id="transactionId"
-                formControlName="transactionId"
-                class="w-full" />
+            <input pInputText id="transactionId" formControlName="transactionId" class="w-full" />
         </div>
         <div class="space-y-2">
             <label
@@ -30,19 +26,13 @@
                 class="secondary-text block text-base font-medium text-gray-700"
                 >Payment Number</label
             >
-            <input
-                pInputText
-                id="paymentNumber"
-                formControlName="paymentNumber"
-                class="w-full" />
+            <input pInputText id="paymentNumber" formControlName="paymentNumber" class="w-full" />
             @if (
                 subscriptionFormService.phoneControl?.hasError('required') &&
                 (subscriptionFormService.phoneControl?.dirty ||
                     subscriptionFormService.phoneControl?.touched)
             ) {
-                <small class="secondary-text-2 mt-1 text-sm text-red-500"
-                    >Phone is required</small
-                >
+                <small class="secondary-text-2 mt-1 text-sm text-red-500">Phone is required</small>
             }
 
             @if (

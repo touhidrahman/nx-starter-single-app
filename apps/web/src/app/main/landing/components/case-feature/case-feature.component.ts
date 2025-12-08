@@ -46,8 +46,7 @@ export class CaseFeatureComponent implements AfterViewInit, OnDestroy {
             icon: 'assets/images/icons/notes.png',
             title: 'Case Notes',
             subtitle: 'Your thoughts, organized',
-            description:
-                'Record and revisit legal insights to stay prepared and focused.',
+            description: 'Record and revisit legal insights to stay prepared and focused.',
             imageClass: 'image--2',
             imageUrl: 'assets/images/notes.png',
         },
@@ -65,8 +64,7 @@ export class CaseFeatureComponent implements AfterViewInit, OnDestroy {
             icon: 'assets/images/icons/documents.png',
             title: 'Documents',
             subtitle: 'All files, one home',
-            description:
-                'Securely store, organize, and access case documents anytime.',
+            description: 'Securely store, organize, and access case documents anytime.',
             imageClass: 'image--4',
             imageUrl: 'assets/images/documents.png',
         },
@@ -75,8 +73,7 @@ export class CaseFeatureComponent implements AfterViewInit, OnDestroy {
             icon: 'assets/images/icons/clients.png',
             title: 'Clients',
             subtitle: 'Better coordination, stronger cases',
-            description:
-                'Keep client details accurate and always within reach.',
+            description: 'Keep client details accurate and always within reach.',
             imageClass: 'image--5',
             imageUrl: 'assets/images/clients.png',
         },
@@ -94,8 +91,7 @@ export class CaseFeatureComponent implements AfterViewInit, OnDestroy {
             icon: 'assets/images/icons/follow.png',
             title: 'Follow Requests',
             subtitle: 'Controlled access, engaged clients',
-            description:
-                'Allow approved followers to stay updated without compromising privacy.',
+            description: 'Allow approved followers to stay updated without compromising privacy.',
             imageClass: 'image--7',
             imageUrl: 'assets/images/follow.png',
         },

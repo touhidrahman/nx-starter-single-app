@@ -1,8 +1,6 @@
 import { DashboardData } from './dashboard.schema'
 
-export const getDashboardData = async (
-    _groupId: string,
-): Promise<DashboardData> => {
+export const getDashboardData = async (_groupId: string): Promise<DashboardData> => {
     try {
         return {
             activeCases: 0,

@@ -22,18 +22,13 @@ export const deleteFeedBackRoute = createRoute({
     },
 })
 
-export const deleteFeedBackHandler: AppRouteHandler<
-    typeof deleteFeedBackRoute
-> = async (c) => {
+export const deleteFeedBackHandler: AppRouteHandler<typeof deleteFeedBackRoute> = async (c) => {
     const feedbackId = c.req.param('id')
     const payload = await c.get('jwtPayload')
     try {
         const feedback = await findFeedbackById(feedbackId)
         if (!feedback) {
-            return c.json(
-                { data: {}, message: 'Item not found', success: false },
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
         }
 
         const [deleted] = await deleteFeedBack(feedbackId)

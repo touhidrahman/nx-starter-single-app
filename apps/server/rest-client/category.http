@@ -1,0 +1,76 @@
+@resource=categories
+@deleteId=b96dd738f1
+@id=8599a1a688
+
+###
+GET {{BACKEND_URL}}/core/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+POST {{BACKEND_URL}}/core/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Grocery",
+  "color": "red"
+
+}
+
+###
+POST {{BACKEND_URL}}/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Grocery",
+  "color": "red"
+}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+PUT {{BACKEND_URL}}/{{resource}}/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Grocery",
+  "color": "blue"
+}
+
+
+###
+DELETE {{BACKEND_URL}}/{{resource}}/{{deleteId}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}/custom/my
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}/custom/my-all-with-subcategories
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+###
+GET {{BACKEND_URL}}/{{resource}}/custom/{{id}}/with-subcategories
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

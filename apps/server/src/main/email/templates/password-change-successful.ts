@@ -4,9 +4,7 @@ export interface PasswordChangeSuccessfulEmailTemplateProps {
     email: string
 }
 
-const PasswordChangeSuccessfulContent = (
-    _props: PasswordChangeSuccessfulEmailTemplateProps,
-) => `
+const PasswordChangeSuccessfulContent = (_props: PasswordChangeSuccessfulEmailTemplateProps) => `
   <tr>
     <td style="padding: 30px 40px; text-align: left;">
       <h1 style="margin-top: 0; font-size: 24px; color: #333333;">Hello, {{email}}</h1>

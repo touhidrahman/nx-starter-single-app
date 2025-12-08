@@ -4,10 +4,7 @@ import { SEED_DATA_PLANS } from '../../../seed/seed-data'
 import { seedPlans } from '../../../utils/seed.service'
 import { AccountTypeCrudService } from '../../account-type/crud/account-type-crud.service'
 import { CryptoService } from '../../auth/crypto.service'
-import {
-    createAdminAccessToken,
-    createAdminRefreshToken,
-} from '../../auth/token.util'
+import { createAdminAccessToken, createAdminRefreshToken } from '../../auth/token.util'
 import { APP_DEFAULT_ROLES, DEFAULT_PERMISSIONS } from '../../claim/claims'
 import { CurrencyCrudService } from '../../currency/crud/currency-crud.service'
 import { SelectAdmin } from '../core/admin-core.model'
@@ -24,19 +21,13 @@ export class AdminCustomService extends AdminCrudService {
         return { ...result, password: '' }
     }
 
-    static async login(
-        email: string,
-        password: string,
-    ): Promise<AdminLoginResponse> {
+    static async login(email: string, password: string): Promise<AdminLoginResponse> {
         const admin = await AdminCustomService.findOne({ email })
         if (!admin) {
             throw new Error('Invalid email or password')
         }
 
-        const isPasswordValid = await CryptoService.verifyPassword(
-            password,
-            admin.password,
-        )
+        const isPasswordValid = await CryptoService.verifyPassword(password, admin.password)
         if (!isPasswordValid) {
             throw new Error('Invalid email or password')
         }
@@ -82,9 +73,7 @@ export class AdminCustomService extends AdminCrudService {
             APP_DEFAULT_ROLES.map((roleId) => ({
                 id: roleId,
                 name: roleId,
-                permissions: DEFAULT_PERMISSIONS.filter((perm) =>
-                    perm.forRoles.includes(roleId),
-                )
+                permissions: DEFAULT_PERMISSIONS.filter((perm) => perm.forRoles.includes(roleId))
                     .map((perm) => perm.id)
                     .join(','),
                 description: `${roleId} role with default permissions`,

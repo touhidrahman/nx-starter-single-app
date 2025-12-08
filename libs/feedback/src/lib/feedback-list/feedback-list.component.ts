@@ -81,23 +81,15 @@ export class FeedbackListComponent {
     applyFilters() {
         this.filteredFeedbackList = this.feedbackList.filter((feedback) => {
             // Status filter
-            const statusMatch = this.selectedStatus
-                ? feedback.status === this.selectedStatus
-                : true
+            const statusMatch = this.selectedStatus ? feedback.status === this.selectedStatus : true
 
             // Type filter
-            const typeMatch = this.selectedType
-                ? feedback.feedbackType === this.selectedType
-                : true
+            const typeMatch = this.selectedType ? feedback.feedbackType === this.selectedType : true
 
             // Search text filter (case insensitive)
             const searchMatch = this.searchText
-                ? feedback.feedbackText
-                      .toLowerCase()
-                      .includes(this.searchText.toLowerCase()) ||
-                  feedback.activePage
-                      .toLowerCase()
-                      .includes(this.searchText.toLowerCase())
+                ? feedback.feedbackText.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                  feedback.activePage.toLowerCase().includes(this.searchText.toLowerCase())
                 : true
 
             return statusMatch && typeMatch && searchMatch
@@ -214,9 +206,7 @@ export class FeedbackListComponent {
                 this.getFeedback()
             },
             error: (err) => {
-                this.alertService.error(
-                    err?.message || 'Failed to delete feedback',
-                )
+                this.alertService.error(err?.message || 'Failed to delete feedback')
             },
         })
     }

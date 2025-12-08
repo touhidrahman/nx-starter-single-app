@@ -11,10 +11,7 @@ export class SubscriptionCustomService extends SubscriptionCrudService {
                 maxStorage: pricingPlanTable.storageLimit,
             })
             .from(subscriptionsTable)
-            .innerJoin(
-                pricingPlanTable,
-                eq(subscriptionsTable.planId, pricingPlanTable.id),
-            )
+            .innerJoin(pricingPlanTable, eq(subscriptionsTable.planId, pricingPlanTable.id))
             .where(eq(subscriptionsTable.groupId, groupId))
             .limit(1)
     }

@@ -12,13 +12,10 @@ import {
 import { ChangePasswordInput } from '../models/change-password-input'
 
 type ChangePasswordForm = {
-    [field in keyof ChangePasswordInput]: FormControl<
-        ChangePasswordInput[field]
-    >
+    [field in keyof ChangePasswordInput]: FormControl<ChangePasswordInput[field]>
 }
 
-const Regex8CharsSmallCapitalDigitSpecial =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
+const Regex8CharsSmallCapitalDigitSpecial = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
 
 @Injectable()
 export class ChangePasswordFormService {
@@ -50,10 +47,7 @@ export class ChangePasswordFormService {
                 passwordConfirmation: ['', [required]],
             },
             {
-                validators: [
-                    this.confirmPasswordValidator,
-                    this.newPasswordDifferentValidator,
-                ],
+                validators: [this.confirmPasswordValidator, this.newPasswordDifferentValidator],
             },
         )
     }

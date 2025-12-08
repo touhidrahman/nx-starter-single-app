@@ -1,6 +1,5 @@
 import { computed, inject } from '@angular/core'
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { DateUtil } from '@repo/common-util'
 import { tapResponse } from '@ngrx/operators'
 import {
     patchState,
@@ -11,6 +10,7 @@ import {
     withState,
 } from '@ngrx/signals'
 import { rxMethod } from '@ngrx/signals/rxjs-interop'
+import { DateUtil } from '@repo/common-util'
 import { isAfter } from 'date-fns'
 import { of, pipe, switchMap } from 'rxjs'
 import { AuthApiService } from './auth-api.service'
@@ -56,8 +56,7 @@ export const AuthStore = signalStore(
 
                         const dateUtil = DateUtil
 
-                        const { email, exp, sub } =
-                            new JwtHelperService().decodeToken(token)
+                        const { email, exp, sub } = new JwtHelperService().decodeToken(token)
                         const expiry = dateUtil.date(Number(exp) * 1000)
 
                         patchState(store, {

@@ -16,10 +16,7 @@ export const getDatabaseBackupListRoute = createRoute({
 
     responses: {
         [OK]: ApiResponse(z.array(zDdBackupRecord), 'List of database backups'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmptyList,
-            'Internal server error',
-        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmptyList, 'Internal server error'),
     },
 })
 

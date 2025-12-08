@@ -1,11 +1,6 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '../../../db/db'
-import {
-    groupsTable,
-    membershipsTable,
-    rolesTable,
-    usersTable,
-} from '../../../db/schema'
+import { groupsTable, membershipsTable, rolesTable, usersTable } from '../../../db/schema'
 import { SelectGroup } from '../core/group-core.model'
 import { GroupCrudService } from '../crud/group-crud.service'
 import { GroupMember, Membership } from './group-custom.model'
@@ -35,10 +30,7 @@ export class GroupCustomService extends GroupCrudService {
         }) as GroupMember[]
     }
 
-    static async getGroupMember(
-        groupId: string,
-        userId: string,
-    ): Promise<GroupMember | null> {
+    static async getGroupMember(groupId: string, userId: string): Promise<GroupMember | null> {
         const res = await db
             .select({
                 user: usersTable,
@@ -48,12 +40,7 @@ export class GroupCustomService extends GroupCrudService {
             .from(membershipsTable)
             .leftJoin(usersTable, eq(membershipsTable.userId, usersTable.id))
             .leftJoin(rolesTable, eq(membershipsTable.roleId, rolesTable.id))
-            .where(
-                and(
-                    eq(membershipsTable.groupId, groupId),
-                    eq(membershipsTable.userId, userId),
-                ),
-            )
+            .where(and(eq(membershipsTable.groupId, groupId), eq(membershipsTable.userId, userId)))
 
         if (!res || res.length === 0) {
             return null
@@ -66,11 +53,7 @@ export class GroupCustomService extends GroupCrudService {
         } as GroupMember
     }
 
-    static async addGroupMember({
-        groupId,
-        userId,
-        roleId,
-    }: Membership): Promise<Membership> {
+    static async addGroupMember({ groupId, userId, roleId }: Membership): Promise<Membership> {
         const [result] = await db
             .insert(membershipsTable)
             .values({ groupId, userId, roleId })
@@ -101,18 +84,12 @@ export class GroupCustomService extends GroupCrudService {
         }
     }
 
-    static async removeGroupMembers(
-        groupId: string,
-        userIds: string[],
-    ): Promise<void> {
+    static async removeGroupMembers(groupId: string, userIds: string[]): Promise<void> {
         for (const userId of userIds) {
             await db
                 .delete(membershipsTable)
                 .where(
-                    and(
-                        eq(membershipsTable.groupId, groupId),
-                        eq(membershipsTable.userId, userId),
-                    ),
+                    and(eq(membershipsTable.groupId, groupId), eq(membershipsTable.userId, userId)),
                 )
         }
     }
@@ -123,10 +100,7 @@ export class GroupCustomService extends GroupCrudService {
         const result = await db
             .select()
             .from(groupsTable)
-            .innerJoin(
-                membershipsTable,
-                eq(groupsTable.id, membershipsTable.groupId),
-            )
+            .innerJoin(membershipsTable, eq(groupsTable.id, membershipsTable.groupId))
             .where(eq(membershipsTable.userId, userId))
 
         return result.map(({ groups: group }) => ({

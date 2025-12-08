@@ -32,9 +32,7 @@ const GetUserSettingListCoreDef = createRoute({
     },
 })
 
-const GetUserSettingListCore: AppRouteHandler<
-    typeof GetUserSettingListCoreDef
-> = async (c) => {
+const GetUserSettingListCore: AppRouteHandler<typeof GetUserSettingListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await UserSettingCoreService.findMany(query)
     const count = await UserSettingCoreService.count(query)
@@ -67,14 +65,9 @@ const GetUserSettingByIdCoreDef = createRoute({
     },
 })
 
-const GetUserSettingByIdCore: AppRouteHandler<
-    typeof GetUserSettingByIdCoreDef
-> = async (c) => {
+const GetUserSettingByIdCore: AppRouteHandler<typeof GetUserSettingByIdCoreDef> = async (c) => {
     const { userId, key } = c.req.valid('param')
-    const userSetting = await UserSettingCoreService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const userSetting = await UserSettingCoreService.findByUserIdAndKey(userId, key)
 
     if (!userSetting) {
         return c.json(
@@ -106,16 +99,11 @@ const CreateUserSettingCoreDef = createRoute({
         body: jsonContent(zInsertUserSetting, 'UserSetting Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectUserSetting,
-            'UserSetting created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectUserSetting, 'UserSetting created successfully'),
     },
 })
 
-const CreateUserSettingCore: AppRouteHandler<
-    typeof CreateUserSettingCoreDef
-> = async (c) => {
+const CreateUserSettingCore: AppRouteHandler<typeof CreateUserSettingCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newUserSetting = await UserSettingCoreService.create(body)
 
@@ -142,23 +130,15 @@ const UpdateUserSettingCoreDef = createRoute({
         body: jsonContent(zUpdateUserSetting, 'UserSetting Update Data'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectUserSetting,
-            'UserSetting updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectUserSetting, 'UserSetting updated successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'UserSetting not found'),
     },
 })
 
-const UpdateUserSettingCore: AppRouteHandler<
-    typeof UpdateUserSettingCoreDef
-> = async (c) => {
+const UpdateUserSettingCore: AppRouteHandler<typeof UpdateUserSettingCoreDef> = async (c) => {
     const { userId, key } = c.req.valid('param')
     const body = c.req.valid('json')
-    const existingUserSetting = await UserSettingCoreService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const existingUserSetting = await UserSettingCoreService.findByUserIdAndKey(userId, key)
 
     if (!existingUserSetting) {
         return c.json(
@@ -171,11 +151,7 @@ const UpdateUserSettingCore: AppRouteHandler<
         )
     }
 
-    const updatedUserSetting = await UserSettingCoreService.update(
-        userId,
-        key,
-        body,
-    )
+    const updatedUserSetting = await UserSettingCoreService.update(userId, key, body)
 
     return c.json(
         {
@@ -204,14 +180,9 @@ const DeleteUserSettingCoreDef = createRoute({
     },
 })
 
-const DeleteUserSettingCore: AppRouteHandler<
-    typeof DeleteUserSettingCoreDef
-> = async (c) => {
+const DeleteUserSettingCore: AppRouteHandler<typeof DeleteUserSettingCoreDef> = async (c) => {
     const { userId, key } = c.req.valid('param')
-    const existingUserSetting = await UserSettingCoreService.findByUserIdAndKey(
-        userId,
-        key,
-    )
+    const existingUserSetting = await UserSettingCoreService.findByUserIdAndKey(userId, key)
 
     if (!existingUserSetting) {
         return c.json(

@@ -13,10 +13,7 @@ export const deleteUsersRoute = createRoute({
     tags: ['User'],
     middleware: [checkToken, checkPermission(['user:delete'])] as const,
     request: {
-        body: jsonContent(
-            z.object({ ids: z.array(z.string()) }),
-            'User IDs to delete',
-        ),
+        body: jsonContent(z.object({ ids: z.array(z.string()) }), 'User IDs to delete'),
     },
     responses: {
         [OK]: ApiResponse(z.object({}), 'Users deleted successfully'),
@@ -24,9 +21,7 @@ export const deleteUsersRoute = createRoute({
     },
 })
 
-export const deleteUsersHandler: AppRouteHandler<
-    typeof deleteUsersRoute
-> = async (c) => {
+export const deleteUsersHandler: AppRouteHandler<typeof deleteUsersRoute> = async (c) => {
     try {
         const body = c.req.valid('json')
         const { sub } = c.get('jwtPayload')

@@ -3,9 +3,7 @@
 
 @if (loading) {
     <div class="flex items-center justify-center py-8">
-        <i
-            class="pi pi-spin pi-spinner"
-            style="font-size: 2rem; color: green"></i>
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
     </div>
 } @else if (state?.newsTickers?.length) {
     <p-table

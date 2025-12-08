@@ -15,9 +15,7 @@
 <div class="mx-1 my-4 sm:mx-4">
     @if (loading) {
         <div class="flex items-center justify-center py-8">
-            <i
-                class="pi pi-spin pi-spinner"
-                style="font-size: 2rem; color: green"></i>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
         </div>
     } @else if (allInvitation?.length) {
         <p-table
@@ -61,12 +59,9 @@
                     <td>
                         <p-chip
                             [ngClass]="{
-                                'bg-green-100 text-green-800':
-                                    invitation.status === 'accepted',
-                                'bg-yellow-100 text-yellow-800':
-                                    invitation.status === 'pending',
-                                'bg-red-100 text-red-800':
-                                    invitation.status === 'rejected',
+                                'bg-green-100 text-green-800': invitation.status === 'accepted',
+                                'bg-yellow-100 text-yellow-800': invitation.status === 'pending',
+                                'bg-red-100 text-red-800': invitation.status === 'rejected',
                             }"
                             styleClass="badge capitalize"
                             [label]="invitation.status" />

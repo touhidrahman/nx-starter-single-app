@@ -14,27 +14,25 @@ export const feedbackRoutes: FeedbackRoutes = {
         path: 'dashboard/feedback',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-feedback/page-feedback.component').then(
-                (m) => m.PageFeedbackComponent,
-            ),
+            import('../page-feedback/page-feedback.component').then((m) => m.PageFeedbackComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     feedbackSuccess: {
         path: 'dashboard/feedback-success',
         canActivate: [authGuard({ redirectTo: ['/login'] }), FeedbackGuard],
         loadComponent: () =>
-            import(
-                '../feedback/page-feedback-success/page-feedback-success.component'
-            ).then((m) => m.PageFeedbackSuccessComponent),
+            import('../feedback/page-feedback-success/page-feedback-success.component').then(
+                (m) => m.PageFeedbackSuccessComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     feedbackFailed: {
         path: 'dashboard/feedback-failed',
         canActivate: [authGuard({ redirectTo: ['/login'] }), FeedbackGuard],
         loadComponent: () =>
-            import(
-                '../feedback/page-feedback-failed/page-feedback-failed.component'
-            ).then((m) => m.PageFeedbackFailedComponent),
+            import('../feedback/page-feedback-failed/page-feedback-failed.component').then(
+                (m) => m.PageFeedbackFailedComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
 }

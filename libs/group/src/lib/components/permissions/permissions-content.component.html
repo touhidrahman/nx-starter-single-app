@@ -1,12 +1,10 @@
-<div
-    class="mx-4 mb-4 grid grid-cols-1 gap-4 md:[grid-template-columns:9fr_3fr]">
+<div class="mx-4 mb-4 grid grid-cols-1 gap-4 md:[grid-template-columns:9fr_3fr]">
     <p class="secondary-text max-w-screen-lg text-sm text-gray-500">
-        Manage roles and their permissions. You can create new roles, assign
-        permissions here. Use the checkboxes to select or deselect permissions
-        for each role. The "Check all" option allows you to quickly select or
-        deselect all permissions for a role. The "Save changes" button will
-        apply your changes to the selected role. Use the "Create Role" button to
-        add a new role.
+        Manage roles and their permissions. You can create new roles, assign permissions here. Use
+        the checkboxes to select or deselect permissions for each role. The "Check all" option
+        allows you to quickly select or deselect all permissions for a role. The "Save changes"
+        button will apply your changes to the selected role. Use the "Create Role" button to add a
+        new role.
     </p>
 
     <div class="flex justify-end">
@@ -24,9 +22,7 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th class="bg-gray-50 py-2 font-semibold">
-                            Permission Name
-                        </th>
+                        <th class="bg-gray-50 py-2 font-semibold">Permission Name</th>
                         @for (role of roles(); track role.id) {
                             <th
                                 class="border-l border-gray-300 bg-gray-50 px-4 py-2 text-center font-semibold dark:border-gray-600">
@@ -43,8 +39,7 @@
                                                 class="primary-text text-base font-bold text-green-800 capitalize">
                                                 {{ role.name }}
                                                 @if (role.isSystemRole) {
-                                                    <span
-                                                        class="badge-green secondary-text ml-2"
+                                                    <span class="badge-green secondary-text ml-2"
                                                         >Default Role</span
                                                     >
                                                 }
@@ -73,13 +68,10 @@
                                                     (click)="
                                                         toggleTickingAllClaims(
                                                             role.id,
-                                                            $any($event.target)
-                                                                ?.checked
+                                                            $any($event.target)?.checked
                                                         )
                                                     "
-                                                    [checked]="
-                                                        isAllTicked(role.id)
-                                                    "
+                                                    [checked]="isAllTicked(role.id)"
                                                     pTooltip="Check/Uncheck all permissions"
                                                     tooltipPosition="top" />
                                                 <p-button
@@ -89,9 +81,7 @@
                                                     icon="pi pi-save"
                                                     pTooltip="Save changes"
                                                     tooltipPosition="top"
-                                                    (click)="
-                                                        saveRole(role.id)
-                                                    " />
+                                                    (click)="saveRole(role.id)" />
                                             </div>
                                         }
                                     </div>
@@ -120,10 +110,7 @@
             class="mt-2"
             expandIcon="pi pi-chevron-down"
             collapseIcon="pi pi-chevron-up">
-            @for (
-                section of claimStateService.groupedClaimSections();
-                track section
-            ) {
+            @for (section of claimStateService.groupedClaimSections(); track section) {
                 <p-accordion-panel [value]="section">
                     <p-accordion-header>
                         {{ getSectionHeader(section) }}
@@ -131,9 +118,7 @@
                     <p-accordion-content>
                         <div class="table-container">
                             <p-table
-                                [value]="
-                                    claimStateService.groupedClaims()[section]
-                                "
+                                [value]="claimStateService.groupedClaims()[section]"
                                 [tableStyle]="{ 'min-width': '50rem' }">
                                 <ng-template #body let-claim>
                                     <tr>
@@ -150,21 +135,11 @@
                                                         size="large"
                                                         class="h-5 w-5 cursor-pointer accent-gray-600"
                                                         type="checkbox"
-                                                        [checked]="
-                                                            isChecked(
-                                                                claim.id,
-                                                                role.id
-                                                            )
-                                                        "
+                                                        [checked]="isChecked(claim.id, role.id)"
                                                         (change)="
-                                                            onCheckboxChange(
-                                                                claim.id,
-                                                                role.id
-                                                            )
+                                                            onCheckboxChange(claim.id, role.id)
                                                         "
-                                                        [disabled]="
-                                                            role.isSystemRole
-                                                        " />
+                                                        [disabled]="role.isSystemRole" />
                                                 </div>
                                             </td>
                                         }
@@ -205,9 +180,7 @@
                                 <span class="block truncate whitespace-normal">
                                     {{ option.name }}
                                     @if (option.isSystemRole) {
-                                        <span class="badge-green ml-1"
-                                            >Default
-                                        </span>
+                                        <span class="badge-green ml-1">Default </span>
                                     }
                                 </span>
                             </div>
@@ -247,8 +220,7 @@
                         <label class="secondary-text ml-2 text-[#334155]"
                             >Check All
                             @if (selectedRole.isSystemRole) {
-                                <span
-                                    class="secondary-text-2 ml-1 text-purple-500"
+                                <span class="secondary-text-2 ml-1 text-purple-500"
                                     >( Default role, cannot be modified )</span
                                 >
                             }
@@ -272,10 +244,7 @@
                     [multiple]="true"
                     expandIcon="pi pi-chevron-down"
                     collapseIcon="pi pi-chevron-up">
-                    @for (
-                        section of claimStateService.groupedClaimSections();
-                        track section
-                    ) {
+                    @for (section of claimStateService.groupedClaimSections(); track section) {
                         <p-accordion-panel [value]="section">
                             <p-accordion-header class="mobile">
                                 {{ getSectionHeader(section) }}
@@ -283,9 +252,7 @@
                             <p-accordion-content>
                                 <div class="space-y-2">
                                     @for (
-                                        claim of claimStateService.groupedClaims()[
-                                            section
-                                        ];
+                                        claim of claimStateService.groupedClaims()[section];
                                         track $index
                                     ) {
                                         <div
@@ -294,8 +261,7 @@
                                                 <p class="font-medium">
                                                     {{ claim.id }}
                                                 </p>
-                                                <p
-                                                    class="text-sm text-gray-500">
+                                                <p class="text-sm text-gray-500">
                                                     {{ claim.description }}
                                                 </p>
                                             </div>
@@ -303,21 +269,11 @@
                                                 size="large"
                                                 class="h-5 w-5 accent-gray-600"
                                                 type="checkbox"
-                                                [checked]="
-                                                    isChecked(
-                                                        claim.id,
-                                                        selectedRole.id
-                                                    )
-                                                "
+                                                [checked]="isChecked(claim.id, selectedRole.id)"
                                                 (change)="
-                                                    onCheckboxChange(
-                                                        claim.id,
-                                                        selectedRole.id
-                                                    )
+                                                    onCheckboxChange(claim.id, selectedRole.id)
                                                 "
-                                                [disabled]="
-                                                    selectedRole.isSystemRole
-                                                " />
+                                                [disabled]="selectedRole.isSystemRole" />
                                         </div>
                                     }
                                 </div>

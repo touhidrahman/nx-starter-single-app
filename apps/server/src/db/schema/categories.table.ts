@@ -15,17 +15,14 @@ export const categoriesTable = pgTable('categories', {
     creatorId: text().references(() => usersTable.id, { onDelete: 'set null' }),
 })
 
-export const categoriesRelations = relations(
-    categoriesTable,
-    ({ one, many }) => ({
-        group: one(groupsTable, {
-            fields: [categoriesTable.groupId],
-            references: [groupsTable.id],
-        }),
-        creator: one(usersTable, {
-            fields: [categoriesTable.creatorId],
-            references: [usersTable.id],
-        }),
-        subcategories: many(subcategoriesTable),
+export const categoriesRelations = relations(categoriesTable, ({ one, many }) => ({
+    group: one(groupsTable, {
+        fields: [categoriesTable.groupId],
+        references: [groupsTable.id],
     }),
-)
+    creator: one(usersTable, {
+        fields: [categoriesTable.creatorId],
+        references: [usersTable.id],
+    }),
+    subcategories: many(subcategoriesTable),
+}))

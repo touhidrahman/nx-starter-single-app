@@ -18,20 +18,17 @@ export const subcategoriesTable = pgTable('subcategories', {
     }),
 })
 
-export const subcategoriesRelations = relations(
-    subcategoriesTable,
-    ({ one, many }) => ({
-        group: one(groupsTable, {
-            fields: [subcategoriesTable.groupId],
-            references: [groupsTable.id],
-        }),
-        creator: one(usersTable, {
-            fields: [subcategoriesTable.creatorId],
-            references: [usersTable.id],
-        }),
-        category: one(categoriesTable, {
-            fields: [subcategoriesTable.categoryId],
-            references: [categoriesTable.id],
-        }),
+export const subcategoriesRelations = relations(subcategoriesTable, ({ one, many }) => ({
+    group: one(groupsTable, {
+        fields: [subcategoriesTable.groupId],
+        references: [groupsTable.id],
     }),
-)
+    creator: one(usersTable, {
+        fields: [subcategoriesTable.creatorId],
+        references: [usersTable.id],
+    }),
+    category: one(categoriesTable, {
+        fields: [subcategoriesTable.categoryId],
+        references: [categoriesTable.id],
+    }),
+}))

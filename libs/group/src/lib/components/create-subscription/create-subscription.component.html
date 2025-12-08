@@ -3,11 +3,7 @@
     <div class="grid grid-cols-2 gap-4">
         <!-- Plan ID -->
         <div class="space-y-2">
-            <label
-                for="planId"
-                class="block text-base font-medium text-gray-700"
-                >Plan ID</label
-            >
+            <label for="planId" class="block text-base font-medium text-gray-700">Plan ID</label>
             <p-select
                 id="planId"
                 class="capitalize"
@@ -23,9 +19,7 @@
 
         <!-- Subscription Type -->
         <div class="space-y-2">
-            <label
-                for="subscriptionType"
-                class="block text-base font-medium text-gray-700"
+            <label for="subscriptionType" class="block text-base font-medium text-gray-700"
                 >Subscription Type</label
             >
             <p-select
@@ -35,22 +29,13 @@
                 [options]="subscriptionTypes"
                 placeholder="Select Subscription Type"
                 class="w-full"></p-select>
-            @if (
-                form.get('subscriptionType')?.invalid &&
-                form.get('subscriptionType')?.touched
-            ) {
-                <small class="text-red-600">
-                    Subscription Type is required.
-                </small>
+            @if (form.get('subscriptionType')?.invalid && form.get('subscriptionType')?.touched) {
+                <small class="text-red-600"> Subscription Type is required. </small>
             }
         </div>
         <!-- Status -->
         <div class="space-y-2">
-            <label
-                for="status"
-                class="block text-base font-medium text-gray-700"
-                >Status</label
-            >
+            <label for="status" class="block text-base font-medium text-gray-700">Status</label>
             <p-select
                 id="status"
                 class="capitalize"
@@ -64,23 +49,15 @@
         </div>
         <!-- Transaction ID -->
         <div class="space-y-2">
-            <label
-                for="transactionId"
-                class="block text-base font-medium text-gray-700"
+            <label for="transactionId" class="block text-base font-medium text-gray-700"
                 >Transaction ID</label
             >
-            <input
-                pInputText
-                id="transactionId"
-                formControlName="transactionId"
-                class="w-full" />
+            <input pInputText id="transactionId" formControlName="transactionId" class="w-full" />
         </div>
 
         <!-- Payment Method -->
         <div class="space-y-2">
-            <label
-                for="paymentMethod"
-                class="block text-base font-medium text-gray-700"
+            <label for="paymentMethod" class="block text-base font-medium text-gray-700"
                 >Payment Method</label
             >
             <p-select
@@ -93,9 +70,7 @@
 
         <!-- Status Change Date -->
         <div class="w-full space-y-2">
-            <label
-                for="statusChangeDate"
-                class="mb-2 block text-base font-medium text-gray-700"
+            <label for="statusChangeDate" class="mb-2 block text-base font-medium text-gray-700"
                 >Status Change Date</label
             >
             <p-datePicker
@@ -109,16 +84,10 @@
         </div>
 
         <div class="space-y-2">
-            <label
-                for="transactionId"
-                class="block text-base font-medium text-gray-700"
+            <label for="transactionId" class="block text-base font-medium text-gray-700"
                 >Payment Number</label
             >
-            <input
-                pInputText
-                id="paymentNumber"
-                formControlName="paymentNumber"
-                class="w-full" />
+            <input pInputText id="paymentNumber" formControlName="paymentNumber" class="w-full" />
         </div>
         <div class="flex items-center gap-4 xl:h-26">
             <!-- Auto Renewal -->

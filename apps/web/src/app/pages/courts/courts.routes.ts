@@ -11,9 +11,7 @@ export const courtsRoutes: CourtsRoutes = {
         path: 'dashboard/courts',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-courts/page-courts.component').then(
-                (m) => m.PageCourtsComponent,
-            ),
+            import('../page-courts/page-courts.component').then((m) => m.PageCourtsComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 }

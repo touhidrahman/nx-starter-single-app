@@ -5,35 +5,23 @@
         <a class="flex justify-center pt-2">
             @if (!isCollapsed) {
                 <img
-                    [routerLink]="
-                        isClient()
-                            ? ['/dashboard/home/client']
-                            : ['/dashboard/home']
-                    "
+                    [routerLink]="isClient() ? ['/dashboard/home/client'] : ['/dashboard/home']"
                     src="assets/logo/logo1.png"
                     class="h-12 w-36 cursor-pointer"
                     alt="Full Logo" />
             }
             @if (isCollapsed) {
                 <img
-                    [routerLink]="
-                        isClient()
-                            ? ['/dashboard/home/client']
-                            : ['/dashboard/home']
-                    "
+                    [routerLink]="isClient() ? ['/dashboard/home/client'] : ['/dashboard/home']"
                     src="assets/logo/logo1.png"
                     class="h-12 w-12 cursor-pointer"
                     alt="Collapsed Logo" />
             }
         </a>
     </div>
-    <div
-        class="flex min-h-[100vh] flex-col justify-between space-y-6 px-2 pb-16">
+    <div class="flex min-h-[100vh] flex-col justify-between space-y-6 px-2 pb-16">
         <ul class="mt-14 space-y-1 sm:mt-6">
-            @for (
-                item of isClient() ? clientNavigationItems : navigationItems;
-                track $index
-            ) {
+            @for (item of isClient() ? clientNavigationItems : navigationItems; track $index) {
                 <li>
                     <a
                         [routerLink]="[item.routerLink]"
@@ -45,15 +33,10 @@
                                 item.icon
                             }} text-xl md:text-2xl font-semibold text-gray-700 secondary-text"
                             routerLinkActive="text-white"
-                            [pTooltip]="
-                                isCollapsed ? item.label : undefined
-                            "></span>
+                            [pTooltip]="isCollapsed ? item.label : undefined"></span>
                         @if (!isCollapsed) {
                             @if (followedCases) {
-                                @if (
-                                    followedCases.length > 0 &&
-                                    item.label === 'My Cases'
-                                ) {
+                                @if (followedCases.length > 0 && item.label === 'My Cases') {
                                     <span class="font-medium"
                                         >{{ item.label }}
                                         <span
@@ -66,9 +49,7 @@
                                         ></span
                                     >
                                 } @else {
-                                    <span class="font-medium">{{
-                                        item.label
-                                    }}</span>
+                                    <span class="font-medium">{{ item.label }}</span>
                                 }
                             }
                         }

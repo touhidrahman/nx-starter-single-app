@@ -28,25 +28,20 @@ export class ChangePasswordComponent {
         if (this.changePasswordFormService.form.invalid) {
             return
         }
-        const { currentPassword, password } =
-            this.changePasswordFormService.getValue()
+        const { currentPassword, password } = this.changePasswordFormService.getValue()
 
-        this.authApiService
-            .changePassword(this.userId(), currentPassword, password)
-            .subscribe({
-                next: (res: ApiResponse<boolean>) => {
-                    if (res.data) {
-                        this.alertService.success(
-                            'password changed successfully',
-                        )
-                        this.isLoading.set(false)
-                        this.changePasswordFormService.form.reset()
-                    }
-                },
-                error: () => {
-                    this.alertService.error('password change failed')
+        this.authApiService.changePassword(this.userId(), currentPassword, password).subscribe({
+            next: (res: ApiResponse<boolean>) => {
+                if (res.data) {
+                    this.alertService.success('password changed successfully')
                     this.isLoading.set(false)
-                },
-            })
+                    this.changePasswordFormService.form.reset()
+                }
+            },
+            error: () => {
+                this.alertService.error('password change failed')
+                this.isLoading.set(false)
+            },
+        })
     }
 }

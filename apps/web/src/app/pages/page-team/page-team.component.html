@@ -34,24 +34,20 @@
             </th>
         </tr>
     </thead>
-    <tbody
-        class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+    <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         @for (user of teams; track user) {
             <tr>
                 <td
                     class="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900 dark:text-white">
                     {{ user.name }}
                 </td>
-                <td
-                    class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
                     {{ user.email }}
                 </td>
-                <td
-                    class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
                     {{ user.role }}
                 </td>
-                <td
-                    class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
+                <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
                     {{ user.joinDate }}
                 </td>
 

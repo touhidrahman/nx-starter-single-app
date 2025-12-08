@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core'
 import { MessageLogApiService } from '@repo/case'
 import { Role, RoleApiService } from '@repo/role-permission'
-import { User, UserApiService } from '@repo/user'
 import { SimpleStore } from '@repo/store'
+import { User, UserApiService } from '@repo/user'
 import { catchError, finalize, of, switchMap, tap, throwError } from 'rxjs'
 
 export type AdminGroupManagementState = {
@@ -60,9 +60,7 @@ export class AdminGroupManagementStateService extends SimpleStore<AdminGroupMana
         this.setState({ loading: true })
         return this.roleApiService.delete(id).pipe(
             tap(() => {
-                const updatedRoles = this.getState().roles.filter(
-                    (role) => role.id !== id,
-                )
+                const updatedRoles = this.getState().roles.filter((role) => role.id !== id)
 
                 this.setState({
                     roles: updatedRoles,

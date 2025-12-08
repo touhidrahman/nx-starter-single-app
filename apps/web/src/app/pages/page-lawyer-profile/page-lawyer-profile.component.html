@@ -3,8 +3,7 @@
     class="bg-color-container space-y-10 rounded-xl bg-white p-8 shadow-md">
     <!-- Section: Personal Information -->
     <div>
-        <h3
-            class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
+        <h3 class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
             Personal Information
         </h3>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -24,18 +23,14 @@
                 <label class="mb-1 block text-sm font-medium"
                     >Phone Number <span class="text-red-500">*</span></label
                 >
-                <input
-                    pInputText
-                    formControlName="phoneNumber"
-                    class="w-full" />
+                <input pInputText formControlName="phoneNumber" class="w-full" />
             </div>
         </div>
     </div>
 
     <!-- Section: Professional Information -->
     <div>
-        <h3
-            class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
+        <h3 class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
             Professional Information
         </h3>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -43,19 +38,11 @@
                 <label class="mb-1 block text-sm font-medium"
                     >Institute Name <span class="text-red-500">*</span></label
                 >
-                <input
-                    pInputText
-                    formControlName="instituteName"
-                    class="w-full" />
+                <input pInputText formControlName="instituteName" class="w-full" />
             </div>
             <div>
-                <label class="mb-1 block text-sm font-medium"
-                    >Institution ID</label
-                >
-                <input
-                    pInputText
-                    formControlName="institutionId"
-                    class="w-full" />
+                <label class="mb-1 block text-sm font-medium">Institution ID</label>
+                <input pInputText formControlName="institutionId" class="w-full" />
             </div>
         </div>
 
@@ -74,8 +61,7 @@
             </div>
             <div>
                 <label class="mb-1 block text-sm font-medium"
-                    >Practice Start Year
-                    <span class="text-red-500">*</span></label
+                    >Practice Start Year <span class="text-red-500">*</span></label
                 >
                 <p-datepicker
                     formControlName="practiceStartYear"
@@ -89,21 +75,15 @@
                     class="w-full"></p-datepicker>
             </div>
             <div>
-                <label class="mb-1 block text-sm font-medium"
-                    >Description</label
-                >
-                <input
-                    pInputText
-                    formControlName="description"
-                    class="w-full" />
+                <label class="mb-1 block text-sm font-medium">Description</label>
+                <input pInputText formControlName="description" class="w-full" />
             </div>
         </div>
     </div>
 
     <!-- Section: Contact & Location -->
     <div>
-        <h3
-            class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
+        <h3 class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
             Contact & Location
         </h3>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -158,9 +138,7 @@
                         alt="Location Pin"
                         class="mr-2 h-6 w-6" /> -->
                     <i class="pi pi-map-marker secondary-text"></i>
-                    <span class="secondary-text text-xl font-medium"
-                        >Address Selection</span
-                    >
+                    <span class="secondary-text text-xl font-medium">Address Selection</span>
                 </div>
 
                 <div class="space-y-4">
@@ -190,9 +168,7 @@
                         [zoom]="googleMapService.mapZoom()"
                         (mapClick)="onMapClick($event)">
                         @for (marker of lawyerMarkers; track marker.position) {
-                            <map-marker
-                                [position]="marker.position"
-                                [title]="marker.title">
+                            <map-marker [position]="marker.position" [title]="marker.title">
                                 @if (marker.content) {
                                     <map-info-window>
                                         <div [innerHTML]="marker.content"></div>
@@ -202,9 +178,7 @@
                         }
                     </google-map>
                 } @else {
-                    <div class="text-center text-gray-500">
-                        Loading Google Maps...
-                    </div>
+                    <div class="text-center text-gray-500">Loading Google Maps...</div>
                 }
             </div>
         </div>
@@ -212,30 +186,20 @@
 
     <!-- Section: Other Information -->
     <div>
-        <h3
-            class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
+        <h3 class="border-gray secondary-text mb-6 border-b pb-2 text-lg font-semibold">
             Other Information
         </h3>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
-                <label class="mb-1 block text-sm font-medium"
-                    >Interested Area</label
-                >
-                <input
-                    pInputText
-                    formControlName="interestedArea"
-                    class="w-full" />
+                <label class="mb-1 block text-sm font-medium">Interested Area</label>
+                <input pInputText formControlName="interestedArea" class="w-full" />
             </div>
         </div>
 
         <div class="mt-5 flex items-center gap-2">
-            <p-checkbox
-                formControlName="sponsored"
-                [binary]="true"
-                inputId="sponsored" />
+            <p-checkbox formControlName="sponsored" [binary]="true" inputId="sponsored" />
             <label for="sponsored" class="text-sm"
-                >Sponsored, Experienced lawyer specializing in corporate
-                law</label
+                >Sponsored, Experienced lawyer specializing in corporate law</label
             >
         </div>
     </div>

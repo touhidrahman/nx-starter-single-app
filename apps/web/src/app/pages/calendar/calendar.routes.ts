@@ -11,9 +11,7 @@ export const calendarRoutes: CalendarRoutes = {
         path: 'dashboard/calendar',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-calender/page-calender.component').then(
-                (m) => m.PageCalenderComponent,
-            ),
+            import('../page-calender/page-calender.component').then((m) => m.PageCalenderComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 }

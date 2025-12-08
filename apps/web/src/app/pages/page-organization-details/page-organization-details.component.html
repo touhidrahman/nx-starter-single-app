@@ -1,8 +1,6 @@
 <h1 class="primary-text mb-4 text-3xl font-bold">Organization & Permission</h1>
 <div class="items-container !p-2">
-    <p-tabs
-        [scrollable]="true"
-        class="mb-6 w-[350px] bg-white font-normal md:w-full">
+    <p-tabs [scrollable]="true" class="mb-6 w-[350px] bg-white font-normal md:w-full">
         <p-tablist>
             @for (tab of visibleTabs(); track tab.route) {
                 <p-tab

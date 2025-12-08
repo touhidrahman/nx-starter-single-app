@@ -4,11 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core'
     name: 'fileSize',
 })
 export class FileSizePipe implements PipeTransform {
-    transform(
-        value: number | null | undefined,
-        unit = 'auto',
-        decimals = 2,
-    ): string {
+    transform(value: number | null | undefined, unit = 'auto', decimals = 2): string {
         if (value == null || value === 0) {
             return '0 B'
         }

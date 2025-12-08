@@ -26,16 +26,11 @@ const GetSubscriptionListCoreDef = createRoute({
     middleware,
     request: { query: zQuerySubscriptions },
     responses: {
-        [OK]: ApiListResponse(
-            z.array(zSelectSubscription),
-            'Subscription List',
-        ),
+        [OK]: ApiListResponse(z.array(zSelectSubscription), 'Subscription List'),
     },
 })
 
-const GetSubscriptionListCore: AppRouteHandler<
-    typeof GetSubscriptionListCoreDef
-> = async (c) => {
+const GetSubscriptionListCore: AppRouteHandler<typeof GetSubscriptionListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await SubscriptionCoreService.findMany(query)
     const count = await SubscriptionCoreService.count(query)
@@ -62,16 +57,11 @@ const GetSubscriptionByIdCoreDef = createRoute({
     },
 })
 
-const GetSubscriptionByIdCore: AppRouteHandler<
-    typeof GetSubscriptionByIdCoreDef
-> = async (c) => {
+const GetSubscriptionByIdCore: AppRouteHandler<typeof GetSubscriptionByIdCoreDef> = async (c) => {
     const id = c.req.valid('param').id
     const data = await SubscriptionCoreService.findById(id)
     if (!data) {
-        return c.json(
-            { data: {}, message: 'Subscription not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Subscription not found', success: false }, NOT_FOUND)
     }
     return c.json({ data, message: 'Subscription fetched', success: true }, OK)
 }
@@ -87,15 +77,10 @@ const PostSubscriptionCoreDef = createRoute({
     },
 })
 
-const PostSubscriptionCore: AppRouteHandler<
-    typeof PostSubscriptionCoreDef
-> = async (c) => {
+const PostSubscriptionCore: AppRouteHandler<typeof PostSubscriptionCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const data = await SubscriptionCoreService.create(body)
-    return c.json(
-        { data, message: 'Subscription created successfully', success: true },
-        CREATED,
-    )
+    return c.json({ data, message: 'Subscription created successfully', success: true }, CREATED)
 }
 
 const PutSubscriptionCoreDef = createRoute({
@@ -113,23 +98,15 @@ const PutSubscriptionCoreDef = createRoute({
     },
 })
 
-const PutSubscriptionCore: AppRouteHandler<
-    typeof PutSubscriptionCoreDef
-> = async (c) => {
+const PutSubscriptionCore: AppRouteHandler<typeof PutSubscriptionCoreDef> = async (c) => {
     const id = c.req.valid('param').id
     const body = c.req.valid('json')
     const exists = await SubscriptionCoreService.exists(id)
     if (!exists) {
-        return c.json(
-            { data: {}, message: 'Subscription not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Subscription not found', success: false }, NOT_FOUND)
     }
     const data = await SubscriptionCoreService.update(id, body)
-    return c.json(
-        { data, message: 'Subscription updated successfully', success: true },
-        OK,
-    )
+    return c.json({ data, message: 'Subscription updated successfully', success: true }, OK)
 }
 
 const DeleteSubscriptionCoreDef = createRoute({
@@ -144,16 +121,11 @@ const DeleteSubscriptionCoreDef = createRoute({
     },
 })
 
-const DeleteSubscriptionCore: AppRouteHandler<
-    typeof DeleteSubscriptionCoreDef
-> = async (c) => {
+const DeleteSubscriptionCore: AppRouteHandler<typeof DeleteSubscriptionCoreDef> = async (c) => {
     const id = c.req.valid('param').id
     const exists = await SubscriptionCoreService.exists(id)
     if (!exists) {
-        return c.json(
-            { data: {}, message: 'Subscription not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Subscription not found', success: false }, NOT_FOUND)
     }
     await SubscriptionCoreService.delete(id)
     return c.json(

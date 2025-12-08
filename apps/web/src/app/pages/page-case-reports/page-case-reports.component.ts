@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
-import {
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms'
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {
     CaseListStateService,
     CaseReportFormComponent,
@@ -84,13 +79,9 @@ export class PageCaseReportsComponent implements OnInit {
             next: (res: CaseReportFormDialogResult) => {
                 if (res?.caseReport) {
                     if (res.isEdit) {
-                        this.caseReportListStateService.replaceCaseReport(
-                            res.caseReport,
-                        )
+                        this.caseReportListStateService.replaceCaseReport(res.caseReport)
                     } else {
-                        this.caseReportListStateService.pushCaseReport(
-                            res.caseReport,
-                        )
+                        this.caseReportListStateService.pushCaseReport(res.caseReport)
                     }
                 }
             },

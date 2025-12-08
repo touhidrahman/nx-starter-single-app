@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import {
-    FormControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    Validators,
-} from '@angular/forms'
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 import { identifierValidator } from '@repo/common-util'
 
 @Injectable()

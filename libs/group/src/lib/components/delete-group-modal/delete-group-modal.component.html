@@ -1,10 +1,6 @@
 <div>
     <h3 class="mb-2 font-semibold">Group ID</h3>
-    <input
-        pInputText
-        (input)="onGroupId($event)"
-        placeholder="Enter Group Id"
-        class="w-full" />
+    <input pInputText (input)="onGroupId($event)" placeholder="Enter Group Id" class="w-full" />
 </div>
 <div class="my-8">
     <app-math-verification (verified)="onMathVerified($event)" />

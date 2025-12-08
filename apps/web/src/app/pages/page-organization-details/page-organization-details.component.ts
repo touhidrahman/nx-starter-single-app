@@ -19,9 +19,7 @@ export class PageOrganizationDetailsComponent implements OnInit {
 
     readonly visibleTabs = computed(() => {
         const tabs = this.tabs()
-        return this.isClientGroup()
-            ? tabs.filter((tab) => tab.isClient !== false)
-            : tabs
+        return this.isClientGroup() ? tabs.filter((tab) => tab.isClient !== false) : tabs
     })
 
     ngOnInit() {

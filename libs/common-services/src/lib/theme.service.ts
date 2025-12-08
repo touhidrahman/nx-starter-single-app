@@ -8,10 +8,7 @@ export class ThemeService {
     private isDarkMode = false
     private document = inject(DOCUMENT)
     private rendererFactory = inject(RendererFactory2)
-    private renderer: Renderer2 = this.rendererFactory.createRenderer(
-        null,
-        null,
-    )
+    private renderer: Renderer2 = this.rendererFactory.createRenderer(null, null)
 
     constructor() {
         const savedTheme = localStorage.getItem('isDarkMode')

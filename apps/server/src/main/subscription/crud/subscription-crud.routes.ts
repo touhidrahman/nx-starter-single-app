@@ -1,11 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
-import {
-    FORBIDDEN,
-    INTERNAL_SERVER_ERROR,
-    NOT_FOUND,
-    OK,
-} from 'stoker/http-status-codes'
+import { FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
@@ -34,16 +29,11 @@ const GetSubscriptionListCrudDef = createRoute({
     middleware: [checkToken, checkPermission(['Subscription:Read'])] as const,
     request: { query: zQuerySubscriptions },
     responses: {
-        [OK]: ApiListResponse(
-            z.array(zSelectSubscription),
-            'Subscription List',
-        ),
+        [OK]: ApiListResponse(z.array(zSelectSubscription), 'Subscription List'),
     },
 })
 
-const GetSubscriptionListCrud: AppRouteHandler<
-    typeof GetSubscriptionListCrudDef
-> = async (c) => {
+const GetSubscriptionListCrud: AppRouteHandler<typeof GetSubscriptionListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const data = await SubscriptionCrudService.findMany({ ...query, groupId })
@@ -69,9 +59,7 @@ const GetSubscriptionCrudDef = createRoute({
     responses: { [OK]: ApiResponse(zSubscriptionWithPlan, 'Subscription') },
 })
 
-const GetSubscriptionCrud: AppRouteHandler<
-    typeof GetSubscriptionCrudDef
-> = async (c) => {
+const GetSubscriptionCrud: AppRouteHandler<typeof GetSubscriptionCrudDef> = async (c) => {
     const id = c.req.valid('param').id
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     if (!groupId) {
@@ -83,10 +71,7 @@ const GetSubscriptionCrud: AppRouteHandler<
             message: 'Subscription not found',
         })
     }
-    return c.json(
-        { data: existing, message: 'Subscription fetched', success: true },
-        OK,
-    )
+    return c.json({ data: existing, message: 'Subscription fetched', success: true }, OK)
 }
 
 const PostSubscriptionCrudDef = createRoute({
@@ -100,13 +85,9 @@ const PostSubscriptionCrudDef = createRoute({
     },
 })
 
-const PostSubscriptionCrud: AppRouteHandler<
-    typeof PostSubscriptionCrudDef
-> = async (c) => {
+const PostSubscriptionCrud: AppRouteHandler<typeof PostSubscriptionCrudDef> = async (c) => {
     const body = c.req.valid('json')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     if (!groupId) {
         throw new HTTPException(FORBIDDEN, { message: 'Access denied' })
     }

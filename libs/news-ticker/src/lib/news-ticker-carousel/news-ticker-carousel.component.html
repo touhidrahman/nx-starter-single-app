@@ -11,19 +11,13 @@
     contentClass="flex items-center justify-center">
     <ng-template let-ticker #item>
         <div class="mt-[2px] flex items-center justify-center">
-            <span class="text-base font-normal">{{
-                ticker.title | textSlice: 95
-            }}</span>
+            <span class="text-base font-normal">{{ ticker.title | textSlice: 95 }}</span>
             @if (ticker?.tickerUrl) {
-                <a
-                    class="ms-2 cursor-pointer font-semibold"
-                    routerLink="{{ ticker?.tickerUrl }}"
+                <a class="ms-2 cursor-pointer font-semibold" routerLink="{{ ticker?.tickerUrl }}"
                     >link</a
                 >
             }
-            <button
-                (click)="onNewsTickerClose()"
-                class="mt-[5px] block cursor-pointer text-sm">
+            <button (click)="onNewsTickerClose()" class="mt-[5px] block cursor-pointer text-sm">
                 <i class="pi pi-times ms-3 text-gray-500"></i>
             </button>
         </div>

@@ -9,34 +9,23 @@
             </div>
             <div class="col-span-12 lg:col-span-6">
                 <div>
-                    <h1
-                        class="text-center text-2xl font-normal text-green-700 lg:text-4xl">
+                    <h1 class="text-center text-2xl font-normal text-green-700 lg:text-4xl">
                         Verify Your Phone Number
                     </h1>
-                    <p
-                        class="mt-2 text-center text-base font-normal text-[#707070] xl:px-8">
-                        Enter the <strong>OTP code</strong> we sent to your
-                        number {{ secretPhone() }} within the next 20 minutes.
-                        Do not share this code with anyone for security reasons.
+                    <p class="mt-2 text-center text-base font-normal text-[#707070] xl:px-8">
+                        Enter the <strong>OTP code</strong> we sent to your number
+                        {{ secretPhone() }} within the next 20 minutes. Do not share this code with
+                        anyone for security reasons.
                     </p>
 
-                    @let codeControl =
-                        verifyUserFormService.verificationCodeControl;
-                    @let codeDirtyOrTouched =
-                        codeControl?.dirty || codeControl?.touched;
+                    @let codeControl = verifyUserFormService.verificationCodeControl;
+                    @let codeDirtyOrTouched = codeControl?.dirty || codeControl?.touched;
                     @let phoneControl = verifyUserFormService.phoneControl;
-                    @let phoneDirtyOrTouched =
-                        phoneControl?.dirty || phoneControl?.touched;
+                    @let phoneDirtyOrTouched = phoneControl?.dirty || phoneControl?.touched;
 
-                    <div
-                        [formGroup]="verifyUserForm"
-                        class="mt-8 grid grid-cols-12 gap-4">
+                    <div [formGroup]="verifyUserForm" class="mt-8 grid grid-cols-12 gap-4">
                         <div class="col-span-12">
-                            <label
-                                for="phone"
-                                class="text-900 mb-2 block font-medium"
-                                >Phone</label
-                            >
+                            <label for="phone" class="text-900 mb-2 block font-medium">Phone</label>
                             <input
                                 id="phone"
                                 type="text"
@@ -44,29 +33,18 @@
                                 pInputText
                                 formControlName="phone"
                                 class="w-full" />
-                            @if (
-                                phoneControl?.hasError('required') &&
-                                phoneDirtyOrTouched
-                            ) {
-                                <small class="mt-1 text-sm text-red-500"
-                                    >Phone is required</small
-                                >
+                            @if (phoneControl?.hasError('required') && phoneDirtyOrTouched) {
+                                <small class="mt-1 text-sm text-red-500">Phone is required</small>
                             }
 
-                            @if (
-                                phoneControl?.hasError('pattern') &&
-                                phoneDirtyOrTouched
-                            ) {
+                            @if (phoneControl?.hasError('pattern') && phoneDirtyOrTouched) {
                                 <small class="mt-1 text-sm text-red-500">
-                                    Please enter a valid phone number
-                                    (01XXXXXXXXX)
+                                    Please enter a valid phone number (01XXXXXXXXX)
                                 </small>
                             }
                         </div>
                         <div class="col-span-12">
-                            <label
-                                for="verificationCode"
-                                class="text-900 mb-2 block font-medium"
+                            <label for="verificationCode" class="text-900 mb-2 block font-medium"
                                 >Verification Code</label
                             >
                             <input
@@ -81,10 +59,7 @@
                                 [minlength]="6"
                                 pattern="[0-9]*"
                                 class="w-full" />
-                            @if (
-                                codeControl?.hasError('required') &&
-                                codeDirtyOrTouched
-                            ) {
+                            @if (codeControl?.hasError('required') && codeDirtyOrTouched) {
                                 <small class="mt-1 text-sm text-red-500">
                                     Verification code is required
                                 </small>
@@ -100,10 +75,7 @@
                                 </small>
                             }
 
-                            @if (
-                                codeControl?.hasError('pattern') &&
-                                codeDirtyOrTouched
-                            ) {
+                            @if (codeControl?.hasError('pattern') && codeDirtyOrTouched) {
                                 <small class="mt-1 text-sm text-red-500">
                                     Only numbers are allowed
                                 </small>
@@ -114,9 +86,7 @@
                                 pButton
                                 pRipple
                                 (click)="verifyUser($event)"
-                                [disabled]="
-                                    verifyUserForm.invalid || isLoading()
-                                "
+                                [disabled]="verifyUserForm.invalid || isLoading()"
                                 icon="pi pi-lock"
                                 class="bg-green mt-3 w-full">
                                 @if (isLoading()) {

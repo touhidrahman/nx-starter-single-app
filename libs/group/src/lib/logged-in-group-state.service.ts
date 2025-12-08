@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AuthStateService } from '@repo/auth'
 import { Role, RoleApiService } from '@repo/role-permission'
-import { User, UserApiService } from '@repo/user'
 import { SimpleStore } from '@repo/store'
+import { User, UserApiService } from '@repo/user'
 import { catchError, combineLatest, of, switchMap, tap, throwError } from 'rxjs'
 
 export type LoggedInGroupState = {
@@ -45,8 +45,7 @@ export class LoggedInGroupStateService extends SimpleStore<LoggedInGroupState> {
 
     private getCurrentGroupId(): string | null {
         const routeGroupId =
-            this.route.snapshot.paramMap.get('groupId') ||
-            this.route.snapshot.paramMap.get('id')
+            this.route.snapshot.paramMap.get('groupId') || this.route.snapshot.paramMap.get('id')
         const authGroupId = this.authState.getState().group?.id
         return routeGroupId || authGroupId || null
     }
@@ -79,8 +78,7 @@ export class LoggedInGroupStateService extends SimpleStore<LoggedInGroupState> {
         combineLatest([this.select('users'), this.authState.select('group')])
             .pipe(
                 switchMap(([users, group]) => {
-                    const owner =
-                        users.find((u) => u.id === group?.ownerId) || null
+                    const owner = users.find((u) => u.id === group?.ownerId) || null
                     return of(owner)
                 }),
             )
@@ -110,9 +108,7 @@ export class LoggedInGroupStateService extends SimpleStore<LoggedInGroupState> {
                 const roles = this.getState().roles.filter((r) => r.id !== id)
                 this.setState({ roles, loading: false })
             }),
-            catchError(() =>
-                throwError(() => new Error('Failed to delete role')),
-            ),
+            catchError(() => throwError(() => new Error('Failed to delete role'))),
         )
     }
 
@@ -120,23 +116,18 @@ export class LoggedInGroupStateService extends SimpleStore<LoggedInGroupState> {
         this.setState({ loading: true })
         return this.roleApi.update(roleId, { claims: claims.sort() }).pipe(
             tap(({ data }) => {
-                const roles = this.getState().roles.map((r) =>
-                    r.id === data.id ? data : r,
-                )
+                const roles = this.getState().roles.map((r) => (r.id === data.id ? data : r))
                 this.setState({ roles, loading: false })
             }),
             catchError((error) =>
-                throwError(
-                    () => new Error(`Failed to update role: ${error.message}`),
-                ),
+                throwError(() => new Error(`Failed to update role: ${error.message}`)),
             ),
         )
     }
 
     updateUserRole(userId: string, roleId: string) {
         this.setState({ loading: true })
-        const roleName =
-            this.getState().roles.find((r) => r.id === roleId)?.name ?? ''
+        const roleName = this.getState().roles.find((r) => r.id === roleId)?.name ?? ''
 
         return this.userApi.changeRole(userId, roleId).pipe(
             tap(() => {
@@ -145,9 +136,7 @@ export class LoggedInGroupStateService extends SimpleStore<LoggedInGroupState> {
                 )
                 this.setState({ users, loading: false })
             }),
-            catchError(() =>
-                throwError(() => new Error('Failed to update user role')),
-            ),
+            catchError(() => throwError(() => new Error('Failed to update user role'))),
         )
     }
 

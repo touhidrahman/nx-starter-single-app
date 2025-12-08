@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    signal,
-} from '@angular/core'
+import { Component, ElementRef, HostListener, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { LabelValuePair } from '@repo/common-models'
 import { PrimeModules } from '@repo/prime-modules'
@@ -71,9 +65,7 @@ export class SubscriptionFilterComponent {
                 : null
         this.selectedStatus =
             currentState.status &&
-            Object.values(SubscriptionStatus).includes(
-                currentState.status as SubscriptionStatus,
-            )
+            Object.values(SubscriptionStatus).includes(currentState.status as SubscriptionStatus)
                 ? (currentState.status as SubscriptionStatus)
                 : null
     }
@@ -111,9 +103,7 @@ export class SubscriptionFilterComponent {
 
     @HostListener('document:click', ['$event'])
     onOutsideClick(event: MouseEvent) {
-        const clickedInside = this.elementRef.nativeElement.contains(
-            event.target,
-        )
+        const clickedInside = this.elementRef.nativeElement.contains(event.target)
         if (!clickedInside) {
             this.closeFilter()
         }

@@ -20,9 +20,7 @@ export const zUserLoginResponse = z.object({
 })
 
 export const zRegister = z.object({
-    username: z
-        .string()
-        .min(3, { message: 'Username must be at least 3 characters' }),
+    username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
     email: z.string().optional(),
     password: zPassword,
     firstName: z.string().min(1, { message: 'First name is required' }),
@@ -33,9 +31,7 @@ export const zRegister = z.object({
 })
 
 export const zAcceptInvite = z.object({
-    username: z
-        .string()
-        .min(3, { message: 'Username must be at least 3 characters' }),
+    username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
     password: zPassword,
     firstName: z.string().min(1, { message: 'First name is required' }),
     lastName: z.string().min(1, { message: 'Last name is required' }),

@@ -65,7 +65,7 @@
         "formatWithErrors": false,
         "indentStyle": "space",
         "indentWidth": 4,
-        "lineWidth": 80,
+        "lineWidth": 100,
         "includes": ["**"],
         "lineEnding": "lf",
         "attributePosition": "auto"
@@ -104,7 +104,7 @@
             "enabled": true,
             "indentStyle": "space",
             "indentWidth": 4,
-            "lineWidth": 80,
+            "lineWidth": 100,
             "lineEnding": "lf"
         }
     },
@@ -116,7 +116,7 @@
             "enabled": true,
             "indentStyle": "space",
             "indentWidth": 4,
-            "lineWidth": 80
+            "lineWidth": 100
         },
         "linter": {
             "enabled": false

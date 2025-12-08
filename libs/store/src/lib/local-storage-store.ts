@@ -16,10 +16,7 @@ export class LocalStorageStore<T> {
     }
 
     setState(value: Partial<T>, sideEffectFn?: () => void): void {
-        this.storage.setItem(
-            this.key,
-            JSON.stringify({ ...this.getState(), ...value }),
-        )
+        this.storage.setItem(this.key, JSON.stringify({ ...this.getState(), ...value }))
         sideEffectFn?.()
     }
 

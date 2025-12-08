@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import {
-    AbstractControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    Validators,
-} from '@angular/forms'
+import { AbstractControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 import {
     Regex8CharsSmallCapitalDigitSpecial,
     RegexBangladeshPhone,
@@ -54,18 +49,11 @@ export class RegisterFormService {
             phoneControl?.clearValidators()
 
             if (registrationBy === 'email') {
-                emailControl?.setValidators([
-                    required,
-                    email,
-                    pattern(RegexEmailPattern),
-                ])
+                emailControl?.setValidators([required, email, pattern(RegexEmailPattern)])
                 phoneControl?.setValidators(null)
                 phoneControl?.setValue('')
             } else if (registrationBy === 'phone') {
-                phoneControl?.setValidators([
-                    required,
-                    pattern(RegexBangladeshPhone),
-                ])
+                phoneControl?.setValidators([required, pattern(RegexBangladeshPhone)])
                 emailControl?.setValidators(null)
                 emailControl?.setValue('')
             }
@@ -81,19 +69,17 @@ export class RegisterFormService {
             nameControl?.updateValueAndValidity()
         })
 
-        form.get('organization.groupType')?.valueChanges.subscribe(
-            (groupType) => {
-                const nameControl = form.get('organization.name')
+        form.get('organization.groupType')?.valueChanges.subscribe((groupType) => {
+            const nameControl = form.get('organization.name')
 
-                if (groupType === 'vendor') {
-                    nameControl?.setValidators([required])
-                } else {
-                    nameControl?.clearValidators()
-                }
+            if (groupType === 'vendor') {
+                nameControl?.setValidators([required])
+            } else {
+                nameControl?.clearValidators()
+            }
 
-                nameControl?.updateValueAndValidity()
-            },
-        )
+            nameControl?.updateValueAndValidity()
+        })
 
         return form
     }

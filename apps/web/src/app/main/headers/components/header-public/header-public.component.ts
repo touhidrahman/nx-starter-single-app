@@ -11,13 +11,7 @@ import { UserLoginStatusComponent } from '../user-login-status/user-login-satus.
 
 @Component({
     selector: 'app-header-public',
-    imports: [
-        RouterModule,
-        PrimeModules,
-        AsyncPipe,
-        CommonModule,
-        UserLoginStatusComponent,
-    ],
+    imports: [RouterModule, PrimeModules, AsyncPipe, CommonModule, UserLoginStatusComponent],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })
@@ -48,17 +42,15 @@ export class HeaderPublicComponent implements OnInit {
                 fragment: undefined,
             })
             .then(() => {
-                document
-                    .querySelectorAll('.active-link')
-                    .forEach((el) => el.classList.remove('active-link'))
+                document.querySelectorAll('.active-link').forEach((el) => {
+                    el.classList.remove('active-link')
+                })
 
                 window.scrollTo({ top: 0, behavior: 'smooth' })
             })
     }
 
     navigateToFragment(id: string) {
-        this.scrollService.navigateToFragment(id, () =>
-            this.headerService.closeMenu(),
-        )
+        this.scrollService.navigateToFragment(id, () => this.headerService.closeMenu())
     }
 }

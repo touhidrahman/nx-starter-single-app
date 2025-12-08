@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { transactionsTable } from '../../db/schema'
+import { {{camelCase (pluralize moduleName)}}Table } from '../../db/schema'
 import { zPagination, zSearch } from '../../models/common.schema'
 import {
     createInsertSchema,

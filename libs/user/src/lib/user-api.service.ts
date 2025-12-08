@@ -25,9 +25,7 @@ export class UserApiService extends ApiService<User, UserDto> {
         })
     }
 
-    getUnapprovedUsers(
-        organizationId: string,
-    ): Observable<ApiResponse<User[]>> {
+    getUnapprovedUsers(organizationId: string): Observable<ApiResponse<User[]>> {
         return this.http.get<ApiResponse<User[]>>(this.apiUrl, {
             params: { organizationId, isApproved: false },
         })
@@ -40,9 +38,7 @@ export class UserApiService extends ApiService<User, UserDto> {
     }
 
     getUsersByGroupId(id: string): Observable<ApiResponse<User[]>> {
-        return this.http.get<ApiResponse<User[]>>(
-            `${this.apiUrl}/group-user/${id}`,
-        )
+        return this.http.get<ApiResponse<User[]>>(`${this.apiUrl}/group-user/${id}`)
     }
 
     getUserById(id: string): Observable<ApiResponse<User>> {
@@ -53,13 +49,7 @@ export class UserApiService extends ApiService<User, UserDto> {
         return this.http.delete<ApiResponse<User>>(`${this.apiUrl}/${id}`)
     }
 
-    updateUserStatus(
-        id: string,
-        data: Partial<User>,
-    ): Observable<ApiResponse<User>> {
-        return this.http.put<ApiResponse<User>>(
-            `${this.env.apiUrl}/v1/user/${id}`,
-            data,
-        )
+    updateUserStatus(id: string, data: Partial<User>): Observable<ApiResponse<User>> {
+        return this.http.put<ApiResponse<User>>(`${this.env.apiUrl}/v1/user/${id}`, data)
     }
 }

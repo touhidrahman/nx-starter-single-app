@@ -2,15 +2,7 @@ import { Injectable, inject, signal } from '@angular/core'
 import { Group } from '@repo/common-auth'
 import { GroupApiService } from '@repo/group'
 import { SimpleStore } from '@repo/store'
-import {
-    catchError,
-    debounceTime,
-    finalize,
-    of,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs'
+import { catchError, debounceTime, finalize, of, switchMap, tap, throwError } from 'rxjs'
 
 export type GroupState = {
     group: Group | null

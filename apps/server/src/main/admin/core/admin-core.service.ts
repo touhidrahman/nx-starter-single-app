@@ -20,20 +20,12 @@ export class AdminCoreService {
 
     static async findOne(filters: QueryAdmins): Promise<SelectAdmin | null> {
         const conditions = AdminCoreService.buildWhereConditions(filters)
-        const admins = await db
-            .select()
-            .from(adminsTable)
-            .where(conditions)
-            .limit(1)
+        const admins = await db.select().from(adminsTable).where(conditions).limit(1)
         return admins[0] ?? null
     }
 
     static async findById(id: string): Promise<SelectAdmin | null> {
-        const admin = await db
-            .select()
-            .from(adminsTable)
-            .where(eq(adminsTable.id, id))
-            .limit(1)
+        const admin = await db.select().from(adminsTable).where(eq(adminsTable.id, id)).limit(1)
         return admin[0] || null
     }
 
@@ -57,10 +49,7 @@ export class AdminCoreService {
         return admins
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertAdmin>,
-    ): Promise<SelectAdmin> {
+    static async update(id: string, input: Partial<InsertAdmin>): Promise<SelectAdmin> {
         const [admin] = await db
             .update(adminsTable)
             .set(input)
@@ -93,9 +82,7 @@ export class AdminCoreService {
             conditions.push(or(ilike(adminsTable.name, searchTerm)))
         }
         if (params.email) {
-            conditions.push(
-                ilike(adminsTable.email, `%${params.email.trim()}%`),
-            )
+            conditions.push(ilike(adminsTable.email, `%${params.email.trim()}%`))
         }
         if (params.ids && params.ids.length > 0) {
             conditions.push(inArray(adminsTable.id, params.ids))

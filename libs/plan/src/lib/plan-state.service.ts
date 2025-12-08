@@ -1,15 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { OrderBy } from '@repo/common-models'
 import { SimpleStore } from '@repo/store'
-import {
-    catchError,
-    combineLatest,
-    debounceTime,
-    finalize,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs'
+import { catchError, combineLatest, debounceTime, finalize, switchMap, tap, throwError } from 'rxjs'
 import { Plan } from './plan.model'
 import { PlanApiService } from './plan-api.service'
 
@@ -57,9 +49,7 @@ export class PlanStateService extends SimpleStore<PlanState> {
 
     replacePlan(Plan: Plan) {
         this.setState({
-            plans: this.getState().plans.map((b) =>
-                b.id === Plan.id ? Plan : b,
-            ),
+            plans: this.getState().plans.map((b) => (b.id === Plan.id ? Plan : b)),
         })
     }
 
@@ -90,9 +80,7 @@ export class PlanStateService extends SimpleStore<PlanState> {
                         plans: data,
                         loading: false,
                         totalItems: pagination?.total ?? 0,
-                        totalPages: Math.ceil(
-                            (pagination?.total ?? 0) / (pagination?.size ?? 1),
-                        ),
+                        totalPages: Math.ceil((pagination?.total ?? 0) / (pagination?.size ?? 1)),
                     })
                 },
                 error: () => {
@@ -110,9 +98,7 @@ export class PlanStateService extends SimpleStore<PlanState> {
             tap(() =>
                 this.setState({
                     loading: true,
-                    plans: this.getState().plans.filter(
-                        (plan) => plan.id !== id,
-                    ),
+                    plans: this.getState().plans.filter((plan) => plan.id !== id),
                 }),
             ),
             catchError(() => {

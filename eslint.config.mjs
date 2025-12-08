@@ -23,22 +23,11 @@ export default [
                     ],
                 },
             ],
-            'lines-between-class-members': [
-                'error',
-                'always',
-                { exceptAfterSingleLine: true },
-            ],
+            'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
         },
     },
     {
-        files: [
-            '**/*.ts',
-            '**/*.tsx',
-            '**/*.js',
-            '**/*.jsx',
-            '**/*.cjs',
-            '**/*.mjs',
-        ],
+        files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
         // Override or add rules here
         rules: {},
     },

@@ -1,21 +1,12 @@
 import { createRoute } from '@hono/zod-openapi'
-import {
-    BAD_REQUEST,
-    CREATED,
-    INTERNAL_SERVER_ERROR,
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
 import { uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { findUserById } from '../../user/user.service'
-import {
-    FeedbackType,
-    InsertFeedback,
-    zInsertFeedback,
-    zSelectFeedback,
-} from '../feedback.schema'
+import { FeedbackType, InsertFeedback, zInsertFeedback, zSelectFeedback } from '../feedback.schema'
 import { createFeedback } from '../feedback.service'
 
 export const createFeedbackRoute = createRoute({
@@ -33,18 +24,13 @@ export const createFeedbackRoute = createRoute({
         },
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectFeedback,
-            'Feedback created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectFeedback, 'Feedback created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid Feedback data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal Server error'),
     },
 })
 
-export const createFeedbackHandler: AppRouteHandler<
-    typeof createFeedbackRoute
-> = async (c) => {
+export const createFeedbackHandler: AppRouteHandler<typeof createFeedbackRoute> = async (c) => {
     const formData = await c.req.formData()
     const payload = await c.get('jwtPayload')
 

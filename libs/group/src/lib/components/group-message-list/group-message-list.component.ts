@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { PrimeModules } from '@repo/prime-modules'
 import { CaseGroupMessage } from '@repo/case'
+import { PrimeModules } from '@repo/prime-modules'
 import { AdminGroupManagementStateService } from '../../admin-group-state.service'
 
 @Component({
@@ -25,10 +25,8 @@ export class GroupMessageListComponent implements OnInit {
 
         this.adminGroupManagementStateService.init(this.groupId())
 
-        this.adminGroupManagementStateService
-            .select('groupMessages')
-            .subscribe((messages) => {
-                this.messages.set(messages)
-            })
+        this.adminGroupManagementStateService.select('groupMessages').subscribe((messages) => {
+            this.messages.set(messages)
+        })
     }
 }

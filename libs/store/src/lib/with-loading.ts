@@ -1,9 +1,4 @@
-import {
-    patchState,
-    signalStoreFeature,
-    withMethods,
-    withState,
-} from '@ngrx/signals'
+import { patchState, signalStoreFeature, withMethods, withState } from '@ngrx/signals'
 
 export const withLoading = () =>
     signalStoreFeature(

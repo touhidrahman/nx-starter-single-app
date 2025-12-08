@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core'
-import { OrderBy } from '@repo/common-models'
 import { AuthStateService } from '@repo/auth'
+import { OrderBy } from '@repo/common-models'
 import { SimpleStore } from '@repo/store'
 import {
     catchError,
@@ -107,9 +107,7 @@ export class InvitationStateService extends SimpleStore<InvitationListState> {
             tap(() => {
                 this.setState({
                     loading: false,
-                    invitations: this.getState().invitations.filter(
-                        (i) => i.id !== id,
-                    ),
+                    invitations: this.getState().invitations.filter((i) => i.id !== id),
                 })
             }),
             catchError((err) => {

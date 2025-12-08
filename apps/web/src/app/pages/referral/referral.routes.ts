@@ -11,9 +11,7 @@ export const referralRoutes: ReferralRoutes = {
         path: 'dashboard/referral',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import('../page-referral/page-referral.component').then(
-                (m) => m.PageReferralComponent,
-            ),
+            import('../page-referral/page-referral.component').then((m) => m.PageReferralComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 }

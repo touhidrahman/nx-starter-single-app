@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    OnInit,
-    signal,
-} from '@angular/core'
+import { Component, ElementRef, HostListener, inject, OnInit, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { LabelValuePair } from '@repo/common-models'
 import { PrimeModules } from '@repo/prime-modules'
@@ -44,8 +37,7 @@ export class NewsTickerFilterComponent implements OnInit {
 
     applyFilters() {
         this.newsTickerStateService.setState({
-            status:
-                this.selectedStatus !== null ? this.selectedStatus : undefined,
+            status: this.selectedStatus !== null ? this.selectedStatus : undefined,
         })
         this.closeFilter()
     }
@@ -59,9 +51,7 @@ export class NewsTickerFilterComponent implements OnInit {
 
     @HostListener('document:click', ['$event'])
     onOutsideClick(event: MouseEvent) {
-        const clickedInside = this.elementRef.nativeElement.contains(
-            event.target,
-        )
+        const clickedInside = this.elementRef.nativeElement.contains(event.target)
         if (!clickedInside) {
             this.closeFilter()
         }

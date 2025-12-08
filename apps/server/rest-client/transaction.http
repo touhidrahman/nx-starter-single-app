@@ -1,0 +1,56 @@
+@accountId=25a56abbc7
+@deleteId=b96dd738f1
+@id=ebb65095bd
+@categoryId=8599a1a688
+@subcategoryId=479904edba
+
+
+###
+POST {{BACKEND_URL}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "accountId": "{{accountId}}",
+  "amount": "22.99",
+  "title": "Grocery Shopping 1",
+  "isOutgoing": true,
+  "categoryId": "{{categoryId}}",
+  "subcategoryId": "{{subcategoryId}}"
+}
+
+
+###
+GET {{BACKEND_URL}}/transactions?startDate=2025-12-01&endDate=2025-12-30
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/transactions/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+PUT {{BACKEND_URL}}/transactions/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "title": "Grocery Shopping 3",
+  "amount": "-3",
+  "isOutgoing": true
+}
+
+
+###
+DELETE {{BACKEND_URL}}/transactions/{{deleteId}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/transactions/custom/my
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

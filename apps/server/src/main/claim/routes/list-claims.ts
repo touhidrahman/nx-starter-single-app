@@ -19,9 +19,7 @@ export const listClaimsRoute = createRoute({
     },
 })
 
-export const listClaimsHandler: AppRouteHandler<
-    typeof listClaimsRoute
-> = async (c) => {
+export const listClaimsHandler: AppRouteHandler<typeof listClaimsRoute> = async (c) => {
     const data = findAllClaims()
 
     return c.json(

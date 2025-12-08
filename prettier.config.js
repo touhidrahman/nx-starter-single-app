@@ -6,7 +6,7 @@ const config = {
     arrowParens: 'always',
     bracketSameLine: true,
     bracketSpacing: true,
-    printWidth: 80,
+    printWidth: 100,
     semi: false,
     singleQuote: true,
     trailingComma: 'all',

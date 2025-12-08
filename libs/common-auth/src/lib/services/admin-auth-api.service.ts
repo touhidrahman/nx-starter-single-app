@@ -19,41 +19,24 @@ export class AdminAuthApiService<TUser> {
     }
 
     isSuperAdmin(userId: string): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/${userId}/is-admin`,
-            {},
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/${userId}/is-admin`, {})
     }
 
-    login(
-        identifier: string,
-        password: string,
-    ): Observable<ApiResponse<LoginResponse>> {
-        return this.http.post<ApiResponse<LoginResponse>>(
-            `${this.authApiUrl}/admin/login`,
-            {
-                identifier,
-                password,
-            },
-        )
+    login(identifier: string, password: string): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(`${this.authApiUrl}/admin/login`, {
+            identifier,
+            password,
+        })
     }
 
     register(input: AdminSignupInput): Observable<ApiResponse<TUser>> {
-        return this.http.post<ApiResponse<TUser>>(
-            `${this.authApiUrl}/admin/first`,
-            input,
-        )
+        return this.http.post<ApiResponse<TUser>>(`${this.authApiUrl}/admin/first`, input)
     }
 
-    refreshAccessToken(
-        refreshToken: string,
-    ): Observable<ApiResponse<LoginResponse>> {
-        return this.http.post<ApiResponse<LoginResponse>>(
-            `${this.authApiUrl}/token`,
-            {
-                refreshToken,
-            },
-        )
+    refreshAccessToken(refreshToken: string): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(`${this.authApiUrl}/token`, {
+            refreshToken,
+        })
     }
 
     changePassword(
@@ -62,22 +45,16 @@ export class AdminAuthApiService<TUser> {
         password: string,
         // passwordConfirmation?: string,
     ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/change-password`,
-            {
-                userId,
-                password,
-                currentPassword,
-                // passwordConfirmation,
-            },
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/change-password`, {
+            userId,
+            password,
+            currentPassword,
+            // passwordConfirmation,
+        })
     }
 
     forgotPassword(email: string): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/forgot-password`,
-            { email },
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/forgot-password`, { email })
     }
 
     resetPassword(
@@ -85,26 +62,18 @@ export class AdminAuthApiService<TUser> {
         email: string,
         password: string,
     ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/reset-password/${token}'`,
-            {
-                email,
-                password,
-            },
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/reset-password/${token}'`, {
+            email,
+            password,
+        })
     }
 
     logout(): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/admin/logout`,
-            {},
-        )
+        return this.http.post<ApiResponse<boolean>>(`${this.authApiUrl}/admin/logout`, {})
     }
 
     verifyEmail(token: string): Observable<ApiResponse<boolean>> {
-        return this.http.get<ApiResponse<boolean>>(
-            `${this.authApiUrl}/verify-email/${token}`,
-        )
+        return this.http.get<ApiResponse<boolean>>(`${this.authApiUrl}/verify-email/${token}`)
     }
 
     createGroup(

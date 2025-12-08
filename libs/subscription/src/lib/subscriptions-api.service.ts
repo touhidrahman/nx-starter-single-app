@@ -4,19 +4,13 @@ import { ApiResponse, OrderBy } from '@repo/common-models'
 import { ApiService } from '@repo/common-services'
 import { APP_ENVIRONMENT, AppEnvironmentConfig } from '@repo/core'
 import { Observable } from 'rxjs'
-import {
-    ApproveSubscriptionRequest,
-    SubscriptionRequest,
-} from './subscription-request.model'
+import { ApproveSubscriptionRequest, SubscriptionRequest } from './subscription-request.model'
 import { Subscription, SubscriptionDto } from './subscriptions.model'
 
 @Injectable({
     providedIn: 'root',
 })
-export class SubscriptionsApiService extends ApiService<
-    Subscription,
-    SubscriptionDto
-> {
+export class SubscriptionsApiService extends ApiService<Subscription, SubscriptionDto> {
     constructor(
         @Inject(APP_ENVIRONMENT)
         private env: AppEnvironmentConfig,
@@ -54,10 +48,7 @@ export class SubscriptionsApiService extends ApiService<
             params = params.set('status', filterOptions.status)
         }
         if (filterOptions.subscriptionType) {
-            params = params.set(
-                'subscriptionType',
-                filterOptions.subscriptionType,
-            )
+            params = params.set('subscriptionType', filterOptions.subscriptionType)
         }
 
         return this.find(params)
@@ -93,47 +84,29 @@ export class SubscriptionsApiService extends ApiService<
             params = params.set('status', filterOptions.status)
         }
         if (filterOptions.subscriptionType) {
-            params = params.set(
-                'subscriptionType',
-                filterOptions.subscriptionType,
-            )
+            params = params.set('subscriptionType', filterOptions.subscriptionType)
         }
 
-        return this.http.get<ApiResponse<SubscriptionRequest[]>>(
-            `${this.apiUrl}/requests`,
-            { params },
-        )
+        return this.http.get<ApiResponse<SubscriptionRequest[]>>(`${this.apiUrl}/requests`, {
+            params,
+        })
     }
 
-    getSubscriptionByGroupId(
-        groupId: string,
-    ): Observable<ApiResponse<Subscription>> {
-        return this.http.get<ApiResponse<Subscription>>(
-            `${this.apiUrl}/${groupId}/subscription`,
-        )
+    getSubscriptionByGroupId(groupId: string): Observable<ApiResponse<Subscription>> {
+        return this.http.get<ApiResponse<Subscription>>(`${this.apiUrl}/${groupId}/subscription`)
     }
 
     getSubscriptionListByGroupId(): Observable<ApiResponse<Subscription[]>> {
-        return this.http.get<ApiResponse<Subscription[]>>(
-            `${this.apiUrl}/group/subscription-list`,
-        )
+        return this.http.get<ApiResponse<Subscription[]>>(`${this.apiUrl}/group/subscription-list`)
     }
 
-    createSubscriptionsRequest(
-        items: Subscription,
-    ): Observable<ApiResponse<Subscription>> {
-        return this.http.post<ApiResponse<Subscription>>(
-            `${this.apiUrl}/request`,
-            items,
-        )
+    createSubscriptionsRequest(items: Subscription): Observable<ApiResponse<Subscription>> {
+        return this.http.post<ApiResponse<Subscription>>(`${this.apiUrl}/request`, items)
     }
 
     approveSubscriptionRequest(
         items: ApproveSubscriptionRequest,
     ): Observable<ApiResponse<SubscriptionRequest>> {
-        return this.http.put<ApiResponse<SubscriptionRequest>>(
-            `${this.apiUrl}/request`,
-            items,
-        )
+        return this.http.put<ApiResponse<SubscriptionRequest>>(`${this.apiUrl}/request`, items)
     }
 }

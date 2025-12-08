@@ -2,11 +2,7 @@ import { and, asc, desc, eq, ilike, inArray, or, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { accountsTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
-import {
-    InsertAccount,
-    QueryAccounts,
-    SelectAccount,
-} from './account-core.model'
+import { InsertAccount, QueryAccounts, SelectAccount } from './account-core.model'
 
 export class AccountCoreService {
     static async findMany(filters: QueryAccounts): Promise<SelectAccount[]> {
@@ -28,15 +24,9 @@ export class AccountCoreService {
         return accounts
     }
 
-    static async findOne(
-        filters: QueryAccounts,
-    ): Promise<SelectAccount | null> {
+    static async findOne(filters: QueryAccounts): Promise<SelectAccount | null> {
         const conditions = AccountCoreService.buildWhereConditions(filters)
-        const accounts = await db
-            .select()
-            .from(accountsTable)
-            .where(conditions)
-            .limit(1)
+        const accounts = await db.select().from(accountsTable).where(conditions).limit(1)
         return accounts[0] ?? null
     }
 
@@ -60,25 +50,16 @@ export class AccountCoreService {
     }
 
     static async create(input: InsertAccount): Promise<SelectAccount> {
-        const [account] = await db
-            .insert(accountsTable)
-            .values(input)
-            .returning()
+        const [account] = await db.insert(accountsTable).values(input).returning()
         return account
     }
 
     static async createMany(inputs: InsertAccount[]): Promise<SelectAccount[]> {
-        const accounts = await db
-            .insert(accountsTable)
-            .values(inputs)
-            .returning()
+        const accounts = await db.insert(accountsTable).values(inputs).returning()
         return accounts
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertAccount>,
-    ): Promise<SelectAccount> {
+    static async update(id: string, input: Partial<InsertAccount>): Promise<SelectAccount> {
         const [account] = await db
             .update(accountsTable)
             .set(input)
@@ -87,10 +68,7 @@ export class AccountCoreService {
         return account
     }
 
-    static async upsert(
-        id: string,
-        input: InsertAccount,
-    ): Promise<SelectAccount> {
+    static async upsert(id: string, input: InsertAccount): Promise<SelectAccount> {
         const existingAccount = await AccountCoreService.findById(id)
         if (existingAccount) {
             return AccountCoreService.update(id, input)
@@ -114,9 +92,7 @@ export class AccountCoreService {
         return sortOrder === 'asc' ? asc(orderBy) : desc(orderBy)
     }
 
-    static buildWhereConditions(
-        params: QueryAccounts,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryAccounts): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.search) {

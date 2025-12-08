@@ -7,8 +7,7 @@
             'hidden md:block': true,
         }"
         class="sticky top-0 bottom-0 left-0 z-50 h-screen overflow-hidden">
-        <app-sidebar-default
-            [isCollapsed]="isSidebarCollapsed"></app-sidebar-default>
+        <app-sidebar-default [isCollapsed]="isSidebarCollapsed"></app-sidebar-default>
     </div>
 
     <!-- Sidebar Drawer for Mobile -->
@@ -17,9 +16,7 @@
         <div
             class="fixed inset-0 z-50 backdrop-blur-[1.5px] transition-opacity duration-400 md:hidden"
             [ngStyle]="{
-                'background-color': isMobileSidebarOpen
-                    ? 'rgba(0, 0, 0, 0.3)'
-                    : 'transparent',
+                'background-color': isMobileSidebarOpen ? 'rgba(0, 0, 0, 0.3)' : 'transparent',
                 'pointer-events': isMobileSidebarOpen ? 'auto' : 'none',
                 opacity: isMobileSidebarOpen ? '1' : '0',
             }"
@@ -30,8 +27,7 @@
                     '-translate-x-full': !isMobileSidebarOpen,
                     'translate-x-0': isMobileSidebarOpen,
                 }">
-                <app-sidebar-default
-                    [isCollapsed]="false"></app-sidebar-default>
+                <app-sidebar-default [isCollapsed]="false"></app-sidebar-default>
             </div>
         </div>
     }

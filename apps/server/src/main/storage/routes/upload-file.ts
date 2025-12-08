@@ -1,17 +1,10 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import {
-    BAD_REQUEST,
-    INTERNAL_SERVER_ERROR,
-    OK,
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
-import {
-    deleteS3File,
-    uploadToS3AndGetUrl,
-} from '../../../third-party/s3.service'
+import { deleteS3File, uploadToS3AndGetUrl } from '../../../third-party/s3.service'
 import { ApiResponse } from '../../../utils/api-response.util'
 import {
     createStorageRecord,
@@ -39,9 +32,7 @@ export const uploadFileRoute = createRoute({
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal Server error'),
     },
 })
-export const uploadFileHandler: AppRouteHandler<
-    typeof uploadFileRoute
-> = async (c) => {
+export const uploadFileHandler: AppRouteHandler<typeof uploadFileRoute> = async (c) => {
     const body = await c.req.parseBody({ all: true })
     const file = body['file'] as File
     const payload = await c.get('jwtPayload')
@@ -55,8 +46,7 @@ export const uploadFileHandler: AppRouteHandler<
 
         if (!file) errors.push('No file provided')
 
-        if (!allowedFormats.includes(file.type))
-            errors.push('Invalid file type')
+        if (!allowedFormats.includes(file.type)) errors.push('Invalid file type')
         if (file.size > MAX_FILE_SIZE) errors.push('File size exceeds limit')
 
         if (errors.length > 0)

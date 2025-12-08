@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common'
-import {
-    Component,
-    ElementRef,
-    HostListener,
-    inject,
-    signal,
-} from '@angular/core'
+import { Component, ElementRef, HostListener, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { LabelValuePair } from '@repo/common-models'
 import { PrimeModules } from '@repo/prime-modules'
@@ -37,9 +31,7 @@ export class AdminUserFilterComponent {
         const currentState = this.userListStateService.getState()
         // Initialize selectedStatus from current state if available
         if (currentState.searchField?.['status']) {
-            this.selectedStatus = currentState.searchField[
-                'status'
-            ] as UserStatus
+            this.selectedStatus = currentState.searchField['status'] as UserStatus
         }
     }
 
@@ -49,9 +41,7 @@ export class AdminUserFilterComponent {
 
     applyFilters() {
         const filters = {
-            searchField: this.selectedStatus
-                ? { status: this.selectedStatus }
-                : null,
+            searchField: this.selectedStatus ? { status: this.selectedStatus } : null,
             page: 1, // Reset to first page when applying new filters
         }
 
@@ -69,9 +59,7 @@ export class AdminUserFilterComponent {
 
     @HostListener('document:click', ['$event'])
     onOutsideClick(event: MouseEvent) {
-        const clickedInside = this.elementRef.nativeElement.contains(
-            event.target,
-        )
+        const clickedInside = this.elementRef.nativeElement.contains(event.target)
         if (!clickedInside) {
             this.closeFilter()
         }

@@ -1,11 +1,7 @@
 <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
     <ng-template #header> </ng-template>
-    <ng-template #title>
-        Plan Type: {{ subscribedPlan?.subscriptionType }}
-    </ng-template>
-    <ng-template #subtitle
-        >Group ID: {{ subscribedPlan?.groupId }}
-    </ng-template>
+    <ng-template #title> Plan Type: {{ subscribedPlan?.subscriptionType }} </ng-template>
+    <ng-template #subtitle>Group ID: {{ subscribedPlan?.groupId }} </ng-template>
     <p>User ID: {{ subscribedPlan?.userId }}</p>
     <ng-template #footer>
         <div class="mt-1 flex gap-4">

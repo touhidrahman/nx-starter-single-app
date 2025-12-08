@@ -12,11 +12,7 @@ import {
 
 @Component({
     selector: 'app-page-subscription-usages',
-    imports: [
-        CommonModule,
-        CurrentSubscriptionCardComponent,
-        AllPlansComponent,
-    ],
+    imports: [CommonModule, CurrentSubscriptionCardComponent, AllPlansComponent],
     templateUrl: './page-subscription-usages.component.html',
     styleUrl: './page-subscription-usages.component.css',
 })
@@ -36,18 +32,16 @@ export class PageSubscriptionUsagesComponent implements OnInit {
 
     private getActiveSubscription(groupId: string) {
         this.isLoading.set(true)
-        this.subscriptionApiService
-            .getSubscriptionByGroupId(groupId)
-            .subscribe({
-                next: (res: ApiResponse<Subscription>) => {
-                    this.isLoading.set(false)
-                    this.subscription.set(res.data)
-                },
-                error: (err) => {
-                    this.isLoading.set(false)
-                    this.isError.set(true)
-                    this.alertService.error(err.error.message)
-                },
-            })
+        this.subscriptionApiService.getSubscriptionByGroupId(groupId).subscribe({
+            next: (res: ApiResponse<Subscription>) => {
+                this.isLoading.set(false)
+                this.subscription.set(res.data)
+            },
+            error: (err) => {
+                this.isLoading.set(false)
+                this.isError.set(true)
+                this.alertService.error(err.error.message)
+            },
+        })
     }
 }

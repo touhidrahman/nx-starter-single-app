@@ -2,12 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common'
 import { Component, inject, OnInit } from '@angular/core'
 import { NoDataComponent } from '@repo/common-components'
 import { AlertService, ConfirmDialogData } from '@repo/common-services'
-import {
-    Plan,
-    PlanCreateDialogComponent,
-    PlanFormDialogData,
-    PlanStateService,
-} from '@repo/plan'
+import { Plan, PlanCreateDialogComponent, PlanFormDialogData, PlanStateService } from '@repo/plan'
 import { PrimeModules } from '@repo/prime-modules'
 import { DialogService } from 'primeng/dynamicdialog'
 

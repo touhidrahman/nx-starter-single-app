@@ -43,7 +43,9 @@ export class HeaderScrollService {
         closeMenu()
         this.isProgrammatic = true
         window.scrollTo({ top: 0, behavior: 'smooth' })
-        setTimeout(() => (this.isProgrammatic = false), 1000)
+        setTimeout(() => {
+            this.isProgrammatic = false
+        }, 1000)
     }
 
     private updateActiveSection(headerRoutesData: HeaderRoute[]) {
@@ -89,9 +91,7 @@ export class HeaderScrollService {
             let maxVisible = 0
 
             for (const entry of entries) {
-                const visible =
-                    entry.intersectionRect.height /
-                    entry.boundingClientRect.height
+                const visible = entry.intersectionRect.height / entry.boundingClientRect.height
                 const topBonus = entry.boundingClientRect.top >= 0 ? 1 : 0.5
                 const score = visible * topBonus
 
@@ -113,8 +113,7 @@ export class HeaderScrollService {
     private scrollToElement(id: string) {
         const section = document.getElementById(id)
         if (!section) return
-        const offset =
-            section.getBoundingClientRect().top + window.pageYOffset - 100
+        const offset = section.getBoundingClientRect().top + window.pageYOffset - 100
         window.scrollTo({ top: offset, behavior: 'smooth' })
     }
 }

@@ -67,10 +67,7 @@ export class AdminUserListStateService extends QueryResultStore<
             size,
         } = queryParams
         const existing = this.getState().query
-        const isOwner =
-            incomingIsOwner === true || incomingIsOwner === 'true'
-                ? true
-                : undefined
+        const isOwner = incomingIsOwner === true || incomingIsOwner === 'true' ? true : undefined
         const shouldResetPage =
             search !== existing.search ||
             isOwner !== existing.isOwner ||
@@ -102,9 +99,7 @@ export class AdminUserListStateService extends QueryResultStore<
             map((response) => {
                 return {
                     users: response?.data ?? [],
-                    totalPages: Math.ceil(
-                        response.pagination?.total ?? 0 / query.size,
-                    ),
+                    totalPages: Math.ceil(response.pagination?.total ?? 0 / query.size),
                     totalResults: response.pagination?.total ?? 0,
                 }
             }),

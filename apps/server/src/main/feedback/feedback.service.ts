@@ -72,15 +72,8 @@ export const findFeedbackById = async (id: string) => {
 export const createFeedback = async (feedbackData: InsertFeedback) =>
     await db.insert(feedbackTable).values(feedbackData).returning()
 
-export const updateFeedback = async (
-    id: string,
-    feedback: Partial<InsertFeedback>,
-) =>
-    await db
-        .update(feedbackTable)
-        .set(feedback)
-        .where(eq(feedbackTable.id, id))
-        .returning()
+export const updateFeedback = async (id: string, feedback: Partial<InsertFeedback>) =>
+    await db.update(feedbackTable).set(feedback).where(eq(feedbackTable.id, id)).returning()
 
 export const deleteFeedBack = async (id: string) =>
     await db.delete(feedbackTable).where(eq(feedbackTable.id, id)).returning()

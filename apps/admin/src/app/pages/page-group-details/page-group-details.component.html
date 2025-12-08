@@ -9,10 +9,7 @@
         <p-tabs [scrollable]="true" class="mb-6">
             <p-tablist>
                 @for (tab of GROUP_TABS; track tab.route) {
-                    <p-tab
-                        [routerLink]="tab.route"
-                        routerLinkActive="active-link"
-                        class="nav-link">
+                    <p-tab [routerLink]="tab.route" routerLinkActive="active-link" class="nav-link">
                         <i [class]="tab.icon"></i>
                         {{ tab.label }}
                     </p-tab>

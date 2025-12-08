@@ -2,8 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { MathVerificationComponent } from '@repo/common-components'
 import { AlertService, ConfirmDialogData } from '@repo/common-services'
-import { PrimeModules } from '@repo/prime-modules'
 import { GroupApiService, GroupStateService } from '@repo/group'
+import { PrimeModules } from '@repo/prime-modules'
 import { DynamicDialogRef } from 'primeng/dynamicdialog'
 
 @Component({
@@ -41,9 +41,7 @@ export class DeleteGroupModalComponent {
         this.groupStateService.deleteGroup(id).subscribe({
             next: () => {
                 this.ref?.close()
-                this.alertService.success(
-                    'Group deleted successfully including everything!',
-                )
+                this.alertService.success('Group deleted successfully including everything!')
             },
             error: (err) => {
                 this.alertService.error(err.message)

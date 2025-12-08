@@ -1,15 +1,7 @@
 import { Injectable, inject } from '@angular/core'
 import { OrderBy } from '@repo/common-models'
 import { SimpleStore } from '@repo/store'
-import {
-    catchError,
-    combineLatest,
-    debounceTime,
-    finalize,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs'
+import { catchError, combineLatest, debounceTime, finalize, switchMap, tap, throwError } from 'rxjs'
 import { SubscriptionRequest } from './subscription-request.model'
 import { SubscriptionStatus, SubscriptionType } from './subscriptions.model'
 import { SubscriptionsApiService } from './subscriptions-api.service'
@@ -64,27 +56,18 @@ export class SubscriptionRequestStateService extends SimpleStore<SubscriptionReq
             id,
         }
 
-        return this.subscriptionsApiService
-            .approveSubscriptionRequest(updateItem)
-            .pipe(
-                tap((value) => {
-                    if (value.data) {
-                        this.updateSubscriptionRequestState(
-                            id,
-                            value.data,
-                            subscriptionsRequests,
-                        )
-                    }
-                }),
-                catchError(() => {
-                    this.setState({ error: true })
-                    return throwError(
-                        () =>
-                            new Error('Failed to approve subscription request'),
-                    )
-                }),
-                finalize(() => this.setState({ loading: false })),
-            )
+        return this.subscriptionsApiService.approveSubscriptionRequest(updateItem).pipe(
+            tap((value) => {
+                if (value.data) {
+                    this.updateSubscriptionRequestState(id, value.data, subscriptionsRequests)
+                }
+            }),
+            catchError(() => {
+                this.setState({ error: true })
+                return throwError(() => new Error('Failed to approve subscription request'))
+            }),
+            finalize(() => this.setState({ loading: false })),
+        )
     }
 
     updateRequest(id: string, value: SubscriptionRequest) {
@@ -105,8 +88,8 @@ export class SubscriptionRequestStateService extends SimpleStore<SubscriptionReq
             .pipe(
                 debounceTime(200),
                 tap(() => this.setState({ loading: true })),
-                switchMap(
-                    ([
+                switchMap(([search, page, size, orderBy, plan, subscriptionType, status]) => {
+                    return this.subscriptionsApiService.getSubscriptionsRequestList({
                         search,
                         page,
                         size,
@@ -114,20 +97,8 @@ export class SubscriptionRequestStateService extends SimpleStore<SubscriptionReq
                         plan,
                         subscriptionType,
                         status,
-                    ]) => {
-                        return this.subscriptionsApiService.getSubscriptionsRequestList(
-                            {
-                                search,
-                                page,
-                                size,
-                                orderBy,
-                                plan,
-                                subscriptionType,
-                                status,
-                            },
-                        )
-                    },
-                ),
+                    })
+                }),
             )
             .subscribe({
                 next: ({ data, pagination }) => {
@@ -137,9 +108,7 @@ export class SubscriptionRequestStateService extends SimpleStore<SubscriptionReq
                         totalItems: pagination?.total ?? 0,
                         page: pagination?.page ?? 1,
                         size: pagination?.size ?? 10,
-                        totalPages: Math.ceil(
-                            (pagination?.total ?? 0) / (pagination?.size ?? 10),
-                        ),
+                        totalPages: Math.ceil((pagination?.total ?? 0) / (pagination?.size ?? 10)),
                     })
                 },
                 error: () => {
@@ -157,10 +126,7 @@ export class SubscriptionRequestStateService extends SimpleStore<SubscriptionReq
         currentRequests: SubscriptionRequest[],
     ) {
         this.setState({
-            subscriptionsRequests: [
-                ...currentRequests.filter((c) => c.id !== id),
-                updatedRequest,
-            ],
+            subscriptionsRequests: [...currentRequests.filter((c) => c.id !== id), updatedRequest],
         })
     }
 

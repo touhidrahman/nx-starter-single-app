@@ -4,12 +4,7 @@ import { LabelValuePair } from '@repo/common-models'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
-import {
-    USER_STATUS_OPTIONS,
-    USER_VERIFICATION_OPTIONS,
-    User,
-    UserStatus,
-} from '../../user.model'
+import { USER_STATUS_OPTIONS, USER_VERIFICATION_OPTIONS, User, UserStatus } from '../../user.model'
 import { UserApiService } from '../../user-api.service'
 import { UserFormService } from '../../user-form.service'
 import { UserListStateService } from '../../user-list-state.service'

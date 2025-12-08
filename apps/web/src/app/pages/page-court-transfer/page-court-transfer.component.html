@@ -17,15 +17,10 @@
 
     @if (!case?.court) {
         <div class="mt-4">
-            <lib-no-data
-                [noDataMessage]="
-                    'Add a court first to initiate a court transfer'
-                " />
+            <lib-no-data [noDataMessage]="'Add a court first to initiate a court transfer'" />
         </div>
     } @else {
-        @let courtTransfers =
-            courtTransferListStateService.select('courtTransfers') | async;
-        <app-court-transfer-table
-            [courtTransfers]="courtTransfers"></app-court-transfer-table>
+        @let courtTransfers = courtTransferListStateService.select('courtTransfers') | async;
+        <app-court-transfer-table [courtTransfers]="courtTransfers"></app-court-transfer-table>
     }
 </div>

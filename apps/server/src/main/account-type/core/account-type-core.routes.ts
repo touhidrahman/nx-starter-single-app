@@ -32,9 +32,7 @@ const GetAccountTypeListCoreDef = createRoute({
     },
 })
 
-const GetAccountTypeListCore: AppRouteHandler<
-    typeof GetAccountTypeListCoreDef
-> = async (c) => {
+const GetAccountTypeListCore: AppRouteHandler<typeof GetAccountTypeListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await AccountTypeCoreService.findMany(query)
     const count = await AccountTypeCoreService.count(query)
@@ -64,9 +62,7 @@ const GetAccountTypeByIdCoreDef = createRoute({
     },
 })
 
-const GetAccountTypeByIdCore: AppRouteHandler<
-    typeof GetAccountTypeByIdCoreDef
-> = async (c) => {
+const GetAccountTypeByIdCore: AppRouteHandler<typeof GetAccountTypeByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const accountType = await AccountTypeCoreService.findById(id)
 
@@ -100,16 +96,11 @@ const CreateAccountTypeCoreDef = createRoute({
         body: jsonContent(zInsertAccountType, 'AccountType Create Data'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zSelectAccountType,
-            'AccountType created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectAccountType, 'AccountType created successfully'),
     },
 })
 
-const CreateAccountTypeCore: AppRouteHandler<
-    typeof CreateAccountTypeCoreDef
-> = async (c) => {
+const CreateAccountTypeCore: AppRouteHandler<typeof CreateAccountTypeCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newAccountType = await AccountTypeCoreService.create(body)
 
@@ -133,17 +124,12 @@ const UpdateAccountTypeCoreDef = createRoute({
         body: jsonContent(zUpdateAccountType, 'AccountType Update Data'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectAccountType,
-            'AccountType updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectAccountType, 'AccountType updated successfully'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'AccountType not found'),
     },
 })
 
-const UpdateAccountTypeCore: AppRouteHandler<
-    typeof UpdateAccountTypeCoreDef
-> = async (c) => {
+const UpdateAccountTypeCore: AppRouteHandler<typeof UpdateAccountTypeCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingAccountType = await AccountTypeCoreService.findById(id)
@@ -185,9 +171,7 @@ const DeleteAccountTypeCoreDef = createRoute({
     },
 })
 
-const DeleteAccountTypeCore: AppRouteHandler<
-    typeof DeleteAccountTypeCoreDef
-> = async (c) => {
+const DeleteAccountTypeCore: AppRouteHandler<typeof DeleteAccountTypeCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingAccountType = await AccountTypeCoreService.findById(id)
 
@@ -227,9 +211,9 @@ const DeleteManyAccountTypeCoreDef = createRoute({
     },
 })
 
-const DeleteManyAccountTypeCore: AppRouteHandler<
-    typeof DeleteManyAccountTypeCoreDef
-> = async (c) => {
+const DeleteManyAccountTypeCore: AppRouteHandler<typeof DeleteManyAccountTypeCoreDef> = async (
+    c,
+) => {
     const { ids } = c.req.valid('json')
 
     await AccountTypeCoreService.deleteMany(ids)

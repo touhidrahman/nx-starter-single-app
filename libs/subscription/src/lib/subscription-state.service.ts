@@ -2,11 +2,7 @@ import { Injectable, inject } from '@angular/core'
 import { OrderBy } from '@repo/common-models'
 import { SimpleStore } from '@repo/store'
 import { combineLatest, debounceTime, switchMap, tap } from 'rxjs'
-import {
-    Subscription,
-    SubscriptionStatus,
-    SubscriptionType,
-} from './subscriptions.model'
+import { Subscription, SubscriptionStatus, SubscriptionType } from './subscriptions.model'
 import { SubscriptionsApiService } from './subscriptions-api.service'
 
 export type SubscriptionState = {
@@ -56,47 +52,43 @@ export class SubscriptionStateService extends SimpleStore<SubscriptionState> {
     getSubscriptionByGroupId(groupId: string) {
         this.setState({ loading: true })
 
-        this.subscriptionsApiService
-            .getSubscriptionByGroupId(groupId)
-            .subscribe({
-                next: (response) => {
-                    this.setState({
-                        currentSubscription: response.data,
-                        loading: false,
-                        error: false,
-                    })
-                },
-                error: (_err) => {
-                    this.setState({
-                        loading: false,
-                        error: true,
-                        currentSubscription: null,
-                    })
-                },
-            })
+        this.subscriptionsApiService.getSubscriptionByGroupId(groupId).subscribe({
+            next: (response) => {
+                this.setState({
+                    currentSubscription: response.data,
+                    loading: false,
+                    error: false,
+                })
+            },
+            error: (_err) => {
+                this.setState({
+                    loading: false,
+                    error: true,
+                    currentSubscription: null,
+                })
+            },
+        })
     }
 
     getSubscriptionListByGroupId(groupId: string) {
         this.setState({ loading: true })
 
-        this.subscriptionsApiService
-            .getSubscriptionByGroupId(groupId)
-            .subscribe({
-                next: (response) => {
-                    this.setState({
-                        subscriptions: response.data ? [response.data] : [],
-                        loading: false,
-                        error: false,
-                    })
-                },
-                error: (_err) => {
-                    this.setState({
-                        loading: false,
-                        error: true,
-                        subscriptions: [],
-                    })
-                },
-            })
+        this.subscriptionsApiService.getSubscriptionByGroupId(groupId).subscribe({
+            next: (response) => {
+                this.setState({
+                    subscriptions: response.data ? [response.data] : [],
+                    loading: false,
+                    error: false,
+                })
+            },
+            error: (_err) => {
+                this.setState({
+                    loading: false,
+                    error: true,
+                    subscriptions: [],
+                })
+            },
+        })
     }
 
     private continueLoadingSubscriptions() {
@@ -112,8 +104,8 @@ export class SubscriptionStateService extends SimpleStore<SubscriptionState> {
             .pipe(
                 debounceTime(200),
                 tap(() => this.setState({ loading: true })),
-                switchMap(
-                    ([
+                switchMap(([search, page, size, orderBy, plan, subscriptionType, status]) => {
+                    return this.subscriptionsApiService.getAllSubscriptions({
                         search,
                         page,
                         size,
@@ -121,20 +113,8 @@ export class SubscriptionStateService extends SimpleStore<SubscriptionState> {
                         plan,
                         subscriptionType,
                         status,
-                    ]) => {
-                        return this.subscriptionsApiService.getAllSubscriptions(
-                            {
-                                search,
-                                page,
-                                size,
-                                orderBy,
-                                plan,
-                                subscriptionType,
-                                status,
-                            },
-                        )
-                    },
-                ),
+                    })
+                }),
             )
             .subscribe({
                 next: ({ data, pagination }) => {
@@ -144,9 +124,7 @@ export class SubscriptionStateService extends SimpleStore<SubscriptionState> {
                         totalItems: pagination?.total ?? 0,
                         page: pagination?.page ?? 1,
                         size: pagination?.size ?? 10,
-                        totalPages: Math.ceil(
-                            (pagination?.total ?? 0) / (pagination?.size ?? 10),
-                        ),
+                        totalPages: Math.ceil((pagination?.total ?? 0) / (pagination?.size ?? 10)),
                     })
                 },
                 error: () => {

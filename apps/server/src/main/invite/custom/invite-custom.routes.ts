@@ -26,13 +26,9 @@ const GetMyInviteListDef = createRoute({
     },
 })
 
-const GetMyInviteList: AppRouteHandler<typeof GetMyInviteListDef> = async (
-    c,
-) => {
+const GetMyInviteList: AppRouteHandler<typeof GetMyInviteListDef> = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: invitedBy } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: invitedBy } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, invitedBy }
     const data = await InviteCustomService.findMany(groupAndUserSpecificQuery)
@@ -49,7 +45,4 @@ const GetMyInviteList: AppRouteHandler<typeof GetMyInviteListDef> = async (
     )
 }
 
-export const inviteCustomRoutes = createRouter().openapi(
-    GetMyInviteListDef,
-    GetMyInviteList,
-)
+export const inviteCustomRoutes = createRouter().openapi(GetMyInviteListDef, GetMyInviteList)

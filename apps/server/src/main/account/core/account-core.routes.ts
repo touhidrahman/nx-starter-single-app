@@ -32,9 +32,7 @@ const GetAccountListCoreDef = createRoute({
     },
 })
 
-const GetAccountListCore: AppRouteHandler<
-    typeof GetAccountListCoreDef
-> = async (c) => {
+const GetAccountListCore: AppRouteHandler<typeof GetAccountListCoreDef> = async (c) => {
     const query = c.req.valid('query')
     const data = await AccountCoreService.findMany(query)
     const count = await AccountCoreService.count(query)
@@ -64,9 +62,7 @@ const GetAccountByIdCoreDef = createRoute({
     },
 })
 
-const GetAccountByIdCore: AppRouteHandler<
-    typeof GetAccountByIdCoreDef
-> = async (c) => {
+const GetAccountByIdCore: AppRouteHandler<typeof GetAccountByIdCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const account = await AccountCoreService.findById(id)
 
@@ -104,9 +100,7 @@ const CreateAccountCoreDef = createRoute({
     },
 })
 
-const CreateAccountCore: AppRouteHandler<typeof CreateAccountCoreDef> = async (
-    c,
-) => {
+const CreateAccountCore: AppRouteHandler<typeof CreateAccountCoreDef> = async (c) => {
     const body = c.req.valid('json')
     const newAccount = await AccountCoreService.create(body)
 
@@ -135,9 +129,7 @@ const UpdateAccountCoreDef = createRoute({
     },
 })
 
-const UpdateAccountCore: AppRouteHandler<typeof UpdateAccountCoreDef> = async (
-    c,
-) => {
+const UpdateAccountCore: AppRouteHandler<typeof UpdateAccountCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const body = c.req.valid('json')
     const existingAccount = await AccountCoreService.findById(id)
@@ -179,9 +171,7 @@ const DeleteAccountCoreDef = createRoute({
     },
 })
 
-const DeleteAccountCore: AppRouteHandler<typeof DeleteAccountCoreDef> = async (
-    c,
-) => {
+const DeleteAccountCore: AppRouteHandler<typeof DeleteAccountCoreDef> = async (c) => {
     const { id } = c.req.valid('param')
     const existingAccount = await AccountCoreService.findById(id)
 
@@ -221,9 +211,7 @@ const DeleteManyAccountsCoreDef = createRoute({
     },
 })
 
-const DeleteManyAccountsCore: AppRouteHandler<
-    typeof DeleteManyAccountsCoreDef
-> = async (c) => {
+const DeleteManyAccountsCore: AppRouteHandler<typeof DeleteManyAccountsCoreDef> = async (c) => {
     const { ids } = c.req.valid('json')
 
     await AccountCoreService.deleteMany(ids)

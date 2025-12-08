@@ -34,9 +34,7 @@ const GetAccountListCrudDef = createRoute({
     },
 })
 
-const GetAccountListCrud: AppRouteHandler<
-    typeof GetAccountListCrudDef
-> = async (c) => {
+const GetAccountListCrud: AppRouteHandler<typeof GetAccountListCrudDef> = async (c) => {
     const query = c.req.valid('query')
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const groupSpecificQuery = { ...query, groupId }
@@ -103,12 +101,8 @@ const CreateAccountCrudDef = createRoute({
     },
 })
 
-const CreateAccountCrud: AppRouteHandler<typeof CreateAccountCrudDef> = async (
-    c,
-) => {
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+const CreateAccountCrud: AppRouteHandler<typeof CreateAccountCrudDef> = async (c) => {
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
     const input = c.req.valid('json')
 
     if (!groupId) {
@@ -147,9 +141,7 @@ const UpdateAccountCrudDef = createRoute({
     },
 })
 
-const UpdateAccountCrud: AppRouteHandler<typeof UpdateAccountCrudDef> = async (
-    c,
-) => {
+const UpdateAccountCrud: AppRouteHandler<typeof UpdateAccountCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 
@@ -193,9 +185,7 @@ const DeleteAccountCrudDef = createRoute({
     },
 })
 
-const DeleteAccountCrud: AppRouteHandler<typeof DeleteAccountCrudDef> = async (
-    c,
-) => {
+const DeleteAccountCrud: AppRouteHandler<typeof DeleteAccountCrudDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
 

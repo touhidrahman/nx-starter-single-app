@@ -8,14 +8,7 @@ import { AuditLogStateService } from '../audit-log-state.service'
 
 @Component({
     selector: 'lib-audit-log-table',
-    imports: [
-        CommonModule,
-        PrimeModules,
-        NoDataComponent,
-        AsyncPipe,
-        NgClass,
-        SlicePipe,
-    ],
+    imports: [CommonModule, PrimeModules, NoDataComponent, AsyncPipe, NgClass, SlicePipe],
     templateUrl: './audit-log-table.component.html',
     styleUrl: './audit-log-table.component.scss',
     providers: [AuditLogStateService],
@@ -48,8 +41,7 @@ export class AuditLogTableComponent implements OnInit {
 
     needsSeeMore(content: unknown): boolean {
         if (content == null) return false
-        const str =
-            typeof content === 'string' ? content : JSON.stringify(content)
+        const str = typeof content === 'string' ? content : JSON.stringify(content)
         return str.length > 15
     }
 

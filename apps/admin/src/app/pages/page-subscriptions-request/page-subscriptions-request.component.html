@@ -7,18 +7,14 @@
 </div>
 <div class="mt-2">
     @let allSubscriptionsRequest =
-        subscriptionsRequestStateService.select('subscriptionsRequests')
-            | async;
+        subscriptionsRequestStateService.select('subscriptionsRequests') | async;
 
     @let state = subscriptionsRequestStateService.selectAll() | async;
-    @let loading =
-        this.subscriptionsRequestStateService.select('loading') | async;
+    @let loading = this.subscriptionsRequestStateService.select('loading') | async;
 
     @if (loading) {
         <div class="flex items-center justify-center py-8">
-            <i
-                class="pi pi-spin pi-spinner"
-                style="font-size: 2rem; color: green"></i>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
         </div>
     } @else if (state?.subscriptionsRequests?.length) {
         <p-card>
@@ -60,8 +56,7 @@
                                         subscription.status === 'approved',
                                     'bg-yellow-100 text-yellow-800':
                                         subscription.status === 'pending',
-                                    'bg-pink-100 text-pink-800':
-                                        subscription.status === 'pending',
+                                    'bg-pink-100 text-pink-800': subscription.status === 'pending',
                                 }"
                                 >{{ subscription.status | uppercase }}</span
                             >
@@ -72,21 +67,15 @@
                             <p-button
                                 [disabled]="subscription.status === 'approved'"
                                 [label]="
-                                    subscription.status === 'approved'
-                                        ? 'Approved'
-                                        : 'Approve'
+                                    subscription.status === 'approved' ? 'Approved' : 'Approve'
                                 "
                                 variant="outlined"
                                 [severity]="
-                                    subscription.status === 'approved'
-                                        ? 'success'
-                                        : 'primary'
+                                    subscription.status === 'approved' ? 'success' : 'primary'
                                 "
                                 size="small"
                                 text="true"
-                                (onClick)="
-                                    onOpenSubscriptionOpenModal(subscription)
-                                " />
+                                (onClick)="onOpenSubscriptionOpenModal(subscription)" />
                         </td>
                     </tr>
                 </ng-template>

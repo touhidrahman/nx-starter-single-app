@@ -21,9 +21,7 @@ const ForgotPinEmailContent = (_props: ForgotPinEmailTemplateProps) => `
   </tr>
 `
 
-export function buildForgotPinEmailTemplate(
-    props: ForgotPinEmailTemplateProps,
-): string {
+export function buildForgotPinEmailTemplate(props: ForgotPinEmailTemplateProps): string {
     return new EmailTemplateBuilder<ForgotPinEmailTemplateProps>()
         .setBodyTemplate(ForgotPinEmailContent(props))
         .build(props)

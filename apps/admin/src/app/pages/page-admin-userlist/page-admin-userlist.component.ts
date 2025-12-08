@@ -19,13 +19,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
     selector: 'app-page-admin-userlist',
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    imports: [
-        NgClass,
-        FormsModule,
-        CommonModule,
-        PrimeModules,
-        NoDataComponent,
-    ],
+    imports: [NgClass, FormsModule, CommonModule, PrimeModules, NoDataComponent],
 })
 export class PageAdminUserlistComponent implements OnInit {
     private userAdminApiService = inject(UserAdminApiService)
@@ -103,22 +97,18 @@ export class PageAdminUserlistComponent implements OnInit {
     updateAdminStatus() {
         if (!this.selectedAdmin.id) return
         this.isLoading.set(true)
-        this.userAdminApiService
-            .updateAdmin(this.selectedAdmin.id, this.selectedAdmin)
-            .subscribe({
-                next: (_response) => {
-                    this.alertService.success(
-                        'Admin status updated successfully',
-                    )
-                    this.displayEditAdminDialog = false
-                    this.getUsers()
-                    this.isLoading.set(false)
-                },
-                error: (err) => {
-                    this.alertService.error('Failed to update admin status')
-                    console.error('Error updating admin status:', err)
-                    this.isLoading.set(false)
-                },
-            })
+        this.userAdminApiService.updateAdmin(this.selectedAdmin.id, this.selectedAdmin).subscribe({
+            next: (_response) => {
+                this.alertService.success('Admin status updated successfully')
+                this.displayEditAdminDialog = false
+                this.getUsers()
+                this.isLoading.set(false)
+            },
+            error: (err) => {
+                this.alertService.error('Failed to update admin status')
+                console.error('Error updating admin status:', err)
+                this.isLoading.set(false)
+            },
+        })
     }
 }

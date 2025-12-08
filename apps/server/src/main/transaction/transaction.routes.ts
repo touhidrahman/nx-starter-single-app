@@ -25,13 +25,9 @@ const GetMyTransactionListDef = createRoute({
     },
 })
 
-const GetTransactionListCrud: AppRouteHandler<
-    typeof GetMyTransactionListDef
-> = async (c) => {
+const GetTransactionListCrud: AppRouteHandler<typeof GetMyTransactionListDef> = async (c) => {
     const query = c.req.valid('query')
-    const { groupId, sub: creatorId } = c.get(
-        'jwtPayload',
-    ) as AccessTokenPayload
+    const { groupId, sub: creatorId } = c.get('jwtPayload') as AccessTokenPayload
 
     const groupAndUserSpecificQuery = { ...query, groupId, creatorId }
     const data = await TransactionService.findMany(groupAndUserSpecificQuery)

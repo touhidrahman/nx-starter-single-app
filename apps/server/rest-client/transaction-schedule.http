@@ -1,0 +1,69 @@
+@resource=transaction-schedules
+@accountId=d59d7f428b
+@deleteId=b96dd738f1
+@id=ebb65095bd
+
+###
+GET {{BACKEND_URL}}/core/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+POST {{BACKEND_URL}}/core/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "accountId": "{{accountId}}",
+  "amount": "2.19",
+  "title": "Grocery Shopping 3",
+
+}
+
+###
+POST {{BACKEND_URL}}/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "accountId": "{{accountId}}",
+  "amount": "2.19",
+  "title": "Grocery Shopping 3"
+}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+PUT {{BACKEND_URL}}/{{resource}}/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "title": "Grocery Shopping 3",
+  "amount": "-3",
+  "isOutgoing": true
+}
+
+
+###
+DELETE {{BACKEND_URL}}/{{resource}}/{{deleteId}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+
+###
+GET {{BACKEND_URL}}/{{resource}}/custom/my
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

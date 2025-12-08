@@ -1,11 +1,6 @@
 import { and, count, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { db } from '../../db/db'
-import {
-    groupsTable,
-    membershipsTable,
-    rolesTable,
-    usersTable,
-} from '../../db/schema'
+import { groupsTable, membershipsTable, rolesTable, usersTable } from '../../db/schema'
 import { SelectUser } from '../auth/auth.schema'
 import { UserDto } from './user.schema'
 
@@ -66,20 +61,8 @@ export const findUsers = async (params: UsersQueryParams) => {
     return await query
 }
 
-export const getUsersWhereConditions = (
-    params: UsersFilterParams,
-): SQL<unknown> | undefined => {
-    const {
-        search,
-        id,
-        email,
-        phone,
-        firstName,
-        lastName,
-        city,
-        country,
-        postCode,
-    } = params
+export const getUsersWhereConditions = (params: UsersFilterParams): SQL<unknown> | undefined => {
+    const { search, id, email, phone, firstName, lastName, city, country, postCode } = params
 
     const conditions: SQL<unknown>[] = []
 
@@ -138,11 +121,7 @@ export async function createUser(user: UserDto) {
 }
 
 export async function updateUser(id: string, user: Partial<UserDto>) {
-    return db
-        .update(usersTable)
-        .set(user)
-        .where(eq(usersTable.id, id))
-        .returning()
+    return db.update(usersTable).set(user).where(eq(usersTable.id, id)).returning()
 }
 
 export async function deleteUser(id: string) {
@@ -176,9 +155,7 @@ export const updateProfile = async (
 ) => {
     const restrictFields = options?.restrictFields || []
     const allowedUpdates = Object.fromEntries(
-        Object.entries(updates).filter(
-            ([key]) => !restrictFields.includes(key),
-        ),
+        Object.entries(updates).filter(([key]) => !restrictFields.includes(key)),
     )
 
     if (Object.keys(allowedUpdates).length === 0) {
@@ -194,10 +171,7 @@ export const updateProfile = async (
     return [updatedUser]
 }
 
-export const updateUserProfilePictureUrl = async (
-    url: string,
-    userId: string,
-) => {
+export const updateUserProfilePictureUrl = async (url: string, userId: string) => {
     return db
         .update(usersTable)
         .set({ profilePhoto: url })
@@ -238,10 +212,7 @@ export const getUsersByGroupId = async (groupId: string) => {
     return result
 }
 
-export async function setDefaultGroupId(
-    userId: string,
-    groupId: string,
-): Promise<SelectUser> {
+export async function setDefaultGroupId(userId: string, groupId: string): Promise<SelectUser> {
     const [updatedUser] = await db
         .update(usersTable)
         .set({ defaultGroupId: groupId })

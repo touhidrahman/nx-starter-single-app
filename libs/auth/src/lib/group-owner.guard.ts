@@ -1,9 +1,5 @@
 import { inject } from '@angular/core'
-import {
-    ActivatedRouteSnapshot,
-    CanActivateFn,
-    RouterStateSnapshot,
-} from '@angular/router'
+import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router'
 import { AlertService } from '@repo/common-services'
 import { LoggedInGroupStateService } from '@repo/group'
 import { map, Observable, of } from 'rxjs'

@@ -32,10 +32,7 @@
     </p-accordion> -->
 
     <p-accordion [multiple]="true">
-        @for (
-            section of claimStateService.groupedClaimSections();
-            track section
-        ) {
+        @for (section of claimStateService.groupedClaimSections(); track section) {
             <p-accordion-panel [value]="section">
                 <p-accordion-header>
                     {{ section }}

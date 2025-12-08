@@ -19,10 +19,7 @@
             </ng-template>
         </p-inputotp>
         <div class="my-8 flex justify-between self-end-safe">
-            <p-button
-                [disabled]="value().length < 6"
-                label="SET PIN"
-                (onClick)="setPin()" />
+            <p-button [disabled]="value().length < 6" label="SET PIN" (onClick)="setPin()" />
         </div>
     </div>
 </div>

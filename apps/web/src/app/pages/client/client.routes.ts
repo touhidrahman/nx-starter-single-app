@@ -22,9 +22,9 @@ export const clientRoutes: ClientRoutes = {
         path: 'dashboard/home/client',
         canActivate: [authGuard({ redirectTo: ['/login'] })],
         loadComponent: () =>
-            import(
-                '../../pages/page-home-client/page-home-client.component'
-            ).then((m) => m.PageHomeClientComponent),
+            import('../../pages/page-home-client/page-home-client.component').then(
+                (m) => m.PageHomeClientComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     clientDetails: {

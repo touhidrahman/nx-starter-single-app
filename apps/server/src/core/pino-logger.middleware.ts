@@ -1,4 +1,5 @@
 import { pickBy } from 'es-toolkit'
+import { cloneRawRequest } from 'hono/request'
 import { pinoLogger } from 'hono-pino'
 import { pino, stdTimeFunctions } from 'pino'
 import env from '../env'
@@ -22,8 +23,9 @@ export const customPinoLogger = () => {
                 },
             }),
             onReqMessage: async (c) => {
-                const body = await c.req.raw.clone().text()
-                return !isProduction ? `{ body: ${body} }` : '{}'
+                const clonedReq = await cloneRawRequest(c.req)
+                const body = await clonedReq.text()
+                return !isProduction ? `{ body: ${body ? body : '{}'} }` : '{}'
             },
         },
         pino: pino({

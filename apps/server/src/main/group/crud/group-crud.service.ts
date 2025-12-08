@@ -18,22 +18,14 @@ export class GroupCrudService extends GroupCoreService {
     }
 
     static async removeGroupOwner(id: string): Promise<void> {
-        await db
-            .update(groupsTable)
-            .set({ creatorId: null })
-            .where(eq(groupsTable.id, id))
+        await db.update(groupsTable).set({ creatorId: null }).where(eq(groupsTable.id, id))
     }
 
     static async removeAllGroupMembers(id: string): Promise<void> {
-        await db
-            .delete(membershipsTable)
-            .where(eq(membershipsTable.groupId, id))
+        await db.delete(membershipsTable).where(eq(membershipsTable.groupId, id))
     }
 
-    static async removeUserFromGroup(
-        userId: string,
-        groupId: string,
-    ): Promise<void> {
+    static async removeUserFromGroup(userId: string, groupId: string): Promise<void> {
         const group = await GroupCrudService.findById(groupId)
         if (!group) {
             throw new Error('Group not found', { cause: NOT_FOUND })
@@ -45,11 +37,6 @@ export class GroupCrudService extends GroupCoreService {
         }
         await db
             .delete(membershipsTable)
-            .where(
-                and(
-                    eq(membershipsTable.userId, userId),
-                    eq(membershipsTable.groupId, groupId),
-                ),
-            )
+            .where(and(eq(membershipsTable.userId, userId), eq(membershipsTable.groupId, groupId)))
     }
 }

@@ -20,20 +20,12 @@ export class GroupCoreService {
 
     static async findOne(filters: QueryGroups): Promise<SelectGroup | null> {
         const conditions = GroupCoreService.buildWhereConditions(filters)
-        const groups = await db
-            .select()
-            .from(groupsTable)
-            .where(conditions)
-            .limit(1)
+        const groups = await db.select().from(groupsTable).where(conditions).limit(1)
         return groups[0] ?? null
     }
 
     static async findById(id: string): Promise<SelectGroup | null> {
-        const group = await db
-            .select()
-            .from(groupsTable)
-            .where(eq(groupsTable.id, id))
-            .limit(1)
+        const group = await db.select().from(groupsTable).where(eq(groupsTable.id, id)).limit(1)
         return group[0] || null
     }
 
@@ -66,10 +58,7 @@ export class GroupCoreService {
         return groups
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertGroup>,
-    ): Promise<SelectGroup> {
+    static async update(id: string, input: Partial<InsertGroup>): Promise<SelectGroup> {
         const [group] = await db
             .update(groupsTable)
             .set(input)

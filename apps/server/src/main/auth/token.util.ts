@@ -7,8 +7,7 @@ import { AccessTokenPayload, TokenCreateUserData } from './auth.model'
 
 const dateUtil = DateUtil
 
-export const ACCESS_TOKEN_LIFE =
-    env.NODE_ENV !== 'production' ? 24 * 60 * 60 : 15 * 60
+export const ACCESS_TOKEN_LIFE = env.NODE_ENV !== 'production' ? 24 * 60 * 60 : 15 * 60
 export const REFRESH_TOKEN_LIFE = 7 * 24 * 60 * 60 // 7 days
 
 export type RefreshTokenPayload = {
@@ -75,13 +74,8 @@ export async function createRefreshToken(userId: string, groupId?: string) {
     return await sign(tokenPayload, env.REFRESH_TOKEN_SECRET)
 }
 
-export async function decodeRefreshToken(
-    token: string,
-): Promise<RefreshTokenPayload | null> {
-    const { sub, exp, groupId, level } = await verify(
-        token,
-        env.REFRESH_TOKEN_SECRET,
-    )
+export async function decodeRefreshToken(token: string): Promise<RefreshTokenPayload | null> {
+    const { sub, exp, groupId, level } = await verify(token, env.REFRESH_TOKEN_SECRET)
     if (exp && exp < dateUtil.date().getTime()) return null
     return {
         sub: sub as string,
@@ -95,10 +89,7 @@ export async function decodeVerificationToken(
     token: string,
 ): Promise<{ email?: string; userId: string; phone?: string } | null> {
     // const verificationToken = token.split('&')
-    const { email, sub, exp, phone } = await verify(
-        token,
-        process.env.REFRESH_TOKEN_SECRET ?? '',
-    )
+    const { email, sub, exp, phone } = await verify(token, process.env.REFRESH_TOKEN_SECRET ?? '')
 
     if (exp && exp < dateUtil.date().getTime()) return null
     return {
@@ -137,9 +128,7 @@ export async function createAdminAccessToken(user: {
         email: user.email,
         level: SystemUserLevel.ADMIN,
         sub: user.id,
-        exp:
-            dateUtil.addSeconds(dateUtil.date(), ACCESS_TOKEN_LIFE).getTime() /
-            1000,
+        exp: dateUtil.addSeconds(dateUtil.date(), ACCESS_TOKEN_LIFE).getTime() / 1000,
     }
 
     return await sign(tokenPayload, env.ACCESS_TOKEN_SECRET)
@@ -154,9 +143,7 @@ export async function createAdminRefreshToken(user: { id: string }) {
     return await sign(tokenPayload, env.REFRESH_TOKEN_SECRET)
 }
 
-export const generateInvitationToken = async (
-    inviteToken: InvitationTokenPayload,
-) => {
+export const generateInvitationToken = async (inviteToken: InvitationTokenPayload) => {
     const tokenPayload = {
         ...inviteToken,
         exp: dateUtil.addDays(dateUtil.date(), 30).getTime(),
@@ -164,9 +151,7 @@ export const generateInvitationToken = async (
     return await sign(tokenPayload, env.INVITE_TOKEN_SECRET_KEY)
 }
 
-export async function decodeInvitationToken(
-    token: string,
-): Promise<InvitationTokenPayload | null> {
+export async function decodeInvitationToken(token: string): Promise<InvitationTokenPayload | null> {
     try {
         const decoded = await verify(token, env.INVITE_TOKEN_SECRET_KEY ?? '')
         if (
@@ -190,10 +175,7 @@ export async function decodeInvitationToken(
     }
 }
 
-export async function createGeneralToken(
-    sub: string,
-    expirationSeconds: number,
-) {
+export async function createGeneralToken(sub: string, expirationSeconds: number) {
     const tokenPayload = {
         sub,
         exp: dateUtil.addSeconds(dateUtil.date(), expirationSeconds).getTime(),

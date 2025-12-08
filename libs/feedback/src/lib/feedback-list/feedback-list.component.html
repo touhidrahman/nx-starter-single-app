@@ -73,9 +73,7 @@
 <p-card>
     @if (isLoading()) {
         <div class="flex items-center justify-center py-8">
-            <i
-                class="pi pi-spin pi-spinner"
-                style="font-size: 2rem; color: green"></i>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
         </div>
     } @else if (filteredFeedbackList.length > 0) {
         <p-table [value]="filteredFeedbackList">
@@ -95,17 +93,8 @@
                     <td class="py-1">{{ feedback.creatorName }}</td>
                     <td>{{ feedback.feedbackText | titlecase }}</td>
                     <td>
-                        <span
-                            [class]="
-                                feedbacksListStateService.getStatusClass(
-                                    feedback.status
-                                )
-                            ">
-                            {{
-                                feedbacksListStateService.getStatusLabel(
-                                    feedback.status
-                                )
-                            }}
+                        <span [class]="feedbacksListStateService.getStatusClass(feedback.status)">
+                            {{ feedbacksListStateService.getStatusLabel(feedback.status) }}
                         </span>
                     </td>
                     <td>{{ feedback.feedbackType }}</td>
@@ -117,9 +106,7 @@
                                 text="true"
                                 severity="secondary"
                                 label="View Document"
-                                (click)="
-                                    openDocumentViewer(feedback.fileUrls)
-                                " />
+                                (click)="openDocumentViewer(feedback.fileUrls)" />
                         } @else {
                             <p class="ml-3 text-sm text-red-500">No Document</p>
                         }

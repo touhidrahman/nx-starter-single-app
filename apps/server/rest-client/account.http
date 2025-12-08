@@ -1,5 +1,8 @@
+@resource=accounts
+@id=d59d7f428b
 
-POST {{BACKEND_URL}}/accounts
+###
+POST {{BACKEND_URL}}/{{resource}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
@@ -8,22 +11,26 @@ Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
   "type": "CreditCard"
 }
 
-
-GET {{BACKEND_URL}}/accounts
+###
+GET {{BACKEND_URL}}/{{resource}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
 
 ###
-@id=207999d46b
-GET {{BACKEND_URL}}/accounts/{{id}}
+
+GET {{BACKEND_URL}}/{{resource}}/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
-PUT {{BACKEND_URL}}/accounts/{{id}}
+PUT {{BACKEND_URL}}/{{resource}}/{{id}}
 Content-Type: application/json
 Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
 
 {
-  "name": "Chase Sapphire"
+  "name": "Chase Sapphire 3"
 }
-###
+
+GET {{BACKEND_URL}}/{{resource}}/custom/my
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}

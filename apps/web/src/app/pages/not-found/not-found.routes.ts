@@ -8,8 +8,7 @@ export type NotFoundRoutes = {
 export const notFoundRoutes: NotFoundRoutes = {
     notFound: {
         path: '**',
-        loadComponent: () =>
-            import('@repo/public-pages').then((m) => m.PageNotFoundComponent),
+        loadComponent: () => import('@repo/public-pages').then((m) => m.PageNotFoundComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
 }

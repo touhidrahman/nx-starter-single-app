@@ -59,10 +59,7 @@ export class UserVerificationStatusCheckService {
         }
     }
 
-    onSignupFieldBlur(
-        field: 'email' | 'phone',
-        control: AbstractControl | null,
-    ) {
+    onSignupFieldBlur(field: 'email' | 'phone', control: AbstractControl | null) {
         if (!control) return
 
         const value = control.value?.trim()
@@ -160,9 +157,7 @@ export class UserVerificationStatusCheckService {
         })
     }
 
-    resendVerification(
-        identifier: string,
-    ): Observable<ApiResponse<resendVerification>> {
+    resendVerification(identifier: string): Observable<ApiResponse<resendVerification>> {
         if (!identifier?.trim()) {
             return of()
         }
@@ -188,10 +183,7 @@ export class UserVerificationStatusCheckService {
         return this.isEmail() ? 'email' : 'phone number'
     }
 
-    private handleVerificationRedirect(response: {
-        token: string
-        isEmail: boolean
-    }) {
+    private handleVerificationRedirect(response: { token: string; isEmail: boolean }) {
         const isEmail = response.isEmail
         if (isEmail) {
             this.router.navigate(['/verification-email-sent'])

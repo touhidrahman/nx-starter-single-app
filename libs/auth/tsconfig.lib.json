@@ -8,8 +8,5 @@
         "types": []
     },
     "exclude": ["src/**/*.spec.ts", "src/test-setup.ts", "src/**/*.test.ts"],
-    "include": [
-        "src/**/*.ts",
-        "../common-auth/src/lib/services/new-password-form.service.ts"
-    ]
+    "include": ["src/**/*.ts", "../common-auth/src/lib/services/new-password-form.service.ts"]
 }

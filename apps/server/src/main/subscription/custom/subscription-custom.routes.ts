@@ -24,9 +24,7 @@ const GetMySubscriptionCustomDef = createRoute({
     responses: { [OK]: ApiResponse(zSubscriptionWithPlan, 'My subscription') },
 })
 
-const GetMySubscriptionCustom: AppRouteHandler<
-    typeof GetMySubscriptionCustomDef
-> = async (c) => {
+const GetMySubscriptionCustom: AppRouteHandler<typeof GetMySubscriptionCustomDef> = async (c) => {
     const { groupId } = c.get('jwtPayload') as AccessTokenPayload
     if (!groupId) {
         throw new HTTPException(FORBIDDEN, {
@@ -53,9 +51,7 @@ const ApproveSubscriptionDef = createRoute({
     },
 })
 
-const ApproveSubscription: AppRouteHandler<
-    typeof ApproveSubscriptionDef
-> = async (c) => {
+const ApproveSubscription: AppRouteHandler<typeof ApproveSubscriptionDef> = async (c) => {
     const { sub: approverId } = c.get('jwtPayload') as AccessTokenPayload
     const id = c.req.valid('param').id
     const data = await SubscriptionCustomService.findById(id)

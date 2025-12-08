@@ -35,9 +35,7 @@ export class GroupApiService extends ApiService<Group, GroupInput> {
     }
 
     getMyGroups(): Observable<ApiResponse<GroupMemberShipResponse>> {
-        return this.http.get<ApiResponse<GroupMemberShipResponse>>(
-            `${this.apiUrl}/my-groups`,
-        )
+        return this.http.get<ApiResponse<GroupMemberShipResponse>>(`${this.apiUrl}/my-groups`)
     }
 
     getById(id: string): Observable<ApiResponse<Group>> {
@@ -55,10 +53,7 @@ export class GroupApiService extends ApiService<Group, GroupInput> {
         })
     }
 
-    removeUserFromOrganization(
-        groupId: string,
-        userId: string,
-    ): Observable<ApiResponse<unknown>> {
+    removeUserFromOrganization(groupId: string, userId: string): Observable<ApiResponse<unknown>> {
         return this.http.delete<ApiResponse<unknown>>(
             `${this.apiUrl}/${groupId}/remove-user/${userId}`,
         )
@@ -68,32 +63,19 @@ export class GroupApiService extends ApiService<Group, GroupInput> {
         return this.http.delete(`${this.apiUrl}/${id}/leave`)
     }
 
-    findAll(
-        url: string,
-        params: Params = {},
-    ): Observable<ApiResponse<Group[]>> {
+    findAll(url: string, params: Params = {}): Observable<ApiResponse<Group[]>> {
         return this.http.get<ApiResponse<Group[]>>(url, { params })
     }
 
-    updateGroupStatus(
-        id: string,
-        status: string,
-    ): Observable<ApiResponse<Group>> {
-        return this.http.put<ApiResponse<Group>>(
-            `${this.apiUrl}/update-status/${id}`,
-            { status },
-        )
+    updateGroupStatus(id: string, status: string): Observable<ApiResponse<Group>> {
+        return this.http.put<ApiResponse<Group>>(`${this.apiUrl}/update-status/${id}`, { status })
     }
 
     groupDeleteByIdByTyping(id: string): Observable<ApiResponse<void>> {
-        return this.http.delete<ApiResponse<void>>(
-            `${this.apiUrl}/delete/${id}`,
-        )
+        return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/delete/${id}`)
     }
 
     getGroupOverview(): Observable<ApiResponse<GroupOverview>> {
-        return this.http.get<ApiResponse<GroupOverview>>(
-            `${this.env.apiUrl}/v1/group/overview`,
-        )
+        return this.http.get<ApiResponse<GroupOverview>>(`${this.env.apiUrl}/v1/group/overview`)
     }
 }

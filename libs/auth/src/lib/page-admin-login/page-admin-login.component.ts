@@ -1,9 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { AdminAuthStateService } from '@repo/auth'
 import { LoginFormService } from '@repo/common-auth'
 import { PrimeModules } from '@repo/prime-modules'
-import { AdminAuthStateService } from '@repo/auth'
 
 @Component({
     selector: 'app-admin-login',
@@ -24,8 +24,7 @@ export class PageAdminLoginComponent implements OnInit {
     returnUrl = ''
 
     ngOnInit(): void {
-        this.returnUrl =
-            this.route.snapshot.queryParams['returnUrl'] || '/dashboard-home'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard-home'
         if (this.adminAuthState.isLoggedIn()) {
             this.router.navigateByUrl(this.returnUrl)
         }

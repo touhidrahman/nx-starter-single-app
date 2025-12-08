@@ -1,0 +1,29 @@
+
+POST {{BACKEND_URL}}/core/account-types
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "name": "Chase Sapphire",
+  "type": "CreditCard"
+}
+
+
+GET {{BACKEND_URL}}/core/account-types
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+###
+@id=CreditCard
+GET {{BACKEND_URL}}/core/account-types/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+PUT {{BACKEND_URL}}/core/account-types/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{TEMP_ACCESS_TOKEN}}
+
+{
+  "sortOrder": 2
+}
+

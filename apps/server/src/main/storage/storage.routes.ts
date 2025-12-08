@@ -1,12 +1,6 @@
 import { createRouter } from '../../core/create-app'
-import {
-    deleteStorageItemHandler,
-    deleteStorageItemRoute,
-} from './routes/delete-storage-item'
-import {
-    getStorageItemHandler,
-    getStorageItemRoute,
-} from './routes/get-storage-item'
+import { deleteStorageItemHandler, deleteStorageItemRoute } from './routes/delete-storage-item'
+import { getStorageItemHandler, getStorageItemRoute } from './routes/get-storage-item'
 import {
     getStorageItemsByGroupHandler,
     getStorageItemsByGroupRoute,

@@ -2,8 +2,7 @@
     <p>
         Are you sure you want to remove
         <strong
-            >{{ config.data.user.firstName ?? '' }}
-            {{ config.data.user.lastName ?? '' }}</strong
+            >{{ config.data.user.firstName ?? '' }} {{ config.data.user.lastName ?? '' }}</strong
         >
         with the role of <strong>{{ config.data.user.roleName ?? '' }}</strong
         >?
@@ -12,11 +11,7 @@
 <app-math-verification (verified)="onVerified($event)" />
 
 <div class="mt-4 flex justify-end gap-3">
-    <p-button
-        label="Cancel"
-        size="small"
-        severity="secondary"
-        (click)="onCloseModal()" />
+    <p-button label="Cancel" size="small" severity="secondary" (click)="onCloseModal()" />
 
     <p-button
         [disabled]="!isMathVerified()"

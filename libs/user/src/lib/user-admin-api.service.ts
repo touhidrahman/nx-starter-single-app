@@ -42,10 +42,7 @@ export class UserAdminApiService extends ApiService<User, UserDto> {
         return this.find(params)
     }
 
-    updateAdmin(
-        id: string,
-        updateData: Partial<AdminUser>,
-    ): Observable<ApiResponse<AdminUser>> {
+    updateAdmin(id: string, updateData: Partial<AdminUser>): Observable<ApiResponse<AdminUser>> {
         return this.http.put<ApiResponse<AdminUser>>(
             `${this.env.apiUrl}/v1/admins/${id}`,
             updateData,

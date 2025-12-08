@@ -22,21 +22,13 @@ export const getUserRoute = createRoute({
     },
 })
 
-export const getUserHandler: AppRouteHandler<typeof getUserRoute> = async (
-    c,
-) => {
+export const getUserHandler: AppRouteHandler<typeof getUserRoute> = async (c) => {
     const userId = c.req.param('id')
     const user = await findUserById(userId)
 
     if (!user) {
-        return c.json(
-            { data: {}, message: 'User not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'User not found', success: false }, NOT_FOUND)
     }
 
-    return c.json(
-        { data: passwordRemoved(user), message: 'User found', success: true },
-        OK,
-    )
+    return c.json({ data: passwordRemoved(user), message: 'User found', success: true }, OK)
 }

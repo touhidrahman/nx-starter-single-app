@@ -1,22 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common'
-import {
-    Component,
-    computed,
-    inject,
-    OnInit,
-    PLATFORM_ID,
-    signal,
-} from '@angular/core'
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core'
 
 import { ApiResponse } from '@repo/common-models'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 import { ReferralApiService } from '../../referral-api.service'
-import {
-    ReferralCode,
-    ReferralPoints,
-    ReferredUser,
-} from '../../referralCode.model'
+import { ReferralCode, ReferralPoints, ReferredUser } from '../../referralCode.model'
 
 @Component({
     selector: 'app-referral-code',
@@ -43,9 +32,7 @@ export class ReferralCodeComponent implements OnInit {
 
     baseUrl = signal<string>(window.location.origin)
     code = signal<string>('')
-    referralLink = computed(
-        () => `${this.baseUrl()}/signup?referralCode=${this.code()} `,
-    )
+    referralLink = computed(() => `${this.baseUrl()}/signup?referralCode=${this.code()} `)
 
     ngOnInit() {
         this.getReferralCode()

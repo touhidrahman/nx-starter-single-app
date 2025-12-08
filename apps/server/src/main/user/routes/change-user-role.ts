@@ -14,9 +14,7 @@ export const changeUserRoleRoute = createRoute({
     path: '/users/:id/role',
     method: 'put',
     tags: ['User'],
-    middleware: [
-        every(checkToken, some(isAdmin, checkPermission(['role:write']))),
-    ] as const,
+    middleware: [every(checkToken, some(isAdmin, checkPermission(['role:write'])))] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zId, 'Role ID'),
@@ -34,9 +32,7 @@ export const changeUserRoleRoute = createRoute({
     },
 })
 
-export const changeUserRoleHandler: AppRouteHandler<
-    typeof changeUserRoleRoute
-> = async (c) => {
+export const changeUserRoleHandler: AppRouteHandler<typeof changeUserRoleRoute> = async (c) => {
     const body = c.req.valid('json')
     const userId = c.req.param('id')
     const { sub } = c.get('jwtPayload')
@@ -44,10 +40,7 @@ export const changeUserRoleHandler: AppRouteHandler<
     const updatedUser = await changeUserRole(userId, body.id)
 
     if (!updatedUser) {
-        return c.json(
-            { data: {}, message: 'User not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'User not found', success: false }, NOT_FOUND)
     }
 
     return c.json(

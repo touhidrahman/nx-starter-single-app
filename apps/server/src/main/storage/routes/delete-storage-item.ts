@@ -24,18 +24,15 @@ export const deleteStorageItemRoute = createRoute({
     },
 })
 
-export const deleteStorageItemHandler: AppRouteHandler<
-    typeof deleteStorageItemRoute
-> = async (c) => {
+export const deleteStorageItemHandler: AppRouteHandler<typeof deleteStorageItemRoute> = async (
+    c,
+) => {
     const id = c.req.param('id')
     const { sub } = c.get('jwtPayload')
     const storage = await getStorageItemById(id)
 
     if (!storage) {
-        return c.json(
-            { data: {}, message: 'Storage not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'Storage not found', success: false }, NOT_FOUND)
     }
 
     const fileKey = getFileNameFromUrl(storage.url ?? '')
@@ -44,8 +41,5 @@ export const deleteStorageItemHandler: AppRouteHandler<
     }
     const res = await deleteStorageItemById(id)
 
-    return c.json(
-        { data: storage, message: 'Storage item deleted', success: true },
-        OK,
-    )
+    return c.json({ data: storage, message: 'Storage item deleted', success: true }, OK)
 }

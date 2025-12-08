@@ -1,11 +1,7 @@
 import { z } from 'zod'
 import { currenciesTable } from '../../../db/schema'
 import { zPagination, zSearch } from '../../../models/common.schema'
-import {
-    createInsertSchema,
-    createSelectSchema,
-    createUpdateSchema,
-} from '../../../utils/zod.util'
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from '../../../utils/zod.util'
 
 export type InsertCurrency = z.infer<typeof zInsertCurrency>
 export type SelectCurrency = z.infer<typeof zSelectCurrency>

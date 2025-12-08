@@ -1,14 +1,7 @@
 import { relations } from 'drizzle-orm'
-import {
-    boolean,
-    decimal,
-    integer,
-    pgTable,
-    text,
-    timestamp,
-} from 'drizzle-orm/pg-core'
+import { boolean, decimal, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
-import { timestampColumns } from './_common.table'
+import { occuranceFrequencyEnum, timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
@@ -35,10 +28,13 @@ export const transactionSchedulesTable = pgTable('transaction_schedules', {
     groupId: text()
         .notNull()
         .references(() => groupsTable.id, { onDelete: 'cascade' }),
-    cronExpression: text().notNull(),
+    occuranceFrequency: occuranceFrequencyEnum().notNull(),
+    onDayOfWeek: integer(),
+    onDayOfMonth: integer(),
+    onMonthOfYear: integer(),
     nextOccurrenceAt: timestamp({ withTimezone: true }).notNull(),
     stopOccurrenceAt: timestamp({ withTimezone: true }),
-    occurrencesTotal: integer(),
+    occurrencesTotal: integer().notNull().default(-1), // -1 = forever
     occurrencesDone: integer().notNull().default(0),
     ...timestampColumns,
 })

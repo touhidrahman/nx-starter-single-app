@@ -11,8 +11,8 @@ import {
 } from '@repo/common-auth'
 import { LocalStorageService } from '@repo/common-services'
 import { Role } from '@repo/role-permission'
-import { User, UserLevel, UserResponse } from '@repo/user'
 import { SimpleStore } from '@repo/store'
+import { User, UserLevel, UserResponse } from '@repo/user'
 import destr from 'destr'
 import { catchError, map, of, throwError, timer } from 'rxjs'
 import { AccessTokenPayload } from './token.model'
@@ -41,8 +41,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     private reloadTimerSubscription?: any
     private jwtHelper = new JwtHelperService()
     private tokenStorageService = inject(TokenStorageService)
-    private authApiService =
-        inject<AuthApiService<User, UserResponse>>(AuthApiService)
+    private authApiService = inject<AuthApiService<User, UserResponse>>(AuthApiService)
     private router = inject(Router)
     private localStorageService = inject(LocalStorageService)
     private tokenSharingService = inject(TokenSharingService)
@@ -130,9 +129,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
                 return data
             }),
             catchError((error) => {
-                return throwError(
-                    () => new Error(error?.error?.message || 'Login failed'),
-                )
+                return throwError(() => new Error(error?.error?.message || 'Login failed'))
             }),
         )
     }
@@ -150,12 +147,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
                 return data
             }),
             catchError((error) => {
-                return throwError(
-                    () =>
-                        new Error(
-                            error?.error?.message || 'Switch group failed',
-                        ),
-                )
+                return throwError(() => new Error(error?.error?.message || 'Switch group failed'))
             }),
         )
     }
@@ -176,8 +168,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
         const user = destr<User>(this.localStorageService.getItem('user'))
         const group = destr<Group>(this.localStorageService.getItem('group'))
         const role = destr<Role>(this.localStorageService.getItem('role'))
-        const tokenPayload =
-            this.jwtHelper.decodeToken<AccessTokenPayload>(accessToken)
+        const tokenPayload = this.jwtHelper.decodeToken<AccessTokenPayload>(accessToken)
 
         this.setState({
             isLoggedIn: true,
@@ -211,9 +202,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     }
 
     setStateAfterLogin(loginResponse: LoginResponse) {
-        const decoded = this.jwtHelper.decodeToken<AccessTokenPayload>(
-            loginResponse.accessToken,
-        )
+        const decoded = this.jwtHelper.decodeToken<AccessTokenPayload>(loginResponse.accessToken)
 
         this.setState({
             tokenPayload: decoded,
@@ -243,9 +232,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     private reload() {
         this.stopReloadTimer()
-        this.reloadTimerSubscription = timer(1000).subscribe(() =>
-            window.location.reload(),
-        )
+        this.reloadTimerSubscription = timer(1000).subscribe(() => window.location.reload())
     }
 
     private stopReloadTimer() {
@@ -267,10 +254,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     private startRefreshTokenTimer(_expiry: number) {
         const timeout = 5 * 60 * 1000 // 5 minutes
         this.stopRefreshTokenTimer()
-        this.refreshTokenTimeout = setTimeout(
-            () => this.refreshAccessToken().subscribe(),
-            timeout,
-        )
+        this.refreshTokenTimeout = setTimeout(() => this.refreshAccessToken().subscribe(), timeout)
     }
 
     private stopRefreshTokenTimer() {

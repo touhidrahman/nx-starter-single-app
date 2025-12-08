@@ -7,9 +7,7 @@ export interface DeletedAccountEmailTemplateProps {
     signupUrl: string
 }
 
-const DeletedAccountEmailContent = (
-    _props: DeletedAccountEmailTemplateProps,
-) => `
+const DeletedAccountEmailContent = (_props: DeletedAccountEmailTemplateProps) => `
   <tr>
     <td style="padding: 30px 40px; text-align: center;">
       <h1 style="margin: 0; font-size: 24px; color: #333333;">
@@ -57,9 +55,7 @@ const DeletedAccountEmailContent = (
   </tr>
 `
 
-export function buildDeletedAccountEmailTemplate(
-    props: DeletedAccountEmailTemplateProps,
-): string {
+export function buildDeletedAccountEmailTemplate(props: DeletedAccountEmailTemplateProps): string {
     return new EmailTemplateBuilder<DeletedAccountEmailTemplateProps>()
         .setBodyTemplate(DeletedAccountEmailContent(props))
         .build(props)

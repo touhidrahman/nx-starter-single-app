@@ -25,9 +25,7 @@ export const updateUserRoute = createRoute({
     },
 })
 
-export const updateUserHandler: AppRouteHandler<
-    typeof updateUserRoute
-> = async (c) => {
+export const updateUserHandler: AppRouteHandler<typeof updateUserRoute> = async (c) => {
     const body = c.req.valid('json')
     const userId = c.req.param('id')
     const { sub } = c.get('jwtPayload')
@@ -35,10 +33,7 @@ export const updateUserHandler: AppRouteHandler<
     const [updatedUser] = await updateUser(userId, body)
 
     if (!updatedUser) {
-        return c.json(
-            { data: {}, message: 'User not found', success: false },
-            NOT_FOUND,
-        )
+        return c.json({ data: {}, message: 'User not found', success: false }, NOT_FOUND)
     }
     const removedPassword = await passwordRemoved(updatedUser)
 

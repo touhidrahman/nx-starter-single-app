@@ -25,13 +25,9 @@ export class HeaderAdminComponent implements OnInit, OnDestroy {
     // toggle profile menu logic
     bodyClickListener: (() => void) | null = null
     ngOnInit() {
-        this.bodyClickListener = this.renderer.listen(
-            document.body,
-            'click',
-            (e: Event) => {
-                this.headerUtilService.toggleProfileMenu(e, this.uiState)
-            },
-        )
+        this.bodyClickListener = this.renderer.listen(document.body, 'click', (e: Event) => {
+            this.headerUtilService.toggleProfileMenu(e, this.uiState)
+        })
     }
     ngOnDestroy() {
         if (this.bodyClickListener) {

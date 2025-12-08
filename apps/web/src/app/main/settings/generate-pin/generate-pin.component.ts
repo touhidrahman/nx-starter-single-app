@@ -5,10 +5,7 @@ import { AuthStateService } from '@repo/auth'
 import { AuthApiService } from '@repo/common-auth'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
-import {
-    UserSettingStateService,
-    UserSettingsApiService,
-} from '@repo/user-setting'
+import { UserSettingStateService, UserSettingsApiService } from '@repo/user-setting'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 import { SetPinDialogComponent } from '../set-pin-dialog/set-pin-dialog.component'
 

@@ -19,10 +19,7 @@ import { ApiResponse } from '@repo/common-models'
 import { TextSlicePipe } from '@repo/common-pipes'
 import { AlertService } from '@repo/common-services'
 import { DateUtil } from '@repo/common-util'
-import {
-    NewsTickerCarouselComponent,
-    NewsTickersListStateService,
-} from '@repo/news-ticker'
+import { NewsTickerCarouselComponent, NewsTickersListStateService } from '@repo/news-ticker'
 import {
     PermissionRequestModalComponent,
     PermissionRequestsListStateService,
@@ -58,9 +55,7 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
     private router = inject(Router)
     private dialogService = inject(DialogService)
 
-    permissionRequestsListStateService = inject(
-        PermissionRequestsListStateService,
-    )
+    permissionRequestsListStateService = inject(PermissionRequestsListStateService)
     newsTickerStateService = inject(NewsTickersListStateService)
     userGroupStateService = inject(UserGroupsStateService)
     renderer: Renderer2 = inject(Renderer2)
@@ -94,10 +89,7 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
     }
 
     dateUtil = DateUtil
-    formattedDate = this.dateUtil.formatByString(
-        this.dateUtil.date(),
-        'dd-MM-yyyy',
-    )
+    formattedDate = this.dateUtil.formatByString(this.dateUtil.date(), 'dd-MM-yyyy')
 
     subscriptionPlanName = signal<string>('')
     subscriptionPlanId = signal<string>('')
@@ -126,33 +118,25 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
     bodyClickListener: (() => void) | null = null
 
     ngOnInit() {
-        this.bodyClickListener = this.renderer.listen(
-            document.body,
-            'click',
-            (e: Event) => {
-                // Handle profile dropdown
-                if (
-                    this.dropdown?.nativeElement.contains(e.target) === false &&
-                    !(e.target as HTMLElement).closest('user-login-status')
-                ) {
-                    this.isVisible.set(false)
+        this.bodyClickListener = this.renderer.listen(document.body, 'click', (e: Event) => {
+            // Handle profile dropdown
+            if (
+                this.dropdown?.nativeElement.contains(e.target) === false &&
+                !(e.target as HTMLElement).closest('user-login-status')
+            ) {
+                this.isVisible.set(false)
+            }
+            // Handle organization dropdown
+            if (
+                this.orgDropdown?.nativeElement.contains(e.target) === false &&
+                !(e.target as HTMLElement).closest('.org-name-header')
+            ) {
+                this.isOrgDropdownVisible.set(false)
+                if (this.orgChevron) {
+                    this.renderer.removeClass(this.orgChevron.nativeElement, 'rotate-90')
                 }
-                // Handle organization dropdown
-                if (
-                    this.orgDropdown?.nativeElement.contains(e.target) ===
-                        false &&
-                    !(e.target as HTMLElement).closest('.org-name-header')
-                ) {
-                    this.isOrgDropdownVisible.set(false)
-                    if (this.orgChevron) {
-                        this.renderer.removeClass(
-                            this.orgChevron.nativeElement,
-                            'rotate-90',
-                        )
-                    }
-                }
-            },
-        )
+            }
+        })
 
         this.getOrganization(this.authStateService.getGroupId() ?? '')
         this.newsTickerStateService.init(10_000)
@@ -254,28 +238,23 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
 
     private getActiveSubscription(groupId: string) {
         this.isLoading.set(true)
-        this.subscriptionsApiService
-            .getSubscriptionByGroupId(groupId)
-            .subscribe({
-                next: (res: ApiResponse<Subscription>) => {
-                    const { planName, planId, subscriptionType } = res.data
-                    this.subscriptionPlanName.set(planName as string)
-                    this.subscriptionPlanId.set(planId as string)
-                    this.subscriptionType.set(subscriptionType as string)
-                    this.isLoading.set(false)
-                },
-                error: () => {
-                    this.isLoading.set(false)
-                    this.isError.set(true)
-                    this.alertService.error('Failed to fetch subscription')
-                },
-            })
+        this.subscriptionsApiService.getSubscriptionByGroupId(groupId).subscribe({
+            next: (res: ApiResponse<Subscription>) => {
+                const { planName, planId, subscriptionType } = res.data
+                this.subscriptionPlanName.set(planName as string)
+                this.subscriptionPlanId.set(planId as string)
+                this.subscriptionType.set(subscriptionType as string)
+                this.isLoading.set(false)
+            },
+            error: () => {
+                this.isLoading.set(false)
+                this.isError.set(true)
+                this.alertService.error('Failed to fetch subscription')
+            },
+        })
     }
 
-    onLoadOwnedGroups(
-        moreOptionWrapper: HTMLDivElement,
-        chevron: HTMLSpanElement,
-    ) {
+    onLoadOwnedGroups(moreOptionWrapper: HTMLDivElement, chevron: HTMLSpanElement) {
         this.userGroupStateService.loadMyGroups().subscribe({
             next: ({ data }) => {
                 moreOptionWrapper.classList.toggle('h-0')

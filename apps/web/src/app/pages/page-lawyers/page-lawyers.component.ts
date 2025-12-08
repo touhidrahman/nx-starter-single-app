@@ -1,21 +1,10 @@
 import { AsyncPipe, CommonModule } from '@angular/common'
-import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    OnInit,
-    signal,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { Router } from '@angular/router'
 import { GoogleMapService } from '@repo/common-services'
-import {
-    Lawyer,
-    LawyerMarker,
-    LawyerStateService,
-    PublicLawyerFilterComponent,
-} from '@repo/lawyer'
+import { Lawyer, LawyerMarker, LawyerStateService, PublicLawyerFilterComponent } from '@repo/lawyer'
 import { PrimeModules } from '@repo/prime-modules'
 import { ButtonModule } from 'primeng/button'
 import { PaginatorModule } from 'primeng/paginator'
@@ -102,15 +91,9 @@ export class PageLawyersComponent implements OnInit {
     }
 
     private getLawyersWithLocation(lawyers?: Lawyer[]) {
-        const currentLawyers =
-            lawyers || this.lawyerStateService.getState().lawyers
+        const currentLawyers = lawyers || this.lawyerStateService.getState().lawyers
         this.lawyerMarkers = currentLawyers
-            .filter(
-                (lawyer) =>
-                    lawyer.status === 'approved' &&
-                    lawyer.latitude &&
-                    lawyer.longitude,
-            )
+            .filter((lawyer) => lawyer.status === 'approved' && lawyer.latitude && lawyer.longitude)
             .map((lawyer) => ({
                 position: {
                     lat: Number(lawyer.latitude),
@@ -135,9 +118,7 @@ export class PageLawyersComponent implements OnInit {
                 bounds.extend(marker.position)
             })
             this.googleMapService.mapCenter.set(bounds.getCenter().toJSON())
-            this.googleMapService.mapZoom.set(
-                this.lawyerMarkers.length === 1 ? 12 : 7,
-            )
+            this.googleMapService.mapZoom.set(this.lawyerMarkers.length === 1 ? 12 : 7)
         } else {
             this.googleMapService.mapCenter.set({ lat: 23.685, lng: 90.3563 })
             this.googleMapService.mapZoom.set(7)

@@ -5,9 +5,7 @@
 
         @if (loading) {
             <div class="flex items-center justify-center py-8">
-                <i
-                    class="pi pi-spin pi-spinner"
-                    style="font-size: 2rem; color: green"></i>
+                <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: green"></i>
             </div>
         } @else if (state?.auditLogs?.length) {
             <p-table
@@ -28,20 +26,14 @@
                         <th style="width: 5%">Type</th>
                         <th style="width: 5%">Entity</th>
                         <th style="width: 10%">New Snapshot</th>
-                        <th style="width: 10%" class="text-center">
-                            Old Snapshot
-                        </th>
+                        <th style="width: 10%" class="text-center">Old Snapshot</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-log>
                     <tr class="cursor-pointer hover:bg-[#eaffeaa0]">
                         <td>
-                            <span class="block text-xs">{{
-                                log?.creator?.name
-                            }}</span>
-                            <span class="block text-xs">
-                                {{ log?.creator?.email }}</span
-                            >
+                            <span class="block text-xs">{{ log?.creator?.name }}</span>
+                            <span class="block text-xs"> {{ log?.creator?.email }}</span>
                         </td>
                         <td class="capitalize">
                             <span
@@ -62,12 +54,10 @@
                                  {{
                                     expanded?.previous
                                         ? displayData(log.previousData)
-                                        : (displayData(log.previousData)
-                                          | slice: 0 : 15)
+                                        : (displayData(log.previousData) | slice: 0 : 15)
                                 }}
                                 {{
-                                    needsSeeMore(log.previousData) &&
-                                    !expanded?.previous
+                                    needsSeeMore(log.previousData) && !expanded?.previous
                                         ? '...'
                                         : ''
                                 }}
@@ -78,11 +68,7 @@
                                 <button
                                     (click)="toggleExpand(log.id, 'previous')"
                                     class="see-more-btn">
-                                    {{
-                                        expanded?.previous
-                                            ? 'See Less'
-                                            : 'See More'
-                                    }}
+                                    {{ expanded?.previous ? 'See Less' : 'See More' }}
                                 </button>
                             }
                         </td>
@@ -91,12 +77,10 @@
                                 {{
                                     expanded?.updated
                                         ? displayData(log.updatedData)
-                                        : (displayData(log.updatedData)
-                                          | slice: 0 : 15)
+                                        : (displayData(log.updatedData) | slice: 0 : 15)
                                 }}
                                 {{
-                                    needsSeeMore(log.updatedData) &&
-                                    !expanded?.updated
+                                    needsSeeMore(log.updatedData) && !expanded?.updated
                                         ? '...'
                                         : ''
                                 }}
@@ -105,11 +89,7 @@
                                 <button
                                     (click)="toggleExpand(log.id, 'updated')"
                                     class="see-more-btn">
-                                    {{
-                                        expanded?.updated
-                                            ? 'See Less'
-                                            : 'See More'
-                                    }}
+                                    {{ expanded?.updated ? 'See Less' : 'See More' }}
                                 </button>
                             }
                         </td>

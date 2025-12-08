@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { WA_LOCATION } from '@ng-web-apis/common'
 import { LoginFormService } from '@repo/common-auth'
 import { SupportWhatsappComponent } from '@repo/common-components'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
 import { UserLevel } from '@repo/user'
 import { UserSettingStateService } from '@repo/user-setting'
-import { WA_LOCATION } from '@ng-web-apis/common'
 import { AuthStateService } from '../auth-state.service'
 import { UserVerificationButtonComponent } from '../user-verification-button/user-verification-button.component'
 import { UserVerificationStatusCheckService } from '../user-verification-status-check.service'
@@ -31,9 +31,7 @@ export class PageLoginComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute)
     private router = inject(Router)
     private returnUrl = ''
-    userVerificationStatusCheckService = inject(
-        UserVerificationStatusCheckService,
-    )
+    userVerificationStatusCheckService = inject(UserVerificationStatusCheckService)
     private alertService = inject(AlertService)
     private readonly location = inject(WA_LOCATION)
     loginFormService = inject(LoginFormService)
@@ -42,12 +40,9 @@ export class PageLoginComponent implements OnInit {
     errors = signal<string>('')
 
     ngOnInit(): void {
-        this.returnUrl =
-            this.activatedRoute.snapshot.queryParams['returnUrl'] ??
-            '/dashboard/home'
+        this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/dashboard/home'
 
-        if (this.authStateService.isLoggedIn())
-            this.router.navigateByUrl(this.returnUrl)
+        if (this.authStateService.isLoggedIn()) this.router.navigateByUrl(this.returnUrl)
         this.userVerificationStatusCheckService.initLogin()
 
         if (this.authStateService.isLoggedIn()) {
@@ -69,22 +64,18 @@ export class PageLoginComponent implements OnInit {
     }
 
     userVerify() {
-        const value = this.loginFormService.form
-            .get('identifier')
-            ?.value?.trim()
+        const value = this.loginFormService.form.get('identifier')?.value?.trim()
         if (value) {
-            this.userVerificationStatusCheckService
-                .resendVerification(value)
-                .subscribe({
-                    error: (err) => {
-                        const errorMessage =
-                            err.error?.message ||
-                            err.message ||
-                            'Failed to send verification mail / code. Please try again.'
+            this.userVerificationStatusCheckService.resendVerification(value).subscribe({
+                error: (err) => {
+                    const errorMessage =
+                        err.error?.message ||
+                        err.message ||
+                        'Failed to send verification mail / code. Please try again.'
 
-                        this.alertService.error(errorMessage)
-                    },
-                })
+                    this.alertService.error(errorMessage)
+                },
+            })
         }
     }
 
@@ -111,9 +102,7 @@ export class PageLoginComponent implements OnInit {
                     return
                 }
                 const errorMessage =
-                    err.error?.message ||
-                    err.message ||
-                    'Login failed. Please try again.'
+                    err.error?.message || err.message || 'Login failed. Please try again.'
 
                 this.errors.set(errorMessage)
             },

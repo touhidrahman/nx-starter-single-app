@@ -10,10 +10,7 @@ import { UserSettings, UserSettingsDto } from './user-setting.model.service'
 @Injectable({
     providedIn: 'root',
 })
-export class UserSettingsApiService extends ApiService<
-    UserSettingsDto,
-    UserSettings
-> {
+export class UserSettingsApiService extends ApiService<UserSettingsDto, UserSettings> {
     constructor(
         protected override http: HttpClient,
         @Inject(APP_ENVIRONMENT)
@@ -30,9 +27,6 @@ export class UserSettingsApiService extends ApiService<
         userId: string,
         data: UserSettingsDto,
     ): Observable<ApiResponse<UserSettingsDto>> {
-        return this.http.put<ApiResponse<UserSettingsDto>>(
-            `${this.apiUrl}/${userId}`,
-            data,
-        )
+        return this.http.put<ApiResponse<UserSettingsDto>>(`${this.apiUrl}/${userId}`, data)
     }
 }

@@ -2,11 +2,7 @@ import { and, eq, inArray, SQL, sql } from 'drizzle-orm'
 import { db } from '../../../db/db'
 import { referralsTable } from '../../../db/schema'
 import { DEFAULT_PAGE_SIZE } from '../../../models/common.values'
-import {
-    InsertReferral,
-    QueryReferrals,
-    SelectReferral,
-} from './referral-core.model'
+import { InsertReferral, QueryReferrals, SelectReferral } from './referral-core.model'
 
 export class ReferralCoreService {
     static async findMany(filters: QueryReferrals): Promise<SelectReferral[]> {
@@ -22,15 +18,9 @@ export class ReferralCoreService {
         return referrals
     }
 
-    static async findOne(
-        filters: QueryReferrals,
-    ): Promise<SelectReferral | null> {
+    static async findOne(filters: QueryReferrals): Promise<SelectReferral | null> {
         const conditions = ReferralCoreService.buildWhereConditions(filters)
-        const referrals = await db
-            .select()
-            .from(referralsTable)
-            .where(conditions)
-            .limit(1)
+        const referrals = await db.select().from(referralsTable).where(conditions).limit(1)
         return referrals[0] ?? null
     }
 
@@ -63,27 +53,16 @@ export class ReferralCoreService {
     }
 
     static async create(input: InsertReferral): Promise<SelectReferral> {
-        const [referral] = await db
-            .insert(referralsTable)
-            .values(input)
-            .returning()
+        const [referral] = await db.insert(referralsTable).values(input).returning()
         return referral
     }
 
-    static async createMany(
-        inputs: InsertReferral[],
-    ): Promise<SelectReferral[]> {
-        const referrals = await db
-            .insert(referralsTable)
-            .values(inputs)
-            .returning()
+    static async createMany(inputs: InsertReferral[]): Promise<SelectReferral[]> {
+        const referrals = await db.insert(referralsTable).values(inputs).returning()
         return referrals
     }
 
-    static async update(
-        id: string,
-        input: Partial<InsertReferral>,
-    ): Promise<SelectReferral> {
+    static async update(id: string, input: Partial<InsertReferral>): Promise<SelectReferral> {
         const [referral] = await db
             .update(referralsTable)
             .set(input)
@@ -96,18 +75,14 @@ export class ReferralCoreService {
         await db.delete(referralsTable).where(eq(referralsTable.id, id))
     }
 
-    static buildWhereConditions(
-        params: QueryReferrals,
-    ): SQL<unknown> | undefined {
+    static buildWhereConditions(params: QueryReferrals): SQL<unknown> | undefined {
         const conditions: (SQL<unknown> | undefined)[] = []
 
         if (params.id) {
             conditions.push(eq(referralsTable.id, params.id))
         }
         if (params.referralCodeId) {
-            conditions.push(
-                eq(referralsTable.referralCodeId, params.referralCodeId),
-            )
+            conditions.push(eq(referralsTable.referralCodeId, params.referralCodeId))
         }
         if (params.referredId) {
             conditions.push(eq(referralsTable.referredId, params.referredId))

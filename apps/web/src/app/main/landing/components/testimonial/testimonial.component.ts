@@ -8,13 +8,7 @@ import { SectionTitleComponent } from '../../utils/section-title/section-title.c
 @Component({
     selector: 'app-testimonial',
     standalone: true,
-    imports: [
-        CommonModule,
-        CarouselModule,
-        ButtonModule,
-        TagModule,
-        SectionTitleComponent,
-    ],
+    imports: [CommonModule, CarouselModule, ButtonModule, TagModule, SectionTitleComponent],
     templateUrl: './testimonial.component.html',
     styleUrl: './testimonial.component.scss',
 })

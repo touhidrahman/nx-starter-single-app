@@ -30,9 +30,7 @@ export class FeedbackCreateComponent {
         this.isLoading.set(true)
         event?.preventDefault()
 
-        const formData = this.feedbackFormService.toFormData(
-            this.getCurrentRoute(),
-        )
+        const formData = this.feedbackFormService.toFormData(this.getCurrentRoute())
 
         this.saveFeedbackData(formData, fileUpload)
     }

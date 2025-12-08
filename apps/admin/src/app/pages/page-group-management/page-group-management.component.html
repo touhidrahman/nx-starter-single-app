@@ -16,8 +16,7 @@
         (searchSubmit)="onSearch($event)"
         (searchCleared)="onClearSearch()">
     </app-search-input>
-    <span
-        class="rounded-sm bg-purple-100 px-2.5 py-0.5 text-base font-medium text-purple-800">
+    <span class="rounded-sm bg-purple-100 px-2.5 py-0.5 text-base font-medium text-purple-800">
         Total Groups: {{ state?.total ?? 0 }}</span
     >
     <app-group-filter></app-group-filter>
@@ -68,9 +67,7 @@
         </ng-template>
 
         <ng-template #body let-group let-columns="columns">
-            <tr
-                class="cursor-pointer hover:bg-green-50"
-                (click)="viewGroupDetails(group)">
+            <tr class="cursor-pointer hover:bg-green-50" (click)="viewGroupDetails(group)">
                 @for (col of columns; track col.value) {
                     <td class="px-4 py-2 text-sm md:text-base">
                         @switch (col.value) {
@@ -105,15 +102,9 @@
                                     label="{{ group.status | uppercase }}"
                                     size="small"
                                     rounded="true"
-                                    [severity]="
-                                        statusSeverityMap[group.status] ||
-                                        'secondary'
-                                    "
+                                    [severity]="statusSeverityMap[group.status] || 'secondary'"
                                     (onClick)="
-                                        updateStatusDialog(
-                                            group.id,
-                                            group.status
-                                        );
+                                        updateStatusDialog(group.id, group.status);
                                         $event.stopPropagation()
                                     " />
                             }
@@ -121,16 +112,10 @@
                                 <span
                                     class="me-2 inline-block rounded-sm px-2.5 py-0.5 text-xs font-medium whitespace-nowrap uppercase"
                                     [ngClass]="{
-                                        'bg-red-100 text-red-800':
-                                            !group.verified,
-                                        'bg-purple-100 text-purple-800':
-                                            group.verified,
+                                        'bg-red-100 text-red-800': !group.verified,
+                                        'bg-purple-100 text-purple-800': group.verified,
                                     }">
-                                    {{
-                                        group.verified
-                                            ? 'Verified'
-                                            : 'Unverified'
-                                    }}
+                                    {{ group.verified ? 'Verified' : 'Unverified' }}
                                 </span>
                             }
                             @case ('verifiedOn') {

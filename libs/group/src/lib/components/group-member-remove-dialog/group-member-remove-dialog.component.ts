@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject, signal } from '@angular/core'
+import { AuthStateService } from '@repo/auth'
 import { MathVerificationComponent } from '@repo/common-components'
 import { ApiResponse } from '@repo/common-models'
 import { AlertService } from '@repo/common-services'
 import { PrimeModules } from '@repo/prime-modules'
-import { AuthStateService } from '@repo/auth'
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
 import { GroupApiService } from '../../group-api.service'
 import { LoggedInGroupStateService } from '../../logged-in-group-state.service'
@@ -31,16 +31,13 @@ export class GroupMemberRemoveDialogComponent {
         this.isLoading.set(true)
         this.groupApiService
             .removeUserFromOrganization(
-                this.authStateService.getGroupId() ??
-                    this.config?.data?.groupId,
+                this.authStateService.getGroupId() ?? this.config?.data?.groupId,
                 this.config?.data?.user.id,
             )
             .subscribe({
                 next: (res: ApiResponse<unknown>) => {
                     this.isLoading.set(false)
-                    this.loggedInGroupStateService.removeUserFromGroup(
-                        res.data as string,
-                    )
+                    this.loggedInGroupStateService.removeUserFromGroup(res.data as string)
                     this.alertService.success('Member removed successfully.')
                     this.ref?.close()
                 },

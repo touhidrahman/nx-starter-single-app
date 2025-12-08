@@ -5,9 +5,7 @@ export interface PasswordResetSuccessfulEmailTemplateProps {
     lastName: string
 }
 
-const PasswordResetSuccessfulContent = (
-    _props: PasswordResetSuccessfulEmailTemplateProps,
-) => `
+const PasswordResetSuccessfulContent = (_props: PasswordResetSuccessfulEmailTemplateProps) => `
   <tr>
     <td style="padding: 30px 40px; text-align: left;">
       <h1 style="margin-top: 0; font-size: 24px; color: #333333;">Hello, {{firstName}} {{lastName}}</h1>
