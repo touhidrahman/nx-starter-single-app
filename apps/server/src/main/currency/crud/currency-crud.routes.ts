@@ -6,7 +6,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -24,7 +24,7 @@ const path = '/crud/currencys'
 const GetCurrencyListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         query: zQueryCurrencies,
@@ -55,7 +55,7 @@ const GetCurrencyListCrud: AppRouteHandler<typeof GetCurrencyListCrudDef> = asyn
 const GetCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         params: zId,
@@ -91,7 +91,7 @@ const GetCurrencyCrud: AppRouteHandler<typeof GetCurrencyCrudDef> = async (c) =>
 const CreateCurrencyCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertCurrency, 'Input'),
@@ -130,7 +130,7 @@ const CreateCurrencyCrud: AppRouteHandler<typeof CreateCurrencyCrudDef> = async 
 const UpdateCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken] as const,
     request: {
         params: zId,
@@ -175,7 +175,7 @@ const UpdateCurrencyCrud: AppRouteHandler<typeof UpdateCurrencyCrudDef> = async 
 const DeleteCurrencyCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken] as const,
     request: {
         params: zId,

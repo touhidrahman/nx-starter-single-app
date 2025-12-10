@@ -1,9 +1,9 @@
-import {
-{{camelCase moduleName}}CoreRoutes } from './{{kebabCase moduleName}}-core.controller' import {
-{{camelCase moduleName}}CrudRoutes } from './{{kebabCase moduleName}}-crud.controller' import {
-{{camelCase moduleName}}CustomRoutes } from './{{kebabCase moduleName}}-custom.controller' export
-const
-{{camelCase moduleName}}Routes = [
-{{camelCase moduleName}}CustomRoutes,
-{{camelCase moduleName}}CrudRoutes,
-{{camelCase moduleName}}CoreRoutes, ]
+import { {{camelCase moduleName}}CoreRoutes } from './{{kebabCase moduleName}}-core.controller'
+import { {{camelCase moduleName}}CrudRoutes } from './{{kebabCase moduleName}}-crud.controller'
+import { {{camelCase moduleName}}CustomRoutes } from './{{kebabCase moduleName}}-custom.controller'
+
+export const {{camelCase moduleName}}Routes = [
+    {{camelCase moduleName}}CustomRoutes,
+    {{camelCase moduleName}}CrudRoutes,
+    {{camelCase moduleName}}CoreRoutes,
+]

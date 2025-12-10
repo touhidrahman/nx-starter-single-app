@@ -7,7 +7,6 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -25,7 +24,7 @@ const path = '/crud/invites'
 const GetInviteListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Invite:Read'])] as const,
     request: {
         query: zQueryInvites,
@@ -56,7 +55,7 @@ const GetInviteListCrud: AppRouteHandler<typeof GetInviteListCrudDef> = async (c
 const GetInviteCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Invite:Read'])] as const,
     request: {
         params: zId,
@@ -88,7 +87,7 @@ const GetInviteCrud: AppRouteHandler<typeof GetInviteCrudDef> = async (c) => {
 const CreateInviteCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Invite:Write'])] as const,
     request: {
         body: jsonContent(zInsertInvite, 'Input'),
@@ -126,7 +125,7 @@ const CreateInviteCrud: AppRouteHandler<typeof CreateInviteCrudDef> = async (c) 
 const UpdateInviteCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['Invite:Write'])] as const,
     request: {
         params: zId,
@@ -167,7 +166,7 @@ const UpdateInviteCrud: AppRouteHandler<typeof UpdateInviteCrudDef> = async (c) 
 const DeleteInviteCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Invite:Delete'])] as const,
     request: {
         params: zId,

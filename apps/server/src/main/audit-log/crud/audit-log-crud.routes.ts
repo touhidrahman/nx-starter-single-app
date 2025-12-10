@@ -7,7 +7,7 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -25,7 +25,7 @@ const path = '/crud/audit-logs'
 const GetAuditLogListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Logs:Read'])] as const,
     request: {
         query: zQueryAuditLogs,
@@ -56,7 +56,7 @@ const GetAuditLogListCrud: AppRouteHandler<typeof GetAuditLogListCrudDef> = asyn
 const GetAuditLogCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Logs:Read'])] as const,
     request: {
         params: zId,
@@ -88,7 +88,7 @@ const GetAuditLogCrud: AppRouteHandler<typeof GetAuditLogCrudDef> = async (c) =>
 const CreateAuditLogCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Logs:Write'])] as const,
     request: {
         body: jsonContent(zInsertAuditLog, 'Input'),
@@ -121,7 +121,7 @@ const CreateAuditLogCrud: AppRouteHandler<typeof CreateAuditLogCrudDef> = async 
 const UpdateAuditLogCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['Logs:Write'])] as const,
     request: {
         params: zId,
@@ -162,7 +162,7 @@ const UpdateAuditLogCrud: AppRouteHandler<typeof UpdateAuditLogCrudDef> = async 
 const DeleteAuditLogCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Logs:Delete'])] as const,
     request: {
         params: zId,

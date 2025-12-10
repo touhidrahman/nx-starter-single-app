@@ -8,7 +8,6 @@ import { createRouter } from '../../core/create-app'
 import { sendEmailUsingResend } from '../../email/email.service'
 import env from '../../env'
 import { checkToken } from '../../middlewares/check-token.middleware'
-import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
 import { DateUtil } from '../../utils/date.util'
 import { buildWelcomeEmailTemplate } from '../email/templates/welcome'
@@ -27,7 +26,7 @@ const path = '/auth'
 const LoginUserDef = createRoute({
     path: `${path}/login`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContentRequired(zUserLogin, 'User Login Data'),
     },
@@ -59,7 +58,7 @@ const LoginUser: AppRouteHandler<typeof LoginUserDef> = async (c) => {
 const RegisterUserDef = createRoute({
     path: `${path}/register`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContentRequired(zInsertUser, 'User Registration Data'),
     },
@@ -154,7 +153,7 @@ const RegisterUser: AppRouteHandler<typeof RegisterUserDef> = async (c) => {
 const GroupSwitchDef = createRoute({
     path: `${path}/group-switch/:groupId`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         params: z.object({ groupId: z.string() }),
@@ -187,7 +186,7 @@ const GroupSwitch: AppRouteHandler<typeof GroupSwitchDef> = async (c) => {
 const GetNewTokenDef = createRoute({
     path: `${path}/new-token`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         body: jsonContentRequired(z.object({ refreshToken: z.string() }), 'Refresh token'),

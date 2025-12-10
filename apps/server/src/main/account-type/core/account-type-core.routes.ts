@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import {
@@ -22,7 +22,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetAccountTypeListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryAccountTypes,
@@ -51,7 +51,7 @@ const GetAccountTypeListCore: AppRouteHandler<typeof GetAccountTypeListCoreDef> 
 const GetAccountTypeByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -90,7 +90,7 @@ const GetAccountTypeByIdCore: AppRouteHandler<typeof GetAccountTypeByIdCoreDef> 
 const CreateAccountTypeCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertAccountType, 'AccountType Create Data'),
@@ -117,7 +117,7 @@ const CreateAccountTypeCore: AppRouteHandler<typeof CreateAccountTypeCoreDef> = 
 const UpdateAccountTypeCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -160,7 +160,7 @@ const UpdateAccountTypeCore: AppRouteHandler<typeof UpdateAccountTypeCoreDef> = 
 const DeleteAccountTypeCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -201,7 +201,7 @@ const DeleteAccountTypeCore: AppRouteHandler<typeof DeleteAccountTypeCoreDef> = 
 const DeleteManyAccountTypeCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'AccountType IDs to delete'),

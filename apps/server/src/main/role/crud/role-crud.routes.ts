@@ -7,7 +7,7 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -20,7 +20,7 @@ const path = '/crud/roles'
 const GetRoleListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         query: zQueryRoles,
@@ -51,7 +51,7 @@ const GetRoleListCrud: AppRouteHandler<typeof GetRoleListCrudDef> = async (c) =>
 const GetRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         params: zId,
@@ -83,7 +83,7 @@ const GetRoleCrud: AppRouteHandler<typeof GetRoleCrudDef> = async (c) => {
 const CreateRoleCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Role:Write'])] as const,
     request: {
         body: jsonContent(zInsertRole, 'Input'),
@@ -121,7 +121,7 @@ const CreateRoleCrud: AppRouteHandler<typeof CreateRoleCrudDef> = async (c) => {
 const UpdateRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['Role:Write'])] as const,
     request: {
         params: zId,
@@ -162,7 +162,7 @@ const UpdateRoleCrud: AppRouteHandler<typeof UpdateRoleCrudDef> = async (c) => {
 const DeleteRoleCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Role:Delete'])] as const,
     request: {
         params: zId,

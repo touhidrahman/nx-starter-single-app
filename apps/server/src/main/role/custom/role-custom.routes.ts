@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -17,7 +17,7 @@ const path = '/custom/roles'
 const GetMyRoleListDef = createRoute({
     path: `${path}/my`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Role:Read'])] as const,
     request: {
         query: zQueryRoles,

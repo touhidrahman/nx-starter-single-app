@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertAdmin, zQueryAdmins, zSelectAdmin, zUpdateAdmin } from './admin-core.model'
@@ -17,7 +17,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetAdminListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryAdmins,
@@ -46,7 +46,7 @@ const GetAdminListCore: AppRouteHandler<typeof GetAdminListCoreDef> = async (c) 
 const GetAdminByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +85,7 @@ const GetAdminByIdCore: AppRouteHandler<typeof GetAdminByIdCoreDef> = async (c) 
 const CreateAdminCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertAdmin, 'Admin Create Data'),
@@ -112,7 +112,7 @@ const CreateAdminCore: AppRouteHandler<typeof CreateAdminCoreDef> = async (c) =>
 const UpdateAdminCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +155,7 @@ const UpdateAdminCore: AppRouteHandler<typeof UpdateAdminCoreDef> = async (c) =>
 const DeleteAdminCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +196,7 @@ const DeleteAdminCore: AppRouteHandler<typeof DeleteAdminCoreDef> = async (c) =>
 const DeleteManyAdminCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Admin IDs to delete'),

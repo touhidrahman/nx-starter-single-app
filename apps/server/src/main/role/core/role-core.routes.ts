@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertRole, zQueryRoles, zSelectRole, zUpdateRole } from './role-core.model'
@@ -17,7 +17,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetRoleListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryRoles,
@@ -46,7 +46,7 @@ const GetRoleListCore: AppRouteHandler<typeof GetRoleListCoreDef> = async (c) =>
 const GetRoleByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +85,7 @@ const GetRoleByIdCore: AppRouteHandler<typeof GetRoleByIdCoreDef> = async (c) =>
 const CreateRoleCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertRole, 'Role Create Data'),
@@ -112,7 +112,7 @@ const CreateRoleCore: AppRouteHandler<typeof CreateRoleCoreDef> = async (c) => {
 const UpdateRoleCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +155,7 @@ const UpdateRoleCore: AppRouteHandler<typeof UpdateRoleCoreDef> = async (c) => {
 const DeleteRoleCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +196,7 @@ const DeleteRoleCore: AppRouteHandler<typeof DeleteRoleCoreDef> = async (c) => {
 const DeleteManyRoleCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Role IDs to delete'),

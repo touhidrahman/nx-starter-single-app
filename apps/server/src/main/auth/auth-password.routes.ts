@@ -10,7 +10,6 @@ import { sendEmailUsingResend } from '../../email/email.service'
 import env from '../../env'
 import { checkToken } from '../../middlewares/check-token.middleware'
 import { zEmpty } from '../../models/common.schema'
-import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
 import { buildForgotPasswordEmailTemplate } from '../email/templates/forgot-password'
 import { buildPasswordChangeSuccessfulEmailTemplate } from '../email/templates/password-change-successful'
@@ -26,7 +25,7 @@ const path = '/auth'
 const ChangePasswordDef = createRoute({
     path: `${path}/change-password`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         body: jsonContentRequired(zChangePassword, 'Change Password Data'),
@@ -72,7 +71,7 @@ const ChangePassword: AppRouteHandler<typeof ChangePasswordDef> = async (c) => {
 const ForgotPasswordDef = createRoute({
     path: `${path}/forgot-password`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContentRequired(z.object({ identifier: z.string() }), 'Identifier'),
     },
@@ -135,7 +134,7 @@ const ForgotPassword: AppRouteHandler<typeof ForgotPasswordDef> = async (c) => {
 const ResetPasswordDef = createRoute({
     path: `${path}/reset-password/:token`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         params: z.object({ token: z.string() }),
         body: jsonContentRequired(zResetPassword, 'New password'),
