@@ -20,11 +20,3 @@ export const APP_OPENAPI_TAGS = {
     Transaction: 'Transaction',
     User: 'User',
 } as const
-
-export const REQ_METHOD = {
-    GET: 'get',
-    POST: 'post',
-    PUT: 'put',
-    DELETE: 'delete',
-    PATCH: 'patch',
-} as const

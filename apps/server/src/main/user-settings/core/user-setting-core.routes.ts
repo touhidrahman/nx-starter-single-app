@@ -4,7 +4,6 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import {
@@ -22,7 +21,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetUserSettingListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryUserSettings,
@@ -51,7 +50,7 @@ const GetUserSettingListCore: AppRouteHandler<typeof GetUserSettingListCoreDef> 
 const GetUserSettingByIdCoreDef = createRoute({
     path: `${path}/:userId/:key`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: z.object({
@@ -93,7 +92,7 @@ const GetUserSettingByIdCore: AppRouteHandler<typeof GetUserSettingByIdCoreDef> 
 const CreateUserSettingCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertUserSetting, 'UserSetting Create Data'),
@@ -120,7 +119,7 @@ const CreateUserSettingCore: AppRouteHandler<typeof CreateUserSettingCoreDef> = 
 const UpdateUserSettingCoreDef = createRoute({
     path: `${path}/:userId/:key`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: z.object({
@@ -166,7 +165,7 @@ const UpdateUserSettingCore: AppRouteHandler<typeof UpdateUserSettingCoreDef> = 
 const DeleteUserSettingCoreDef = createRoute({
     path: `${path}/:userId/:key`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: z.object({
@@ -210,7 +209,7 @@ const DeleteUserSettingCore: AppRouteHandler<typeof DeleteUserSettingCoreDef> = 
 const DeleteUserSettingsByUserIdCoreDef = createRoute({
     path: `${path}/user/:userId`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: z.object({

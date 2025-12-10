@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertGroup, zQueryGroups, zSelectGroup, zUpdateGroup } from './group-core.model'
@@ -17,7 +17,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetGroupListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryGroups,
@@ -46,7 +46,7 @@ const GetGroupListCore: AppRouteHandler<typeof GetGroupListCoreDef> = async (c) 
 const GetGroupByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +85,7 @@ const GetGroupByIdCore: AppRouteHandler<typeof GetGroupByIdCoreDef> = async (c) 
 const CreateGroupCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertGroup, 'Group Create Data'),
@@ -112,7 +112,7 @@ const CreateGroupCore: AppRouteHandler<typeof CreateGroupCoreDef> = async (c) =>
 const UpdateGroupCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +155,7 @@ const UpdateGroupCore: AppRouteHandler<typeof UpdateGroupCoreDef> = async (c) =>
 const DeleteGroupCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +196,7 @@ const DeleteGroupCore: AppRouteHandler<typeof DeleteGroupCoreDef> = async (c) =>
 const DeleteManyGroupCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Group IDs to delete'),

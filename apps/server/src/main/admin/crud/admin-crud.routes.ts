@@ -6,7 +6,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { CryptoService } from '../../auth/crypto.service'
@@ -19,7 +19,7 @@ const path = '/crud/admins'
 const GetAdminListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         query: zQueryAdmins,
@@ -48,7 +48,7 @@ const GetAdminListCrud: AppRouteHandler<typeof GetAdminListCrudDef> = async (c) 
 const GetAdminCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         params: zId,
@@ -78,7 +78,7 @@ const GetAdminCrud: AppRouteHandler<typeof GetAdminCrudDef> = async (c) => {
 const CreateAdminCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertAdmin, 'Input'),
@@ -106,7 +106,7 @@ const CreateAdminCrud: AppRouteHandler<typeof CreateAdminCrudDef> = async (c) =>
 const UpdateAdminCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken] as const,
     request: {
         params: zId,
@@ -147,7 +147,7 @@ const UpdateAdminCrud: AppRouteHandler<typeof UpdateAdminCrudDef> = async (c) =>
 const DeleteAdminCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken] as const,
     request: {
         params: zId,

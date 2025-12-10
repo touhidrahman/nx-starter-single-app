@@ -7,7 +7,7 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
 import { UserCustomService } from '../../user/custom/user-custom.service'
@@ -20,7 +20,7 @@ const path = '/crud/groups'
 const GetGroupCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         params: zId,
@@ -58,7 +58,7 @@ const GetGroupCrud: AppRouteHandler<typeof GetGroupCrudDef> = async (c) => {
 const CreateGroupCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         body: jsonContent(zInsertGroup, 'Input'),
@@ -93,7 +93,7 @@ const CreateGroupCrud: AppRouteHandler<typeof CreateGroupCrudDef> = async (c) =>
 const UpdateGroupCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         params: zId,
@@ -137,7 +137,7 @@ const UpdateGroupCrud: AppRouteHandler<typeof UpdateGroupCrudDef> = async (c) =>
 const DeleteGroupCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Group:Delete'])] as const,
     request: {
         params: zId,

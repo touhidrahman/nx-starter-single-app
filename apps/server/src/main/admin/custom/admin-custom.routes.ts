@@ -4,7 +4,7 @@ import jsonContent from 'stoker/openapi/helpers/json-content'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { zSelectAdmin } from '../core/admin-core.model'
 import { zAdminLoginResponse, zLoginAdmin, zRegisterAdmin } from './admin-custom.model'
@@ -16,7 +16,7 @@ const path = '/custom/admins'
 const RegisterAdminDef = createRoute({
     path: `${path}/register`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContent(zRegisterAdmin, 'Admin Registration Data'),
     },
@@ -46,7 +46,7 @@ const RegisterAdmin: AppRouteHandler<typeof RegisterAdminDef> = async (c) => {
 const LoginAdminDef = createRoute({
     path: `${path}/login`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContent(zLoginAdmin, 'Admin Login Data'),
     },

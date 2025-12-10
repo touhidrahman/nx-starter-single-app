@@ -4,7 +4,6 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertPlan, zQueryPlans, zSelectPlan, zUpdatePlan } from './plan-core.model'
@@ -17,7 +16,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetPlanListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryPlans,
@@ -46,7 +45,7 @@ const GetPlanListCore: AppRouteHandler<typeof GetPlanListCoreDef> = async (c) =>
 const GetPlanByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +84,7 @@ const GetPlanByIdCore: AppRouteHandler<typeof GetPlanByIdCoreDef> = async (c) =>
 const CreatePlanCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertPlan, 'Plan Create Data'),
@@ -112,7 +111,7 @@ const CreatePlanCore: AppRouteHandler<typeof CreatePlanCoreDef> = async (c) => {
 const UpdatePlanCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +154,7 @@ const UpdatePlanCore: AppRouteHandler<typeof UpdatePlanCoreDef> = async (c) => {
 const DeletePlanCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +195,7 @@ const DeletePlanCore: AppRouteHandler<typeof DeletePlanCoreDef> = async (c) => {
 const DeleteManyPlanCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Plan IDs to delete'),

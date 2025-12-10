@@ -16,7 +16,7 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiResponse } from '../../../utils/api-response.util'
 import { DateUtil } from '../../../utils/date.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -34,7 +34,7 @@ const path = '/groups/custom'
 const GetMyGroupListDef = createRoute({
     path: `${path}/my`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     responses: {
         [OK]: ApiResponse(
@@ -137,7 +137,7 @@ export const SubscribePlan: AppRouteHandler<typeof SubscribePlanDef> = async (c)
 const GetGroupMembersDef = createRoute({
     path: `${path}/:id/members`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Group:Read', 'User:Read'], true)] as const,
     request: {
         params: zId,
@@ -172,7 +172,7 @@ const GetGroupMembers: AppRouteHandler<typeof GetGroupMembersDef> = async (c) =>
 const AddGroupMembersDef = createRoute({
     path: `${path}/:id/members`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         params: zId,
@@ -210,7 +210,7 @@ const AddGroupMembers: AppRouteHandler<typeof AddGroupMembersDef> = async (c) =>
 const RemoveGroupMembersDef = createRoute({
     path: `${path}/:id/members`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         params: zId,
@@ -248,7 +248,7 @@ const RemoveGroupMembers: AppRouteHandler<typeof RemoveGroupMembersDef> = async 
 const UpdateGroupMemberRoleDef = createRoute({
     path: `${path}/:id/members/:userId/role/:roleId`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Group:Write'])] as const,
     request: {
         params: z.object({
@@ -296,7 +296,7 @@ const UpdateGroupMemberRole: AppRouteHandler<typeof UpdateGroupMemberRoleDef> = 
 const LeaveGroupMembershipDef = createRoute({
     path: `${path}/:id/members/:userId/leave`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken] as const,
     request: {
         params: z.object({

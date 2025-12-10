@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertUser, zQueryUsers, zSelectUser, zUpdateUser } from './user-core.model'
@@ -17,7 +17,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetUserListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryUsers,
@@ -46,7 +46,7 @@ const GetUserListCore: AppRouteHandler<typeof GetUserListCoreDef> = async (c) =>
 const GetUserByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +85,7 @@ const GetUserByIdCore: AppRouteHandler<typeof GetUserByIdCoreDef> = async (c) =>
 const CreateUserCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertUser, 'User Create Data'),
@@ -112,7 +112,7 @@ const CreateUserCore: AppRouteHandler<typeof CreateUserCoreDef> = async (c) => {
 const UpdateUserCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +155,7 @@ const UpdateUserCore: AppRouteHandler<typeof UpdateUserCoreDef> = async (c) => {
 const DeleteUserCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +196,7 @@ const DeleteUserCore: AppRouteHandler<typeof DeleteUserCoreDef> = async (c) => {
 const DeleteManyUserCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'User IDs to delete'),

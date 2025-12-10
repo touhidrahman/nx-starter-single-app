@@ -7,7 +7,6 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -25,7 +24,7 @@ const path = '/crud/user-settings'
 const GetUserSettingListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['UserSetting:Read'])] as const,
     request: {
         query: zQueryUserSettings,
@@ -56,7 +55,7 @@ const GetUserSettingListCrud: AppRouteHandler<typeof GetUserSettingListCrudDef> 
 const GetUserSettingCrudDef = createRoute({
     path: `${path}/:key`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['UserSetting:Read'])] as const,
     request: {
         params: z.object({
@@ -92,7 +91,7 @@ const GetUserSettingCrud: AppRouteHandler<typeof GetUserSettingCrudDef> = async 
 const CreateUserSettingCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['UserSetting:Write'])] as const,
     request: {
         body: jsonContent(zInsertUserSetting, 'Input'),
@@ -130,7 +129,7 @@ const CreateUserSettingCrud: AppRouteHandler<typeof CreateUserSettingCrudDef> = 
 const UpdateUserSettingCrudDef = createRoute({
     path: `${path}/:key`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['UserSetting:Write'])] as const,
     request: {
         params: z.object({
@@ -173,7 +172,7 @@ const UpdateUserSettingCrud: AppRouteHandler<typeof UpdateUserSettingCrudDef> = 
 const DeleteUserSettingCrudDef = createRoute({
     path: `${path}/:key`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['UserSetting:Delete'])] as const,
     request: {
         params: z.object({

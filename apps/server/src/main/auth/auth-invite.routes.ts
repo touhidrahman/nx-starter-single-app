@@ -7,7 +7,6 @@ import { AppRouteHandler } from '../../core/core.type'
 import { createRouter } from '../../core/create-app'
 import { db } from '../../db/db'
 import { membershipsTable } from '../../db/schema'
-import { REQ_METHOD } from '../../models/common.values'
 import { ApiResponse } from '../../utils/api-response.util'
 import { GroupCustomService } from '../group/custom/group-custom.service'
 import { InviteCustomService } from '../invite/custom/invite-custom.service'
@@ -24,7 +23,7 @@ const path = '/auth'
 const AcceptInviteDef = createRoute({
     path: `${path}/accept-invite`,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     request: {
         body: jsonContentRequired(zAcceptInvite, 'Accept Invite Data'),
     },

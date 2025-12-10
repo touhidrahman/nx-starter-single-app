@@ -4,7 +4,6 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertInvite, zQueryInvites, zSelectInvite, zUpdateInvite } from './invite-core.model'
@@ -17,7 +16,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetInviteListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryInvites,
@@ -46,7 +45,7 @@ const GetInviteListCore: AppRouteHandler<typeof GetInviteListCoreDef> = async (c
 const GetInviteByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -85,7 +84,7 @@ const GetInviteByIdCore: AppRouteHandler<typeof GetInviteByIdCoreDef> = async (c
 const CreateInviteCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertInvite, 'Invite Create Data'),
@@ -112,7 +111,7 @@ const CreateInviteCore: AppRouteHandler<typeof CreateInviteCoreDef> = async (c) 
 const UpdateInviteCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -155,7 +154,7 @@ const UpdateInviteCore: AppRouteHandler<typeof UpdateInviteCoreDef> = async (c) 
 const DeleteInviteCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -196,7 +195,7 @@ const DeleteInviteCore: AppRouteHandler<typeof DeleteInviteCoreDef> = async (c) 
 const DeleteManyInviteCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Invite IDs to delete'),

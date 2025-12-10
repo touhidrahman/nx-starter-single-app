@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmptyList } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { AccessTokenPayload } from '../../auth/auth.model'
@@ -17,7 +17,7 @@ const path = '/custom/audit-logs'
 const GetMyAuditLogListDef = createRoute({
     path: `${path}/my`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         query: zQueryAuditLogs,
@@ -49,7 +49,7 @@ const GetMyAuditLogList: AppRouteHandler<typeof GetMyAuditLogListDef> = async (c
 const DeleteLogByEntityIdDef = createRoute({
     path: `${path}/delete-by-entity/:entityId`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken] as const,
     request: {
         params: z.object({

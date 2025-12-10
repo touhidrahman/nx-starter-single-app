@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import {
@@ -22,7 +22,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetCurrencyListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryCurrencies,
@@ -51,7 +51,7 @@ const GetCurrencyListCore: AppRouteHandler<typeof GetCurrencyListCoreDef> = asyn
 const GetCurrencyByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -90,7 +90,7 @@ const GetCurrencyByIdCore: AppRouteHandler<typeof GetCurrencyByIdCoreDef> = asyn
 const CreateCurrencyCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertCurrency, 'Currency Create Data'),
@@ -117,7 +117,7 @@ const CreateCurrencyCore: AppRouteHandler<typeof CreateCurrencyCoreDef> = async 
 const UpdateCurrencyCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -160,7 +160,7 @@ const UpdateCurrencyCore: AppRouteHandler<typeof UpdateCurrencyCoreDef> = async 
 const DeleteCurrencyCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -201,7 +201,7 @@ const DeleteCurrencyCore: AppRouteHandler<typeof DeleteCurrencyCoreDef> = async 
 const DeleteManyCurrencyCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'Currency IDs to delete'),

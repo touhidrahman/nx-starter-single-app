@@ -4,7 +4,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createRouter } from '../../../core/create-app'
 import { zEmpty, zId, zIds } from '../../../models/common.schema'
-import { APP_OPENAPI_TAGS, REQ_METHOD } from '../../../models/common.values'
+import { APP_OPENAPI_TAGS } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import {
@@ -22,7 +22,7 @@ const middleware = undefined // [checkToken, isAdmin]
 const GetAuditLogListCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         query: zQueryAuditLogs,
@@ -51,7 +51,7 @@ const GetAuditLogListCore: AppRouteHandler<typeof GetAuditLogListCoreDef> = asyn
 const GetAuditLogByIdCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware,
     request: {
         params: zId,
@@ -90,7 +90,7 @@ const GetAuditLogByIdCore: AppRouteHandler<typeof GetAuditLogByIdCoreDef> = asyn
 const CreateAuditLogCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware,
     request: {
         body: jsonContent(zInsertAuditLog, 'AuditLog Create Data'),
@@ -117,7 +117,7 @@ const CreateAuditLogCore: AppRouteHandler<typeof CreateAuditLogCoreDef> = async 
 const UpdateAuditLogCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware,
     request: {
         params: zId,
@@ -160,7 +160,7 @@ const UpdateAuditLogCore: AppRouteHandler<typeof UpdateAuditLogCoreDef> = async 
 const DeleteAuditLogCoreDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         params: zId,
@@ -201,7 +201,7 @@ const DeleteAuditLogCore: AppRouteHandler<typeof DeleteAuditLogCoreDef> = async 
 const DeleteManyAuditLogCoreDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware,
     request: {
         body: jsonContent(zIds, 'AuditLog IDs to delete'),

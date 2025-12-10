@@ -7,7 +7,6 @@ import { createRouter } from '../../../core/create-app'
 import { checkPermission } from '../../../middlewares/check-permission.middleware'
 import { checkToken } from '../../../middlewares/check-token.middleware'
 import { zEmpty, zId } from '../../../models/common.schema'
-import { REQ_METHOD } from '../../../models/common.values'
 import { ApiListResponse, ApiResponse } from '../../../utils/api-response.util'
 import { buildPaginationResponse } from '../../../utils/pagination.util'
 import { zInsertPlan, zQueryPlans, zSelectPlan, zUpdatePlan } from '../core/plan-core.model'
@@ -19,7 +18,7 @@ const path = '/crud/plans'
 const GetPlanListCrudDef = createRoute({
     path: path,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Plan:Read'])] as const,
     request: {
         query: zQueryPlans,
@@ -48,7 +47,7 @@ const GetPlanListCrud: AppRouteHandler<typeof GetPlanListCrudDef> = async (c) =>
 const GetPlanCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.GET,
+    method: 'get',
     middleware: [checkToken, checkPermission(['Plan:Read'])] as const,
     request: {
         params: zId,
@@ -79,7 +78,7 @@ const GetPlanCrud: AppRouteHandler<typeof GetPlanCrudDef> = async (c) => {
 const CreatePlanCrudDef = createRoute({
     path,
     tags,
-    method: REQ_METHOD.POST,
+    method: 'post',
     middleware: [checkToken, checkPermission(['Plan:Write'])] as const,
     request: {
         body: jsonContent(zInsertPlan, 'Input'),
@@ -107,7 +106,7 @@ const CreatePlanCrud: AppRouteHandler<typeof CreatePlanCrudDef> = async (c) => {
 const UpdatePlanCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.PUT,
+    method: 'put',
     middleware: [checkToken, checkPermission(['Plan:Write'])] as const,
     request: {
         params: zId,
@@ -144,7 +143,7 @@ const UpdatePlanCrud: AppRouteHandler<typeof UpdatePlanCrudDef> = async (c) => {
 const DeletePlanCrudDef = createRoute({
     path: `${path}/:id`,
     tags,
-    method: REQ_METHOD.DELETE,
+    method: 'delete',
     middleware: [checkToken, checkPermission(['Plan:Delete'])] as const,
     request: {
         params: zId,
