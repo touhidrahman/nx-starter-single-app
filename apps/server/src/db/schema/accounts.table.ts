@@ -1,10 +1,8 @@
 import { boolean, date, decimal, integer, pgTable, text } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm/relations'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountTypesTable } from './account-types.table'
 import { groupsTable } from './groups.table'
-import { transactionsTable } from './transactions.table'
 import { usersTable } from './users.table'
 
 export const accountsTable = pgTable('accounts', {
@@ -51,19 +49,3 @@ export const accountsTable = pgTable('accounts', {
 
     ...timestampColumns,
 })
-
-export const accountsRelations = relations(accountsTable, ({ one, many }) => ({
-    group: one(groupsTable, {
-        fields: [accountsTable.groupId],
-        references: [groupsTable.id],
-    }),
-    creator: one(usersTable, {
-        fields: [accountsTable.creatorId],
-        references: [usersTable.id],
-    }),
-    accountType: one(accountTypesTable, {
-        fields: [accountsTable.type],
-        references: [accountTypesTable.id],
-    }),
-    transactions: many(transactionsTable),
-}))
