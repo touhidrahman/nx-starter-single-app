@@ -1,9 +1,7 @@
-import { relations } from 'drizzle-orm'
 import { boolean, decimal, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
 import { accountsTable } from './accounts.table'
-import { balanceTransfersTable } from './balance-transfers.table'
 import { categoriesTable } from './categories.table'
 import { groupsTable } from './groups.table'
 import { subcategoriesTable } from './subcategories.table'
@@ -35,38 +33,3 @@ export const transactionsTable = pgTable('transactions', {
     }),
     ...timestampColumns,
 })
-
-export const transactionsRelations = relations(transactionsTable, ({ one }) => ({
-    account: one(accountsTable, {
-        fields: [transactionsTable.accountId],
-        references: [accountsTable.id],
-    }),
-    inBalanceTransfer: one(balanceTransfersTable, {
-        fields: [transactionsTable.id],
-        references: [balanceTransfersTable.inTransactionId],
-    }),
-    outBalanceTransfer: one(balanceTransfersTable, {
-        fields: [transactionsTable.id],
-        references: [balanceTransfersTable.outTransactionId],
-    }),
-    category: one(categoriesTable, {
-        fields: [transactionsTable.categoryId],
-        references: [categoriesTable.id],
-    }),
-    subcategory: one(subcategoriesTable, {
-        fields: [transactionsTable.subcategoryId],
-        references: [subcategoriesTable.id],
-    }),
-    creator: one(usersTable, {
-        fields: [transactionsTable.creatorId],
-        references: [usersTable.id],
-    }),
-    group: one(groupsTable, {
-        fields: [transactionsTable.groupId],
-        references: [groupsTable.id],
-    }),
-    transactionSchedule: one(transactionSchedulesTable, {
-        fields: [transactionsTable.transactionScheduleId],
-        references: [transactionSchedulesTable.id],
-    }),
-}))

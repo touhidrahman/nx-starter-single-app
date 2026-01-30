@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm'
 import { boolean, integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
@@ -29,22 +28,3 @@ export const subscriptionsTable = pgTable('subscriptions', {
     history: jsonb().notNull().default('{}'),
     ...timestampColumns,
 })
-
-export const subscriptionsRelations = relations(subscriptionsTable, ({ one }) => ({
-    group: one(groupsTable, {
-        fields: [subscriptionsTable.groupId],
-        references: [groupsTable.id],
-    }),
-    plan: one(pricingPlanTable, {
-        fields: [subscriptionsTable.planId],
-        references: [pricingPlanTable.id],
-    }),
-    creator: one(usersTable, {
-        fields: [subscriptionsTable.creatorId],
-        references: [usersTable.id],
-    }),
-    approver: one(usersTable, {
-        fields: [subscriptionsTable.approverId],
-        references: [usersTable.id],
-    }),
-}))

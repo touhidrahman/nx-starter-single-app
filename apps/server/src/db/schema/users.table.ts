@@ -1,14 +1,7 @@
-import { relations } from 'drizzle-orm'
 import { AnyPgColumn, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
-import { categoriesTable } from './categories.table'
-import { currenciesTable } from './currencies.table'
 import { groupsTable } from './groups.table'
-import { invitesTable } from './invites.table'
-import { membershipsTable } from './memberships.table'
-import { referralsTable } from './referral.table'
-import { subcategoriesTable } from './subcategories.table'
 
 export const usersTable = pgTable('users', {
     id: text().primaryKey().$defaultFn(generateId),
@@ -32,16 +25,3 @@ export const usersTable = pgTable('users', {
     verifiedAt: timestamp({ withTimezone: true }),
     ...timestampColumns,
 })
-
-export const usersRelations = relations(usersTable, ({ one, many }) => ({
-    invites: many(invitesTable),
-    referrals: many(referralsTable),
-    defaultGroup: one(groupsTable, {
-        fields: [usersTable.defaultGroupId],
-        references: [groupsTable.id],
-    }),
-    memberships: many(membershipsTable),
-    currencies: many(currenciesTable),
-    categories: many(categoriesTable),
-    subcategories: many(subcategoriesTable),
-}))

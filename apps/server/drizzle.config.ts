@@ -25,7 +25,7 @@ export default defineConfig({
     },
     schema: './src/db/schema',
     out: './src/db/migrations',
-    verbose: process.env.NODE_ENV === 'production',
+    verbose: true,
     strict: true,
     casing: 'snake_case',
     migrations: {

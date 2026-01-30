@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm'
 import { integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { timestampColumns } from './_common.table'
@@ -16,14 +15,3 @@ export const referralsTable = pgTable('referrals', {
     points: integer().notNull().default(0),
     ...timestampColumns,
 })
-
-export const referralsRelations = relations(referralsTable, ({ one }) => ({
-    referralCode: one(referralCodesTable, {
-        fields: [referralsTable.referralCodeId],
-        references: [referralCodesTable.id],
-    }),
-    referredUser: one(usersTable, {
-        fields: [referralsTable.referredId],
-        references: [usersTable.id],
-    }),
-}))

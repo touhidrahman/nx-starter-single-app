@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { groupsTable } from './groups.table'
@@ -18,14 +17,3 @@ export const invitesTable = pgTable('invites', {
     invitedOn: timestamp({ withTimezone: true }).notNull().defaultNow(),
     acceptedOn: timestamp({ withTimezone: true }),
 })
-
-export const invitesRelations = relations(invitesTable, ({ one }) => ({
-    group: one(groupsTable, {
-        fields: [invitesTable.groupId],
-        references: [groupsTable.id],
-    }),
-    invitedBy: one(usersTable, {
-        fields: [invitesTable.invitedBy],
-        references: [usersTable.id],
-    }),
-}))

@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm'
 import { integer, pgTable, text } from 'drizzle-orm/pg-core'
 import { generateId } from '../id.util'
 import { categoriesTable } from './categories.table'
@@ -17,18 +16,3 @@ export const subcategoriesTable = pgTable('subcategories', {
         onDelete: 'cascade',
     }),
 })
-
-export const subcategoriesRelations = relations(subcategoriesTable, ({ one, many }) => ({
-    group: one(groupsTable, {
-        fields: [subcategoriesTable.groupId],
-        references: [groupsTable.id],
-    }),
-    creator: one(usersTable, {
-        fields: [subcategoriesTable.creatorId],
-        references: [usersTable.id],
-    }),
-    category: one(categoriesTable, {
-        fields: [subcategoriesTable.categoryId],
-        references: [categoriesTable.id],
-    }),
-}))
