@@ -1,5 +1,4 @@
-import { relations } from 'drizzle-orm'
-import { pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
+import { index, pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
 import { groupsTable } from './groups.table'
 import { rolesTable } from './roles.table'
 import { usersTable } from './users.table'
@@ -20,20 +19,9 @@ export const membershipsTable = pgTable(
     (table) => [
         // A user can be in a group with only one role. That's why we are making userId+groupId combo unique
         primaryKey({ columns: [table.userId, table.groupId] }),
+        index('memberships_user_id_idx').on(table.userId),
+        index('memberships_group_id_idx').on(table.groupId),
+        index('memberships_role_id_idx').on(table.roleId),
+        index('memberships_user_id_group_id_idx').on(table.userId, table.groupId),
     ],
 )
-
-export const membershipRelations = relations(membershipsTable, ({ one }) => ({
-    user: one(usersTable, {
-        fields: [membershipsTable.userId],
-        references: [usersTable.id],
-    }),
-    group: one(groupsTable, {
-        fields: [membershipsTable.groupId],
-        references: [groupsTable.id],
-    }),
-    role: one(rolesTable, {
-        fields: [membershipsTable.roleId],
-        references: [rolesTable.id],
-    }),
-}))

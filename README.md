@@ -2,9 +2,9 @@
 
 Each resource is broken down into three layers:
 
-1. **Core** - Very basic APIs with no relations. These APIs should be hidden and only to be used for Super Admins.
-2. **CRUD** - These APIs only include typical CRUD paths and nothing more. May have logic that is required for the buisiness feature.
-3. **Custom** - Every other API that involves an endpoint outside of the typical CRUD paths.
+1. **Core** - Very basic APIs with no relations. These APIs should be hidden and only to be used for Super Admins. Prefixed with `/core`.
+2. **CRUD** - These APIs only include typical CRUD paths and nothing more. May have logic that is required for the buisiness feature. No suffix or prefix.
+3. **Custom** - Every other API that involves an endpoint outside of the typical CRUD paths. Suffixed with `/custom` so that it does not conflict with other CRUD APIs.
 
 # Scaffold Hono Module
 

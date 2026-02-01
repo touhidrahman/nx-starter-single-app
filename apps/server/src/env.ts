@@ -18,7 +18,7 @@ const EnvSchema = z.object({
     DB_MODE: z.enum(['pg', 'neon']),
     ACCESS_TOKEN_SECRET: z.string(),
     REFRESH_TOKEN_SECRET: z.string(),
-    INVITE_TOKEN_SECRET_KEY: z.string(),
+    INVITE_TOKEN_SECRET: z.string(),
     S3_ACCESS_KEY: z.string(),
     S3_SECRET_KEY: z.string(),
     S3_BUCKET_URL: z.string(),
@@ -30,8 +30,6 @@ const EnvSchema = z.object({
     EMAIL_SENDER_EMAIL: z.string(),
     /** Developer's email that was used to create resend account */
     EMAIL_TEST_EMAIL: z.string().optional(),
-    // MEILISEARCH_API_KEY: z.string(),
-    // MEILISEARCH_API_URL: z.string(),
 })
 
 export type TEnv = z.infer<typeof EnvSchema>
