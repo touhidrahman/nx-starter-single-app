@@ -107,7 +107,7 @@ export const relations = defineRelations(schema, (r) => ({
             to: r.subscriptionsTable.id,
         }),
         transactions: r.many.transactionsTable(),
-        memberships: r.many.membershipsTable(),
+        members: r.many.usersTable(),
         currencies: r.many.currenciesTable(),
         categories: r.many.categoriesTable(),
         subcategories: r.many.subcategoriesTable(),
@@ -118,7 +118,7 @@ export const relations = defineRelations(schema, (r) => ({
             to: r.groupsTable.id,
         }),
         invitedBy: r.one.usersTable({
-            from: r.invitesTable.invitedBy,
+            from: r.invitesTable.inviterId,
             to: r.usersTable.id,
         }),
     },
@@ -244,12 +244,12 @@ export const relations = defineRelations(schema, (r) => ({
             to: r.groupsTable.id,
         }),
         inBalanceTransfer: r.one.balanceTransfersTable({
-            from: r.balanceTransfersTable.inTransactionId,
-            to: r.transactionsTable.id,
+            from: r.transactionsTable.id,
+            to: r.balanceTransfersTable.inTransactionId,
         }),
         outBalanceTransfer: r.one.balanceTransfersTable({
-            from: r.balanceTransfersTable.outTransactionId,
-            to: r.transactionsTable.id,
+            from: r.transactionsTable.id,
+            to: r.balanceTransfersTable.outTransactionId,
         }),
         transactionSchedule: r.one.transactionSchedulesTable({
             from: r.transactionsTable.transactionScheduleId,
@@ -263,7 +263,10 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.usersTable.defaultGroupId,
             to: r.groupsTable.id,
         }),
-        memberships: r.many.membershipsTable(),
+        groups: r.many.groupsTable({
+            from: r.usersTable.id.through(r.membershipsTable.groupId),
+            to: r.groupsTable.id.through(r.membershipsTable.userId),
+        }),
         currencies: r.many.currenciesTable(),
         categories: r.many.categoriesTable(),
         subcategories: r.many.subcategoriesTable(),

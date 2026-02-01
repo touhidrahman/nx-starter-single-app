@@ -20,7 +20,7 @@
         "server:build": "nx build server",
         "db:up": "nx run server:db-up",
         "db:check": "nx run server:db-check",
-        "db:generate": "nx run server:db-generate",
+        "db:generate": "cd apps/server && npx drizzle-kit generate --config ./drizzle.config.ts",
         "db:migrate": "nx run server:db-migrate",
         "db:push": "cd apps/server && npx drizzle-kit push --config ./drizzle.config.ts",
         "db:studio": "nx run server:db-studio",
