@@ -23,7 +23,7 @@ export default defineConfig({
     dbCredentials: {
         url: dbUrl,
     },
-    schema: './src/db/schema',
+    schema: './src/db/schema/index.ts',
     out: './src/db/migrations',
     verbose: true,
     strict: true,
